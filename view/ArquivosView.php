@@ -4,7 +4,14 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/BaseView.php';
 
 class ArquivosView extends BaseView{
 	
-	public function carregarLista($lista){ ?>
+	private $listaServidores;
+	
+	public function setListaServidores($listaServidores){
+		
+		$this->listaServidores = $listaServidores;
+	}
+	
+	public function carregarLista(){ ?>
 		<div class="well">	
 			<div class="row">
 				<div class="col-sm-12">
@@ -27,7 +34,7 @@ class ArquivosView extends BaseView{
 					</tr>	
 				</thead>
 				<tbody>
-					<?php foreach($lista as $arquivo){ ?>
+					<?php foreach($this->lista as $arquivo){ ?>
 					
 						<tr>
 							<td>
@@ -81,11 +88,18 @@ class ArquivosView extends BaseView{
 				</tbody>
 			</table>
 		</div>
+		<script>
+		  if ($('input#search').length){
+				$('input#search').quicksearch('table tbody tr');
+		  }  
+		</script>
+		
 <?php 
 	
 	}
 	
 	public function carregarCadastrar(){ ?>
+	
 		<form method='POST' action='/controller/arquivos/cadastrar.php' enctype='multipart/form-data'>	
 			<div class="row">
 				<div class="col-md-4">
@@ -115,16 +129,10 @@ class ArquivosView extends BaseView{
 					<select class="form-control" id="enviar" name="enviar" required />
 						<option value="">Selecione o servidor para enviar</option>
 						
-						<?php 
+						<?php foreach($this->listaServidores as $servidor){ ?>
 							
-							$servidores = retorna_servidores_status("ATIVO");
-						
-							while($r = mysqli_fetch_object($servidores)){ ?>
-							
-								<option value="<?php echo $r->ID ?>">
-									<?php 
-										echo $r->NM_SERVIDOR;
-									?>
+								<option value="<?php echo $servidor['ID'] ?>">
+									<?php echo $servidor['NM_SERVIDOR']; ?>
 								</option>
 							
 					  <?php } ?>
@@ -143,10 +151,7 @@ class ArquivosView extends BaseView{
 				</div>
 			</div>
 		</form>	
-		
-		
-		
-		
+
 <?php	
 	}
 

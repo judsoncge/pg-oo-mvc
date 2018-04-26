@@ -4,7 +4,6 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/BaseView.php';
 
 class LoginView extends BaseView{
 	
-	//esta funcao carrega os scripts da classe mae e mais um que e especifico desta pagina
 	public function adicionarScripts(){ 
 	
 		parent::adicionarScripts(); ?>
@@ -14,7 +13,6 @@ class LoginView extends BaseView{
 		
 	<?php }
 	
-	//o body desta pagina nao e padrao, pois e a que tem a caixa de login e senha. assim, sobrescreve o metodo da classe-mae
 	public function carregarBody(){ ?>
 		
 		<body style='background-color:#3498db;'>
@@ -26,7 +24,6 @@ class LoginView extends BaseView{
 	public function carregarConteudo(){ ?>
 		<div class='container' id='container-index' style='max-width: 1400px;'>
 			<div id='sub-container-index'>
-				<!-- imagens e titulo antes dos campos de login -->
 				<div class='logo' >
 					<center>
 						<div class='row'>
@@ -40,15 +37,12 @@ class LoginView extends BaseView{
 				<div class='login'>
 					<div class='row'>
 						<form  name='form-login' method='POST' action='home'>
-							<!-- campo usuario, que é o cpf da pessoa -->
 							<div class='col-md-5' id='campo-login'>
 								<input type='text' class='form-control' placeholder='CPF' name='CPF' id='CPF' required>
 							</div>
-							<!-- campo senha -->
 							<div class='col-md-5' id='campo-senha'>
 								<input type='password' class='form-control' placeholder='Senha' aria-describedby='sizing-addon3' name='senha' required>
 							</div>
-							<!-- botao para enviar os dados -->
 							<div class='col-md-2'>
 								<center><button type='submit' class='btn btn-large' id='botao-entrar'>ENTRAR</button></center>
 							</div>

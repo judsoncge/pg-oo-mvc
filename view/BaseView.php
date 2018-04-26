@@ -3,17 +3,9 @@
 //esta e a classe que contem o head, body e footer padrao do sistema. portanto e chamada de "view base" e todas as views herdam dela
 class BaseView{
 	
-	public $titulo;
-	public $tipo;
-	public $lista;
-	
-	function __construct($titulo, $tipo, $lista){
-		
-		$this->setTitulo($titulo);
-		$this->setTipo($tipo);
-		$this->setLista($lista);
-
-	}
+	protected $titulo;
+	protected $tipo;
+	protected $lista;
 	
 	public function setTitulo($titulo){
 		
@@ -79,6 +71,7 @@ class BaseView{
 			<script src="/view/libs/js/tether.js"></script>
 			<script type='text/javascript' src='/view/libs/js/bootstrap.js'></script>
 			<script type='text/javascript' src='/view/libs/js/submenu.js'></script>	
+			<script type="text/javascript" src="/view/libs/js/jquery.quicksearch.js"></script>
 		
 <?php
 	}
@@ -256,7 +249,7 @@ class BaseView{
 							switch($this->tipo){
 								
 								case "listagem":
-									$this->carregarLista($this->lista);
+									$this->carregarLista();
 									break;
 								case "cadastrar":
 									$this->carregarCadastrar();
@@ -278,7 +271,7 @@ class BaseView{
 <?php
 	}
 	
-	public function carregarLista($lista){
+	public function carregarLista(){
 	
 	}
 	

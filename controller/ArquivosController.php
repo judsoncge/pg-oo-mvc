@@ -1,31 +1,44 @@
 <?php 
 
 include $_SERVER['DOCUMENT_ROOT'].'/model/ArquivosModel.php';
+include $_SERVER['DOCUMENT_ROOT'].'/model/ServidoresModel.php';
 include $_SERVER['DOCUMENT_ROOT'].'/view/ArquivosView.php';
 
 class ArquivosController{
 	
-	public function mostrarListagem($status){
+	public function carregarLista($status){
 		
-		$arquivoModel = new ArquivosModel();
+		$arquivosModel = new ArquivosModel();
 		
-		$listaArquivos = $arquivoModel->getListaArquivosStatus($_SESSION['ID'], $status);
+		$listaArquivos = $arquivosModel->getListaArquivosStatus($_SESSION['ID'], $status);
 		
 		$titulo = ($status=='ATIVO') ? "Meus Arquivos Ativos" : "Meus Arquivos Inativos";
 		
-		$arquivosView = new ArquivosView($titulo, "listagem", $listaArquivos);
+		$arquivosView = new ArquivosView();
+		
+		$arquivosView->setTitulo($titulo);
+		
+		$arquivosView->setTipo("listagem");
+		
+		$arquivosView->setLista($listaArquivos);
 		
 		$arquivosView->carregar();
 		
 	}
 	
-	public function mostrarCadastrar(){
+	public function carregarCadastrar(){
 		
-		$arquivoModel = new ArquivosModel();
+		$servidoresModel = new ServidoresModel();
 		
-		$titulo = "Cadastrar um Arquivo";
+		$listaServidores = $servidoresModel->getListaServidoresStatus('ATIVO');
+	
+		$arquivosView = new ArquivosView();
 		
-		$arquivosView = new ArquivosView($titulo, "cadastrar", NULL);
+		$arquivosView->setTitulo("Cadastrar um Arquivo");
+		
+		$arquivosView->setTipo("cadastrar");
+		
+		$arquivosView->setListaServidores($listaServidores);
 		
 		$arquivosView->carregar();
 		

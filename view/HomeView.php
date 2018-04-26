@@ -13,6 +13,7 @@ class HomeView extends BaseView{
 				<div class='col-md-12'>
 					<div class='grafico' id='processos-ativos' >
 						<b>Principais notícias</b>:
+						<br>
 						<?php foreach($this->lista as $noticia){ ?>
 								
 								<font size='2px'>
