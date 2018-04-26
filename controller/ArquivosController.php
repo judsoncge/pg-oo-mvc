@@ -11,11 +11,23 @@ class ArquivosController{
 		
 		$listaArquivos = $arquivoModel->getListaArquivosStatus($_SESSION['ID'], $status);
 		
-		$arquivoView = new ArquivosView();
-		
 		$titulo = ($status=='ATIVO') ? "Meus Arquivos Ativos" : "Meus Arquivos Inativos";
 		
-		$arquivoView->carregar($titulo, $listaArquivos);
+		$arquivosView = new ArquivosView($titulo, "listagem", $listaArquivos);
+		
+		$arquivosView->carregar();
+		
+	}
+	
+	public function mostrarCadastrar(){
+		
+		$arquivoModel = new ArquivosModel();
+		
+		$titulo = "Cadastrar um Arquivo";
+		
+		$arquivosView = new ArquivosView($titulo, "cadastrar", NULL);
+		
+		$arquivosView->carregar();
 		
 	}
 	

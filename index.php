@@ -27,6 +27,11 @@ if(isset($_GET['acao'])){
 			$controller = new ArquivosController();
 			$controller->mostrarListagem($_GET['status']);
 			break;
+			
+		case 'cadastrar-arquivo':
+			$controller = new ArquivosController();
+			$controller->mostrarCadastrar();
+			break;
 	
 	}
 		
@@ -35,8 +40,8 @@ if(isset($_GET['acao'])){
 //se nao, e pq ninguem fez login ainda. entao mostra a pagina de login
 else{
 	
-	$view = new loginView();
-	$view->login(); 
+	$view = new loginView("Painel de Gestão", NULL, NULL);
+	$view->carregar(); 
 }
 
 ?>

@@ -3,13 +3,44 @@
 //esta e a classe que contem o head, body e footer padrao do sistema. portanto e chamada de "view base" e todas as views herdam dela
 class BaseView{
 	
+	public $titulo;
+	public $tipo;
+	public $lista;
+	
+	function __construct($titulo, $tipo, $lista){
+		
+		$this->setTitulo($titulo);
+		$this->setTipo($tipo);
+		$this->setLista($lista);
+
+	}
+	
+	public function setTitulo($titulo){
+		
+		$this->titulo = $titulo; 
+	
+	}
+	
+	public function setTipo($tipo){
+		
+		$this->tipo = $tipo; 
+	
+	}
+	
+	
+	public function setLista($lista){
+		
+		$this->lista = $lista; 
+	
+	}
+	
 	//esta funcao carrega a pagina de home, pegando o head, body e footer da classe mae e carrega o seu conteudo
-	public function carregar($titulo, $lista){
+	public function carregar(){
 		
 		$this->carregarHead();
 		$this->carregarBody();
-		$this->carregarConteudo($titulo, $lista);
 		$this->carregarFooter();
+	
 	}
 	
 	//esta funcao carrega o head padrao do sistema
@@ -32,16 +63,25 @@ class BaseView{
 
 			<title>Painel de Gestão - CGE</title>
 			
-			<script src='/view/libs/js/jquery.js'></script>
-			<script src="/view/libs/js/tether.js"></script>
-			<script type='text/javascript' src='/view/libs/js/bootstrap.js'></script>
-			<script type='text/javascript' src='/view/libs/js/submenu.js'></script>	
+			<?php $this->adicionarScripts(); ?>
+			
 			<link rel='stylesheet' type='text/css' href='/view/libs/css/font-awesome.min.css' >
 			<link rel='stylesheet' type='text/css' href='/view/libs/css/bootstrap.css'>
 			<link rel='stylesheet' type='text/css' href='/view/libs/css/simple-sidebar.css'>
 			<link rel='stylesheet' type='text/css' href='/view/libs/css/estilo.css'>
 		</head>	
-<?php }
+<?php 
+	}
+
+	public function adicionarScripts(){ ?>
+		
+			<script src='/view/libs/js/jquery.js'></script>
+			<script src="/view/libs/js/tether.js"></script>
+			<script type='text/javascript' src='/view/libs/js/bootstrap.js'></script>
+			<script type='text/javascript' src='/view/libs/js/submenu.js'></script>	
+		
+<?php
+	}
 	
 	//esta funcao carrega o body padrao do sistema
 	public function carregarBody(){ ?>
@@ -102,6 +142,10 @@ class BaseView{
 						</li>	
 							
 							<!-- sublista -->
+							<li class='arquivos-subitem'>
+								<a href='/arquivos/cadastrar/'><i class='fa fa-file-archive-o icone-menu' aria-hidden='true'></i>Cadastrar</a>
+							</li>
+							
 							<li class='arquivos-subitem'>
 								<a href='/arquivos/ativos/'><i class='fa fa-file-archive-o icone-menu' aria-hidden='true'></i>Ativos</a>
 							</li>
@@ -189,21 +233,70 @@ class BaseView{
 					$('#wrapper').toggleClass('toggled');
 				});
 			</script>
-<?php 
+			
+			<?php $this->carregarConteudo(); ?>
+			
+		</body>
+<?php	
 	} 
 	
 	//esta funcao carrega o conteudo da pagina, pegando a lista das cinco comunicacoes mais atuais que vem do controller. como toda pagina que vai herdar dessa tera uma implementacao diferente, sobrescrevem
-	public function carregarConteudo($titulo, $lista){
+	public function carregarConteudo(){ ?>
 		
-		
-		
+		<div id="page-content-wrapper">
+			<div class="container titulo-pagina">
+				<p><?php echo $this->titulo ?></p>
+			</div>
+			<div class="container caixa-conteudo">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="container">
+							<?php 
+							
+							switch($this->tipo){
+								
+								case "listagem":
+									$this->carregarLista($this->lista);
+									break;
+								case "cadastrar":
+									$this->carregarCadastrar();
+									break;
+								case "editar":
+									$this->carregarEditar();
+									break;
+								case "detalhes":
+									$this->carregarDetalhes();
+									break;
+							}
+							
+							?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<?php
 	}
 	
+	public function carregarLista($lista){
+	
+	}
+	
+	public function carregarCadastrar(){
+	
+	}
+	
+	public function carregarEditar(){
+	
+	}
+	
+	public function carregarDetalhes(){
+	
+	}
 	
 	//esta funcao carrega o footer padrao do sistema
 	public function carregarFooter(){ ?>
-		
-		</body>
+
 		<footer style='display: none;'>
 		</footer>
 		</html>

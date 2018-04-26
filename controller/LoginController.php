@@ -61,12 +61,12 @@ class LoginController{
 		
 		$listaComunicacao = $comunicacaoModel->getCincoNoticiasMaisAtuais();
 		
-		//criando uma view de home passando a lista das cinco noticias para serem mostradas na tela
-		$homeView = new HomeView();
-		
 		$titulo = "Bem vindo(a) ao Painel de Gestão, " . $_SESSION['NOME'];
 		
-		$homeView->carregar($titulo, $listaComunicacao);
+		//criando uma view de home passando a lista das cinco noticias para serem mostradas na tela
+		$homeView = new HomeView($titulo, NULL, $listaComunicacao);
+		
+		$homeView->carregar();
 		
 	}
 	
