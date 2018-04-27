@@ -12,15 +12,6 @@ class ArquivosView extends BaseView{
 	}
 	
 	public function carregarLista(){ ?>
-		<div class="well">	
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="input-group margin-bottom-sm">
-						<span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span> <input type="text" class="input-search form-control" alt="tabela-dados" placeholder="Busque por qualquer termo da tabela" id="search" autofocus="autofocus" />
-					</div>
-				</div>
-			</div>
-		</div>
 		<div class="col-md-12 table-responsive" style="overflow: auto; width: 100%; height: 300px;">
 			<table class="table table-hover tabela-dados">
 				<thead>
@@ -87,20 +78,14 @@ class ArquivosView extends BaseView{
 			  <?php } ?>		
 				</tbody>
 			</table>
-		</div>
-		<script>
-		  if ($('input#search').length){
-				$('input#search').quicksearch('table tbody tr');
-		  }  
-		</script>
-		
+		</div>		
 <?php 
 	
 	}
 	
 	public function carregarCadastrar(){ ?>
 	
-		<form method='POST' action='/controller/arquivos/cadastrar.php' enctype='multipart/form-data'>	
+		<form method='POST' action='arquivos/cadastrar/' enctype='multipart/form-data'>	
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">

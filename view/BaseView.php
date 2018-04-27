@@ -103,7 +103,7 @@ class BaseView{
 							<div id='usuario'>
 								<!-- foto do usuário -->
 								<div id='box-imagem'>
-									<img src='/registros/fotos/<?php echo $_SESSION['FOTO'] ?>' id='imagem'>
+									<img src='/_registros/fotos/<?php echo $_SESSION['FOTO'] ?>' id='imagem'>
 								</div>
 
 								<div id='mensagem'>
@@ -249,7 +249,9 @@ class BaseView{
 							switch($this->tipo){
 								
 								case "listagem":
+								    $this->carregarFiltro();
 									$this->carregarLista();
+									$this->carregarScriptFiltro();
 									break;
 								case "cadastrar":
 									$this->carregarCadastrar();
@@ -269,6 +271,30 @@ class BaseView{
 			</div>
 		</div>
 <?php
+	}
+	
+	public function carregarFiltro(){ ?>
+	
+		<div class="well">	
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="input-group margin-bottom-sm">
+						<span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span> <input type="text" class="input-search form-control" alt="tabela-dados" placeholder="Busque por qualquer termo da tabela" id="search" autofocus="autofocus" />
+					</div>
+				</div>
+			</div>
+		</div>
+<?php		
+	}
+	
+	public function carregarScriptFiltro(){ ?>
+	
+		<script>
+		  if ($('input#search').length){
+				$('input#search').quicksearch('table tbody tr');
+		  }  
+		</script>
+<?php		
 	}
 	
 	public function carregarLista(){

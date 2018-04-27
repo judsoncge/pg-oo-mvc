@@ -3,9 +3,14 @@ RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
+RewriteRule ^/               	     /index.php [L]
+
+RewriteRule ^home               	 /index.php?acao=login [L]
+RewriteRule logoff               	 /index.php?acao=logoff
+
 RewriteRule ^arquivos/cadastrar     /index.php?acao=cadastrar-arquivo 
 RewriteRule ^arquivos/ativos     	/index.php?acao=listar-arquivos&status=ATIVO 
 RewriteRule ^arquivos/inativos 	    /index.php?acao=listar-arquivos&status=INATIVO 
 
-RewriteRule ^home               	/index.php?acao=login [L]
-RewriteRule logoff               	/index.php?acao=logoff [L]
+
+

@@ -1,81 +1,63 @@
 <?php 
 
 //carregando model de login para verificacao de login e o de comunicacao, pois a pagina de home mostra as noticias
+include $_SERVER['DOCUMENT_ROOT'].'/controller/HomeController.php';
 include $_SERVER['DOCUMENT_ROOT'].'/model/LoginModel.php';
-include $_SERVER['DOCUMENT_ROOT'].'/model/ComunicacaoModel.php';
-include $_SERVER['DOCUMENT_ROOT'].'/view/HomeView.php';
+
 
 class LoginController{
 	
-	public function login(){
+	private $loginModel;
+	private $homeController;
 	
+	function __construct(){
+		
+		$this->loginModel = new LoginModel();
+		$this->homeController = new homeController();
+		
+	}
+
+	public function login(){
+		
 		if(isset($_SESSION['ID'])){
 			
-			$this->mostrarHome();
+			$this->homeController->carregarHome();
 			exit();
 			
 		}
 		
-		$CPF = $_POST['CPF'];
+		$CPF = (isset($_POST['CPF'])) ? $_POST['CPF'] : NULL ;
 		
-		$senha = $_POST['senha'];
+		$senha = (isset($_POST['senha'])) ? $_POST['senha'] : NULL ;
 		
-		$loginModel = new LoginModel();
-		
-		$dadosUsuario = $loginModel->login($CPF, $senha);
+		$dadosUsuario = $this->loginModel->login($CPF, $senha);
 		
 		if($dadosUsuario != NULL){
 			
 			$_SESSION['ID']     =  $dadosUsuario['ID'];
+			$_SESSION['CPF']    =  $dadosUsuario['CD_SERVIDOR'];
 			$_SESSION['NOME']   =  $dadosUsuario['NM_SERVIDOR'];
 			$_SESSION['SETOR']  =  $dadosUsuario['ID_SETOR'];
 			$_SESSION['FOTO']   =  $dadosUsuario['NM_ARQUIVO_FOTO'];
 			$_SESSION['FUNCAO'] =  $dadosUsuario['NM_FUNCAO'];
 			
-			$this->mostrarHome();
+			$this->homeController->carregarHome();
 		
 		}else{
 			
-			echo "login não encontrado";
+			echo "<meta HTTP-EQUIV='Refresh' CONTENT='0;URL=/'>";
 			
 		}
-		
-	}
-
-	public function mostrarHome(){
-		
-		$comunicacaoModel = new ComunicacaoModel();
-		
-		$listaComunicacao = $comunicacaoModel->getCincoNoticiasMaisAtuais();
-		
-		$homeView = new HomeView();
-		
-		$homeView->setTitulo("Bem vindo(a) ao Painel de Gestão, " . $_SESSION['NOME']);
-		
-		$homeView->setLista($listaComunicacao);
-		
-		$homeView->carregar();
 		
 	}
 	
 	public function logoff(){
 		
 		$_SESSION = array();
-
-		if(ini_get("session.use_cookies")) {
-			
-			$params = session_get_cookie_params();
-			
-			setcookie(session_name(), '', time() - 42000,
-				$params["path"], $params["domain"],
-				$params["secure"], $params["httponly"]
-			);
-		
-		}
 		
 		session_destroy();
 
-		header("Location:../index.php");
+		echo "<meta HTTP-EQUIV='Refresh' CONTENT='0;URL=/'>";
 
 	}
 	

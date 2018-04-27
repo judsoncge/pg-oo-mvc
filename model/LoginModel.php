@@ -1,7 +1,7 @@
 <?php
 
 //incluindo os dados da conexao de banco de dados
-include $_SERVER['DOCUMENT_ROOT'].'/model/BancoDados.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/model/BancoDados.php';
 
 class LoginModel extends BancoDados{
 	

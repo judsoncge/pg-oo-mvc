@@ -16,8 +16,8 @@ if(isset($_GET['acao'])){
 		case 'login':
 			$controller = new LoginController();
 			$controller->login();
-			break;
-		
+			break;	
+			
 		case 'logoff':
 			$controller = new LoginController();
 			$controller->logoff();
@@ -30,7 +30,7 @@ if(isset($_GET['acao'])){
 			
 		case 'cadastrar-arquivo':
 			$controller = new ArquivosController();
-			$controller->carregarCadastrar();
+			$controller->cadastrar();
 			break;
 	
 	}

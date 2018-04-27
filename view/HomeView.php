@@ -27,7 +27,7 @@ class HomeView extends BaseView{
 								</a>
 								
 								<font size="2px">
-									<?php echo substr($noticia['NM_INTERTITULO'], 0, 79) . "..." ?>
+									<?php echo $noticia['NM_INTERTITULO'] ?>
 								</font>	
 								
 								<br>
