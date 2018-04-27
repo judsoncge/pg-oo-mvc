@@ -43,6 +43,7 @@ else{
 	$view = new loginView();
 	$view->setTitulo("Painel de Gestão");
 	$view->carregar(); 
+	
 }
 
 ?>

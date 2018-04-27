@@ -4,34 +4,80 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/model/BancoDados.php';
 
 class ArquivosModel extends BancoDados{
 	
-	//funcao que retorna as cinco primeiras noticias com o status de publicada
-	public function getListaArquivosStatus($servidor, $status){
+	private $tipo;
+	private $dataCriacao;
+	private $servidorCriacao;
+	private $servidorEnviado;
+	private $status;
+	private $anexo;
+	
+	public function getTipo(){
+		return $this->tipo;
+	}
+	
+	public function getDataCriacao(){
+		return $this->dataCriacao;
+	}
+	
+	public function getServidorCriacao(){
+		return $this->servidorCriacao;
+	}
+	
+	public function getServidorEnviado(){
+		return $this->servidorEnviado;
+	}
+	
+	public function getStatus(){
+		return $this->status;
+	}
+	
+	public function getAnexo(){
+		return $this->anexo;
+	}
+	
+	public function setTipo($tipo){
+		$this->tipo = $tipo;
+	}
+	
+	public function setDataCriacao($dataCriacao){
+		$this->dataCriacao = $dataCriacao;
+	}
+	
+	public function setServidorCriacao($servidorCriacao){
+		$this->servidorCriacao = $servidorCriacao;
+	}
+	
+	public function setServidorEnviado($servidorEnviado){
+		$this->servidorEnviado = $servidorEnviado;
+	}
+	
+	public function setStatus($status){
+		$this->status = $status;
+	}
+	
+	public function setAnexo($anexo){
+		$this->anexo = $anexo;
+	}
+
+	public function getListaArquivosStatus(){
 		
-		//conecta com o banco de dados
 		$this->conectar();
 		
-		//fazendo a query para buscar as cinco noticias mais atuais com o status de publicada
 		$resultado = mysqli_query($this->conexao, "SELECT a.*, s1.NM_SERVIDOR CRIACAO, s2.NM_SERVIDOR ENVIADO FROM tb_arquivos a
-		INNER JOIN tb_servidores s1 ON a.ID_SERVIDOR_CRIACAO = s1.ID INNER JOIN tb_servidores s2 ON a.ID_SERVIDOR_ENVIADO = s2.ID WHERE a.NM_STATUS = '$status' AND (a.ID_SERVIDOR_CRIACAO = $servidor OR a.ID_SERVIDOR_ENVIADO = $servidor) ORDER BY a.DT_CRIACAO desc");
+		INNER JOIN tb_servidores s1 ON a.ID_SERVIDOR_CRIACAO = s1.ID INNER JOIN tb_servidores s2 ON a.ID_SERVIDOR_ENVIADO = s2.ID WHERE a.NM_STATUS = '".$this->status."' AND (a.ID_SERVIDOR_CRIACAO = ".$this->servidorCriacao." OR a.ID_SERVIDOR_ENVIADO = ".$this->servidorCriacao.") ORDER BY a.DT_CRIACAO desc");
 		
-		//criando um array para ser enviado ao controller
 		$listaArquivos = array();
-		
-		//passando todas as informacoes do resultado da query para o array criado
+	
 		While($row = mysqli_fetch_array($resultado)){ 
 			array_push($listaArquivos, $row); 
 		} 
 		
-		//desconecta do banco de dados
 		$this->desconectar();
 		
-		//retorna os dados para o controller
 		return $listaArquivos;
-	
+		
 	}
-	
-	
-	
+
 }	
 
 

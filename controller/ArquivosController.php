@@ -20,7 +20,11 @@ class ArquivosController{
 	
 	public function carregarLista($status){
 		
-		$listaArquivos = $this->arquivosModel->getListaArquivosStatus($_SESSION['ID'], $status);
+		$this->arquivosModel->setStatus($status);
+		
+		$this->arquivosModel->setServidorCriacao($_SESSION['ID']);
+		
+		$listaArquivos = $this->arquivosModel->getListaArquivosStatus();
 		
 		$titulo = ($status=='ATIVO') ? "Meus Arquivos Ativos" : "Meus Arquivos Inativos";
 		
@@ -50,13 +54,21 @@ class ArquivosController{
 	
 	public function cadastrar(){
 		
-		$arquivosModel = new ArquivosModel();
+		$tipo = $_POST['tipo'];
 		
+		$servidorEnviar = $_POST['enviar'];
 		
+		$anexo = $_FILES['arquivo_anexo'];
 		
+		$this->arquivosModel->setTipo($tipo);
 		
+		$this->arquivosModel->setservidorEnviar($servidorEnviar);
 		
-	}
+		$this->arquivosModel->setAnexo($anexo);
+		
+		$this->arquivosModel->cadastrar();
+		
+	}	
 	
 }
 
