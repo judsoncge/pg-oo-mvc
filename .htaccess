@@ -8,7 +8,8 @@ RewriteRule ^/               	     /index.php [L]
 RewriteRule ^home               	 /index.php?acao=login [L]
 RewriteRule logoff               	 /index.php?acao=logoff
 
-RewriteRule ^arquivos/cadastrar     /index.php?acao=cadastrar-arquivo 
+RewriteRule ^arquivos/cadastrar     /index.php?acao=cadastro-arquivo 
+RewriteRule ^cadastrar/arquivo/     /index.php?acao=cadastrar-arquivo 
 RewriteRule ^arquivos/ativos     	/index.php?acao=listar-arquivos&status=ATIVO 
 RewriteRule ^arquivos/inativos 	    /index.php?acao=listar-arquivos&status=INATIVO 
 

@@ -62,7 +62,7 @@ class ArquivosController{
 		
 		$this->arquivosModel->setTipo($tipo);
 		
-		$this->arquivosModel->setservidorEnviar($servidorEnviar);
+		$this->arquivosModel->setServidorEnviar($servidorEnviar);
 		
 		$this->arquivosModel->setAnexo($anexo);
 		

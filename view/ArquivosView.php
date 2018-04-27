@@ -85,7 +85,7 @@ class ArquivosView extends BaseView{
 	
 	public function carregarCadastrar(){ ?>
 	
-		<form method='POST' action='arquivos/cadastrar/' enctype='multipart/form-data'>	
+		<form method='POST' action='cadastrar/arquivo/' enctype='multipart/form-data'>	
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">

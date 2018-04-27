@@ -28,10 +28,17 @@ if(isset($_GET['acao'])){
 			$controller->carregarLista($_GET['status']);
 			break;
 			
+		case 'cadastro-arquivo':
+			$controller = new ArquivosController();
+			$controller->carregarCadastrar();
+			break;
+			
 		case 'cadastrar-arquivo':
 			$controller = new ArquivosController();
 			$controller->cadastrar();
 			break;
+			
+		
 	
 	}
 		
