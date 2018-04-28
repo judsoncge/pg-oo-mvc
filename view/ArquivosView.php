@@ -52,7 +52,7 @@ class ArquivosView extends BaseView{
 							</td>
 							<td>
 								<center>
-									<a href='<?php echo "/registros/anexos/". $arquivo['NM_ANEXO'] ?>' title='<?php echo $arquivo['NM_ANEXO'] ?>' download>
+									<a href='<?php echo "/_registros/anexos/". $arquivo['NM_ANEXO'] ?>' title='<?php echo $arquivo['NM_ANEXO'] ?>' download>
 										<?php echo substr($arquivo['NM_ANEXO'], 0, 20) . "..." ?>
 									</a>
 								</center> 

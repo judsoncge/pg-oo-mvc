@@ -56,13 +56,13 @@ class ArquivosController{
 		
 		$tipo = $_POST['tipo'];
 		
-		$servidorEnviar = $_POST['enviar'];
+		$servidorEnviado = $_POST['enviar'];
 		
 		$anexo = $_FILES['arquivo_anexo'];
 		
 		$this->arquivosModel->setTipo($tipo);
 		
-		$this->arquivosModel->setServidorEnviar($servidorEnviar);
+		$this->arquivosModel->setServidorEnviado($servidorEnviado);
 		
 		$this->arquivosModel->setAnexo($anexo);
 		
