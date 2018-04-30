@@ -86,6 +86,7 @@ class BaseView{
 			<script type='text/javascript' src='/view/libs/js/bootstrap.js'></script>
 			<script type='text/javascript' src='/view/libs/js/submenu.js'></script>	
 			<script type="text/javascript" src="/view/libs/js/jquery.quicksearch.js"></script>
+			<script type="text/javascript" src="/view/libs/js/temporizadores.js"></script>
 		
 <?php
 	}
@@ -99,6 +100,10 @@ class BaseView{
 				<div>
 					<a href='#menu-toggle' class='btn btn-default' id='menu-toggle'><i class='fa fa-bars' aria-hidden='true'></i></a>
 					<img src='/view/libs/img/gestao-cge.png' id='logo-home'>
+				</div>
+				<div>
+					<!-- carregamento da página -->
+					<div class='loader' id='preloader'></div>
 				</div>
 				<div class='container-icone'>
 					<div>
@@ -294,21 +299,14 @@ class BaseView{
 	
 	public function carregarMensagem(){
 		
-		if($this->mensagem != ""){
+		if(isset($_GET['resultadoOperacao'])){
 			
-			switch($this->resultadoOperacao){
-				
-				case 'sucesso':
-					echo '<div class="alert alert-success" role="alert" id="mensagem_sucesso">'.$this->mensagem.'</div>';
-					break;
-				case 'falha':
-					echo '<div class="alert alert-danger" role="alert" id="mensagem_erro">'.$this->mensagem.'</div>';
-					break;
-				case 'info':
-					echo '<div class="alert alert-warning" role="alert" id="mensagem_aviso">'.$this->mensagem.'</div>';
-					break;
+			if($_GET['resultadoOperacao']){
+				echo '<div class="alert alert-success" role="alert" id="mensagem_sucesso">Operação realizada com sucesso!</div>';
+			}else{
+				echo '<div class="alert alert-danger" role="alert" id="mensagem_erro">Houve alguma falha durante o processo. Por favor, tente novamente ou contate o suporte.</div>';
 			}
-	
+		
 		}
 
 	}

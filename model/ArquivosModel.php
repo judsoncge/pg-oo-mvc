@@ -87,7 +87,7 @@ class ArquivosModel extends BancoDados{
 		
 		('".$this->tipo."','".$data."','".$_SESSION['ID']."','".$this->servidorEnviado."','ATIVO', '".$nomeAnexo."')
 		
-		") or die(mysqli_error($this->conexao));
+		");
 		
 		$cadastrou = mysqli_affected_rows($this->conexao);
 		
@@ -111,7 +111,7 @@ class ArquivosModel extends BancoDados{
 		AND (a.ID_SERVIDOR_CRIACAO = ".$this->servidorCriacao." 
 		OR a.ID_SERVIDOR_ENVIADO = ".$this->servidorCriacao.") ORDER BY a.DT_CRIACAO desc
 		
-		") or die(mysqli_error($this->conexao));
+		");
 		
 		$listaArquivos = array();
 	
@@ -135,7 +135,7 @@ class ArquivosModel extends BancoDados{
 		SET NM_STATUS='$this->status'
 		WHERE ID='$this->id'
 		
-		") or die(mysqli_error($this->conexao));
+		");
 		
 		$inativou = mysqli_affected_rows($this->conexao);
 		

@@ -10,7 +10,9 @@ RewriteRule logoff               	              /index.php?acao=logoff
 
 RewriteRule ^arquivos/cadastro                    /index.php?acao=cadastro-arquivo
 
-RewriteRule ^arquivos/ativos     	              /index.php?acao=listar-arquivos&status=ATIVO
+RewriteRule ^arquivos/ativos/([0-9])              /index.php?acao=listar-arquivos&status=ATIVO&resultadoOperacao=$1
+RewriteRule ^arquivos/ativos    	              /index.php?acao=listar-arquivos&status=ATIVO
+
 RewriteRule ^arquivos/inativos 	                  /index.php?acao=listar-arquivos&status=INATIVO 
 
 RewriteRule ^arquivos/cadastrar                   /index.php?acao=cadastrar-arquivo 

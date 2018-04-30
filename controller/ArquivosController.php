@@ -66,22 +66,9 @@ class ArquivosController{
 		
 		$this->arquivosModel->setAnexo($anexo);
 		
-		$cadastrou = $this->arquivosModel->cadastrar();
+		$resultado = $this->arquivosModel->cadastrar();
 		
-		if($cadastrou){
-			
-			$this->arquivosView->setMensagem('Arquivo cadastrado com sucesso!');
-			
-			$this->arquivosView->setResultadoOperacao('sucesso');
-			
-			$this->carregarLista('ATIVO');
-		
-		}else{
-			
-			$this->arquivosView->carregarCadastrar();
-	
-		}
-		
+		header("Location: /arquivos/ativos/".$resultado);
 		
 	}	
 	
@@ -91,17 +78,9 @@ class ArquivosController{
 		
 		$this->arquivosModel->setStatus($status);
 		
-		$inativou = $this->arquivosModel->alterarStatus();
+		$resultado = $this->arquivosModel->alterarStatus();
 		
-		if($inativou){
-			
-			$this->carregarLista('ATIVO');
-		
-		}else{
-			
-			$this->carregarLista('ATIVO');
-	
-		}
+		header("Location: /arquivos/ativos/".$resultado);
 		
 	}
 	
@@ -111,18 +90,10 @@ class ArquivosController{
 		
 		$this->arquivosModel->setAnexo($anexo);
 		
-		$inativou = $this->arquivosModel->excluir();
+		$resultado = $this->arquivosModel->excluir();
 		
-		if($inativou){
-			
-			$this->carregarLista('ATIVO');
-		
-		}else{
-			
-			$this->carregarLista('ATIVO');
+		header("Location: /arquivos/ativos/".$resultado);
 	
-		}
-		
 	}
 	
 }
