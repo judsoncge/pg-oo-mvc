@@ -11,7 +11,7 @@ class ServidoresModel extends BancoDados{
 		$this->conectar();
 		
 		//fazendo a query para buscar as cinco noticias mais atuais com o status de publicada
-		$resultado = mysqli_query($this->conexao, "SELECT * FROM tb_servidores WHERE NM_STATUS='$status' ORDER BY NM_SERVIDOR") or die(mysqli_error($this->conexao));
+		$resultado = mysqli_query($this->conexao, "SELECT * FROM tb_servidores WHERE DS_STATUS='$status' ORDER BY DS_NOME") or die(mysqli_error($this->conexao));
 		
 		//criando um array para ser enviado ao controller
 		$listaServidores = array();

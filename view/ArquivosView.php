@@ -31,7 +31,7 @@ class ArquivosView extends BaseView{
 						<tr>
 							<td>
 								<center>
-									<?php echo $arquivo['NM_TIPO'] ?>
+									<?php echo $arquivo['DS_TIPO'] ?>
 								</center>
 							</td>
 							<td>
@@ -53,8 +53,8 @@ class ArquivosView extends BaseView{
 							</td>
 							<td>
 								<center>
-									<a href='<?php echo "/_registros/anexos/". $arquivo['NM_ANEXO'] ?>' title='<?php echo $arquivo['NM_ANEXO'] ?>' download>
-										<?php echo substr($arquivo['NM_ANEXO'], 0, 20) . "..." ?>
+									<a href='<?php echo "/_registros/anexos/". $arquivo['DS_ANEXO'] ?>' title='<?php echo $arquivo['DS_ANEXO'] ?>' download>
+										<?php echo substr($arquivo['DS_ANEXO'], 0, 20) . "..." ?>
 									</a>
 								</center> 
 							</td>
@@ -69,7 +69,7 @@ class ArquivosView extends BaseView{
 											
 											ou 			
 											
-											<a href='/arquivos/excluir/<?php echo $arquivo['ID'] ?>/<?php echo $arquivo['NM_ANEXO'] ?>'>
+											<a href='/arquivos/excluir/<?php echo $arquivo['ID'] ?>/<?php echo $arquivo['DS_ANEXO'] ?>'>
 												Excluir
 											</a>
 										</center>
@@ -118,7 +118,7 @@ class ArquivosView extends BaseView{
 						<?php foreach($this->listaServidores as $servidor){ ?>
 							
 								<option value="<?php echo $servidor['ID'] ?>">
-									<?php echo $servidor['NM_SERVIDOR']; ?>
+									<?php echo $servidor['DS_NOME']; ?>
 								</option>
 							
 					  <?php } ?>

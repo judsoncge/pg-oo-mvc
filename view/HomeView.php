@@ -23,11 +23,11 @@ class HomeView extends BaseView{
 								<br>
 								
 								<a href="#">
-									<h3><?php echo $noticia['NM_TITULO'] ?></h3>
+									<h3><?php echo $noticia['DS_TITULO'] ?></h3>
 								</a>
 								
 								<font size="2px">
-									<?php echo $noticia['NM_INTERTITULO'] ?>
+									<?php echo $noticia['DS_INTERTITULO'] ?>
 								</font>	
 								
 								<br>

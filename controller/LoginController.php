@@ -35,8 +35,8 @@ class LoginController{
 		if($dadosUsuario != NULL){
 			
 			$_SESSION['ID']     =  $dadosUsuario['ID'];
-			$_SESSION['CPF']    =  $dadosUsuario['CD_SERVIDOR'];
-			$_SESSION['NOME']   =  $dadosUsuario['NM_SERVIDOR'];
+			$_SESSION['CPF']    =  $dadosUsuario['DS_CPF'];
+			$_SESSION['NOME']   =  $dadosUsuario['DS_NOME'];
 			$_SESSION['SETOR']  =  $dadosUsuario['ID_SETOR'];
 			$_SESSION['FOTO']   =  $dadosUsuario['NM_ARQUIVO_FOTO'];
 			$_SESSION['FUNCAO'] =  $dadosUsuario['NM_FUNCAO'];

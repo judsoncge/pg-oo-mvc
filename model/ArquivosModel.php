@@ -81,7 +81,7 @@ class ArquivosModel extends BancoDados{
 		
 		"INSERT INTO tb_arquivos 
 		
-		(NM_TIPO, DT_CRIACAO, ID_SERVIDOR_CRIACAO, ID_SERVIDOR_ENVIADO, NM_STATUS, NM_ANEXO)
+		(DS_TIPO, DT_CRIACAO, ID_SERVIDOR_CRIACAO, ID_SERVIDOR_ENVIADO, DS_STATUS, DS_ANEXO)
 		
 		VALUES
 		
@@ -103,11 +103,11 @@ class ArquivosModel extends BancoDados{
 		
 		$resultado = mysqli_query($this->conexao, 
 		
-		"SELECT a.*, s1.NM_SERVIDOR CRIACAO, s2.NM_SERVIDOR ENVIADO 
+		"SELECT a.*, s1.DS_NOME CRIACAO, s2.DS_NOME ENVIADO 
 		FROM tb_arquivos a
 		INNER JOIN tb_servidores s1 ON a.ID_SERVIDOR_CRIACAO = s1.ID 
 		INNER JOIN tb_servidores s2 ON a.ID_SERVIDOR_ENVIADO = s2.ID 
-		WHERE a.NM_STATUS = '".$this->status."' 
+		WHERE a.DS_STATUS = '".$this->status."' 
 		AND (a.ID_SERVIDOR_CRIACAO = ".$this->servidorCriacao." 
 		OR a.ID_SERVIDOR_ENVIADO = ".$this->servidorCriacao.") ORDER BY a.DT_CRIACAO desc
 		
@@ -132,7 +132,7 @@ class ArquivosModel extends BancoDados{
 		$resultado = mysqli_query($this->conexao, 
 		
 		"UPDATE tb_arquivos 
-		SET NM_STATUS='$this->status'
+		SET DS_STATUS='$this->status'
 		WHERE ID='$this->id'
 		
 		");
