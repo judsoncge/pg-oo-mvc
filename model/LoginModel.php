@@ -14,7 +14,7 @@ class LoginModel extends BancoDados{
 		$this->conectar();
 		
 		//fazendo a query para buscar o servidor com as credenciais enviadas pelo controller
-		$resultado = mysqli_query($this->conexao, "SELECT * FROM tb_servidores WHERE CD_SERVIDOR = '$CPF' AND SENHA = '$senha'");
+		$resultado = mysqli_query($this->conexao, "SELECT * FROM tb_servidores WHERE CD_SERVIDOR = '$CPF' AND SENHA = '$senha'") or die(mysqli_error($this->conexao));
 		
 		//pegando o resultado da query em um array, que pode ser nulo caso nao encontre nenhum usuario
 		$dadosUsuario = mysqli_fetch_array($resultado);

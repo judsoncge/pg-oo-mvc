@@ -136,7 +136,7 @@ class BaseView{
 							
 							<!-- sublista -->
 							<li class='arquivos-subitem'>
-								<a href='/arquivos/cadastrar/'><i class='fa fa-file-archive-o icone-menu' aria-hidden='true'></i>Cadastrar</a>
+								<a href='/arquivos/cadastro/'><i class='fa fa-file-archive-o icone-menu' aria-hidden='true'></i>Cadastrar</a>
 							</li>
 							
 							<li class='arquivos-subitem'>

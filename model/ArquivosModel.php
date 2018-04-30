@@ -5,12 +5,17 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/model/FuncoesGlobais.php';
 
 class ArquivosModel extends BancoDados{
 	
+	private $id;
 	private $tipo;
 	private $dataCriacao;
 	private $servidorCriacao;
 	private $servidorEnviado;
 	private $status;
 	private $anexo;
+	
+	public function getID(){
+		return $this->id;
+	}
 	
 	public function getTipo(){
 		return $this->tipo;
@@ -34,6 +39,10 @@ class ArquivosModel extends BancoDados{
 	
 	public function getAnexo(){
 		return $this->anexo;
+	}
+	
+	public function setID($id){
+		$this->id = $id;
 	}
 	
 	public function setTipo($tipo){
@@ -66,23 +75,25 @@ class ArquivosModel extends BancoDados{
 		
 		$data = date('Y-m-d');
 		
-		//$nomeAnexo = registrarAnexo($this->anexo, $_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/');
+		$nomeAnexo = registrarAnexo($this->anexo, $_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/');
 	
-		//mysqli_query($this->conexao, 
+		mysqli_query($this->conexao, 
 		
-		//"INSERT INTO tb_arquivos 
-		//(NM_TIPO, DT_CRIACAO, ID_SERVIDOR_CRIACAO, ID_SERVIDOR_ENVIADO, NM_STATUS, NM_ANEXO)
+		"INSERT INTO tb_arquivos 
 		
-		//VALUES
+		(NM_TIPO, DT_CRIACAO, ID_SERVIDOR_CRIACAO, ID_SERVIDOR_ENVIADO, NM_STATUS, NM_ANEXO)
 		
-		//('".$this->tipo."','".$data."','".$_SESSION['ID']."','".$this->servidorEnviado."','ATIVO', '".$nomeAnexo."')
+		VALUES
 		
-		//");
+		('".$this->tipo."','".$data."','".$_SESSION['ID']."','".$this->servidorEnviado."','ATIVO', '".$nomeAnexo."')
+		
+		") or die(mysqli_error($this->conexao));
 		
 		$cadastrou = mysqli_affected_rows($this->conexao);
 		
 		$this->desconectar();
 		
+		return $cadastrou;
 		
 	}
 
@@ -100,7 +111,7 @@ class ArquivosModel extends BancoDados{
 		AND (a.ID_SERVIDOR_CRIACAO = ".$this->servidorCriacao." 
 		OR a.ID_SERVIDOR_ENVIADO = ".$this->servidorCriacao.") ORDER BY a.DT_CRIACAO desc
 		
-		");
+		") or die(mysqli_error($this->conexao));
 		
 		$listaArquivos = array();
 	
@@ -112,6 +123,49 @@ class ArquivosModel extends BancoDados{
 		
 		return $listaArquivos;
 		
+	}
+	
+	public function alterarStatus(){
+		
+		$this->conectar();
+		
+		$resultado = mysqli_query($this->conexao, 
+		
+		"UPDATE tb_arquivos 
+		SET NM_STATUS='$this->status'
+		WHERE ID='$this->id'
+		
+		") or die(mysqli_error($this->conexao));
+		
+		$inativou = mysqli_affected_rows($this->conexao);
+		
+		$this->desconectar();
+		
+		return $inativou;
+
+	}
+	
+	public function excluir(){
+		
+		$this->conectar();
+		
+		$resultado = mysqli_query($this->conexao, 
+		
+		"DELETE FROM tb_arquivos 
+		WHERE ID='$this->id'
+		
+		") or die(mysqli_error($this->conexao));
+		
+		$excluiu = mysqli_affected_rows($this->conexao);
+		
+		$this->desconectar();
+		
+		if($excluiu){
+			unlink($_SERVER['DOCUMENT_ROOT']."/_registros/anexos/$this->anexo");
+		}
+		
+		return $excluiu;
+
 	}
 
 }	

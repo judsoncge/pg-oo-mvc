@@ -12,6 +12,7 @@ class ArquivosView extends BaseView{
 	}
 	
 	public function carregarLista(){ ?>
+		
 		<div class="col-md-12 table-responsive" style="overflow: auto; width: 100%; height: 300px;">
 			<table class="table table-hover tabela-dados">
 				<thead>
@@ -62,13 +63,13 @@ class ArquivosView extends BaseView{
 									//so quem pode editar ou excluir é quem criou o arquivo
 									if($_SESSION['ID'] == $arquivo['ID_SERVIDOR_CRIACAO']){ ?> 
 										<center> 
-											<a href=''>
+											<a href='/arquivos/alterar-status/<?php echo $arquivo['ID'] ?>/INATIVO'>
 												Inativar
 											</a> 
 											
 											ou 			
 											
-											<a href=''>
+											<a href='/arquivos/excluir/<?php echo $arquivo['ID'] ?>/<?php echo $arquivo['NM_ANEXO'] ?>'>
 												Excluir
 											</a>
 										</center>
@@ -85,7 +86,7 @@ class ArquivosView extends BaseView{
 	
 	public function carregarCadastrar(){ ?>
 	
-		<form method='POST' action='cadastrar/arquivo/' enctype='multipart/form-data'>	
+		<form method='POST' action='/arquivos/cadastrar/' enctype='multipart/form-data'>	
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">

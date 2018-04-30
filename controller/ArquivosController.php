@@ -66,9 +66,60 @@ class ArquivosController{
 		
 		$this->arquivosModel->setAnexo($anexo);
 		
-		$this->arquivosModel->cadastrar();
+		$cadastrou = $this->arquivosModel->cadastrar();
+		
+		if($cadastrou){
+			
+			$this->carregarLista('ATIVO');
+		
+		}else{
+			
+			$this->arquivosView->carregarCadastrar();
+	
+		}
+		
 		
 	}	
+	
+	public function alterarStatus($id, $status){
+		
+		$this->arquivosModel->setID($id);
+		
+		$this->arquivosModel->setStatus($status);
+		
+		$inativou = $this->arquivosModel->alterarStatus();
+		
+		if($inativou){
+			
+			$this->carregarLista('ATIVO');
+		
+		}else{
+			
+			$this->carregarLista('ATIVO');
+	
+		}
+		
+	}
+	
+	public function excluir($id, $anexo){
+		
+		$this->arquivosModel->setID($id);
+		
+		$this->arquivosModel->setAnexo($anexo);
+		
+		$inativou = $this->arquivosModel->excluir();
+		
+		if($inativou){
+			
+			$this->carregarLista('ATIVO');
+		
+		}else{
+			
+			$this->carregarLista('ATIVO');
+	
+		}
+		
+	}
 	
 }
 

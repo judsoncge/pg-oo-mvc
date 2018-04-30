@@ -38,7 +38,15 @@ if(isset($_GET['acao'])){
 			$controller->cadastrar();
 			break;
 			
-		
+		case 'alterar-status-arquivo':
+			$controller = new ArquivosController();
+			$controller->alterarStatus($_GET['id'], $_GET['status']);
+			break;
+			
+		case 'excluir-arquivo':
+			$controller = new ArquivosController();
+			$controller->excluir($_GET['id'], $_GET['anexo']);
+			break;
 	
 	}
 		
