@@ -6,6 +6,8 @@ class BaseView{
 	protected $titulo;
 	protected $tipo;
 	protected $lista;
+	protected $mensagem;
+	protected $resultadoOperacao;
 	
 	public function setTitulo($titulo){
 		
@@ -24,6 +26,18 @@ class BaseView{
 		
 		$this->lista = $lista; 
 	
+	}
+	
+	public function setMensagem($mensagem){
+		
+		$this->mensagem = $mensagem; 
+		
+	}
+	
+	public function setResultadoOperacao($resultadoOperacao){
+		
+		$this->resultadoOperacao = $resultadoOperacao; 
+		
 	}
 	
 	//esta funcao carrega a pagina de home, pegando o head, body e footer da classe mae e carrega o seu conteudo
@@ -226,8 +240,11 @@ class BaseView{
 					$('#wrapper').toggleClass('toggled');
 				});
 			</script>
+			<?php
 			
-			<?php $this->carregarConteudo(); ?>
+			$this->carregarConteudo(); 
+			
+			?>
 			
 		</body>
 <?php	
@@ -235,11 +252,13 @@ class BaseView{
 	
 	//esta funcao carrega o conteudo da pagina, pegando a lista das cinco comunicacoes mais atuais que vem do controller. como toda pagina que vai herdar dessa tera uma implementacao diferente, sobrescrevem
 	public function carregarConteudo(){ ?>
-		
 		<div id="page-content-wrapper">
 			<div class="container titulo-pagina">
 				<p><?php echo $this->titulo ?></p>
 			</div>
+			
+			<?php $this->carregarMensagem(); ?>
+			
 			<div class="container caixa-conteudo">
 				<div class="row">
 					<div class="col-lg-12">
@@ -248,18 +267,18 @@ class BaseView{
 							
 							switch($this->tipo){
 								
-								case "listagem":
+								case 'listagem':
 								    $this->carregarFiltro();
 									$this->carregarLista();
 									$this->carregarScriptFiltro();
 									break;
-								case "cadastrar":
+								case 'cadastrar':
 									$this->carregarCadastrar();
 									break;
-								case "editar":
+								case 'editar':
 									$this->carregarEditar();
 									break;
-								case "detalhes":
+								case 'detalhes':
 									$this->carregarDetalhes();
 									break;
 							}
@@ -271,6 +290,27 @@ class BaseView{
 			</div>
 		</div>
 <?php
+	}
+	
+	public function carregarMensagem(){
+		
+		if($this->mensagem != ""){
+			
+			switch($this->resultadoOperacao){
+				
+				case 'sucesso':
+					echo '<div class="alert alert-success" role="alert" id="mensagem_sucesso">'.$this->mensagem.'</div>';
+					break;
+				case 'falha':
+					echo '<div class="alert alert-danger" role="alert" id="mensagem_erro">'.$this->mensagem.'</div>';
+					break;
+				case 'info':
+					echo '<div class="alert alert-warning" role="alert" id="mensagem_aviso">'.$this->mensagem.'</div>';
+					break;
+			}
+	
+		}
+
 	}
 	
 	public function carregarFiltro(){ ?>

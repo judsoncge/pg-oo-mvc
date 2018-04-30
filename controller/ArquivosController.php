@@ -70,6 +70,10 @@ class ArquivosController{
 		
 		if($cadastrou){
 			
+			$this->arquivosView->setMensagem('Arquivo cadastrado com sucesso!');
+			
+			$this->arquivosView->setResultadoOperacao('sucesso');
+			
 			$this->carregarLista('ATIVO');
 		
 		}else{
