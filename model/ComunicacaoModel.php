@@ -11,7 +11,7 @@ class ComunicacaoModel extends BancoDados{
 		$this->conectar();
 		
 		//fazendo a query para buscar as cinco noticias mais atuais com o status de publicada
-		$resultado = mysqli_query($this->conexao, "SELECT * FROM tb_comunicacao WHERE DS_STATUS = 'PUBLICADA' ORDER BY DT_PUBLICACAO DESC LIMIT 5") or die(mysqli_error($this->conexao));
+		$resultado = mysqli_query($this->conexao, "SELECT DS_TITULO, DS_INTERTITULO, DT_PUBLICACAO FROM tb_comunicacao WHERE DS_STATUS = 'PUBLICADA' ORDER BY DT_PUBLICACAO DESC LIMIT 5") or die(mysqli_error($this->conexao));
 		
 		//criando um array para ser enviado ao controller
 		$listaComunicacao = array();

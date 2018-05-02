@@ -4,27 +4,28 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/model/BancoDados.php';
 
 class ServidoresModel extends BancoDados{
 	
-	//funcao que retorna as cinco primeiras noticias com o status de publicada
+	private $id;
+	private $funcao;
+	private $setor;
+	private $nome;
+	private $foto;
+	private $status;
+	private $senha;
+	
 	public function getListaServidoresStatus($status){
 		
-		//conecta com o banco de dados
 		$this->conectar();
 		
-		//fazendo a query para buscar as cinco noticias mais atuais com o status de publicada
 		$resultado = mysqli_query($this->conexao, "SELECT * FROM tb_servidores WHERE DS_STATUS='$status' ORDER BY DS_NOME") or die(mysqli_error($this->conexao));
 		
-		//criando um array para ser enviado ao controller
 		$listaServidores = array();
 		
-		//passando todas as informacoes do resultado da query para o array criado
 		While($row = mysqli_fetch_array($resultado)){ 
 			array_push($listaServidores, $row); 
 		} 
 		
-		//desconecta do banco de dados
 		$this->desconectar();
 		
-		//retorna os dados para o controller
 		return $listaServidores;
 	
 	}

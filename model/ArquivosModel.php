@@ -9,7 +9,7 @@ class ArquivosModel extends BancoDados{
 	private $tipo;
 	private $dataCriacao;
 	private $servidorCriacao;
-	private $servidorEnviado;
+	private $servidorDestino;
 	private $status;
 	private $anexo;
 	
@@ -30,7 +30,7 @@ class ArquivosModel extends BancoDados{
 	}
 	
 	public function getServidorEnviado(){
-		return $this->servidorEnviado;
+		return $this->servidorDestino;
 	}
 	
 	public function getStatus(){
@@ -57,8 +57,8 @@ class ArquivosModel extends BancoDados{
 		$this->servidorCriacao = $servidorCriacao;
 	}
 	
-	public function setServidorEnviado($servidorEnviado){
-		$this->servidorEnviado = $servidorEnviado;
+	public function setServidorEnviado($servidorDestino){
+		$this->servidorDestino = $servidorDestino;
 	}
 	
 	public function setStatus($status){
@@ -81,11 +81,11 @@ class ArquivosModel extends BancoDados{
 		
 		"INSERT INTO tb_arquivos 
 		
-		(DS_TIPO, DT_CRIACAO, ID_SERVIDOR_CRIACAO, ID_SERVIDOR_ENVIADO, DS_STATUS, DS_ANEXO)
+		(DS_TIPO, DT_CRIACAO, ID_SERVIDOR_CRIACAO, ID_SERVIDOR_DESTINO, DS_STATUS, DS_ANEXO)
 		
 		VALUES
 		
-		('".$this->tipo."','".$data."','".$_SESSION['ID']."','".$this->servidorEnviado."','ATIVO', '".$nomeAnexo."')
+		('".$this->tipo."','".$data."','".$_SESSION['ID']."','".$this->servidorDestino."','ATIVO', '".$nomeAnexo."')
 		
 		");
 		
@@ -103,13 +103,25 @@ class ArquivosModel extends BancoDados{
 		
 		$resultado = mysqli_query($this->conexao, 
 		
-		"SELECT a.*, s1.DS_NOME CRIACAO, s2.DS_NOME ENVIADO 
-		FROM tb_arquivos a
+		"SELECT 
+		
+		a.ID, a.DS_TIPO, a.DT_CRIACAO, a.ID_SERVIDOR_CRIACAO, a.DS_STATUS, a.DS_ANEXO, 
+		
+		s1.DS_NOME NOME_SERVIDOR_CRIACAO,
+		
+		s2.DS_NOME NOME_SERVIDOR_DESTINO
+		
+		FROM  tb_arquivos a
+		
 		INNER JOIN tb_servidores s1 ON a.ID_SERVIDOR_CRIACAO = s1.ID 
-		INNER JOIN tb_servidores s2 ON a.ID_SERVIDOR_ENVIADO = s2.ID 
+		
+		INNER JOIN tb_servidores s2 ON a.ID_SERVIDOR_DESTINO = s2.ID 
+		
 		WHERE a.DS_STATUS = '".$this->status."' 
-		AND (a.ID_SERVIDOR_CRIACAO = ".$this->servidorCriacao." 
-		OR a.ID_SERVIDOR_ENVIADO = ".$this->servidorCriacao.") ORDER BY a.DT_CRIACAO desc
+		
+		AND   (a.ID_SERVIDOR_CRIACAO = ".$this->servidorCriacao." 
+		
+		OR    a.ID_SERVIDOR_DESTINO = ".$this->servidorCriacao.") ORDER BY a.DT_CRIACAO desc
 		
 		");
 		
@@ -135,7 +147,7 @@ class ArquivosModel extends BancoDados{
 		SET DS_STATUS='$this->status'
 		WHERE ID='$this->id'
 		
-		");
+		") or die(mysqli_error($this->conexao));
 		
 		$inativou = mysqli_affected_rows($this->conexao);
 		

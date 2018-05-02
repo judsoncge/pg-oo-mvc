@@ -36,12 +36,12 @@ class ArquivosView extends BaseView{
 							</td>
 							<td>
 								<center>
-									<?php echo $arquivo['CRIACAO'] ?>
+									<?php echo $arquivo['NOME_SERVIDOR_CRIACAO'] ?>
 								</center>
 							</td>
 							<td>
 								<center>
-									<?php echo $arquivo['ENVIADO'] ?>
+									<?php echo $arquivo['NOME_SERVIDOR_DESTINO'] ?>
 								</center>
 							</td>
 							<td>
@@ -60,8 +60,8 @@ class ArquivosView extends BaseView{
 							</td>
 							<td>
 								<?php 
-									//so quem pode editar ou excluir é quem criou o arquivo
-									if($_SESSION['ID'] == $arquivo['ID_SERVIDOR_CRIACAO']){ ?> 
+									//so quem pode editar ou excluir é quem criou o arquivo e quando ele estiver ativo
+									if($_SESSION['ID'] == $arquivo['ID_SERVIDOR_CRIACAO'] && $arquivo['DS_STATUS']=='ATIVO'){ ?> 
 										<center> 
 											<a href='/arquivos/alterar-status/<?php echo $arquivo['ID'] ?>/INATIVO'>
 												Inativar

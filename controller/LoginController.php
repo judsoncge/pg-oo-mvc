@@ -35,17 +35,16 @@ class LoginController{
 		if($dadosUsuario != NULL){
 			
 			$_SESSION['ID']     =  $dadosUsuario['ID'];
-			$_SESSION['CPF']    =  $dadosUsuario['DS_CPF'];
-			$_SESSION['NOME']   =  $dadosUsuario['DS_NOME'];
+			$_SESSION['FUNCAO'] =  $dadosUsuario['DS_FUNCAO'];
 			$_SESSION['SETOR']  =  $dadosUsuario['ID_SETOR'];
-			$_SESSION['FOTO']   =  $dadosUsuario['NM_ARQUIVO_FOTO'];
-			$_SESSION['FUNCAO'] =  $dadosUsuario['NM_FUNCAO'];
-			
+			$_SESSION['NOME']   =  $dadosUsuario['DS_NOME'];
+			$_SESSION['FOTO']   =  $dadosUsuario['DS_FOTO'];
+		
 			$this->homeController->carregarHome();
 		
 		}else{
 			
-			echo "<meta HTTP-EQUIV='Refresh' CONTENT='0;URL=/'>";
+			header("Location: /index.php");
 			
 		}
 		
@@ -57,7 +56,7 @@ class LoginController{
 		
 		session_destroy();
 
-		echo "<meta HTTP-EQUIV='Refresh' CONTENT='0;URL=/'>";
+		header("Location: /index.php");
 
 	}
 	
