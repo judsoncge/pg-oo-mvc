@@ -2,6 +2,7 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/model/ServidoresModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/view/ServidoresView.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/model/SetoresModel.php';
 
 class ServidoresController{
 	
@@ -12,6 +13,7 @@ class ServidoresController{
 		
 		$this->servidoresModel = new ServidoresModel();
 		$this->servidoresView  = new ServidoresView();
+		$this->setoresModel    = new SetoresModel();
 		
 	}
 	
@@ -35,13 +37,13 @@ class ServidoresController{
 	
 	public function carregarCadastrar(){
 		
-		$listaServidores = $this->servidoresModel->getListaServidoresStatus('ATIVO');
+		$listaSetores = $this->setoresModel->getListaSetores();
 		
-		$this->servidoresView->setTitulo("Cadastrar um Arquivo");
+		$this->servidoresView->setTitulo("Cadastrar um Servidor");
 		
 		$this->servidoresView->setTipo("cadastrar");
 		
-		$this->servidoresView->setListaServidores($listaServidores);
+		$this->servidoresView->setListaSetores($listaSetores);
 		
 		$this->servidoresView->carregar();
 		

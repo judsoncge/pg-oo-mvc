@@ -24,7 +24,7 @@ class ServidoresModel extends BancoDados{
 		
 		SELECT 
 		
-		s1.ID, s1.DS_CPF, s1.DS_NOME, s1.DS_FUNCAO, s2.CD_SETOR
+		s1.ID, s1.DS_CPF, s1.DS_NOME, s1.DS_FUNCAO, s2.DS_ABREVIACAO
 		
 		FROM tb_servidores s1
 		

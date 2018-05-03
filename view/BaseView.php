@@ -224,6 +224,10 @@ class BaseView{
 						
 							<!-- sublista -->
 							<li class='servidores-subitem'>
+								<a href='/servidores/cadastro/'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Cadastrar</a>
+							</li>
+							
+							<li class='servidores-subitem'>
 								<a href='/servidores/ativos/'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Ativos</a>
 							</li>
 							
