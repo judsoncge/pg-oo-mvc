@@ -224,11 +224,11 @@ class BaseView{
 						
 							<!-- sublista -->
 							<li class='servidores-subitem'>
-								<a href=''><i class='fa fa-user icone-menu' aria-hidden='true'></i>Ativos</a>
+								<a href='/servidores/ativos/'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Ativos</a>
 							</li>
 							
 							<li class='servidores-subitem'>
-								<a href=''><i class='fa fa-user icone-menu' aria-hidden='true'></i>Inativos</a>
+								<a href='/servidores/inativos/'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Inativos</a>
 							</li>
 						<!-- opcao sobre -->
 						<li>

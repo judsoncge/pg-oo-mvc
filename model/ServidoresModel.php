@@ -12,11 +12,27 @@ class ServidoresModel extends BancoDados{
 	private $status;
 	private $senha;
 	
-	public function getListaServidoresStatus($status){
+	public function setStatus($status){
+		$this->status = $status;
+	}
+	
+	public function getListaServidoresStatus(){
 		
 		$this->conectar();
 		
-		$resultado = mysqli_query($this->conexao, "SELECT * FROM tb_servidores WHERE DS_STATUS='$status' ORDER BY DS_NOME") or die(mysqli_error($this->conexao));
+		$resultado = mysqli_query($this->conexao, "
+		
+		SELECT 
+		
+		s1.ID, s1.DS_CPF, s1.DS_NOME, s1.DS_FUNCAO, s2.CD_SETOR
+		
+		FROM tb_servidores s1
+		
+		INNER JOIN tb_setores s2 ON s1.ID_SETOR = s2.ID 
+		
+		WHERE DS_STATUS='".$this->status."' 
+		
+		ORDER BY DS_NOME") or die(mysqli_error($this->conexao));
 		
 		$listaServidores = array();
 		

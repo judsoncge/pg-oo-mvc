@@ -1,8 +1,8 @@
 <?php 
 
-include $_SERVER['DOCUMENT_ROOT'].'/model/ArquivosModel.php';
-include $_SERVER['DOCUMENT_ROOT'].'/model/ServidoresModel.php';
-include $_SERVER['DOCUMENT_ROOT'].'/view/ArquivosView.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/model/ArquivosModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/model/ServidoresModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/view/ArquivosView.php';
 
 class ArquivosController{
 	
@@ -40,7 +40,9 @@ class ArquivosController{
 	
 	public function carregarCadastrar(){
 		
-		$listaServidores = $this->servidoresModel->getListaServidoresStatus('ATIVO');
+		$this->servidoresModel->setStatus('ATIVO');
+		
+		$listaServidores = $this->servidoresModel->getListaServidoresStatus();
 		
 		$this->arquivosView->setTitulo("Cadastrar um Arquivo");
 		

@@ -1,8 +1,8 @@
 <?php 
 
 //carregando model de login para verificacao de login e o de comunicacao, pois a pagina de home mostra as noticias
-include $_SERVER['DOCUMENT_ROOT'].'/controller/HomeController.php';
-include $_SERVER['DOCUMENT_ROOT'].'/model/LoginModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/controller/HomeController.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/model/LoginModel.php';
 
 
 class LoginController{

@@ -8,6 +8,11 @@ RewriteRule ^/               	                  /index.php [L]
 RewriteRule ^home               	              /index.php?acao=login [L]
 RewriteRule logoff               	              /index.php?acao=logoff
 
+
+
+
+
+
 RewriteRule ^arquivos/cadastro                    /index.php?acao=cadastro-arquivo
 
 RewriteRule ^arquivos/ativos/([0-9])              /index.php?acao=listar-arquivos&status=ATIVO&resultadoOperacao=$1
@@ -18,6 +23,21 @@ RewriteRule ^arquivos/inativos 	                  /index.php?acao=listar-arquivo
 RewriteRule ^arquivos/cadastrar                   /index.php?acao=cadastrar-arquivo 
 RewriteRule ^arquivos/alterar-status/(.*)/(.*)    /index.php?acao=alterar-status-arquivo&id=$1&status=$2 
 RewriteRule ^arquivos/excluir/(.*)/(.*)	          /index.php?acao=excluir-arquivo&id=$1&anexo=$2
+
+
   
+  
+  
+  
+ 
+RewriteRule ^servidores/cadastro                    /index.php?acao=cadastro-servidor
 
+RewriteRule ^servidores/ativos/([0-9])              /index.php?acao=listar-servidores&status=ATIVO&resultadoOperacao=$1
+RewriteRule ^servidores/ativos    	                /index.php?acao=listar-servidores&status=ATIVO
 
+RewriteRule ^servidores/inativos 	                /index.php?acao=listar-servidores&status=INATIVO 
+
+RewriteRule ^servidores/cadastrar                   /index.php?acao=cadastrar-servidor 
+RewriteRule ^servidores/alterar-status/(.*)/(.*)    /index.php?acao=alterar-status-servidor&id=$1&status=$2 
+RewriteRule ^servidores/excluir/(.*)/(.*)	        /index.php?acao=excluir-servidor&id=$1&anexo=$2
+  
