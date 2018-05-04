@@ -1,13 +1,8 @@
-<?php 
+<?php
 
-//carregando model de login para verificacao de login e o de comunicacao, pois a pagina de home mostra as noticiass
-include $_SERVER['DOCUMENT_ROOT'].'/model/ComunicacaoModel.php';
-include $_SERVER['DOCUMENT_ROOT'].'/view/HomeView.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/controller/Controller.php';
 
-class HomeController{
-	
-	private $comunicacaoModel;
-	private $homeView;
+class HomeController extends Controller{
 	
 	function __construct(){
 		
@@ -20,7 +15,7 @@ class HomeController{
 		
 		$listaComunicacao = $this->comunicacaoModel->getCincoNoticiasMaisAtuais();
 		
-		$this->homeView = new HomeView();
+		//$this->homeView = new LoginView();
 		
 		$this->homeView->setTitulo("Bem vindo(a) ao Painel de Gestão, " . $_SESSION['NOME']);
 		

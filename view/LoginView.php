@@ -1,8 +1,8 @@
 <?php 
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/view/BaseView.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
-class LoginView extends BaseView{
+class LoginView extends View{
 	
 	public function adicionarScripts(){ 
 	

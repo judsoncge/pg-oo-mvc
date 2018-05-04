@@ -1,8 +1,8 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/model/BancoDados.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/model/Model.php';
 
-class ServidoresModel extends BancoDados{
+class ServidoresModel extends Model{
 	
 	private $id;
 	private $funcao;

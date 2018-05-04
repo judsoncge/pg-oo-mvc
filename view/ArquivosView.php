@@ -1,15 +1,8 @@
 <?php 
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/view/BaseView.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
-class ArquivosView extends BaseView{
-	
-	private $listaServidores;
-	
-	public function setListaServidores($listaServidores){
-		
-		$this->listaServidores = $listaServidores;
-	}
+class ArquivosView extends View{
 	
 	public function carregarLista(){ ?>
 		

@@ -1,14 +1,8 @@
 <?php 
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/model/ArquivosModel.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/model/ServidoresModel.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/view/ArquivosView.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/controller/Controller.php';
 
-class ArquivosController{
-	
-	private $arquivosModel;
-	private $arquivosView;
-	private $servidoresModel;
+class ArquivosController extends Controller{
 	
 	function __construct(){
 		

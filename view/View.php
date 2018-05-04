@@ -1,13 +1,15 @@
 <?php
 
 //esta e a classe que contem o head, body e footer padrao do sistema. portanto e chamada de "view base" e todas as views herdam dela
-class BaseView{
+class View{
 	
 	protected $titulo;
 	protected $tipo;
 	protected $lista;
 	protected $mensagem;
 	protected $resultadoOperacao;
+	protected $listaSetores;
+	protected $listaServidores;
 	
 	public function setTitulo($titulo){
 		
@@ -38,6 +40,18 @@ class BaseView{
 		
 		$this->resultadoOperacao = $resultadoOperacao; 
 		
+	}
+	
+	public function setListaSetores($listaSetores){
+		
+		$this->listaSetores = $listaSetores;
+
+	}
+	
+	public function setListaServidores($listaServidores){
+		
+		$this->listaServidores = $listaServidores;
+
 	}
 	
 	//esta funcao carrega a pagina de home, pegando o head, body e footer da classe mae e carrega o seu conteudo
@@ -353,6 +367,35 @@ class BaseView{
 	
 	public function carregarDetalhes(){
 	
+	}
+	
+	public function carregarSelectServidores(){
+		
+	}
+	
+	public function carregarSelectSetores(){ ?>
+	
+		<div class="col-md-6">
+			<div class="form-group">
+				<label class="control-label" for="exampleInputEmail1">Setor</label>
+				<select class="form-control" id="setor" name="setor" required/>
+					<option value="">Selecione</option>
+					
+					<?php foreach($this->listaSetores as $setor){ ?>
+					
+						<option value="<?php echo $setor['ID'] ?>">
+						
+						<?php echo $setor['DS_NOME']; ?>
+						
+						</option>
+						
+					<?php } ?>
+				</select>
+			</div> 
+		</div>
+	
+		
+<?php 
 	}
 	
 	//esta funcao carrega o footer padrao do sistema

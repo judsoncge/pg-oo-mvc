@@ -31,6 +31,7 @@ RewriteRule ^arquivos/excluir/(.*)/(.*)	          /index.php?acao=excluir-arquiv
   
  
 RewriteRule ^servidores/cadastro                    /index.php?acao=cadastro-servidor
+RewriteRule ^servidores/edicao/([0-9]*)              /index.php?acao=edicao-servidor&id=$1
 
 RewriteRule ^servidores/ativos/([0-9])              /index.php?acao=listar-servidores&status=ATIVO&resultadoOperacao=$1
 RewriteRule ^servidores/ativos    	                /index.php?acao=listar-servidores&status=ATIVO

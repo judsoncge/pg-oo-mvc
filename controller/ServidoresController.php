@@ -1,14 +1,9 @@
 <?php 
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/model/ServidoresModel.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/view/ServidoresView.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/model/SetoresModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/controller/Controller.php';
 
-class ServidoresController{
-	
-	private $servidoresModel;
-	private $servidoresView;
-	
+class ServidoresController extends Controller{
+
 	function __construct(){
 		
 		$this->servidoresModel = new ServidoresModel();
@@ -42,6 +37,24 @@ class ServidoresController{
 		$this->servidoresView->setTitulo("Cadastrar um Servidor");
 		
 		$this->servidoresView->setTipo("cadastrar");
+		
+		$this->servidoresView->setListaSetores($listaSetores);
+		
+		$this->servidoresView->carregar();
+		
+	}
+	
+	public function carregarEditar($id){
+		
+		$listaSetores  = $this->setoresModel->getListaSetores();
+		
+		$listaDados    = $this->servidoresModel->getDadosId('tb_servidores', $id);
+		
+		$this->servidoresView->setTitulo("Editar um Servidor");
+		
+		$this->servidoresView->setTipo("editar");
+		
+		$this->servidoresView->setLista($listaDados);
 		
 		$this->servidoresView->setListaSetores($listaSetores);
 		

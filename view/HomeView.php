@@ -1,8 +1,8 @@
 <?php 
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/view/BaseView.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
-class HomeView extends BaseView{
+class HomeView extends View{
 	
 	//esta funcao carrega o conteudo da pagina, pegando a lista das cinco comunicacoes mais atuais que vem do controller
 	public function carregarConteudo(){ ?>

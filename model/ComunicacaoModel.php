@@ -1,8 +1,8 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/model/BancoDados.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/model/Model.php';
 
-class ComunicacaoModel extends BancoDados{
+class ComunicacaoModel extends Model{
 	
 	//funcao que retorna as cinco primeiras noticias com o status de publicada
 	public function getCincoNoticiasMaisAtuais(){

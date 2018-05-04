@@ -1,19 +1,14 @@
 <?php 
 
-//carregando model de login para verificacao de login e o de comunicacao, pois a pagina de home mostra as noticias
-require_once $_SERVER['DOCUMENT_ROOT'].'/controller/HomeController.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/model/LoginModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/controller/Controller.php';
 
-
-class LoginController{
-	
-	private $loginModel;
-	private $homeController;
+class LoginController extends Controller{
 	
 	function __construct(){
 		
-		$this->loginModel = new LoginModel();
-		$this->homeController = new homeController();
+		$this->loginModel       = new LoginModel();
+		$this->homeView         = new HomeView();
+		$this->comunicacaoModel = new ComunicacaoModel();
 		
 	}
 
@@ -21,7 +16,7 @@ class LoginController{
 		
 		if(isset($_SESSION['ID'])){
 			
-			$this->homeController->carregarHome();
+			$this->carregarHome();
 			exit();
 			
 		}
@@ -40,13 +35,25 @@ class LoginController{
 			$_SESSION['NOME']   =  $dadosUsuario['DS_NOME'];
 			$_SESSION['FOTO']   =  $dadosUsuario['DS_FOTO'];
 		
-			$this->homeController->carregarHome();
+			$this->carregarHome();
 		
 		}else{
 			
 			header("Location: /index.php");
 			
 		}
+		
+	}
+	
+	public function carregarHome(){
+		
+		$listaComunicacao = $this->comunicacaoModel->getCincoNoticiasMaisAtuais();
+		
+		$this->homeView->setTitulo("Bem vindo(a) ao Painel de Gestão, " . $_SESSION['NOME']);
+		
+		$this->homeView->setLista($listaComunicacao);
+		
+		$this->homeView->carregar();
 		
 	}
 	

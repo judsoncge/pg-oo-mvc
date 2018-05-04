@@ -1,15 +1,8 @@
 <?php 
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/view/BaseView.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
-class ServidoresView extends BaseView{
-	
-	private $listaSetores;
-	
-	public function setListaSetores($listaSetores){
-		
-		$this->listaSetores = $listaSetores;
-	}
+class ServidoresView extends View{
 	
 	public function carregarLista(){ ?>
 		
@@ -51,7 +44,7 @@ class ServidoresView extends BaseView{
 							<td>
 								<center>
 									
-									<a href="editar.php?id=<?php echo $servidor['ID'] ?>">
+									<a href="/servidores/edicao/<?php echo $servidor['ID'] ?>">
 										<button type='button' class='btn btn-secondary btn-sm' title="Editar">
 											<i class="fa fa-pencil" aria-hidden="true"></i>
 										</button>
@@ -92,25 +85,10 @@ class ServidoresView extends BaseView{
 					</div>				
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label class="control-label" for="exampleInputEmail1">Setor</label>
-						<select class="form-control" id="setor" name="setor" required/>
-							<option value="">Selecione</option>
-							
-							<?php foreach($this->listaSetores as $setor){ ?>
-							
-								<option value="<?php echo $setor['ID'] ?>">
-								
-								<?php echo $setor['DS_NOME']; ?>
-								
-								</option>
-								
-							<?php } ?>
-						</select>
-					</div> 
-				</div>
+			<div class="row"> 
+				
+				<?php $this->carregarSelectSetores() ?>
+				
 				<div class="col-md-6">
 					<div class="form-group">
 						<label class="control-label" for="exampleInputEmail1">Função no sistema</label>
@@ -140,6 +118,78 @@ class ServidoresView extends BaseView{
 		</form>
 
 <?php	
+	}
+	
+	public function carregarEditar(){ ?>
+		
+		<form name="cadastro" method="POST" action="/controller/servidores/editar.php?operacao=info&id=<?php echo $id ?>&CPF=<?php echo $this->lista[0]['DS_CPF'] ?>&funcao=<?php echo $this->lista[0]['DS_FUNCAO'] ?>&setor=<?php echo $this->lista[0]['ID_SETOR'] ?>" enctype="multipart/form-data"> 
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label" for="exampleInputEmail1">Nome</label>
+						<input class="form-control" id="nome" name="nome" placeholder="Digite o nome (somente letras)" 
+						type="text" maxlength="255" minlength="4" pattern="[a*A*-z*Z*]*+"value="<?php echo $this->lista[0]['DS_NOME'] ?>" required />
+					</div> 
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label" for="exampleInputEmail1">CPF</label>
+						<input class="form-control" id="CPF" name="CPF" placeholder="Digite o CPF" type="text" value="<?php echo $this->lista[0]['DS_CPF'] ?>" required />				  
+					</div>				
+				</div>
+			</div>
+			<div class="row">
+				
+				<?php $this->carregarSelectSetores(); ?>
+				
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label" for="exampleInputEmail1">Função no sistema</label>
+						<select class="form-control" id="funcao" name="funcao" required />
+							
+							<option value="<?php echo $this->lista[0]['DS_FUNCAO'] ?>"><?php echo $this->lista[0]['DS_FUNCAO'] ?></option>
+							
+							<option value="PROTOCOLO">PROTOCOLO	</option>
+							<option value="SUPERINTENDENTE">SUPERINTENDENTE</option>
+							<option value="ASSESSOR TÉCNICO">ASSESSOR TÉCNICO</option>
+							<option value="TÉCNICO ANALISTA">TÉCNICO ANALISTA</option>
+							<option value="GABINETE">GABINETE</option>
+							<option value="CONTROLADOR">CONTROLADOR</option>
+							<option value="TI">TI</option>
+							<option value="COMUNICAÇÃO">COMUNICAÇÃO</option>
+							<option value="CHEFE DE GABINETE">CHEFE DE GABINETE</option>
+						
+						</select>
+					</div> 
+				</div>
+			</div>
+			<div class="row" id="cad-button">
+				<div class="col-md-12">
+					<button type="submit" class="btn btn-default" name="submit" value="Send" id="submit">Editar</button>
+				</div>
+			</div>
+		</form>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+<?php		
 	}
 
 }

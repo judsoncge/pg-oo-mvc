@@ -1,6 +1,6 @@
 <?php
 
-class BancoDados{
+class Model{
 	
 	//atributo da conexao com banco de dados
 	public $conexao;
@@ -28,6 +28,24 @@ class BancoDados{
 		//fecha a conexao, ou seja, desconecta
 		mysqli_close($this->conexao);
 		
+	}
+	
+	public function getDadosId($tabela, $id){
+		
+		$this->conectar();
+		
+		$resultado = mysqli_query($this->conexao, "SELECT * FROM $tabela WHERE ID=$id") or die(mysqli_error($this->conexao));
+		
+		$listaDados = array();
+		
+		While($row = mysqli_fetch_array($resultado)){ 
+			array_push($listaDados, $row); 
+		} 
+		
+		$this->desconectar();
+		
+		return $listaDados;
+	
 	}
 	
 }

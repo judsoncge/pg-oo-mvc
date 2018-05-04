@@ -4,7 +4,6 @@
 include $_SERVER['DOCUMENT_ROOT'].'/controller/LoginController.php';
 include $_SERVER['DOCUMENT_ROOT'].'/controller/ArquivosController.php';
 include $_SERVER['DOCUMENT_ROOT'].'/controller/ServidoresController.php';
-include $_SERVER['DOCUMENT_ROOT'].'/view/LoginView.php';
 
 //iniciando a sessao para usar variavel de sessao
 session_start();
@@ -57,6 +56,11 @@ if(isset($_GET['acao'])){
 		case 'cadastro-servidor':
 			$controller = new ServidoresController();
 			$controller->carregarCadastrar();
+			break;
+			
+		case 'edicao-servidor':
+			$controller = new ServidoresController();
+			$controller->carregarEditar($_GET['id']);
 			break;
 			
 		case 'cadastrar-servidor':
