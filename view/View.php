@@ -4,7 +4,7 @@
 class View{
 	
 	protected $titulo;
-	protected $tipo;
+	protected $pagina;
 	protected $lista;
 	protected $mensagem;
 	protected $resultadoOperacao;
@@ -17,9 +17,9 @@ class View{
 	
 	}
 	
-	public function setTipo($tipo){
+	public function setPagina($pagina){
 		
-		$this->tipo = $tipo; 
+		$this->pagina = $pagina; 
 	
 	}
 	
@@ -83,18 +83,6 @@ class View{
 
 			<title>Painel de Gestão - CGE</title>
 			
-			<?php $this->adicionarScripts(); ?>
-			
-			<link rel='stylesheet' type='text/css' href='/view/libs/css/font-awesome.min.css' >
-			<link rel='stylesheet' type='text/css' href='/view/libs/css/bootstrap.css'>
-			<link rel='stylesheet' type='text/css' href='/view/libs/css/simple-sidebar.css'>
-			<link rel='stylesheet' type='text/css' href='/view/libs/css/estilo.css'>
-		</head>	
-<?php 
-	}
-
-	public function adicionarScripts(){ ?>
-		
 			<script src='/view/libs/js/jquery.js'></script>
 			<script src="/view/libs/js/tether.js"></script>
 			<script type='text/javascript' src='/view/libs/js/bootstrap.js'></script>
@@ -103,119 +91,92 @@ class View{
 			<script type="text/javascript" src="/view/libs/js/temporizadores.js"></script>
 			<script type='text/javascript' src='/view/libs/js/jquery.maskedinput.js'></script>
 			<script type='text/javascript' src='/view/libs/js/util.js'></script>
+			<?php $this->adicionarScripts(); ?>
+			<link rel='stylesheet' type='text/css' href='/view/libs/css/font-awesome.min.css' >
+			<link rel='stylesheet' type='text/css' href='/view/libs/css/bootstrap.css'>
+			<link rel='stylesheet' type='text/css' href='/view/libs/css/simple-sidebar.css'>
+			<link rel='stylesheet' type='text/css' href='/view/libs/css/estilo.css'>
+		</head>	
+<?php 
+	}
+
+	public function adicionarScripts(){ 
 		
-<?php
 	}
 	
 	//esta funcao carrega o body padrao do sistema
 	public function carregarBody(){ ?>
 		
-		<body>  
-			<!-- menu superior da página -->
+		<body>
 			<div class='menu-superior'>
 				<div>
 					<a href='#menu-toggle' class='btn btn-default' id='menu-toggle'><i class='fa fa-bars' aria-hidden='true'></i></a>
 					<img src='/view/libs/img/gestao-cge.png' id='logo-home'>
 				</div>
 				<div>
-					<!-- carregamento da página -->
 					<div class='loader' id='preloader'></div>
 				</div>
 				<div class='container-icone'>
 					<div>
-						<!-- botão para fazer logoff -->
 						<a href='logoff' alt='Logoff'><i class='fa fa-sign-out fa-lg' aria-hidden='true' id='sair-icone'></i></a>
 					</div>	
 				</div>	
-			</div> 
-
-			<!-- menu lateral -->
+			</div>
 			<div id='wrapper'>
-				<!-- Sidebar -->
 				<div id='sidebar-wrapper'>
 					<ul class='sidebar-nav'>
 						<li class='sidebar-brand'>
 							<div id='usuario'>
-								<!-- foto do usuário -->
 								<div id='box-imagem'>
 									<img src='/_registros/fotos/<?php echo $_SESSION['FOTO'] ?>' id='imagem'>
 								</div>
-
 								<div id='mensagem'>
-									<!-- opcao para editar a senha -->
 									<center>
 										<a href='' id='alterar-senha'>
 											<i class='fa fa-edit' aria-hidden='true'></i>  
 											Alterar senha
 										</a>
-									
-									<!-- opcao para editar a foto -->
 									<a href='' id='alterar-foto'><i class='fa fa-edit' aria-hidden='true'></i>  Alterar foto</a></center>
 								</div>
 							</div>
 						</li>
-						
 						<hr>
-						
-						<!-- aqui inicia a lista de opcoes da barra lateral -->
-						
-						<!-- opcao home -->
 						<li>
 							<a href='/home'><i class='fa fa-home icone-menu' aria-hidden='true'></i>Início</a>
 						</li>
-						
-						<!-- opcao arquivos -->
 						<li id='arquivos'>
 							<a href='#'><i class='fa fa-file-archive-o icone-menu' aria-hidden='true'></i>Arquivos</a>
 						</li>	
-							
-							<!-- sublista -->
 							<li class='arquivos-subitem'>
-								<a href='/arquivos/cadastro/'><i class='fa fa-file-archive-o icone-menu' aria-hidden='true'></i>Cadastrar</a>
+								<a href='/arquivos/cadastrar/'><i class='fa fa-file-archive-o icone-menu' aria-hidden='true'></i>Cadastrar</a>
 							</li>
-							
 							<li class='arquivos-subitem'>
 								<a href='/arquivos/ativos/'><i class='fa fa-file-archive-o icone-menu' aria-hidden='true'></i>Ativos</a>
 							</li>
-							
 							<li class='arquivos-subitem'>
 								<a href='/arquivos/inativos/'><i class='fa fa-file-archive-o icone-menu' aria-hidden='true'></i>Inativos</a>
 							</li>
-						
-						<!-- opcao chamados -->
 						<li id='chamados'>
 							<a href='#'><i class='fa fa-headphones icone-menu' aria-hidden='true'></i>Chamados</a>
 						</li>
-							
-							<!-- sublista -->
 							<li class='chamados-subitem'>
 								<a href=''><i class='fa fa-headphones icone-menu' aria-hidden='true'></i>Ativos</a>
 							</li>
-							
 							<li class='chamados-subitem'>
 								<a href='' ><i class='fa fa-headphones icone-menu' aria-hidden='true'></i>Inativos</a>
 							</li>
-							
-							
-						<!-- opcao comunicacao -->
 						<li id='comunicacao'>
 							<a href='#'><i class='fa fa-volume-up icone-menu' aria-hidden='true'></i>Comunicação</a>
 						</li>
-						
-							<!-- sublista -->
 							<li class='comunicacao-subitem'>
 								<a href=''><i class='fa fa-volume-up icone-menu' aria-hidden='true'></i>Ativos</a>
 							</li>
 							<li class='comunicacao-subitem'>
 								<a href='' ><i class='fa fa-volume-up icone-menu' aria-hidden='true'></i>Inativos</a>
 							</li>
-
-						<!-- opcao processos -->
 						<li id='processos'>
 							<a href='#'><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Processos</a>
 						</li>
-						
-							<!-- sublista -->
 							<li class='processos-subitem'>
 								<a href=''><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Cadastrar</a>
 							</li>
@@ -223,41 +184,29 @@ class View{
 							<li class='processos-subitem'>
 								<a href=''><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Ativos</a>
 							</li>
-							
-							
 							<li class='processos-subitem'>
 								<a href='' ><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Consultar</a>
 							</li>
-							
 							<li class='processos-subitem'>
 								<a href='' ><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Relatório</a>
 							</li>
-					
-						<!-- opcao servidores -->
 						<li id='servidores'>
 							<a href='#'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Servidores</a>
 						</li>	
-						
-							<!-- sublista -->
 							<li class='servidores-subitem'>
 								<a href='/servidores/cadastro/'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Cadastrar</a>
 							</li>
-							
 							<li class='servidores-subitem'>
 								<a href='/servidores/ativos/'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Ativos</a>
 							</li>
-							
 							<li class='servidores-subitem'>
 								<a href='/servidores/inativos/'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Inativos</a>
 							</li>
-						<!-- opcao sobre -->
 						<li>
 							<a href=''><i class='fa fa-info-circle icone-menu' aria-hidden='true'></i>Sobre</a>
 						</li>
 					</ul>
 				</div>
-		
-			<!-- script que esconde/aparece o menu lateral -->
 			<script type='text/javascript'>
 				/*fazer menu aparecer e desaparecer*/
 				$('#menu-toggle').click(function(e) {
@@ -265,55 +214,54 @@ class View{
 					$('#wrapper').toggleClass('toggled');
 				});
 			</script>
-			<?php
 			
-			$this->carregarConteudo(); 
-			
-			?>
-			
+			<div id="page-content-wrapper">
+				<div class="container titulo-pagina">
+					<p><?php echo $this->titulo ?></p>
+				</div>
+				
+				<?php $this->carregarMensagem(); ?>
+				
+				<div class="container caixa-conteudo">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="container">
+								<?php 
+								
+								switch($this->pagina){
+									
+									case 'home':
+										$this->carregarHome();
+										break;
+									case 'lista':
+										$this->carregarFiltro();
+										$this->listar();
+										$this->carregarScriptFiltro();
+										break;
+									case 'cadastro':
+										$this->cadastrar();
+										break;
+									case 'edicao':
+										$this->editar();
+										break;
+									case 'detalhes':
+										$this->detalhar();
+										break;
+								}
+								
+								?>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</body>
 <?php	
 	} 
 	
 	//esta funcao carrega o conteudo da pagina, pegando a lista das cinco comunicacoes mais atuais que vem do controller. como toda pagina que vai herdar dessa tera uma implementacao diferente, sobrescrevem
 	public function carregarConteudo(){ ?>
-		<div id="page-content-wrapper">
-			<div class="container titulo-pagina">
-				<p><?php echo $this->titulo ?></p>
-			</div>
-			
-			<?php $this->carregarMensagem(); ?>
-			
-			<div class="container caixa-conteudo">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="container">
-							<?php 
-							
-							switch($this->tipo){
-								
-								case 'listagem':
-								    $this->carregarFiltro();
-									$this->carregarLista();
-									$this->carregarScriptFiltro();
-									break;
-								case 'cadastrar':
-									$this->carregarFormulario();
-									break;
-								case 'editar':
-									$this->carregarFormulario();
-									break;
-								case 'detalhes':
-									$this->carregarDetalhes();
-									break;
-							}
-							
-							?>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		
 <?php
 	}
 	
@@ -355,20 +303,41 @@ class View{
 <?php		
 	}
 	
-	public function carregarLista(){
+	public function listar(){
 	
 	}
 	
-	public function carregarFormulario(){
+	public function cadastrar(){
 	
 	}
 	
-	public function carregarDetalhes(){
+	public function editar(){
+	
+	}
+	
+	public function detalhar(){
 	
 	}
 	
 	public function carregarSelectServidores(){
-		
+	
+		$lista = $_REQUEST['servidores']; ?>
+	
+		<select class="form-control" id="servidor" name="servidor" required >
+			<option value="">Selecione o servidor para enviar</option>
+			
+			<?php foreach($lista as $servidor){ ?>
+				
+					<option value="<?php echo $servidor['ID'] ?>">
+						<?php echo $servidor['DS_NOME']; ?>
+					</option>
+				
+		  <?php } ?>
+		  
+		</select>
+	
+	
+<?php	
 	}
 	
 	public function carregarSelectSetores($id, $nome){ ?>
@@ -377,6 +346,7 @@ class View{
 			<div class="form-group">
 				<label class="control-label" for="exampleInputEmail1">Setor</label>
 				<select class="form-control" id="setor" name="setor" required/>
+					
 					<option value="<?php echo $id ?>"><?php if($nome!=''){echo $nome;}else{echo 'Selecione';} ?></option>
 					
 					<?php foreach($this->listaSetores as $setor){ ?>
@@ -388,12 +358,36 @@ class View{
 						</option>
 						
 					<?php } ?>
+				
 				</select>
 			</div> 
 		</div>
 	
 		
 <?php 
+	}
+	
+	public function carregarSelectTiposDocumento(){ ?>
+		
+		<select class="form-control" id="tipo" name="tipo" required >
+			<option value="">Selecione o tipo de arquivo</option>
+			<option value="APRESENTAÇÃO">APRESENTAÇÃO</option>
+			<option value="AQUISIÇÃO">AQUISIÇÃO</option>
+			<option value="CERTIFICADO">CERTIFICADO</option>
+			<option value="CHECKLIST">CHECKLIST</option>
+			<option value="COTAÇÃO DE PREÇO">COTAÇÃO DE PREÇO</option>
+			<option value="CERTIDÃO NEGATIVA">CERTIDÃO NEGATIVA</option>
+			<option value="DESPACHO">DESPACHO</option>
+			<option value="MEMORANDO">MEMORANDO</option>
+			<option value="OFÍCIO">OFÍCIO</option>
+			<option value="PARECER">PARECER</option>
+			<option value="PUBLICAÇÃO NO DIÁRIO">PUBLICAÇÃO NO DIÁRIO</option>
+			<option value="RELATÓRIO">RELATÓRIO</option>
+			<option value="RESPOSTA AO INTERESSADO">RESPOSTA AO INTERESSADO</option>
+			<option value="TERMO DE REFERÊNCIA">TERMO DE REFERÊNCIA</option>
+		</select>
+		
+<?php		
 	}
 	
 	//esta funcao carrega o footer padrao do sistema

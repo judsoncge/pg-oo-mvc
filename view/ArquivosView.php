@@ -4,7 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
 class ArquivosView extends View{
 	
-	public function carregarLista(){ ?>
+	public function listar(){ ?>
 		
 		<div class="col-md-12 table-responsive" style="overflow: auto; width: 100%; height: 300px;">
 			<table class="table table-hover tabela-dados">
@@ -77,45 +77,23 @@ class ArquivosView extends View{
 	
 	}
 	
-	public function carregarFormulario(){ ?>
+	public function cadastrar(){ ?>
 	
-		<form method='POST' action='/arquivos/cadastrar/' enctype='multipart/form-data'>	
+		<form method='POST' action='/cadastrar/arquivo/' enctype='multipart/form-data'>	
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
 						<label class="control-label" for="exampleInputEmail1">Selecione o tipo</label>
-						<select class="form-control" id="tipo" name="tipo" required/>
-							<option value="">Selecione o tipo de arquivo</option>
-							<option value="APRESENTAÇÃO">APRESENTAÇÃO</option>
-							<option value="AQUISIÇÃO">AQUISIÇÃO</option>
-							<option value="CERTIFICADO">CERTIFICADO</option>
-							<option value="CHECKLIST">CHECKLIST</option>
-							<option value="COTAÇÃO DE PREÇO">COTAÇÃO DE PREÇO</option>
-							<option value="CERTIDÃO NEGATIVA">CERTIDÃO NEGATIVA</option>
-							<option value="DESPACHO">DESPACHO</option>
-							<option value="MEMORANDO">MEMORANDO</option>
-							<option value="OFÍCIO">OFÍCIO</option>
-							<option value="PARECER">PARECER</option>
-							<option value="PUBLICAÇÃO NO DIÁRIO">PUBLICAÇÃO NO DIÁRIO</option>
-							<option value="RELATÓRIO">RELATÓRIO</option>
-							<option value="RESPOSTA AO INTERESSADO">RESPOSTA AO INTERESSADO</option>
-							<option value="TERMO DE REFERÊNCIA">TERMO DE REFERÊNCIA</option>
-						</select>	
+						
+						<?php $this->carregarSelectTiposDocumento(); ?>
+									
 					</div>  
 				</div>
 				<div class="col-md-4">
 					<label class="control-label" for="exampleInputEmail1">Escolha o servidor para enviar</label><br>
-					<select class="form-control" id="enviar" name="enviar" required />
-						<option value="">Selecione o servidor para enviar</option>
-						
-						<?php foreach($this->listaServidores as $servidor){ ?>
-							
-								<option value="<?php echo $servidor['ID'] ?>">
-									<?php echo $servidor['DS_NOME']; ?>
-								</option>
-							
-					  <?php } ?>
-					</select>
+					
+						<?php $this->carregarSelectServidores(); ?>
+
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">

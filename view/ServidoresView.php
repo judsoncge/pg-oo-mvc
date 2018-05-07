@@ -4,7 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
 class ServidoresView extends View{
 	
-	public function carregarLista(){ ?>
+	public function listar(){ ?>
 		
 		<div class="col-md-12 table-responsive" style="overflow: auto; width: 100%; height: 300px;">
 			<table class="table table-hover tabela-dados">
@@ -67,7 +67,7 @@ class ServidoresView extends View{
 	
 	}
 	
-	public function carregarFormulario(){ 
+	public function cadastrar(){ 
 	
 		if($this->tipo=='cadastrar'){
 			
@@ -77,13 +77,19 @@ class ServidoresView extends View{
 			
 			$nomeSetor = '';
 			
+			$valueNome = '';
+			
+			$valueCPF= '';
+			
+			$valuesSET = '';
+			
 			$nomeBotao = 'Cadastrar'; 
 	
 		}elseif($this->tipo=='editar'){
 			
-			$action = "/servidores/editar/".$this->lista[0]['ID']."/".$this->lista[0]['DS_CPF']."/".$this->lista[0]['DS_FUNCAO']."/".$this->lista[0]['ID_SETOR']."";
+			$action    = "/servidores/editar/".$this->lista[0]['ID']."/".$this->lista[0]['DS_CPF']."/";
 			
-			$idSetor = $this->lista[0]['ID_SETOR'];
+			$idSetor   = $this->lista[0]['ID_SETOR'];
 			
 			$nomeSetor = $this->lista[0]['DS_ABREVIACAO'];	
 
@@ -117,7 +123,7 @@ class ServidoresView extends View{
 					<div class="form-group">
 						<label class="control-label" for="exampleInputEmail1">Função no sistema</label>
 						<select class="form-control" id="funcao" name="funcao" required />
-							<option value="">Selecione</option>
+							<option value="<?php if($this->tipo == 'editar'){ echo $this->lista[0]['DS_FUNCAO']; } ?>"><?php if($this->tipo == 'editar'){ echo $this->lista[0]['DS_FUNCAO']; } ?></option>
 							<option value="PROTOCOLO">PROTOCOLO	</option>
 							<option value="SUPERINTENDENTE">SUPERINTENDENTE</option>
 							<option value="ASSESSOR TÉCNICO">ASSESSOR TÉCNICO</option>
@@ -141,7 +147,7 @@ class ServidoresView extends View{
 <?php	
 	}
 	
-	public function carregarEditar(){ ?>
+	public function editar(){ ?>
 		
 		<form name="cadastro" method="POST" action="/controller/servidores/editar.php?operacao=info&id=<?php echo $id ?>&CPF=<?php echo $this->lista[0]['DS_CPF'] ?>&funcao=<?php echo $this->lista[0]['DS_FUNCAO'] ?>&setor=<?php echo $this->lista[0]['ID_SETOR'] ?>" enctype="multipart/form-data"> 
 			<div class="row">

@@ -19,6 +19,20 @@ class Controller{
 	protected $servidoresModel;
 	protected $servidoresView;
 	protected $setoresModel; 
+	
+	public function redirecionar($modulo, $pagina, $titulo){
+		
+		$modulo .= 'View';
+		
+		$view = new $modulo();
+		
+		$view->setPagina($pagina);
+		
+		$view->setTitulo($titulo);
+		
+		$view->carregar();
+		
+	}
 
 }
 

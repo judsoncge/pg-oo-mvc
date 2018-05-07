@@ -12,7 +12,7 @@ class ArquivosController extends Controller{
 		
 	}
 	
-	public function carregarLista($status){
+	public function listar($status){
 		
 		$this->arquivosModel->setStatus($status);
 		
@@ -27,22 +27,6 @@ class ArquivosController extends Controller{
 		$this->arquivosView->setTipo("listagem");
 		
 		$this->arquivosView->setLista($listaArquivos);
-		
-		$this->arquivosView->carregar();
-		
-	}
-	
-	public function carregarFormulario(){
-		
-		$this->servidoresModel->setStatus('ATIVO');
-		
-		$listaServidores = $this->servidoresModel->getListaServidoresStatus();
-		
-		$this->arquivosView->setTitulo('Cadastrar um Arquivo');
-		
-		$this->arquivosView->setTipo('cadastrar');
-		
-		$this->arquivosView->setListaServidores($listaServidores);
 		
 		$this->arquivosView->carregar();
 		

@@ -48,6 +48,30 @@ class Model{
 	
 	}
 	
+	public function verificaExisteRegistro($tabela, $campo, $valor){
+		
+		$this->conectar();
+		
+		$resultado = mysqli_query($this->conexao, "SELECT * FROM $tabela WHERE $campo='$valor'") or die(mysqli_error($this->conexao));
+		
+		$this->desconectar();
+		
+		return mysqli_num_rows($resultado);
+		
+	}
+	
+	public function verificaExisteRegistroId($tabela, $campo, $valor, $id){
+		
+		$this->conectar();
+		
+		$resultado = mysqli_query($this->conexao, "SELECT * FROM $tabela WHERE $campo='$valor' and ID!='$id'") or die(mysqli_error($this->conexao));
+		
+		$this->desconectar();
+		
+		return mysqli_num_rows($resultado);
+		
+	}
+	
 }
 
 ?>

@@ -51,7 +51,9 @@ class LoginController extends Controller{
 		
 		$this->homeView->setTitulo("Bem vindo(a) ao Painel de Gestão, " . $_SESSION['NOME']);
 		
-		$this->homeView->setLista($listaComunicacao);
+		$_REQUEST['LISTA_NOTICIAS'] = $listaComunicacao;
+		
+		$this->homeView->setPagina('home');
 		
 		$this->homeView->carregar();
 		

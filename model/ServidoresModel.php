@@ -33,6 +33,10 @@ class ServidoresModel extends Model{
 		$this->status = $status;
 	}
 	
+	public function setId($id){
+		$this->id = $id;
+	}
+	
 	public function getListaServidoresStatus(){
 		
 		$this->conectar();
@@ -71,7 +75,7 @@ class ServidoresModel extends Model{
 		
 		SELECT 
 		
-		s1.ID, s1.DS_CPF, s1.DS_NOME, s1.DS_FUNCAO, s2.ID ID_SETOR, s2.DS_ABREVIACAO
+		s1.ID, s1.DS_CPF, s1.DS_NOME, s1.DS_FUNCAO, s2.ID ID_SETOR, s2.DS_NOME DS_NOME_SETOR
 		
 		FROM $tabela s1
 		
@@ -97,23 +101,67 @@ class ServidoresModel extends Model{
 		
 		$this->conectar();
 		
-		$resultado = mysqli_query($this->conexao, "
+		$existe = $this->verificaExisteRegistro('tb_servidores', 'DS_CPF', $this->cpf);
 		
-		INSERT INTO tb_servidores
+		if(existe){
+			
+			return 0;
 		
-		(DS_FUNCAO, ID_SETOR, DS_NOME, DS_CPF)
+		}else{
 		
-		VALUES
+			$resultado = mysqli_query($this->conexao, "
+			
+			INSERT INTO tb_servidores
+			
+			(DS_FUNCAO, ID_SETOR, DS_NOME, DS_CPF)
+			
+			VALUES
+			
+			('".$this->funcao."','".$this->setor."','".$this->nome."','".$this->cpf."')
+			
+			") or die(mysqli_error($this->conexao));
+			
+			$cadastrou = mysqli_affected_rows($this->conexao);
+			
+			$this->desconectar();
+			
+			return $cadastrou;
+		}
 		
-		('".$this->funcao."','".$this->setor."','".$this->nome."','".$this->cpf."')
+	}
+	
+	public function editar(){
 		
-		") or die(mysqli_error($this->conexao));
+		$this->conectar();
 		
-		$cadastrou = mysqli_affected_rows($this->conexao);
+		$existe = $this->verificaExisteRegistroId('tb_servidores', 'DS_CPF', $this->cpf, $this->id);
 		
-		$this->desconectar();
+		if(existe){
+			
+			return 0;
 		
-		return $cadastrou;
+		}else{
+		
+			$resultado = mysqli_query($this->conexao, "
+			
+			UPDATE tb_servidores
+			
+			SET DS_FUNCAO = '".$this->funcao."',
+			ID_SETOR = '".$this->setor."', 
+			DS_NOME = '".$this->nome."', 
+			DS_CPF = '".$this->cpf."',
+			
+			WHERE ID='".$this->id."'
+			
+			") or die(mysqli_error($this->conexao));
+			
+			$editou = mysqli_affected_rows($this->conexao);
+			
+			$this->desconectar();
+			
+			return $editou;
+		
+		}
 		
 	}
 	

@@ -32,31 +32,38 @@ class ServidoresController extends Controller{
 	
 	public function carregarCadastrar(){
 		
-		$listaSetores = $this->setoresModel->getListaSetores();
 		
-		$this->servidoresView->setTitulo("Cadastrar um Servidor");
+		$this->servidoresView->setTitulo('Cadastrar um Servidor');
 		
-		$this->servidoresView->setTipo("cadastrar");
-		
-		$this->servidoresView->setListaSetores($listaSetores);
-		
+		$this->servidoresView->setTipo('cadastrar');
+	
 		$this->servidoresView->carregar();
 		
 	}
 	
 	public function carregarEditar($id){
 		
-		$listaSetores  = $this->setoresModel->getListaSetores();
+		$listaSetores = $this->setoresModel->getListaSetores();
 		
-		$listaDados    = $this->servidoresModel->getDadosId('tb_servidores', $id);
+		$listaDados = $this->servidoresModel->getDadosId('tb_servidores', $id);
 		
 		$this->servidoresView->setTitulo('Editar um Servidor');
 		
-		$this->servidoresView->setTipo('editar');
-		
-		$this->servidoresView->setLista($listaDados);
+		$this->servidoresView->setTipo('formulario');
 		
 		$this->servidoresView->setListaSetores($listaSetores);
+		
+		$this->servidoresView->setNome($listaDados['DS_NOME']);
+		
+		$this->servidoresView->setCPF($listaDados['DS_CPF']);
+		
+		$this->servidoresView->setIdSetor($listaDados['ID_SETOR']);
+		
+		$this->servidoresView->setNomeSetor($listaDados['DS_NOME_SETOR']);
+		
+		$this->servidoresView->setFuncao($listaDados['DS_FUNCAO']);	
+		
+		$this->servidoresView->setNomeBotao('Editar');	
 		
 		$this->servidoresView->carregar();
 		
@@ -64,11 +71,11 @@ class ServidoresController extends Controller{
 	
 	public function cadastrar(){
 		
-		$nome = $_POST['nome'];
+		$nome   = $_POST['nome'];
 		
-		$cpf = $_POST['CPF'];
+		$cpf    = $_POST['CPF'];
 		
-		$setor = $_POST['setor'];
+		$setor  = $_POST['setor'];
 		
 		$funcao = $_POST['funcao'];
 		
@@ -85,6 +92,34 @@ class ServidoresController extends Controller{
 		header("Location: /servidores/ativos/".$resultado);
 		
 	}	
+	
+	public function editar(){
+
+		$funcao      = $_POST['funcao'];
+		
+		$setor       = $_POST['setor'];
+	
+		$nome        = $_POST['nome'];
+		
+		$cpf         = $_POST['CPF'];
+		
+		$id          = $_GET['id'];
+
+		$this->servidoresModel->setNome($nome);
+		
+		$this->servidoresModel->setCPF($cpf);
+		
+		$this->servidoresModel->setSetor($setor);
+		
+		$this->servidoresModel->setFuncao($funcao);
+		
+		$this->servidoresModel->setId($id);
+		
+		$resultado = $this->servidoresModel->editar();
+
+		header("Location: /servidores/ativos/".$resultado);
+		
+	}
 	
 	public function alterarStatus($id, $status){
 		
