@@ -32,15 +32,15 @@ class ArquivosController extends Controller{
 		
 	}
 	
-	public function carregarCadastrar(){
+	public function carregarFormulario(){
 		
 		$this->servidoresModel->setStatus('ATIVO');
 		
 		$listaServidores = $this->servidoresModel->getListaServidoresStatus();
 		
-		$this->arquivosView->setTitulo("Cadastrar um Arquivo");
+		$this->arquivosView->setTitulo('Cadastrar um Arquivo');
 		
-		$this->arquivosView->setTipo("cadastrar");
+		$this->arquivosView->setTipo('cadastrar');
 		
 		$this->arquivosView->setListaServidores($listaServidores);
 		

@@ -67,35 +67,57 @@ class ServidoresView extends View{
 	
 	}
 	
-	public function carregarCadastrar(){ ?>
+	public function carregarFormulario(){ 
 	
-		<form name="cadastro" method="POST" action="/servidores/cadastrar/" enctype="multipart/form-data"> 
+		if($this->tipo=='cadastrar'){
+			
+			$action = "/servidores/cadastrar/";
+			
+			$idSetor = '';
+			
+			$nomeSetor = '';
+			
+			$nomeBotao = 'Cadastrar'; 
+	
+		}elseif($this->tipo=='editar'){
+			
+			$action = "/servidores/editar/".$this->lista[0]['ID']."/".$this->lista[0]['DS_CPF']."/".$this->lista[0]['DS_FUNCAO']."/".$this->lista[0]['ID_SETOR']."";
+			
+			$idSetor = $this->lista[0]['ID_SETOR'];
+			
+			$nomeSetor = $this->lista[0]['DS_ABREVIACAO'];	
+
+			$nomeBotao = 'Editar'; 			
+			
+		}
+	
+	?>
+	
+		<form name="cadastro" method="POST" action="<?php echo $action ?>" enctype="multipart/form-data"> 
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
 						<label class="control-label" for="exampleInputEmail1">Nome</label>
-						<input class="form-control" id="nome" name="nome" placeholder="Digite o nome (somente letras)" 
-						type="text" maxlength="255" minlength="4" pattern="[a*A*-z*Z*]*+" required/>
+						<input class="form-control" id="nome" name="nome" placeholder="Digite o nome (somente letras)"
+						type="text" maxlength="255" minlength="4" pattern="[a*A*-z*Z*]*+" value="<?php if($this->tipo == 'editar'){ echo $this->lista[0]['DS_NOME']; } ?>" required />
 					</div> 
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
 						<label class="control-label" for="exampleInputEmail1">CPF</label>
-						<input class="form-control" id="CPF" name="CPF" placeholder="Digite o CPF" type="text" required/>				  
+						<input class="form-control" id="CPF" name="CPF" placeholder="Digite o CPF" type="text" value="<?php if($this->tipo == 'editar'){ echo $this->lista[0]['DS_CPF']; } ?>" required />				  
 					</div>				
 				</div>
 			</div>
 			<div class="row"> 
 				
-				<?php $this->carregarSelectSetores() ?>
+				<?php $this->carregarSelectSetores($idSetor, $nomeSetor); ?>
 				
 				<div class="col-md-6">
 					<div class="form-group">
 						<label class="control-label" for="exampleInputEmail1">Função no sistema</label>
 						<select class="form-control" id="funcao" name="funcao" required />
-							
 							<option value="">Selecione</option>
-							
 							<option value="PROTOCOLO">PROTOCOLO	</option>
 							<option value="SUPERINTENDENTE">SUPERINTENDENTE</option>
 							<option value="ASSESSOR TÉCNICO">ASSESSOR TÉCNICO</option>
@@ -105,14 +127,13 @@ class ServidoresView extends View{
 							<option value="TI">TI</option>
 							<option value="COMUNICAÇÃO">COMUNICAÇÃO</option>
 							<option value="CHEFE DE GABINETE">CHEFE DE GABINETE</option>
-						
 						</select>
 					</div> 
 				</div>
 			</div>
 			<div class="row" id="cad-button">
 				<div class="col-md-12">
-					<button type="submit" class="btn btn-default" name="submit" value="Send" id="submit">Cadastrar</button>
+					<button type="submit" class="btn btn-default" name="submit" value="Send" id="submit"><?php echo $nomeBotao ?></button>
 				</div>
 			</div>
 		</form>
@@ -128,7 +149,7 @@ class ServidoresView extends View{
 					<div class="form-group">
 						<label class="control-label" for="exampleInputEmail1">Nome</label>
 						<input class="form-control" id="nome" name="nome" placeholder="Digite o nome (somente letras)" 
-						type="text" maxlength="255" minlength="4" pattern="[a*A*-z*Z*]*+"value="<?php echo $this->lista[0]['DS_NOME'] ?>" required />
+						type="text" maxlength="255" minlength="4" pattern="[a*A*-z*Z*]*+" value="<?php echo $this->lista[0]['DS_NOME'] ?>" required />
 					</div> 
 				</div>
 				<div class="col-md-6">
@@ -140,7 +161,13 @@ class ServidoresView extends View{
 			</div>
 			<div class="row">
 				
-				<?php $this->carregarSelectSetores(); ?>
+				<?php 
+				
+				
+				
+				$this->carregarSelectSetores(); 
+				
+				?>
 				
 				<div class="col-md-6">
 					<div class="form-group">
@@ -169,26 +196,6 @@ class ServidoresView extends View{
 				</div>
 			</div>
 		</form>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 <?php		
 	}
 

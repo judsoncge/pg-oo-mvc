@@ -50,9 +50,9 @@ class ServidoresController extends Controller{
 		
 		$listaDados    = $this->servidoresModel->getDadosId('tb_servidores', $id);
 		
-		$this->servidoresView->setTitulo("Editar um Servidor");
+		$this->servidoresView->setTitulo('Editar um Servidor');
 		
-		$this->servidoresView->setTipo("editar");
+		$this->servidoresView->setTipo('editar');
 		
 		$this->servidoresView->setLista($listaDados);
 		
@@ -64,21 +64,25 @@ class ServidoresController extends Controller{
 	
 	public function cadastrar(){
 		
-		$tipo = $_POST['tipo'];
+		$nome = $_POST['nome'];
 		
-		$servidorEnviado = $_POST['enviar'];
+		$cpf = $_POST['CPF'];
 		
-		$anexo = $_FILES['arquivo_anexo'];
+		$setor = $_POST['setor'];
 		
-		$this->servidoresModel->setTipo($tipo);
+		$funcao = $_POST['funcao'];
 		
-		$this->servidoresModel->setServidorEnviado($servidorEnviado);
+		$this->servidoresModel->setNome($nome);
 		
-		$this->servidoresModel->setAnexo($anexo);
+		$this->servidoresModel->setCPF($cpf);
+		
+		$this->servidoresModel->setSetor($setor);
+		
+		$this->servidoresModel->setFuncao($funcao);
 		
 		$resultado = $this->servidoresModel->cadastrar();
 		
-		header("Location: /arquivos/ativos/".$resultado);
+		header("Location: /servidores/ativos/".$resultado);
 		
 	}	
 	

@@ -4,15 +4,6 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
 class LoginView extends View{
 	
-	public function adicionarScripts(){ 
-	
-		parent::adicionarScripts(); ?>
-		
-			<script type='text/javascript' src='/view/libs/js/jquery.maskedinput.js'></script>
-			<script type='text/javascript' src='/view/libs/js/util.js'></script>
-		
-	<?php }
-	
 	public function carregarBody(){ ?>
 		
 		<body style='background-color:#3498db;'>

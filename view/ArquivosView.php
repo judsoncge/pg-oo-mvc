@@ -77,7 +77,7 @@ class ArquivosView extends View{
 	
 	}
 	
-	public function carregarCadastrar(){ ?>
+	public function carregarFormulario(){ ?>
 	
 		<form method='POST' action='/arquivos/cadastrar/' enctype='multipart/form-data'>	
 			<div class="row">

@@ -30,7 +30,7 @@ if(isset($_GET['acao'])){
 			
 		case 'cadastro-arquivo':
 			$controller = new ArquivosController();
-			$controller->carregarCadastrar();
+			$controller->carregarFormulario();
 			break;
 			
 		case 'cadastrar-arquivo':

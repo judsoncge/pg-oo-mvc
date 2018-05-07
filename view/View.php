@@ -101,6 +101,8 @@ class View{
 			<script type='text/javascript' src='/view/libs/js/submenu.js'></script>	
 			<script type="text/javascript" src="/view/libs/js/jquery.quicksearch.js"></script>
 			<script type="text/javascript" src="/view/libs/js/temporizadores.js"></script>
+			<script type='text/javascript' src='/view/libs/js/jquery.maskedinput.js'></script>
+			<script type='text/javascript' src='/view/libs/js/util.js'></script>
 		
 <?php
 	}
@@ -296,10 +298,10 @@ class View{
 									$this->carregarScriptFiltro();
 									break;
 								case 'cadastrar':
-									$this->carregarCadastrar();
+									$this->carregarFormulario();
 									break;
 								case 'editar':
-									$this->carregarEditar();
+									$this->carregarFormulario();
 									break;
 								case 'detalhes':
 									$this->carregarDetalhes();
@@ -357,11 +359,7 @@ class View{
 	
 	}
 	
-	public function carregarCadastrar(){
-	
-	}
-	
-	public function carregarEditar(){
+	public function carregarFormulario(){
 	
 	}
 	
@@ -373,13 +371,13 @@ class View{
 		
 	}
 	
-	public function carregarSelectSetores(){ ?>
+	public function carregarSelectSetores($id, $nome){ ?>
 	
 		<div class="col-md-6">
 			<div class="form-group">
 				<label class="control-label" for="exampleInputEmail1">Setor</label>
 				<select class="form-control" id="setor" name="setor" required/>
-					<option value="">Selecione</option>
+					<option value="<?php echo $id ?>"><?php if($nome!=''){echo $nome;}else{echo 'Selecione';} ?></option>
 					
 					<?php foreach($this->listaSetores as $setor){ ?>
 					
