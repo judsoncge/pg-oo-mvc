@@ -1,0 +1,1 @@
+COPY "FOLHA_PAGAMENTO".servidores FROM '/tmp/servidores_ativos_inativos_2015.csv' USING DELIMITERS ';';

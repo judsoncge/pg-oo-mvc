@@ -99,15 +99,15 @@ class ServidoresModel extends Model{
 	
 	public function cadastrar(){
 		
-		$this->conectar();
-		
 		$existe = $this->verificaExisteRegistro('tb_servidores', 'DS_CPF', $this->cpf);
 		
-		if(existe){
+		if($existe){
 			
 			return 0;
 		
 		}else{
+			
+			$this->conectar();
 		
 			$resultado = mysqli_query($this->conexao, "
 			
@@ -121,11 +121,11 @@ class ServidoresModel extends Model{
 			
 			") or die(mysqli_error($this->conexao));
 			
-			$cadastrou = mysqli_affected_rows($this->conexao);
+			$resultado = mysqli_affected_rows($this->conexao);
 			
 			$this->desconectar();
 			
-			return $cadastrou;
+			return $resultado;
 		}
 		
 	}

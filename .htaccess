@@ -7,9 +7,6 @@ RewriteRule ^/               	     	 	  /index.php [L]
 RewriteRule ^home               	 	 	  /index.php?acao=login [L]
 RewriteRule logoff               	 		  /index.php?acao=logoff
 
-
-
-
 RewriteRule ^arquivos/cadastrar       	 	  /index.php?acao=cadastro&modulo=Arquivos
 RewriteRule ^cadastrar/arquivo        	 	  /index.php?acao=cadastrar&modulo=Arquivos
 RewriteRule ^arquivos/ativos/([0-9])  		  /index.php?acao=lista&modulo=Arquivos&status=ATIVO&resultadoOperacao=$1
@@ -17,24 +14,21 @@ RewriteRule ^arquivos/ativos          		  /index.php?acao=lista&modulo=Arquivos&
 RewriteRule ^arquivos/inativos        	      /index.php?acao=lista&modulo=Arquivos&status=INATIVO
 RewriteRule ^editar/arquivo/(.*)/(.*)         /index.php?acao=editar&modulo=Arquivos&id=$1&status=$2
 RewriteRule ^excluir/arquivo/(.*)/(.*)   	  /index.php?acao=excluir&modulo=Arquivos&id=$1&anexo=$2
-
-
-  
-  
-  
-  
  
-RewriteRule ^servidores/cadastro /index.php?acao=cadastro-servidor
+RewriteRule ^servidores/cadastrar             /index.php?acao=cadastro&modulo=Servidores
+RewriteRule ^cadastrar/servidor               /index.php?acao=cadastrar&modulo=Servidores
+RewriteRule ^servidores/ativos/([0-9])        /index.php?acao=lista&modulo=Servidores&status=ATIVO&resultadoOperacao=$1
+RewriteRule ^servidores/ativos                /index.php?acao=lista&modulo=Servidores&status=ATIVO
+RewriteRule ^servidores/editar/([0-9]*)       /index.php?acao=edicao&modulo=Servidores&id=$1
 
-RewriteRule ^servidores/edicao/([0-9]*) /index.php?acao=edicao-servidor&id=$1
 
-RewriteRule ^servidores/ativos/([0-9]) /index.php?acao=listar-servidores&status=ATIVO&resultadoOperacao=$1
 
-RewriteRule ^servidores/ativos /index.php?acao=listar-servidores&status=ATIVO
+
+
 
 RewriteRule ^servidores/inativos /index.php?acao=listar-servidores&status=INATIVO
 
-RewriteRule ^servidores/cadastrar /index.php?acao=cadastrar-servidor
+
  
 RewriteRule ^servidores/editar/(.*)/(.*) /index.php?acao=editar-servidor&id=$1&CPF=$2
 

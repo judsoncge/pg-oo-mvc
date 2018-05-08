@@ -10,53 +10,29 @@ class ArquivosView extends View{
 			<table class="table table-hover tabela-dados">
 				<thead>
 					<tr>
-						<th><center>Tipo</center></th>
-						<th><center>Criado por</center></th>
-						<th><center>Enviado para</center></th>
-						<th><center>Data de criação</center></th>
-						<th><center>Baixar</center></th>
-						<th><center>Ação</center></th>
+						<th>Tipo</th>
+						<th>Criado por</th>
+						<th>Enviado para</th>
+						<th>Data de criação</th>
+						<th>Baixar</th>
+						<th>Ação</th>
 					</tr>	
 				</thead>
 				<tbody>
 					<?php 
 					
-						$lista = $_REQUEST['LISTA_ARQUIVOS'];
-							
-						foreach($lista as $arquivo){ 
+					$lista = $_REQUEST['LISTA_ARQUIVOS'];
+						
+					foreach($lista as $arquivo){ 
 					
 					?>
 					
 						<tr>
-							<td>
-								<center>
-									<?php echo $arquivo['DS_TIPO'] ?>
-								</center>
-							</td>
-							<td>
-								<center>
-									<?php echo $arquivo['NOME_SERVIDOR_CRIACAO'] ?>
-								</center>
-							</td>
-							<td>
-								<center>
-									<?php echo $arquivo['NOME_SERVIDOR_DESTINO'] ?>
-								</center>
-							</td>
-							<td>
-								<center>
-									<?php 
-										echo date_format(new DateTime($arquivo['DT_CRIACAO']), 'd/m/Y');
-									?>
-								</center>
-							</td>
-							<td>
-								<center>
-									<a href='<?php echo "/_registros/anexos/". $arquivo['DS_ANEXO'] ?>' title='<?php echo $arquivo['DS_ANEXO'] ?>' download>
-										<?php echo substr($arquivo['DS_ANEXO'], 0, 20) . "..." ?>
-									</a>
-								</center> 
-							</td>
+							<td><?php echo $arquivo['DS_TIPO'] ?></td>
+							<td><?php echo $arquivo['NOME_SERVIDOR_CRIACAO'] ?></td>
+							<td><?php echo $arquivo['NOME_SERVIDOR_DESTINO'] ?></td>
+							<td><?php echo date_format(new DateTime($arquivo['DT_CRIACAO']), 'd/m/Y'); ?></td>
+							<td><a href='<?php echo "/_registros/anexos/". $arquivo['DS_ANEXO'] ?>' title='<?php echo $arquivo['DS_ANEXO'] ?>' download><?php echo substr($arquivo['DS_ANEXO'], 0, 20) . "..." ?></a></td>
 							<td>
 								<?php 
 
@@ -64,13 +40,12 @@ class ArquivosView extends View{
 									
 								?> 
 								
-										<center> 
-											<a href='/editar/arquivo/<?php echo $arquivo['ID'] ?>/INATIVO'>Inativar</a> 
-											
-											ou 			
-											
-											<a href='/excluir/arquivo/<?php echo $arquivo['ID'] ?>/<?php echo $arquivo['DS_ANEXO'] ?>'>Excluir</a>
-										</center>
+									<a href='/editar/arquivo/<?php echo $arquivo['ID'] ?>/INATIVO'>Inativar</a> 
+									
+									ou 			
+									
+									<a href='/excluir/arquivo/<?php echo $arquivo['ID'] ?>/<?php echo $arquivo['DS_ANEXO'] ?>'>Excluir</a>
+										
 							  <?php 
 							  
 							        } 
@@ -78,7 +53,11 @@ class ArquivosView extends View{
 								?>
 							</td>									
 						</tr>
-			  <?php } ?>		
+				<?php 
+				
+					} 
+					
+				?>		
 				</tbody>
 			</table>
 		</div>		

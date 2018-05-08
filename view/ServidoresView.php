@@ -10,56 +10,45 @@ class ServidoresView extends View{
 			<table class="table table-hover tabela-dados">
 				<thead>
 					<tr>
-						<th><center>CPF</center></th>
-						<th><center>Nome</center></th>
-						<th><center>Setor</center></th>
-						<th><center>Função</center></th>
-						<th><center>Ação</center></th>
+						<th>CPF</th>
+						<th>Nome</th>
+						<th>Setor</th>
+						<th>Função</th>
+						<th>Ação</th>
 					</tr>	
 				</thead>
 				<tbody>
-					<?php foreach($this->lista as $servidor){ ?>
+					<?php 
 					
+						$lista = $_REQUEST['LISTA_SERVIDORES'];
+						
+						foreach($lista as $servidor){ 
+					
+					?>
 						<tr>
+							<td><?php echo $servidor['DS_CPF']; ?></td>
+							<td><?php echo $servidor['DS_NOME']; ?></td>
+							<td><?php echo $servidor['DS_ABREVIACAO']; ?></td>
+							<td><?php echo $servidor['DS_FUNCAO']; ?></td>										
 							<td>
-								<center>
-									<?php echo $servidor['DS_CPF']; ?>
-								</center>
-							</td>
-							<td>
-								<center>
-									<?php echo $servidor['DS_NOME']; ?>
-								</center>
-							</td>
-							<td>
-								<center>
-									<?php echo $servidor['DS_ABREVIACAO']; ?>
-								</center>
-							</td>
-							<td>
-								<center>
-									<?php echo $servidor['DS_FUNCAO']; ?>
-								</center>
-							</td>										
-							<td>
-								<center>
-									
-									<a href="/servidores/edicao/<?php echo $servidor['ID'] ?>">
-										<button type='button' class='btn btn-secondary btn-sm' title="Editar">
-											<i class="fa fa-pencil" aria-hidden="true"></i>
-										</button>
-									</a>
-								
-									<a href="/controller/servidores/editar.php?operacao=status&status=INATIVO&id=<?php echo $servidor['ID'] ?>">		
-										<button type='button' class='btn btn-secondary btn-sm' title="Inativar">
-											<i class="fa fa-minus-square-o" aria-hidden="true"></i>
-										</button>
-									</a>
-									
-								</center>
+								<a href="/servidores/editar/<?php echo $servidor['ID'] ?>">
+									<button type='button' class='btn btn-secondary btn-sm' title="Editar">
+										<i class="fa fa-pencil" aria-hidden="true"></i>
+									</button>
+								</a>
+							
+								<a href="/controller/servidores/editar.php?operacao=status&status=INATIVO&id=<?php echo $servidor['ID'] ?>">		
+									<button type='button' class='btn btn-secondary btn-sm' title="Inativar">
+										<i class="fa fa-minus-square-o" aria-hidden="true"></i>
+									</button>
+								</a>
 							</td>
 						</tr>
-				<?php } ?>		
+			    <?php
+
+					} 
+			  
+			    ?>		
 				</tbody>
 			</table>
 		</div>
@@ -67,51 +56,49 @@ class ServidoresView extends View{
 	
 	}
 	
-	public function cadastrar(){ 
-	
-		if($this->tipo=='cadastrar'){
-			
-			$action = "/servidores/cadastrar/";
-			
-			$idSetor = '';
-			
-			$nomeSetor = '';
-			
-			$valueNome = '';
-			
-			$valueCPF= '';
-			
-			$valuesSET = '';
-			
-			$nomeBotao = 'Cadastrar'; 
-	
-		}elseif($this->tipo=='editar'){
-			
-			$action    = "/servidores/editar/".$this->lista[0]['ID']."/".$this->lista[0]['DS_CPF']."/";
-			
-			$idSetor   = $this->lista[0]['ID_SETOR'];
-			
-			$nomeSetor = $this->lista[0]['DS_ABREVIACAO'];	
+	public function cadastrar(){
 
-			$nomeBotao = 'Editar'; 			
-			
-		}
+		$this->carregarFormulario();	
 	
-	?>
+	}
 	
+	public function editar(){
+		
+		$this->carregarFormulario();
+	
+	}
+	
+	public function carregarFormulario(){ 
+	
+		$action    = ($this->conteudo == 'cadastro') ? "/cadastrar/servidor/" : "/editar/servidor/".$_REQUEST['DADOS_SERVIDOR'][0]['ID']."/". $_REQUEST['DADOS_SERVIDOR'][0]['DS_CPF']."/";
+		
+		$valueNome = ($this->conteudo == 'cadastro') ? ''  : $_REQUEST['DADOS_SERVIDOR'][0]['DS_NOME'];
+		
+		$valueCPF  = ($this->conteudo == 'cadastro') ? ''  : $_REQUEST['DADOS_SERVIDOR'][0]['DS_CPF'];
+		
+		$idSetor   = ($this->conteudo == 'cadastro') ? ''  : $_REQUEST['DADOS_SERVIDOR'][0]['ID_SETOR'];
+		
+		$nomeSetor = ($this->conteudo == 'cadastro') ? ''  : $_REQUEST['DADOS_SERVIDOR'][0]['DS_NOME_SETOR'];
+		
+		$nomeFuncao = ($this->conteudo == 'cadastro') ? '' : $_REQUEST['DADOS_SERVIDOR'][0]['DS_FUNCAO'];
+		
+		$nomeBotao = ($this->conteudo == 'cadastro') ? 'Cadastrar' : 'Editar'; 
+	
+?>
+		
 		<form name="cadastro" method="POST" action="<?php echo $action ?>" enctype="multipart/form-data"> 
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
 						<label class="control-label" for="exampleInputEmail1">Nome</label>
 						<input class="form-control" id="nome" name="nome" placeholder="Digite o nome (somente letras)"
-						type="text" maxlength="255" minlength="4" pattern="[a*A*-z*Z*]*+" value="<?php if($this->tipo == 'editar'){ echo $this->lista[0]['DS_NOME']; } ?>" required />
+						type="text" maxlength="255" minlength="4" pattern="[a*A*-z*Z*]*+" value="<?php echo $valueNome ?>" required />
 					</div> 
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
 						<label class="control-label" for="exampleInputEmail1">CPF</label>
-						<input class="form-control" id="CPF" name="CPF" placeholder="Digite o CPF" type="text" value="<?php if($this->tipo == 'editar'){ echo $this->lista[0]['DS_CPF']; } ?>" required />				  
+						<input class="form-control" id="CPF" name="CPF" placeholder="Digite o CPF" type="text" value="<?php echo $valueCPF ?>" required />				  
 					</div>				
 				</div>
 			</div>
@@ -119,23 +106,8 @@ class ServidoresView extends View{
 				
 				<?php $this->carregarSelectSetores($idSetor, $nomeSetor); ?>
 				
-				<div class="col-md-6">
-					<div class="form-group">
-						<label class="control-label" for="exampleInputEmail1">Função no sistema</label>
-						<select class="form-control" id="funcao" name="funcao" required />
-							<option value="<?php if($this->tipo == 'editar'){ echo $this->lista[0]['DS_FUNCAO']; } ?>"><?php if($this->tipo == 'editar'){ echo $this->lista[0]['DS_FUNCAO']; } ?></option>
-							<option value="PROTOCOLO">PROTOCOLO	</option>
-							<option value="SUPERINTENDENTE">SUPERINTENDENTE</option>
-							<option value="ASSESSOR TÉCNICO">ASSESSOR TÉCNICO</option>
-							<option value="TÉCNICO ANALISTA">TÉCNICO ANALISTA</option>
-							<option value="GABINETE">GABINETE</option>
-							<option value="CONTROLADOR">CONTROLADOR</option>
-							<option value="TI">TI</option>
-							<option value="COMUNICAÇÃO">COMUNICAÇÃO</option>
-							<option value="CHEFE DE GABINETE">CHEFE DE GABINETE</option>
-						</select>
-					</div> 
-				</div>
+				<?php $this->carregarSelectFuncoes($nomeFuncao); ?>
+				
 			</div>
 			<div class="row" id="cad-button">
 				<div class="col-md-12">
@@ -143,66 +115,9 @@ class ServidoresView extends View{
 				</div>
 			</div>
 		</form>
-
-<?php	
-	}
-	
-	public function editar(){ ?>
 		
-		<form name="cadastro" method="POST" action="/controller/servidores/editar.php?operacao=info&id=<?php echo $id ?>&CPF=<?php echo $this->lista[0]['DS_CPF'] ?>&funcao=<?php echo $this->lista[0]['DS_FUNCAO'] ?>&setor=<?php echo $this->lista[0]['ID_SETOR'] ?>" enctype="multipart/form-data"> 
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label class="control-label" for="exampleInputEmail1">Nome</label>
-						<input class="form-control" id="nome" name="nome" placeholder="Digite o nome (somente letras)" 
-						type="text" maxlength="255" minlength="4" pattern="[a*A*-z*Z*]*+" value="<?php echo $this->lista[0]['DS_NOME'] ?>" required />
-					</div> 
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label class="control-label" for="exampleInputEmail1">CPF</label>
-						<input class="form-control" id="CPF" name="CPF" placeholder="Digite o CPF" type="text" value="<?php echo $this->lista[0]['DS_CPF'] ?>" required />				  
-					</div>				
-				</div>
-			</div>
-			<div class="row">
-				
-				<?php 
-				
-				
-				
-				$this->carregarSelectSetores(); 
-				
-				?>
-				
-				<div class="col-md-6">
-					<div class="form-group">
-						<label class="control-label" for="exampleInputEmail1">Função no sistema</label>
-						<select class="form-control" id="funcao" name="funcao" required />
-							
-							<option value="<?php echo $this->lista[0]['DS_FUNCAO'] ?>"><?php echo $this->lista[0]['DS_FUNCAO'] ?></option>
-							
-							<option value="PROTOCOLO">PROTOCOLO	</option>
-							<option value="SUPERINTENDENTE">SUPERINTENDENTE</option>
-							<option value="ASSESSOR TÉCNICO">ASSESSOR TÉCNICO</option>
-							<option value="TÉCNICO ANALISTA">TÉCNICO ANALISTA</option>
-							<option value="GABINETE">GABINETE</option>
-							<option value="CONTROLADOR">CONTROLADOR</option>
-							<option value="TI">TI</option>
-							<option value="COMUNICAÇÃO">COMUNICAÇÃO</option>
-							<option value="CHEFE DE GABINETE">CHEFE DE GABINETE</option>
-						
-						</select>
-					</div> 
-				</div>
-			</div>
-			<div class="row" id="cad-button">
-				<div class="col-md-12">
-					<button type="submit" class="btn btn-default" name="submit" value="Send" id="submit">Editar</button>
-				</div>
-			</div>
-		</form>
 <?php		
+		
 	}
 
 }

@@ -155,7 +155,7 @@ class View{
 							<a href='#'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Servidores</a>
 						</li>	
 							<li class='servidores-subitem'>
-								<a href='/servidores/cadastro/'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Cadastrar</a>
+								<a href='/servidores/cadastrar/'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Cadastrar</a>
 							</li>
 							<li class='servidores-subitem'>
 								<a href='/servidores/ativos/'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Ativos</a>
@@ -275,7 +275,9 @@ class View{
 	
 	public function carregarSelectServidores(){
 	
-		$lista = $_REQUEST['LISTA_SERVIDORES']; ?>
+		$lista = $_REQUEST['LISTA_SERVIDORES']; 
+		
+?>
 	
 		<select class="form-control" id="servidor" name="servidor" required >
 			<option value="">Selecione o servidor para enviar</option>
@@ -294,29 +296,30 @@ class View{
 <?php	
 	}
 	
-	public function carregarSelectSetores($id, $nome){ ?>
+	public function carregarSelectSetores($id, $nome){ 
+	
+		$lista = $_REQUEST['LISTA_SETORES'];
+?>
 	
 		<div class="col-md-6">
 			<div class="form-group">
 				<label class="control-label" for="exampleInputEmail1">Setor</label>
-				<select class="form-control" id="setor" name="setor" required/>
-					
-					<option value="<?php echo $id ?>"><?php if($nome!=''){echo $nome;}else{echo 'Selecione';} ?></option>
-					
-					<?php foreach($this->listaSetores as $setor){ ?>
-					
-						<option value="<?php echo $setor['ID'] ?>">
-						
-						<?php echo $setor['DS_NOME']; ?>
-						
-						</option>
-						
+				<select class="form-control" id="setor" name="setor" required />
+					<option value="<?php echo $id ?>">
+						<?php 
+							if($nome!=''){
+								echo $nome;
+							}else{
+								echo 'Selecione';
+							} 
+						?>
+					</option>
+					<?php foreach($lista as $setor){ ?>
+						<option value="<?php echo $setor['ID'] ?>"><?php echo $setor['DS_NOME']; ?></option>
 					<?php } ?>
-				
 				</select>
 			</div> 
 		</div>
-	
 		
 <?php 
 	}
@@ -341,7 +344,40 @@ class View{
 			<option value="TERMO DE REFERÊNCIA">TERMO DE REFERÊNCIA</option>
 		</select>
 		
-<?php		
+<?php
+		
+	}
+	
+	public function carregarSelectFuncoes($nomeFuncao){ 
+
+?>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label class="control-label" for="exampleInputEmail1">Função no sistema</label>
+				<select class="form-control" id="funcao" name="funcao" required />
+					<option value="<?php echo $nomeFuncao ?>">
+						<?php 
+							if($nomeFuncao!=''){
+								echo $nomeFuncao;
+							}else{
+								echo 'Selecione';
+							} 
+						?>
+					</option>
+					<option value="PROTOCOLO">PROTOCOLO	</option>
+					<option value="SUPERINTENDENTE">SUPERINTENDENTE</option>
+					<option value="ASSESSOR TÉCNICO">ASSESSOR TÉCNICO</option>
+					<option value="TÉCNICO ANALISTA">TÉCNICO ANALISTA</option>
+					<option value="GABINETE">GABINETE</option>
+					<option value="CONTROLADOR">CONTROLADOR</option>
+					<option value="TI">TI</option>
+					<option value="COMUNICAÇÃO">COMUNICAÇÃO</option>
+					<option value="CHEFE DE GABINETE">CHEFE DE GABINETE</option>
+				</select>
+			</div> 
+		</div>
+<?php
+
 	}
 	
 	public function listar(){

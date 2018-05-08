@@ -50,7 +50,7 @@ if(isset($_GET['acao'])){
 			
 		case 'edicao':
 
-			$controller->listar($_GET['status']);
+			$controller->carregarEdicao($_GET['id']);
 			
 			break;
 		

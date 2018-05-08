@@ -4,7 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/model/Model.php';
 
 class SetoresModel extends Model{
 	
-	public function getListaSetores(){
+	public function getIDNomeSetores(){
 		
 		$this->conectar();
 		

@@ -12,58 +12,51 @@ class ServidoresController extends Controller{
 		
 	}
 	
-	public function carregarLista($status){
+	public function carregarCadastro(){
+		
+		$listaSetores = $this->setoresModel->getIDNomeSetores();
+		
+		$_REQUEST['LISTA_SETORES'] = $listaSetores;
+	
+		$this->servidoresView->setTitulo('SERVIDORES > CADASTRAR');
+		
+		$this->servidoresView->setConteudo('cadastro');
+	
+		$this->servidoresView->carregar();
+		
+	}
+	
+	public function listar($status){
 		
 		$this->servidoresModel->setStatus($status);
 		
 		$listaServidores = $this->servidoresModel->getListaServidoresStatus();
 		
-		$titulo = ($status=='ATIVO') ? "Servidores Ativos" : "Servidores Inativos";
+		$titulo = ($status=='ATIVO') ? 'SERVIDORES > ATIVOS' : 'SERVIDORES > INATIVOS';
 		
 		$this->servidoresView->setTitulo($titulo);
 		
-		$this->servidoresView->setTipo("listagem");
+		$this->servidoresView->setConteudo('lista');
 		
-		$this->servidoresView->setLista($listaServidores);
+		$_REQUEST['LISTA_SERVIDORES'] = $listaServidores;
 		
 		$this->servidoresView->carregar();
 		
 	}
 	
-	public function carregarCadastrar(){
+	public function carregarEdicao($id){
 		
-		
-		$this->servidoresView->setTitulo('Cadastrar um Servidor');
-		
-		$this->servidoresView->setTipo('cadastrar');
-	
-		$this->servidoresView->carregar();
-		
-	}
-	
-	public function carregarEditar($id){
-		
-		$listaSetores = $this->setoresModel->getListaSetores();
+		$listaSetores = $this->setoresModel->getIDNomeSetores();
 		
 		$listaDados = $this->servidoresModel->getDadosId('tb_servidores', $id);
 		
-		$this->servidoresView->setTitulo('Editar um Servidor');
+		$this->servidoresView->setTitulo("SERVIDORES > ".strtoupper($listaDados[0]['DS_NOME'])."> EDITAR");
 		
-		$this->servidoresView->setTipo('formulario');
+		$this->servidoresView->setConteudo('edicao');
 		
-		$this->servidoresView->setListaSetores($listaSetores);
+		$_REQUEST['LISTA_SETORES']  = $listaSetores;
 		
-		$this->servidoresView->setNome($listaDados['DS_NOME']);
-		
-		$this->servidoresView->setCPF($listaDados['DS_CPF']);
-		
-		$this->servidoresView->setIdSetor($listaDados['ID_SETOR']);
-		
-		$this->servidoresView->setNomeSetor($listaDados['DS_NOME_SETOR']);
-		
-		$this->servidoresView->setFuncao($listaDados['DS_FUNCAO']);	
-		
-		$this->servidoresView->setNomeBotao('Editar');	
+		$_REQUEST['DADOS_SERVIDOR'] = $listaDados;
 		
 		$this->servidoresView->carregar();
 		
