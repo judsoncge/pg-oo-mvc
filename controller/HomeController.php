@@ -11,15 +11,15 @@ class HomeController extends Controller{
 		
 	}
 
-	public function carregarHome(){
+	public function listar(){
 		
 		$listaComunicacao = $this->comunicacaoModel->getCincoNoticiasMaisAtuais();
 		
-		//$this->homeView = new LoginView();
+		$this->homeView->setConteudo('home');
 		
 		$this->homeView->setTitulo("Bem vindo(a) ao Painel de Gestão, " . $_SESSION['NOME']);
 		
-		$this->homeView->setLista($listaComunicacao);
+		$_REQUEST['LISTA_NOTICIAS'] = $listaComunicacao;
 		
 		$this->homeView->carregar();
 		

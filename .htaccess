@@ -3,28 +3,20 @@ RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-RewriteRule ^/               	                  /index.php [L]
-
-RewriteRule ^home               	              /index.php?acao=login [L]
-
-RewriteRule logoff               	              /index.php?acao=logoff
+RewriteRule ^/               	     	 	  /index.php [L]
+RewriteRule ^home               	 	 	  /index.php?acao=login [L]
+RewriteRule logoff               	 		  /index.php?acao=logoff
 
 
 
 
-RewriteRule ^arquivos/cadastrar /index.php?acao=redirecionar&modulo=Arquivos&pagina=cadastro&titulo=Arquivos>Cadastrar
-
-RewriteRule ^arquivos/ativos/([0-9]) /index.php?acao=redirecionar&modulo=Arquivos&pagina=lista&titulo=Arquivos>Ativos&status=ATIVO&resultadoOperacao=$1
-
-RewriteRule ^arquivos/ativos /index.php?acao=redirecionar&modulo=Arquivos&pagina=lista&titulo=Arquivos>Ativos&status=ATIVO
-
-RewriteRule ^arquivos/inativos /index.php?acao=redirecionar&modulo=Arquivos&pagina=lista&titulo=Arquivos>Inativos&status=INATIVO
-
-RewriteRule ^cadastrar/arquivo /index.php?acao=cadastrar&modulo=Arquivos
-
-RewriteRule ^arquivos/alterar-status/(.*)/(.*) /index.php?acao=alterar-status-arquivo&id=$1&status=$2
-
-RewriteRule ^arquivos/excluir/(.*)/(.*) /index.php?acao=excluir-arquivo&id=$1&anexo=$2
+RewriteRule ^arquivos/cadastrar       	 	  /index.php?acao=cadastro&modulo=Arquivos
+RewriteRule ^cadastrar/arquivo        	 	  /index.php?acao=cadastrar&modulo=Arquivos
+RewriteRule ^arquivos/ativos/([0-9])  		  /index.php?acao=lista&modulo=Arquivos&status=ATIVO&resultadoOperacao=$1
+RewriteRule ^arquivos/ativos          		  /index.php?acao=lista&modulo=Arquivos&status=ATIVO
+RewriteRule ^arquivos/inativos        	      /index.php?acao=lista&modulo=Arquivos&status=INATIVO
+RewriteRule ^editar/arquivo/(.*)/(.*)         /index.php?acao=editar&modulo=Arquivos&id=$1&status=$2
+RewriteRule ^excluir/arquivo/(.*)/(.*)   	  /index.php?acao=excluir&modulo=Arquivos&id=$1&anexo=$2
 
 
   

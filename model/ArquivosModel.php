@@ -29,7 +29,7 @@ class ArquivosModel extends Model{
 		return $this->servidorCriacao;
 	}
 	
-	public function getServidorEnviado(){
+	public function getServidorDestino(){
 		return $this->servidorDestino;
 	}
 	
@@ -57,7 +57,7 @@ class ArquivosModel extends Model{
 		$this->servidorCriacao = $servidorCriacao;
 	}
 	
-	public function setServidorEnviado($servidorDestino){
+	public function setServidorDestino($servidorDestino){
 		$this->servidorDestino = $servidorDestino;
 	}
 	
@@ -137,23 +137,41 @@ class ArquivosModel extends Model{
 		
 	}
 	
-	public function alterarStatus(){
+	public function editar(){
 		
 		$this->conectar();
 		
-		$resultado = mysqli_query($this->conexao, 
+		$query = "UPDATE tb_arquivos SET ";
 		
-		"UPDATE tb_arquivos 
-		SET DS_STATUS='$this->status'
-		WHERE ID='$this->id'
+		$query .= ($this->tipo != NULL) ? "DS_TIPO = ".$this->tipo.", " : "";  
 		
-		") or die(mysqli_error($this->conexao));
+		$query .= ($this->servidorDestino != NULL) ? "ID_SERVIDOR_DESTINO = ".$this->servidorDestino.", " : "";  
 		
-		$inativou = mysqli_affected_rows($this->conexao);
+		if($this->anexo != NULL){
+			
+			$nomeAnexo = registrarAnexo($this->anexo, $_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/');
+			
+			$anexoAntigo = $this->getNomeAnexo();
+			
+			$query .= "DS_ANEXO = ".$nomeAnexo.", ";
+			
+		}
+		
+		$query .= ($this->status != NULL) ? "DS_STATUS = '".$this->status."' " : ""; 
+
+		$query .= " WHERE ID='".$this->id."'";
+		
+		mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
+		
+		$resultado = mysqli_affected_rows($this->conexao);
 		
 		$this->desconectar();
 		
-		return $inativou;
+		if(isset($anexoAntigo)){
+			unlink($_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/'.$anexoAntigo);
+		}
+		
+		return $resultado;
 
 	}
 	
@@ -164,19 +182,29 @@ class ArquivosModel extends Model{
 		$resultado = mysqli_query($this->conexao, 
 		
 		"DELETE FROM tb_arquivos 
-		WHERE ID='$this->id'
+		WHERE ID=".$this->id."
 		
 		") or die(mysqli_error($this->conexao));
 		
-		$excluiu = mysqli_affected_rows($this->conexao);
+		$resultado = mysqli_affected_rows($this->conexao);
 		
 		$this->desconectar();
 		
-		if($excluiu){
-			unlink($_SERVER['DOCUMENT_ROOT']."/_registros/anexos/$this->anexo");
+		if($resultado){
+			unlink($_SERVER['DOCUMENT_ROOT']."/_registros/anexos/".$this->anexo);
 		}
 		
-		return $excluiu;
+		return $resultado;
+
+	}
+	
+	public function getNomeAnexo(){
+		
+		$resultado = mysqli_query($this->conexao, "SELECT DS_ANEXO FROM tb_arquivos WHERE ID = ".$this->id."");
+		
+		$nomeAnexo = mysqli_fetch_row($resultado);
+		
+		return $nomeAnexo[0];
 
 	}
 

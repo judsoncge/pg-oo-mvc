@@ -4,12 +4,7 @@
 class View{
 	
 	protected $titulo;
-	protected $pagina;
-	protected $lista;
-	protected $mensagem;
-	protected $resultadoOperacao;
-	protected $listaSetores;
-	protected $listaServidores;
+	protected $conteudo;
 	
 	public function setTitulo($titulo){
 		
@@ -17,44 +12,12 @@ class View{
 	
 	}
 	
-	public function setPagina($pagina){
+	public function setConteudo($conteudo){
 		
-		$this->pagina = $pagina; 
+		$this->conteudo = $conteudo; 
 	
 	}
 	
-	
-	public function setLista($lista){
-		
-		$this->lista = $lista; 
-	
-	}
-	
-	public function setMensagem($mensagem){
-		
-		$this->mensagem = $mensagem; 
-		
-	}
-	
-	public function setResultadoOperacao($resultadoOperacao){
-		
-		$this->resultadoOperacao = $resultadoOperacao; 
-		
-	}
-	
-	public function setListaSetores($listaSetores){
-		
-		$this->listaSetores = $listaSetores;
-
-	}
-	
-	public function setListaServidores($listaServidores){
-		
-		$this->listaServidores = $listaServidores;
-
-	}
-	
-	//esta funcao carrega a pagina de home, pegando o head, body e footer da classe mae e carrega o seu conteudo
 	public function carregar(){
 		
 		$this->carregarHead();
@@ -63,7 +26,6 @@ class View{
 	
 	}
 	
-	//esta funcao carrega o head padrao do sistema
 	public function carregarHead(){ ?>
 	
 		<html>
@@ -104,7 +66,6 @@ class View{
 		
 	}
 	
-	//esta funcao carrega o body padrao do sistema
 	public function carregarBody(){ ?>
 		
 		<body>
@@ -228,23 +189,32 @@ class View{
 							<div class="container">
 								<?php 
 								
-								switch($this->pagina){
+								switch($this->conteudo){
 									
 									case 'home':
-										$this->carregarHome();
+									
+										$this->listar();
 										break;
+									
 									case 'lista':
+										
 										$this->carregarFiltro();
 										$this->listar();
 										$this->carregarScriptFiltro();
 										break;
+										
 									case 'cadastro':
+									
 										$this->cadastrar();
 										break;
+										
 									case 'edicao':
+									
 										$this->editar();
 										break;
+										
 									case 'detalhes':
+									
 										$this->detalhar();
 										break;
 								}
@@ -303,25 +273,9 @@ class View{
 <?php		
 	}
 	
-	public function listar(){
-	
-	}
-	
-	public function cadastrar(){
-	
-	}
-	
-	public function editar(){
-	
-	}
-	
-	public function detalhar(){
-	
-	}
-	
 	public function carregarSelectServidores(){
 	
-		$lista = $_REQUEST['servidores']; ?>
+		$lista = $_REQUEST['LISTA_SERVIDORES']; ?>
 	
 		<select class="form-control" id="servidor" name="servidor" required >
 			<option value="">Selecione o servidor para enviar</option>
@@ -390,6 +344,22 @@ class View{
 <?php		
 	}
 	
+	public function listar(){
+	
+	}
+	
+	public function cadastrar(){
+	
+	}
+	
+	public function editar(){
+	
+	}
+	
+	public function detalhar(){
+	
+	}
+
 	//esta funcao carrega o footer padrao do sistema
 	public function carregarFooter(){ ?>
 

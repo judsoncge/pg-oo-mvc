@@ -20,18 +20,26 @@ class Controller{
 	protected $servidoresView;
 	protected $setoresModel; 
 	
-	public function redirecionar($modulo, $pagina, $titulo){
+	public function editarStatus($tabela, $status, $id){
 		
-		$modulo .= 'View';
+		$this->conectar();
 		
-		$view = new $modulo();
+		$resultado = mysqli_query($this->conexao, 
 		
-		$view->setPagina($pagina);
+		"UPDATE ".$tabela."
 		
-		$view->setTitulo($titulo);
+		SET DS_STATUS='".$status."'
 		
-		$view->carregar();
+		WHERE ID='".$id."'
 		
+		") or die(mysqli_error($this->conexao));
+		
+		$resultado = mysqli_affected_rows($this->conexao);
+		
+		$this->desconectar();
+		
+		return $resultado;
+
 	}
 
 }

@@ -1,11 +1,9 @@
 <?php 
 
-//incluindo os controllers e o view de login
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/LoginController.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/ArquivosController.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/ServidoresController.php';
 
-//iniciando a sessao para usar variavel de sessao
 session_start();
 
 if(isset($_GET['acao'])){
@@ -19,46 +17,74 @@ if(isset($_GET['acao'])){
 		$controller = new $classe();
 		
 	}
-		
-	//verifica a acao passada para chamar o controller apropriado
+	
 	switch($_GET['acao']){
-		
-		case 'redirecionar':
-			$controller = new Controller();
-			$controller->redirecionar($_GET['modulo'], $_GET['pagina'], $_GET['titulo']);
-			break;
 			
-		
 		case 'login':
+			
 			$controller = new LoginController();
+			
 			$controller->login();
+			
 			break;	
 			
 		case 'logoff':
+			
 			$controller = new LoginController();
+			
 			$controller->logoff();
+			
 			break;	
 		
-		case 'listar':
+		case 'lista':
 
 			$controller->listar($_GET['status']);
 			
 			break;
+			
+		case 'cadastro':
+
+			$controller->carregarCadastro();
+			
+			break;
+			
+		case 'edicao':
+
+			$controller->listar($_GET['status']);
+			
+			break;
+		
+		case 'detalhes':
+			
+			$controller->detalhar();
+			
+			break;
+			
 			
 		case 'cadastrar':
 			
 			$controller->cadastrar();
 			
 			break;
+			
+		case 'editar':
+			
+			$controller->editar();
+			
+			break;
+			
+		case 'excluir':
+			
+			$controller->excluir();
+			
+			break;
 	}
 		
-}
 
-//se nao, e pq ninguem fez login ainda. entao mostra a pagina de login
-else{
+}else{
 	
 	$view = new loginView();
-	$view->setTitulo("Painel de Gestão");
+	
 	$view->carregar(); 
 	
 }

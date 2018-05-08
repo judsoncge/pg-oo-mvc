@@ -12,6 +12,21 @@ class ArquivosController extends Controller{
 		
 	}
 	
+	public function carregarCadastro(){
+		
+		$this->servidoresModel->setStatus('ATIVO');
+		
+		$listaServidores = $this->servidoresModel->getListaServidoresStatus();
+		
+		$_REQUEST['LISTA_SERVIDORES'] = $listaServidores;
+		
+		$this->arquivosView->setTitulo('ARQUIVOS > CADASTRAR');
+		
+		$this->arquivosView->setConteudo('cadastro');
+		
+		$this->arquivosView->carregar();
+	}
+	
 	public function listar($status){
 		
 		$this->arquivosModel->setStatus($status);
@@ -20,13 +35,13 @@ class ArquivosController extends Controller{
 		
 		$listaArquivos = $this->arquivosModel->getListaArquivosStatus();
 		
-		$titulo = ($status=='ATIVO') ? "Meus Arquivos Ativos" : "Meus Arquivos Inativos";
+		$titulo = ($status=='ATIVO') ? 'Meus Arquivos Ativos' : 'Meus Arquivos Inativos';
 		
 		$this->arquivosView->setTitulo($titulo);
 		
-		$this->arquivosView->setTipo("listagem");
+		$this->arquivosView->setConteudo('lista');
 		
-		$this->arquivosView->setLista($listaArquivos);
+		$_REQUEST['LISTA_ARQUIVOS'] = $listaArquivos;
 		
 		$this->arquivosView->carregar();
 		
@@ -36,13 +51,13 @@ class ArquivosController extends Controller{
 		
 		$tipo = $_POST['tipo'];
 		
-		$servidorEnviado = $_POST['enviar'];
+		$servidorDestino = $_POST['servidor'];
 		
 		$anexo = $_FILES['arquivo_anexo'];
 		
 		$this->arquivosModel->setTipo($tipo);
 		
-		$this->arquivosModel->setServidorEnviado($servidorEnviado);
+		$this->arquivosModel->setServidorDestino($servidorDestino);
 		
 		$this->arquivosModel->setAnexo($anexo);
 		
@@ -52,23 +67,38 @@ class ArquivosController extends Controller{
 		
 	}	
 	
-	public function alterarStatus($id, $status){
+	public function editar(){
 		
-		$this->arquivosModel->setID($id);
+		$tipo =            (isset($_POST['tipo']))           ? $_POST['tipo']           : NULL;
+		
+		$servidorDestino = (isset($_POST['servidor']))       ? $_POST['servidor']       : NULL;
+		
+		$anexo =           (isset($_FILES['arquivo_anexo'])) ? $_FILES['arquivo_anexo'] : NULL;
+		
+		$status =          (isset($_GET['status']))          ? $_GET['status']          : NULL;
+		
+		$id =              (isset($_GET['id']))              ? $_GET['id']              : NULL;
+		
+		$this->arquivosModel->setTipo($tipo);
+		
+		$this->arquivosModel->setServidorDestino($servidorDestino);
+		
+		$this->arquivosModel->setAnexo($anexo);
 		
 		$this->arquivosModel->setStatus($status);
 		
-		$resultado = $this->arquivosModel->alterarStatus();
-		
-		header("Location: /arquivos/ativos/".$resultado);
-		
-	}
-	
-	public function excluir($id, $anexo){
-		
 		$this->arquivosModel->setID($id);
 		
-		$this->arquivosModel->setAnexo($anexo);
+		$resultado = $this->arquivosModel->editar();
+		
+		header("Location: /arquivos/ativos/".$resultado);
+	}
+	
+	public function excluir(){
+		
+		$this->arquivosModel->setID($_GET['id']);
+		
+		$this->arquivosModel->setAnexo($_GET['anexo']);
 		
 		$resultado = $this->arquivosModel->excluir();
 		

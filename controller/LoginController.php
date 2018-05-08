@@ -1,14 +1,14 @@
 <?php 
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/Controller.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/controller/HomeController.php';
 
 class LoginController extends Controller{
 	
 	function __construct(){
 		
-		$this->loginModel       = new LoginModel();
-		$this->homeView         = new HomeView();
-		$this->comunicacaoModel = new ComunicacaoModel();
+		$this->loginModel = new LoginModel();
+		$this->homeController = new HomeController();
 		
 	}
 
@@ -16,7 +16,7 @@ class LoginController extends Controller{
 		
 		if(isset($_SESSION['ID'])){
 			
-			$this->carregarHome();
+			$this->homeController->listar();
 			exit();
 			
 		}
@@ -35,27 +35,13 @@ class LoginController extends Controller{
 			$_SESSION['NOME']   =  $dadosUsuario['DS_NOME'];
 			$_SESSION['FOTO']   =  $dadosUsuario['DS_FOTO'];
 		
-			$this->carregarHome();
+			$this->homeController->listar();
 		
 		}else{
 			
 			header("Location: /index.php");
 			
 		}
-		
-	}
-	
-	public function carregarHome(){
-		
-		$listaComunicacao = $this->comunicacaoModel->getCincoNoticiasMaisAtuais();
-		
-		$this->homeView->setTitulo("Bem vindo(a) ao Painel de Gestão, " . $_SESSION['NOME']);
-		
-		$_REQUEST['LISTA_NOTICIAS'] = $listaComunicacao;
-		
-		$this->homeView->setPagina('home');
-		
-		$this->homeView->carregar();
 		
 	}
 	

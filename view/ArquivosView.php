@@ -19,7 +19,13 @@ class ArquivosView extends View{
 					</tr>	
 				</thead>
 				<tbody>
-					<?php foreach($this->lista as $arquivo){ ?>
+					<?php 
+					
+						$lista = $_REQUEST['LISTA_ARQUIVOS'];
+							
+						foreach($lista as $arquivo){ 
+					
+					?>
 					
 						<tr>
 							<td>
@@ -53,20 +59,23 @@ class ArquivosView extends View{
 							</td>
 							<td>
 								<?php 
-									//so quem pode editar ou excluir é quem criou o arquivo e quando ele estiver ativo
-									if($_SESSION['ID'] == $arquivo['ID_SERVIDOR_CRIACAO'] && $arquivo['DS_STATUS']=='ATIVO'){ ?> 
+
+									if($_SESSION['ID'] == $arquivo['ID_SERVIDOR_CRIACAO'] && $arquivo['DS_STATUS']=='ATIVO'){ 
+									
+								?> 
+								
 										<center> 
-											<a href='/arquivos/alterar-status/<?php echo $arquivo['ID'] ?>/INATIVO'>
-												Inativar
-											</a> 
+											<a href='/editar/arquivo/<?php echo $arquivo['ID'] ?>/INATIVO'>Inativar</a> 
 											
 											ou 			
 											
-											<a href='/arquivos/excluir/<?php echo $arquivo['ID'] ?>/<?php echo $arquivo['DS_ANEXO'] ?>'>
-												Excluir
-											</a>
+											<a href='/excluir/arquivo/<?php echo $arquivo['ID'] ?>/<?php echo $arquivo['DS_ANEXO'] ?>'>Excluir</a>
 										</center>
-							  <?php } ?>
+							  <?php 
+							  
+							        } 
+									
+								?>
 							</td>									
 						</tr>
 			  <?php } ?>		
