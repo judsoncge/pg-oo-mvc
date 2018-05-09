@@ -67,7 +67,7 @@ class ServidoresModel extends Model{
 	
 	}
 	
-	public function getDadosId($tabela, $id){
+	public function getDadosId(){
 		
 		$this->conectar();
 		
@@ -75,21 +75,17 @@ class ServidoresModel extends Model{
 		
 		SELECT 
 		
-		s1.ID, s1.DS_CPF, s1.DS_NOME, s1.DS_FUNCAO, s2.ID ID_SETOR, s2.DS_NOME DS_NOME_SETOR
+		s1.ID, s1.DS_CPF, s1.DS_NOME, s1.DS_FUNCAO, s2.ID ID_SETOR, s2.DS_NOME NOME_SETOR
 		
-		FROM $tabela s1
+		FROM tb_servidores s1
 		
 		INNER JOIN tb_setores s2 ON s1.ID_SETOR = s2.ID 
 
-		WHERE s1.ID='$id'
+		WHERE s1.ID=".$this->id."
 		
 		") or die(mysqli_error($this->conexao));
 		
-		$listaDados = array();
-		
-		While($row = mysqli_fetch_array($resultado)){ 
-			array_push($listaDados, $row); 
-		} 
+		$listaDados = mysqli_fetch_array($resultado);
 		
 		$this->desconectar();
 		
@@ -102,6 +98,8 @@ class ServidoresModel extends Model{
 		$existe = $this->verificaExisteRegistro('tb_servidores', 'DS_CPF', $this->cpf);
 		
 		if($existe){
+			
+			$this->setMensagemResposta('Já existe um(a) servidor(a) com este CPF. Por favor, tente outro.');
 			
 			return 0;
 		
@@ -121,9 +119,15 @@ class ServidoresModel extends Model{
 			
 			") or die(mysqli_error($this->conexao));
 			
-			$resultado = mysqli_affected_rows($this->conexao);
+			$resultado = array();
+			
+			$resultado[0] = mysqli_affected_rows($this->conexao);
 			
 			$this->desconectar();
+			
+			$resultado[1] = ($resultado[0]) 
+				? $this->nome.' foi cadastrado(a) com sucesso!' 
+				: 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
 			
 			return $resultado;
 		}
@@ -132,34 +136,42 @@ class ServidoresModel extends Model{
 	
 	public function editar(){
 		
-		$this->conectar();
-		
 		$existe = $this->verificaExisteRegistroId('tb_servidores', 'DS_CPF', $this->cpf, $this->id);
 		
-		if(existe){
+		if($existe){
+			
+			$this->setMensagem('Já existe um(a) servidor(a) com este CPF. Por favor, tente outro.');
 			
 			return 0;
 		
 		}else{
+			
+			$this->conectar();
 		
 			$resultado = mysqli_query($this->conexao, "
 			
 			UPDATE tb_servidores
 			
 			SET DS_FUNCAO = '".$this->funcao."',
-			ID_SETOR = '".$this->setor."', 
+			ID_SETOR = ".$this->setor.", 
 			DS_NOME = '".$this->nome."', 
-			DS_CPF = '".$this->cpf."',
+			DS_CPF = '".$this->cpf."'
 			
-			WHERE ID='".$this->id."'
+			WHERE ID=".$this->id."
 			
 			") or die(mysqli_error($this->conexao));
 			
-			$editou = mysqli_affected_rows($this->conexao);
+			$resultado = array();
+			
+			$resultado[0] = mysqli_affected_rows($this->conexao);
 			
 			$this->desconectar();
 			
-			return $editou;
+			$resultado[1] = ($resultado[0]) 
+				? $this->nome.' foi editado(a) com sucesso!' 
+				: 'Nenhuma informação foi modificada';
+			
+			return $resultado;
 		
 		}
 		

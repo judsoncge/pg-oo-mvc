@@ -3,23 +3,23 @@ RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-RewriteRule ^/               	     	 	  /index.php [L]
-RewriteRule ^home               	 	 	  /index.php?acao=login [L]
-RewriteRule logoff               	 		  /index.php?acao=logoff
+RewriteRule ^/               	     	 	      /index.php [L]
+RewriteRule ^home               	 	 	      /index.php?acao=login [L]
+RewriteRule logoff               	 		      /index.php?acao=logoff
 
-RewriteRule ^arquivos/cadastrar       	 	  /index.php?acao=cadastro&modulo=Arquivos
-RewriteRule ^cadastrar/arquivo        	 	  /index.php?acao=cadastrar&modulo=Arquivos
-RewriteRule ^arquivos/ativos/([0-9])  		  /index.php?acao=lista&modulo=Arquivos&status=ATIVO&resultadoOperacao=$1
-RewriteRule ^arquivos/ativos          		  /index.php?acao=lista&modulo=Arquivos&status=ATIVO
-RewriteRule ^arquivos/inativos        	      /index.php?acao=lista&modulo=Arquivos&status=INATIVO
-RewriteRule ^editar/arquivo/(.*)/(.*)         /index.php?acao=editar&modulo=Arquivos&id=$1&status=$2
-RewriteRule ^excluir/arquivo/(.*)/(.*)   	  /index.php?acao=excluir&modulo=Arquivos&id=$1&anexo=$2
+RewriteRule ^arquivos/cadastrar       	 	      /index.php?acao=cadastro&modulo=Arquivos
+RewriteRule ^cadastrar/arquivo        	 	      /index.php?acao=cadastrar&modulo=Arquivos
+RewriteRule ^arquivos/ativos          		      /index.php?acao=lista&modulo=Arquivos&status=ATIVO
+RewriteRule ^arquivos/inativos        	          /index.php?acao=lista&modulo=Arquivos&status=INATIVO
+RewriteRule ^editar/arquivo/([0-9]*)/(.*)         /index.php?acao=editar&modulo=Arquivos&id=$1&status=$2
+RewriteRule ^excluir/arquivo/([0-9]*)/(.*)        /index.php?acao=excluir&modulo=Arquivos&id=$1&anexo=$2
  
-RewriteRule ^servidores/cadastrar             /index.php?acao=cadastro&modulo=Servidores
-RewriteRule ^cadastrar/servidor               /index.php?acao=cadastrar&modulo=Servidores
-RewriteRule ^servidores/ativos/([0-9])        /index.php?acao=lista&modulo=Servidores&status=ATIVO&resultadoOperacao=$1
-RewriteRule ^servidores/ativos                /index.php?acao=lista&modulo=Servidores&status=ATIVO
-RewriteRule ^servidores/editar/([0-9]*)       /index.php?acao=edicao&modulo=Servidores&id=$1
+RewriteRule ^servidores/cadastrar                 /index.php?acao=cadastro&modulo=Servidores
+RewriteRule ^cadastrar/servidor               	  /index.php?acao=cadastrar&modulo=Servidores
+RewriteRule ^servidores/editar/([0-9]*)           /index.php?acao=edicao&modulo=Servidores&id=$1
+RewriteRule ^editar/servidor/([0-9]*)             /index.php?acao=editar&modulo=Servidores&id=$1
+RewriteRule ^servidores/ativos                    /index.php?acao=lista&modulo=Servidores&status=ATIVO
+
 
 
 

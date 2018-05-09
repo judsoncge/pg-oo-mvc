@@ -4,6 +4,25 @@ class Model{
 	
 	//atributo da conexao com banco de dados
 	public $conexao;
+	public $mensagem;
+	public $resposta;
+	
+	public function setMensagem($mensagem){
+		$this->mensagem = $mensagem;
+	}
+	
+	public function setResposta($resposta){
+		$this->resposta = $resposta;
+	}
+	
+	public function getResposta(){
+		return $this->resposta;
+	}
+	
+	public function getMensagem(){
+		return $this->mensagem;
+	}
+	
 	
 	//esta funcao faz a conexao com o banco de dados
 	public function conectar(){
@@ -28,24 +47,6 @@ class Model{
 		//fecha a conexao, ou seja, desconecta
 		mysqli_close($this->conexao);
 		
-	}
-	
-	public function getDadosId($tabela, $id){
-		
-		$this->conectar();
-		
-		$resultado = mysqli_query($this->conexao, "SELECT * FROM $tabela WHERE ID=$id") or die(mysqli_error($this->conexao));
-		
-		$listaDados = array();
-		
-		While($row = mysqli_fetch_array($resultado)){ 
-			array_push($listaDados, $row); 
-		} 
-		
-		$this->desconectar();
-		
-		return $listaDados;
-	
 	}
 	
 	public function verificaExisteRegistro($tabela, $campo, $valor){

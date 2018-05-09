@@ -44,24 +44,6 @@ class ServidoresController extends Controller{
 		
 	}
 	
-	public function carregarEdicao($id){
-		
-		$listaSetores = $this->setoresModel->getIDNomeSetores();
-		
-		$listaDados = $this->servidoresModel->getDadosId('tb_servidores', $id);
-		
-		$this->servidoresView->setTitulo("SERVIDORES > ".strtoupper($listaDados[0]['DS_NOME'])."> EDITAR");
-		
-		$this->servidoresView->setConteudo('edicao');
-		
-		$_REQUEST['LISTA_SETORES']  = $listaSetores;
-		
-		$_REQUEST['DADOS_SERVIDOR'] = $listaDados;
-		
-		$this->servidoresView->carregar();
-		
-	}
-	
 	public function cadastrar(){
 		
 		$nome   = $_POST['nome'];
@@ -82,7 +64,11 @@ class ServidoresController extends Controller{
 		
 		$resultado = $this->servidoresModel->cadastrar();
 		
-		header("Location: /servidores/ativos/".$resultado);
+		$this->servidoresView->setResultadoOperacao($resultado[0]);
+		
+		$this->servidoresView->setMensagem($resultado[1]);
+		
+		$this->listar('ATIVO');
 		
 	}	
 	
@@ -109,20 +95,12 @@ class ServidoresController extends Controller{
 		$this->servidoresModel->setId($id);
 		
 		$resultado = $this->servidoresModel->editar();
-
-		header("Location: /servidores/ativos/".$resultado);
 		
-	}
-	
-	public function alterarStatus($id, $status){
+		$this->servidoresView->setResultadoOperacao($resultado[0]);
 		
-		$this->servidoresModel->setID($id);
-		
-		$this->servidoresModel->setStatus($status);
-		
-		$resultado = $this->servidoresModel->alterarStatus();
-		
-		header("Location: /arquivos/ativos/".$resultado);
+		$this->servidoresView->setMensagem($resultado[1]);
+			
+		$this->carregarEdicao($id);
 		
 	}
 	
@@ -136,6 +114,26 @@ class ServidoresController extends Controller{
 		
 		header("Location: /arquivos/ativos/".$resultado);
 	
+	}
+	
+	public function carregarEdicao($id){
+		
+		$listaSetores = $this->setoresModel->getIDNomeSetores();
+		
+		$this->servidoresModel->setID($id);
+		
+		$listaDados = $this->servidoresModel->getDadosId();
+		
+		$this->servidoresView->setTitulo("SERVIDORES > ".strtoupper($listaDados['DS_NOME'])."> EDITAR");
+		
+		$this->servidoresView->setConteudo('edicao');
+		
+		$_REQUEST['LISTA_SETORES']  = $listaSetores;
+		
+		$_REQUEST['DADOS_SERVIDOR'] = $listaDados;
+		
+		$this->servidoresView->carregar();
+		
 	}
 	
 }

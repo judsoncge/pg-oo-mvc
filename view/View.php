@@ -5,6 +5,9 @@ class View{
 	
 	protected $titulo;
 	protected $conteudo;
+	protected $resultadoOperacao;
+	protected $mensagem;
+	
 	
 	public function setTitulo($titulo){
 		
@@ -16,6 +19,18 @@ class View{
 		
 		$this->conteudo = $conteudo; 
 	
+	}
+	
+	public function setResultadoOperacao($resultadoOperacao){
+		
+		$this->resultadoOperacao = $resultadoOperacao; 
+		
+	}
+	
+	public function setMensagem($mensagem){
+		
+		$this->mensagem = $mensagem; 
+		
 	}
 	
 	public function carregar(){
@@ -237,12 +252,12 @@ class View{
 	
 	public function carregarMensagem(){
 		
-		if(isset($_GET['resultadoOperacao'])){
+		if(isset($this->resultadoOperacao)){
 			
-			if($_GET['resultadoOperacao']){
-				echo '<div class="alert alert-success" role="alert" id="mensagem_sucesso">Operação realizada com sucesso!</div>';
+			if($this->resultadoOperacao){
+				echo "<div class='alert alert-success' role='alert' id='mensagem_sucesso'>".$this->mensagem."</div>";
 			}else{
-				echo '<div class="alert alert-danger" role="alert" id="mensagem_erro">Houve alguma falha durante o processo. Por favor, tente novamente ou contate o suporte.</div>';
+				echo "<div class='alert alert-danger' role='alert' id='mensagem_erro'>".$this->mensagem."</div>";
 			}
 		
 		}
@@ -296,24 +311,20 @@ class View{
 <?php	
 	}
 	
-	public function carregarSelectSetores($id, $nome){ 
+	public function carregarSelectSetores(){ 
 	
 		$lista = $_REQUEST['LISTA_SETORES'];
+		
+		$id   = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_SERVIDOR']['ID_SETOR'] : '';
+		
+		$nome = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_SERVIDOR']['NOME_SETOR'] : 'Selecione';
 ?>
 	
 		<div class="col-md-6">
 			<div class="form-group">
 				<label class="control-label" for="exampleInputEmail1">Setor</label>
 				<select class="form-control" id="setor" name="setor" required />
-					<option value="<?php echo $id ?>">
-						<?php 
-							if($nome!=''){
-								echo $nome;
-							}else{
-								echo 'Selecione';
-							} 
-						?>
-					</option>
+					<option value="<?php echo $id ?>"><?php echo $nome ?></option>
 					<?php foreach($lista as $setor){ ?>
 						<option value="<?php echo $setor['ID'] ?>"><?php echo $setor['DS_NOME']; ?></option>
 					<?php } ?>
@@ -348,22 +359,18 @@ class View{
 		
 	}
 	
-	public function carregarSelectFuncoes($nomeFuncao){ 
+	public function carregarSelectFuncoes(){ 
+	
+	$value      = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_SERVIDOR']['DS_FUNCAO'] : '';
+	$exibicao   = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_SERVIDOR']['DS_FUNCAO'] : 'Selecione';
+	
 
 ?>
 		<div class="col-md-6">
 			<div class="form-group">
 				<label class="control-label" for="exampleInputEmail1">Função no sistema</label>
 				<select class="form-control" id="funcao" name="funcao" required />
-					<option value="<?php echo $nomeFuncao ?>">
-						<?php 
-							if($nomeFuncao!=''){
-								echo $nomeFuncao;
-							}else{
-								echo 'Selecione';
-							} 
-						?>
-					</option>
+					<option value="<?php echo $value ?>"><?php echo $exibicao ?></option>
 					<option value="PROTOCOLO">PROTOCOLO	</option>
 					<option value="SUPERINTENDENTE">SUPERINTENDENTE</option>
 					<option value="ASSESSOR TÉCNICO">ASSESSOR TÉCNICO</option>
