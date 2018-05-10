@@ -89,11 +89,15 @@ class ArquivosModel extends Model{
 		
 		");
 		
-		$cadastrou = mysqli_affected_rows($this->conexao);
+		$resultado = mysqli_affected_rows($this->conexao);
 		
 		$this->desconectar();
 		
-		return $cadastrou;
+		$mensagemResposta = ($resultado) ? 'O arquivo foi cadastrado com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
+			
+		$this->setMensagemResposta($mensagemResposta);
+		
+		return $resultado;
 		
 	}
 
@@ -171,6 +175,10 @@ class ArquivosModel extends Model{
 			unlink($_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/'.$anexoAntigo);
 		}
 		
+		$mensagemResposta = ($resultado) ? 'O arquivo foi editado com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
+			
+		$this->setMensagemResposta($mensagemResposta);
+		
 		return $resultado;
 
 	}
@@ -193,6 +201,10 @@ class ArquivosModel extends Model{
 		if($resultado){
 			unlink($_SERVER['DOCUMENT_ROOT']."/_registros/anexos/".$this->anexo);
 		}
+		
+		$mensagemResposta = ($resultado) ? 'O arquivo foi excluído com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
+			
+		$this->setMensagemResposta($mensagemResposta);
 		
 		return $resultado;
 

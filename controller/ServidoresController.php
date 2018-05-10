@@ -66,7 +66,11 @@ class ServidoresController extends Controller{
 		
 		$_REQUEST['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
 		
-		$this->listar('ATIVO');
+		if($_REQUEST['RESULTADO_OPERACAO']){
+			$this->listar('ATIVO');
+		}else{
+			$this->carregarCadastro();
+		}
 		
 	}	
 	
@@ -112,9 +116,11 @@ class ServidoresController extends Controller{
 		
 		$this->servidoresModel->setAnexo($anexo);
 		
-		$resultado = $this->servidoresModel->excluir();
+		$_REQUEST['RESULTADO_OPERACAO'] = $this->servidoresModel->excluir();
 		
-		header("Location: /arquivos/ativos/".$resultado);
+		$_REQUEST['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
+		
+		$this->listar('ATIVO');
 	
 	}
 	

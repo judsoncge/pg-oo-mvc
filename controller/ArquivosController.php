@@ -61,9 +61,15 @@ class ArquivosController extends Controller{
 		
 		$this->arquivosModel->setAnexo($anexo);
 		
-		$resultado = $this->arquivosModel->cadastrar();
+		$_REQUEST['RESULTADO_OPERACAO'] = $this->arquivosModel->cadastrar();
 		
-		header("Location: /arquivos/ativos/".$resultado);
+		$_REQUEST['MENSAGEM'] = $this->arquivosModel->getMensagemResposta();
+		
+		if($_REQUEST['RESULTADO_OPERACAO']){
+			$this->listar('ATIVO');
+		}else{
+			$this->carregarCadastro();
+		}
 		
 	}	
 	
@@ -89,9 +95,12 @@ class ArquivosController extends Controller{
 		
 		$this->arquivosModel->setID($id);
 		
-		$resultado = $this->arquivosModel->editar();
+		$_REQUEST['RESULTADO_OPERACAO'] = $this->arquivosModel->editar();
 		
-		header("Location: /arquivos/ativos/".$resultado);
+		$_REQUEST['MENSAGEM'] = $this->arquivosModel->getMensagemResposta();
+	
+		$this->listar('ATIVO');
+	
 	}
 	
 	public function excluir(){
@@ -100,9 +109,11 @@ class ArquivosController extends Controller{
 		
 		$this->arquivosModel->setAnexo($_GET['anexo']);
 		
-		$resultado = $this->arquivosModel->excluir();
+		$_REQUEST['RESULTADO_OPERACAO'] = $this->arquivosModel->excluir();
 		
-		header("Location: /arquivos/ativos/".$resultado);
+		$_REQUEST['MENSAGEM'] = $this->arquivosModel->getMensagemResposta();
+	
+		$this->listar('ATIVO');
 	
 	}
 	
