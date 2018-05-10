@@ -4,23 +4,15 @@ class Model{
 	
 	//atributo da conexao com banco de dados
 	public $conexao;
-	public $mensagem;
+	public $mensagemResposta;
 	public $resposta;
 	
-	public function setMensagem($mensagem){
-		$this->mensagem = $mensagem;
+	public function setMensagemResposta($mensagemResposta){
+		$this->mensagemResposta = $mensagemResposta;
 	}
 	
-	public function setResposta($resposta){
-		$this->resposta = $resposta;
-	}
-	
-	public function getResposta(){
-		return $this->resposta;
-	}
-	
-	public function getMensagem(){
-		return $this->mensagem;
+	public function getMensagemResposta(){
+		return $this->mensagemResposta;
 	}
 	
 	

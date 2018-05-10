@@ -119,15 +119,13 @@ class ServidoresModel extends Model{
 			
 			") or die(mysqli_error($this->conexao));
 			
-			$resultado = array();
-			
-			$resultado[0] = mysqli_affected_rows($this->conexao);
+			$resultado = mysqli_affected_rows($this->conexao);
 			
 			$this->desconectar();
 			
-			$resultado[1] = ($resultado[0]) 
-				? $this->nome.' foi cadastrado(a) com sucesso!' 
-				: 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
+			$mensagemResposta = ($resultado) ? $this->nome.' foi cadastrado(a) com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
+			
+			$this->setMensagemResposta($mensagemResposta);
 			
 			return $resultado;
 		}
@@ -140,7 +138,7 @@ class ServidoresModel extends Model{
 		
 		if($existe){
 			
-			$this->setMensagem('Já existe um(a) servidor(a) com este CPF. Por favor, tente outro.');
+			$this->setMensagemResposta('Já existe um(a) servidor(a) com este CPF. Por favor, tente outro.');
 			
 			return 0;
 		
@@ -161,15 +159,13 @@ class ServidoresModel extends Model{
 			
 			") or die(mysqli_error($this->conexao));
 			
-			$resultado = array();
-			
-			$resultado[0] = mysqli_affected_rows($this->conexao);
+			$resultado = mysqli_affected_rows($this->conexao);
 			
 			$this->desconectar();
 			
-			$resultado[1] = ($resultado[0]) 
-				? $this->nome.' foi editado(a) com sucesso!' 
-				: 'Nenhuma informação foi modificada';
+			$mensagemResposta = ($resultado) ? $this->nome.' foi editado(a) com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
+			
+			$this->setMensagemResposta($mensagemResposta);
 			
 			return $resultado;
 		

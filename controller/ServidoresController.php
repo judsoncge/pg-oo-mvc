@@ -62,11 +62,9 @@ class ServidoresController extends Controller{
 		
 		$this->servidoresModel->setFuncao($funcao);
 		
-		$resultado = $this->servidoresModel->cadastrar();
+		$_REQUEST['RESULTADO_OPERACAO'] = $this->servidoresModel->cadastrar();
 		
-		$this->servidoresView->setResultadoOperacao($resultado[0]);
-		
-		$this->servidoresView->setMensagem($resultado[1]);
+		$_REQUEST['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
 		
 		$this->listar('ATIVO');
 		
@@ -94,13 +92,17 @@ class ServidoresController extends Controller{
 		
 		$this->servidoresModel->setId($id);
 		
-		$resultado = $this->servidoresModel->editar();
+		$_REQUEST['RESULTADO_OPERACAO'] = $this->servidoresModel->editar();
 		
-		$this->servidoresView->setResultadoOperacao($resultado[0]);
+		$_REQUEST['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
 		
-		$this->servidoresView->setMensagem($resultado[1]);
-			
-		$this->carregarEdicao($id);
+		if($_REQUEST['RESULTADO_OPERACAO']){
+			$this->listar('ATIVO');
+		}else{
+			$this->carregarEdicao($id);
+		}
+		
+		
 		
 	}
 	

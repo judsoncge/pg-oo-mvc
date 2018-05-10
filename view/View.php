@@ -4,10 +4,7 @@
 class View{
 	
 	protected $titulo;
-	protected $conteudo;
-	protected $resultadoOperacao;
-	protected $mensagem;
-	
+	protected $conteudo;	
 	
 	public function setTitulo($titulo){
 		
@@ -252,12 +249,12 @@ class View{
 	
 	public function carregarMensagem(){
 		
-		if(isset($this->resultadoOperacao)){
+		if(isset($_REQUEST['RESULTADO_OPERACAO'])){
 			
-			if($this->resultadoOperacao){
-				echo "<div class='alert alert-success' role='alert' id='mensagem_sucesso'>".$this->mensagem."</div>";
+			if($_REQUEST['RESULTADO_OPERACAO']){
+				echo "<div class='alert alert-success' role='alert' id='mensagem_sucesso'>".$_REQUEST['MENSAGEM']."</div>";
 			}else{
-				echo "<div class='alert alert-danger' role='alert' id='mensagem_erro'>".$this->mensagem."</div>";
+				echo "<div class='alert alert-danger' role='alert' id='mensagem_erro'>".$_REQUEST['MENSAGEM']."</div>";
 			}
 		
 		}

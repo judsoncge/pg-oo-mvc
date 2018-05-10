@@ -19,6 +19,7 @@ RewriteRule ^cadastrar/servidor               	  /index.php?acao=cadastrar&modul
 RewriteRule ^servidores/editar/([0-9]*)           /index.php?acao=edicao&modulo=Servidores&id=$1
 RewriteRule ^editar/servidor/([0-9]*)             /index.php?acao=editar&modulo=Servidores&id=$1
 RewriteRule ^servidores/ativos                    /index.php?acao=lista&modulo=Servidores&status=ATIVO
+RewriteRule ^servidores/inativos                  /index.php?acao=lista&modulo=Servidores&status=INATIVO
 
 
 
@@ -26,7 +27,6 @@ RewriteRule ^servidores/ativos                    /index.php?acao=lista&modulo=S
 
 
 
-RewriteRule ^servidores/inativos /index.php?acao=listar-servidores&status=INATIVO
 
 
  
