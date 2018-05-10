@@ -105,6 +105,8 @@ class ArquivosModel extends Model{
 		
 		$this->conectar();
 		
+		$restricao_status = ($this->status == 'ATIVO') ? " IN ('ATIVO', 'APROVADO') " : " = 'INATIVO' ";
+		
 		$resultado = mysqli_query($this->conexao, 
 		
 		"SELECT 
@@ -121,7 +123,7 @@ class ArquivosModel extends Model{
 		
 		INNER JOIN tb_servidores s2 ON a.ID_SERVIDOR_DESTINO = s2.ID 
 		
-		WHERE a.DS_STATUS = '".$this->status."' 
+		WHERE a.DS_STATUS ".$restricao_status." 
 		
 		AND   (a.ID_SERVIDOR_CRIACAO = ".$this->servidorCriacao." 
 		

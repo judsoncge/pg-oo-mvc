@@ -76,13 +76,15 @@ class ServidoresController extends Controller{
 	
 	public function editar(){
 
-		$funcao      = $_POST['funcao'];
+		$funcao      = (isset($_POST['funcao'])) ? $_POST['funcao'] : NULL;
 		
-		$setor       = $_POST['setor'];
+		$setor       = (isset($_POST['setor']))  ? $_POST['setor']  : NULL;
 	
-		$nome        = $_POST['nome'];
+		$nome        = (isset($_POST['nome']))   ? $_POST['nome']   : NULL;
 		
-		$cpf         = $_POST['CPF'];
+		$cpf         = (isset($_POST['CPF']))    ? $_POST['CPF']    : NULL;
+		
+		$status         = (isset($_POST['status'])) ? $_POST['status'] : NULL;
 		
 		$id          = $_GET['id'];
 
@@ -93,6 +95,8 @@ class ServidoresController extends Controller{
 		$this->servidoresModel->setSetor($setor);
 		
 		$this->servidoresModel->setFuncao($funcao);
+		
+		$this->servidoresModel->setStatus($status);
 		
 		$this->servidoresModel->setId($id);
 		

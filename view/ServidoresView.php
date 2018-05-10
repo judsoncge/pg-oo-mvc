@@ -32,13 +32,13 @@ class ServidoresView extends View{
 								<td><?php echo $servidor['DS_FUNCAO']; ?></td>										
 								<td>
 									<a href="/servidores/editar/<?php echo $servidor['ID'] ?>">
-										<button type='button' class='btn btn-secondary btn-sm' title="Editar">
+										<button type='button' class='btn btn-secondary btn-sm' title='Editar'>
 											<i class="fa fa-pencil" aria-hidden="true"></i>
 										</button>
 									</a>
 								
-									<a href="/controller/servidores/editar.php?operacao=status&status=INATIVO&id=<?php echo $servidor['ID'] ?>">		
-										<button type='button' class='btn btn-secondary btn-sm' title="Inativar">
+									<a href='/editar/servidor/<?php echo $servidor['ID'] ?>/INATIVO'>		
+										<button type='button' class='btn btn-secondary btn-sm' title='Inativar'>
 											<i class="fa fa-minus-square-o" aria-hidden="true"></i>
 										</button>
 									</a>

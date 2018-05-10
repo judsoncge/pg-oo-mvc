@@ -1,0 +1,65 @@
+PARA CRIAR UM REPOSITORIO E SUBIR UM PROJETO DA SUA MAQUINA
+
+-> criar um repositorio em github.com
+
+-> para transformar uma pasta em um repositorio git, vai na pasta, abre o git bash com o botao direito e faz
+
+git init 
+
+vai criar uma pasta oculta .git dentro dela
+
+-> pegar o link https do repositorio criado
+
+-> para conectar a pasta ao repositorio remoto (o que foi criado em github.com) faz 
+
+git remote add origin [link https copiado]
+
+-> para ver como está o repositório (se tem algo alterado que precisa atualizar etc) faz
+
+git status
+
+-> para adicionar todos os arquivos para o repositório faz
+
+git add .
+git add [nome do arquivo]       -> para um arquivo específico
+
+-> para fazer commit, ou seja, guardar o estado do arquivo permanentemente (com o add ele está temporário) faz
+
+git commit -m "Mensagem para informar o que você está fazendo"
+
+-> para enviar o que está commitado para o repositório remoto, faz
+
+git push -u origin master
+
+pode pedir login e senha.
+
+------------------------------------------------------------------------------------------------------------------
+
+PARA BAIXAR UM PROJETO QUE ESTÁ REMOTO E MEXER NELE
+
+-> para baixar o repositorio existente faz
+
+git clone [link]
+
+-> depois de atualizar o codigo, faz
+
+git pull
+
+para pegar a versão mais atualizada (pq alguém pode ter mexido nela na msma hora que vc e não dar conflito)
+
+-> para subir suas alterações
+
+git add .
+
+ele vai pegar todos os arquivos que foram modificados
+
+git commit -m "[mensagem do commit que vc ta fazendo]"
+
+git push -u origin master
+
+
+----------------------------------------------------------------------------------------------------------------------
+
+CASO PRECISE DEFINIR ALGUM PROXY NO GIT, USAR:
+
+git config --global http.proxy http://proxyUsername:proxyPassword@proxy.server.com:port
