@@ -18,18 +18,6 @@ class View{
 	
 	}
 	
-	public function setResultadoOperacao($resultadoOperacao){
-		
-		$this->resultadoOperacao = $resultadoOperacao; 
-		
-	}
-	
-	public function setMensagem($mensagem){
-		
-		$this->mensagem = $mensagem; 
-		
-	}
-	
 	public function carregar(){
 		
 		$this->carregarHead();
@@ -105,11 +93,15 @@ class View{
 								</div>
 								<div id='mensagem'>
 									<center>
-										<a href='' id='alterar-senha'>
+										<a href="/servidores/senha/" id='alterar-senha'>
 											<i class='fa fa-edit' aria-hidden='true'></i>  
 											Alterar senha
 										</a>
-									<a href='' id='alterar-foto'><i class='fa fa-edit' aria-hidden='true'></i>  Alterar foto</a></center>
+										<a href="/servidores/foto/" id='alterar-foto'>
+											<i class='fa fa-edit' aria-hidden='true'></i> 
+											Alterar foto
+										</a>
+									</center>
 								</div>
 							</div>
 						</li>
@@ -249,15 +241,18 @@ class View{
 	
 	public function carregarMensagem(){
 		
-		if(isset($_REQUEST['RESULTADO_OPERACAO'])){
+		if(isset($_SESSION['RESULTADO_OPERACAO'])){
 			
-			if($_REQUEST['RESULTADO_OPERACAO']){
-				echo "<div class='alert alert-success' role='alert' id='mensagem_sucesso'>".$_REQUEST['MENSAGEM']."</div>";
+			if($_SESSION['RESULTADO_OPERACAO']){
+				echo "<div class='alert alert-success' role='alert' id='mensagem_sucesso'>".$_SESSION['MENSAGEM']."</div>";
 			}else{
-				echo "<div class='alert alert-danger' role='alert' id='mensagem_erro'>".$_REQUEST['MENSAGEM']."</div>";
+				echo "<div class='alert alert-danger' role='alert' id='mensagem_erro'>".$_SESSION['MENSAGEM']."</div>";
 			}
 		
 		}
+		
+		unset($_SESSION['RESULTADO_OPERACAO']);
+		unset($_SESSION['MENSAGEM']);
 
 	}
 	

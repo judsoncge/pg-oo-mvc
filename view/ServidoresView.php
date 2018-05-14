@@ -4,6 +4,14 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
 class ServidoresView extends View{
 	
+	private $tipoEdicao;
+	
+	public function setTipoEdicao($tipoEdicao){
+		
+		$this->tipoEdicao = $tipoEdicao;
+		
+	}
+	
 	public function listar(){ ?>
 		
 		<div class="col-md-12 table-responsive" style="overflow: auto; width: 100%; height: 300px;">
@@ -36,9 +44,21 @@ class ServidoresView extends View{
 											<i class="fa fa-pencil" aria-hidden="true"></i>
 										</button>
 									</a>
-								
-									<a href='/editar/servidor/<?php echo $servidor['ID'] ?>/INATIVO'>		
-										<button type='button' class='btn btn-secondary btn-sm' title='Inativar'>
+									
+									<?php
+									
+										if($servidor['DS_FUNCAO'] == 'ATIVO'){
+											$getStatus = 'INATIVO';
+											$title = 'Inativar';
+										}else{
+											$getStatus = 'ATIVO';
+											$title = 'Ativar';
+										}
+									
+									?>
+									
+									<a href='/editar/servidor/<?php echo $servidor['ID'] ?>/<?php echo $getStatus ?>'>
+										<button type='button' class='btn btn-secondary btn-sm' title='<?php echo $title ?>'>
 											<i class="fa fa-minus-square-o" aria-hidden="true"></i>
 										</button>
 									</a>
@@ -64,7 +84,20 @@ class ServidoresView extends View{
 	
 	public function editar(){
 		
-		$this->carregarFormulario();
+		switch($this->tipoEdicao){
+			
+			case 'info':
+				$this->carregarFormulario();
+				break;
+			case 'senha':
+				$this->carregarEdicaoSenha();
+				break;
+			case 'foto':
+				$this->carregarEdicaoFoto();
+				break;
+			
+			
+		}
 	
 	}
 	
@@ -73,7 +106,7 @@ class ServidoresView extends View{
 			$listaDados = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_SERVIDOR'] : NULL;
 			
 			$action = ($this->conteudo == 'edicao') 
-				? "/editar/servidor/".$listaDados['ID']."/". $listaDados['DS_CPF']."/"
+				? "/editar/servidor/".$listaDados['ID']."/ATIVO"
 				: '/cadastrar/servidor/';
 				
 			$nomeBotao = ($this->conteudo == 'edicao') ? 'Editar' : 'Cadastrar';
@@ -111,6 +144,38 @@ class ServidoresView extends View{
 		
 <?php		
 		
+	}
+	
+
+	public function carregarEdicaoSenha(){
+		
+?>
+		
+	<form name="cadastro" method="POST" action="logica/editar.php?&operacao=senha" enctype="multipart/form-data"> 
+		<div class="row">
+			<div class="col-md-5">
+				<div class="form-group">
+					<label class="control-label" for="exampleInputEmail1">Nova senha</label>
+					<input class="form-control" type='password' id='nova_senha' name='senha'/>
+				</div>	
+			</div>
+			<div class="col-md-5">
+				<div class="form-group">
+					<label class="control-label" for="exampleInputEmail1">Confirme a nova senha</label>
+					<input class="form-control" type='password' id='confirma_senha' name='confirma_senha'/>
+				</div>	
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<button type="submit" class="btn btn-sm btn-success" name="submit" value="Send" style="margin-top:32px;">Alterar senha</button>
+				</div>	
+			</div>
+		</div>
+	</form>
+
+
+<?php 
+	
 	}
 
 }

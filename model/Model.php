@@ -5,7 +5,6 @@ class Model{
 	//atributo da conexao com banco de dados
 	public $conexao;
 	public $mensagemResposta;
-	public $resposta;
 	
 	public function setMensagemResposta($mensagemResposta){
 		$this->mensagemResposta = $mensagemResposta;

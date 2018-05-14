@@ -38,7 +38,7 @@ if(isset($_GET['acao'])){
 		
 		case 'lista':
 
-			$controller->listar($_GET['status']);
+			$controller->listar();
 			
 			break;
 			
@@ -50,7 +50,7 @@ if(isset($_GET['acao'])){
 			
 		case 'edicao':
 
-			$controller->carregarEdicao($_GET['id']);
+			$controller->carregarEdicao();
 			
 			break;
 		

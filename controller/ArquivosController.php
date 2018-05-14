@@ -27,15 +27,15 @@ class ArquivosController extends Controller{
 		$this->arquivosView->carregar();
 	}
 	
-	public function listar($status){
+	public function listar(){
 		
-		$this->arquivosModel->setStatus($status);
+		$this->arquivosModel->setStatus($_GET['status']);
 		
 		$this->arquivosModel->setServidorCriacao($_SESSION['ID']);
 		
 		$listaArquivos = $this->arquivosModel->getListaArquivosStatus();
 		
-		$titulo = ($status=='ATIVO') ? 'Meus Arquivos Ativos' : 'Meus Arquivos Inativos';
+		$titulo = ($_GET['status']=='ATIVO') ? 'ARQUIVOS > ATIVOS' : 'ARQUIVOS > INATIVOS';
 		
 		$this->arquivosView->setTitulo($titulo);
 		
@@ -61,14 +61,14 @@ class ArquivosController extends Controller{
 		
 		$this->arquivosModel->setAnexo($anexo);
 		
-		$_REQUEST['RESULTADO_OPERACAO'] = $this->arquivosModel->cadastrar();
+		$_SESSION['RESULTADO_OPERACAO'] = $this->arquivosModel->cadastrar();
 		
-		$_REQUEST['MENSAGEM'] = $this->arquivosModel->getMensagemResposta();
+		$_SESSION['MENSAGEM'] = $this->arquivosModel->getMensagemResposta();
 		
-		if($_REQUEST['RESULTADO_OPERACAO']){
-			$this->listar('ATIVO');
+		if($_SESSION['RESULTADO_OPERACAO']){
+			Header('Location: /arquivos/ativos/');
 		}else{
-			$this->carregarCadastro();
+			Header('Location: /arquivos/cadastrar/');
 		}
 		
 	}	
@@ -95,9 +95,9 @@ class ArquivosController extends Controller{
 		
 		$this->arquivosModel->setID($id);
 		
-		$_REQUEST['RESULTADO_OPERACAO'] = $this->arquivosModel->editar();
+		$_SESSION['RESULTADO_OPERACAO'] = $this->arquivosModel->editar();
 		
-		$_REQUEST['MENSAGEM'] = $this->arquivosModel->getMensagemResposta();
+		$_SESSION['MENSAGEM'] = $this->arquivosModel->getMensagemResposta();
 	
 		$this->listar('ATIVO');
 	
@@ -109,9 +109,9 @@ class ArquivosController extends Controller{
 		
 		$this->arquivosModel->setAnexo($_GET['anexo']);
 		
-		$_REQUEST['RESULTADO_OPERACAO'] = $this->arquivosModel->excluir();
+		$_SESSION['RESULTADO_OPERACAO'] = $this->arquivosModel->excluir();
 		
-		$_REQUEST['MENSAGEM'] = $this->arquivosModel->getMensagemResposta();
+		$_SESSION['MENSAGEM'] = $this->arquivosModel->getMensagemResposta();
 	
 		$this->listar('ATIVO');
 	

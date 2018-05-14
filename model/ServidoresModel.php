@@ -145,26 +145,31 @@ class ServidoresModel extends Model{
 		}else{
 			
 			$this->conectar();
+			
+			$query  = "UPDATE tb_servidores SET ";
+			
+			$query .= ($this->funcao != NULL) ?  "DS_FUNCAO = '".$this->funcao."', " : ""; 
+			
+			$query .= ($this->setor != NULL)  ?  "ID_SETOR = ".$this->setor.", " : ""; 
+			
+			$query .= ($this->nome != NULL)   ?  "DS_NOME = '".$this->nome."', " : ""; 
+			
+			$query .= ($this->setor != NULL)  ?  "DS_CPF = '".$this->cpf."', " : ""; 
+			
+			$query .= ($this->status != NULL) ?  "DS_STATUS = '".$this->status."', " : ""; 
+			
+			$query .= "WHERE ID=".$this->id."";	
+
+			$query = str_replace(", WHERE", " WHERE", $query);
 		
-			$resultado = mysqli_query($this->conexao, "
-			
-			UPDATE tb_servidores
-			
-			SET DS_FUNCAO = '".$this->funcao."',
-			ID_SETOR = ".$this->setor.", 
-			DS_NOME = '".$this->nome."', 
-			DS_CPF = '".$this->cpf."'
-			
-			WHERE ID=".$this->id."
-			
-			") or die(mysqli_error($this->conexao));
+			mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
 			
 			$resultado = mysqli_affected_rows($this->conexao);
 			
 			$this->desconectar();
 			
-			$mensagemResposta = ($resultado) ? $this->nome.' foi editado(a) com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
-			
+			$mensagemResposta = ($resultado) ? 'Edição realizada com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
+	
 			$this->setMensagemResposta($mensagemResposta);
 			
 			return $resultado;

@@ -26,13 +26,13 @@ class ServidoresController extends Controller{
 		
 	}
 	
-	public function listar($status){
+	public function listar(){
 		
-		$this->servidoresModel->setStatus($status);
+		$this->servidoresModel->setStatus($_GET['status']);
 		
 		$listaServidores = $this->servidoresModel->getListaServidoresStatus();
 		
-		$titulo = ($status=='ATIVO') ? 'SERVIDORES > ATIVOS' : 'SERVIDORES > INATIVOS';
+		$titulo = ($_GET['status']=='ATIVO') ? 'SERVIDORES > ATIVOS' : 'SERVIDORES > INATIVOS';
 		
 		$this->servidoresView->setTitulo($titulo);
 		
@@ -62,14 +62,14 @@ class ServidoresController extends Controller{
 		
 		$this->servidoresModel->setFuncao($funcao);
 		
-		$_REQUEST['RESULTADO_OPERACAO'] = $this->servidoresModel->cadastrar();
+		$_SESSION['RESULTADO_OPERACAO'] = $this->servidoresModel->cadastrar();
 		
-		$_REQUEST['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
+		$_SESSION['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
 		
-		if($_REQUEST['RESULTADO_OPERACAO']){
-			$this->listar('ATIVO');
+		if($_SESSION['RESULTADO_OPERACAO']){
+			Header('Location: /servidores/ativos/');
 		}else{
-			$this->carregarCadastro();
+			Header('Location: /servidores/cadastrar/');
 		}
 		
 	}	
@@ -84,7 +84,7 @@ class ServidoresController extends Controller{
 		
 		$cpf         = (isset($_POST['CPF']))    ? $_POST['CPF']    : NULL;
 		
-		$status         = (isset($_POST['status'])) ? $_POST['status'] : NULL;
+		$status      = (isset($_GET['status']))  ? $_GET['status'] : NULL;
 		
 		$id          = $_GET['id'];
 
@@ -100,49 +100,55 @@ class ServidoresController extends Controller{
 		
 		$this->servidoresModel->setId($id);
 		
-		$_REQUEST['RESULTADO_OPERACAO'] = $this->servidoresModel->editar();
+		$_SESSION['RESULTADO_OPERACAO'] = $this->servidoresModel->editar();
 		
-		$_REQUEST['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
+		$_SESSION['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
 		
-		if($_REQUEST['RESULTADO_OPERACAO']){
-			$this->listar('ATIVO');
+		if($_SESSION['RESULTADO_OPERACAO']){
+			Header('Location: /servidores/ativos/');
 		}else{
-			$this->carregarEdicao($id);
+			Header('Location: /servidores/editar/'.$id);
 		}
 		
 		
 		
 	}
 	
-	public function excluir($id, $anexo){
+	public function carregarEdicao(){
 		
-		$this->servidoresModel->setID($id);
+		switch($_GET['tipo']){
+			
+			case 'info':
+			
+				$listaSetores = $this->setoresModel->getIDNomeSetores();
 		
-		$this->servidoresModel->setAnexo($anexo);
+				$this->servidoresModel->setID($_GET['id']);
 		
-		$_REQUEST['RESULTADO_OPERACAO'] = $this->servidoresModel->excluir();
+				$listaDados = $this->servidoresModel->getDadosId();
+				
+				$this->servidoresView->setTitulo("SERVIDORES > ".strtoupper($listaDados['DS_NOME'])." > EDITAR");
+				
+				$_REQUEST['LISTA_SETORES']  = $listaSetores;
+				
+				$_REQUEST['DADOS_SERVIDOR'] = $listaDados;
+				
+				break;
+			
+			case 'senha':
+				$this->servidoresView->setTitulo("EDITAR SENHA");
+				break;
+			
+			case 'foto':
+				$this->carregarEdicaoFoto("EDITAR FOTO");
+				break;
+			
+			
+		}
 		
-		$_REQUEST['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
-		
-		$this->listar('ATIVO');
-	
-	}
-	
-	public function carregarEdicao($id){
-		
-		$listaSetores = $this->setoresModel->getIDNomeSetores();
-		
-		$this->servidoresModel->setID($id);
-		
-		$listaDados = $this->servidoresModel->getDadosId();
-		
-		$this->servidoresView->setTitulo("SERVIDORES > ".strtoupper($listaDados['DS_NOME'])."> EDITAR");
 		
 		$this->servidoresView->setConteudo('edicao');
 		
-		$_REQUEST['LISTA_SETORES']  = $listaSetores;
-		
-		$_REQUEST['DADOS_SERVIDOR'] = $listaDados;
+		$this->servidoresView->setTipoEdicao($_GET['tipo']);
 		
 		$this->servidoresView->carregar();
 		
