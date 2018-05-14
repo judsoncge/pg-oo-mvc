@@ -151,7 +151,7 @@ class ServidoresView extends View{
 		
 ?>
 		
-	<form name="cadastro" method="POST" action="logica/editar.php?&operacao=senha" enctype="multipart/form-data"> 
+	<form name="cadastro" method="POST" action="/editar/servidor/<?php echo $_SESSION['ID'] ?>/ATIVO" enctype="multipart/form-data"> 
 		<div class="row">
 			<div class="col-md-5">
 				<div class="form-group">
@@ -162,12 +162,14 @@ class ServidoresView extends View{
 			<div class="col-md-5">
 				<div class="form-group">
 					<label class="control-label" for="exampleInputEmail1">Confirme a nova senha</label>
-					<input class="form-control" type='password' id='confirma_senha' name='confirma_senha'/>
+					<input class="form-control" type='password' id='confirmaSenha' name='confirmaSenha'/>
 				</div>	
 			</div>
 			<div class="col-md-2">
 				<div class="form-group">
-					<button type="submit" class="btn btn-sm btn-success" name="submit" value="Send" style="margin-top:32px;">Alterar senha</button>
+					<button type="submit" class="btn btn-sm btn-success" name="submit" value="Send" style="margin-top:32px;">
+						Alterar senha
+					</button>
 				</div>	
 			</div>
 		</div>
@@ -176,6 +178,32 @@ class ServidoresView extends View{
 
 <?php 
 	
+	}
+	
+	public function carregarEdicaoFoto(){
+		
+?>	
+
+	<form name="cadastro" method="POST" action="/editar/servidor/<?php echo $_SESSION['ID'] ?>/ATIVO" enctype="multipart/form-data"> 
+		<div class="row">
+			<div class="col-md-10">
+				<div class="form-group">
+					<label class="control-label" for="exampleInputEmail1">Selecione a nova foto</label>
+					<input class="form-control" type='file' id='arquivo_foto' name='arquivo_foto' enctype="multipart/form-data"/>
+				</div>	
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<button type="submit" class="btn btn-sm btn-success" name="submit" value="Send" style="margin-top:32px;">
+						Alterar foto
+					</button>
+				</div>	
+			</div>
+		</div>
+	</form>
+		
+<?php 
+
 	}
 
 }

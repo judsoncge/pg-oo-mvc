@@ -76,17 +76,21 @@ class ServidoresController extends Controller{
 	
 	public function editar(){
 
-		$funcao      = (isset($_POST['funcao'])) ? $_POST['funcao'] : NULL;
+		$funcao        = (isset($_POST['funcao']))         ? $_POST['funcao']        : NULL;
 		
-		$setor       = (isset($_POST['setor']))  ? $_POST['setor']  : NULL;
+		$setor         = (isset($_POST['setor']))          ? $_POST['setor']         : NULL;
 	
-		$nome        = (isset($_POST['nome']))   ? $_POST['nome']   : NULL;
+		$nome          = (isset($_POST['nome']))           ? $_POST['nome']          : NULL;
 		
-		$cpf         = (isset($_POST['CPF']))    ? $_POST['CPF']    : NULL;
+		$cpf           = (isset($_POST['CPF']))            ? $_POST['CPF']           : NULL;
 		
-		$status      = (isset($_GET['status']))  ? $_GET['status'] : NULL;
+		$status        = (isset($_GET['status']))          ? $_GET['status']         : NULL;
 		
-		$id          = $_GET['id'];
+		$senha         = (isset($_POST['senha']))          ? $_POST['senha']         : NULL;
+		
+		$confirmaSenha = (isset($_POST['confirmaSenha']))  ? $_POST['confirmaSenha'] : NULL;
+		
+		$id            = $_GET['id'];
 
 		$this->servidoresModel->setNome($nome);
 		
@@ -97,6 +101,10 @@ class ServidoresController extends Controller{
 		$this->servidoresModel->setFuncao($funcao);
 		
 		$this->servidoresModel->setStatus($status);
+		
+		$this->servidoresModel->setSenha($senha);
+		
+		$this->servidoresModel->setConfirmaSenha($confirmaSenha);
 		
 		$this->servidoresModel->setId($id);
 		
@@ -139,7 +147,7 @@ class ServidoresController extends Controller{
 				break;
 			
 			case 'foto':
-				$this->carregarEdicaoFoto("EDITAR FOTO");
+				$this->servidoresView->setTitulo("EDITAR FOTO");
 				break;
 			
 			

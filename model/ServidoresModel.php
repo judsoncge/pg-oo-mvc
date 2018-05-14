@@ -12,6 +12,7 @@ class ServidoresModel extends Model{
 	private $foto;
 	private $status;
 	private $senha;
+	private $confirmaSenha;
 	
 	public function setFuncao($funcao){
 		$this->funcao = $funcao;
@@ -35,6 +36,14 @@ class ServidoresModel extends Model{
 	
 	public function setId($id){
 		$this->id = $id;
+	}
+	
+	public function setSenha($senha){
+		$this->senha = $senha;
+	}
+	
+	public function setConfirmaSenha($confirmaSenha){
+		$this->confirmaSenha = $confirmaSenha;
 	}
 	
 	public function getListaServidoresStatus(){
@@ -134,47 +143,57 @@ class ServidoresModel extends Model{
 	
 	public function editar(){
 		
-		$existe = $this->verificaExisteRegistroId('tb_servidores', 'DS_CPF', $this->cpf, $this->id);
-		
-		if($existe){
+		if( ($this->senha != NULL && $this->confirmaSenha != NULL) && ($this->senha != $this->confirmaSenha) ){
 			
-			$this->setMensagemResposta('Já existe um(a) servidor(a) com este CPF. Por favor, tente outro.');
+			$this->setMensagemResposta('As senhas não conferem!');
 			
 			return 0;
-		
-		}else{
 			
-			$this->conectar();
-			
-			$query  = "UPDATE tb_servidores SET ";
-			
-			$query .= ($this->funcao != NULL) ?  "DS_FUNCAO = '".$this->funcao."', " : ""; 
-			
-			$query .= ($this->setor != NULL)  ?  "ID_SETOR = ".$this->setor.", " : ""; 
-			
-			$query .= ($this->nome != NULL)   ?  "DS_NOME = '".$this->nome."', " : ""; 
-			
-			$query .= ($this->setor != NULL)  ?  "DS_CPF = '".$this->cpf."', " : ""; 
-			
-			$query .= ($this->status != NULL) ?  "DS_STATUS = '".$this->status."', " : ""; 
-			
-			$query .= "WHERE ID=".$this->id."";	
-
-			$query = str_replace(", WHERE", " WHERE", $query);
-		
-			mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
-			
-			$resultado = mysqli_affected_rows($this->conexao);
-			
-			$this->desconectar();
-			
-			$mensagemResposta = ($resultado) ? 'Edição realizada com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
-	
-			$this->setMensagemResposta($mensagemResposta);
-			
-			return $resultado;
-		
 		}
+		
+		if($this->cpf != NULL){
+			
+			$existe = $this->verificaExisteRegistroId('tb_servidores', 'DS_CPF', $this->cpf, $this->id);
+		
+			if($existe){
+			
+				$this->setMensagemResposta('Já existe um(a) servidor(a) com este CPF. Por favor, tente outro.');
+			
+				return 0;
+		
+			}
+			
+		}		
+		
+		$this->conectar();
+		
+		$query  = "UPDATE tb_servidores SET ";
+		
+		$query .= ($this->funcao != NULL) ?  "DS_FUNCAO = '".$this->funcao."', " : ""; 
+		
+		$query .= ($this->setor != NULL)  ?  "ID_SETOR = ".$this->setor.", " : ""; 
+		
+		$query .= ($this->nome != NULL)   ?  "DS_NOME = '".$this->nome."', " : ""; 
+		
+		$query .= ($this->setor != NULL)  ?  "DS_CPF = '".$this->cpf."', " : ""; 
+		
+		$query .= ($this->status != NULL) ?  "DS_STATUS = '".$this->status."', " : ""; 
+		
+		$query .= "WHERE ID=".$this->id."";	
+
+		$query = str_replace(", WHERE", " WHERE", $query);
+	
+		mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
+		
+		$resultado = mysqli_affected_rows($this->conexao);
+		
+		$this->desconectar();
+		
+		$mensagemResposta = ($resultado) ? 'Edição realizada com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
+
+		$this->setMensagemResposta($mensagemResposta);
+		
+		return $resultado;
 		
 	}
 	
