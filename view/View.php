@@ -46,6 +46,7 @@ class View{
 			<title>Painel de Gestão - CGE</title>
 			
 			<script src='/view/libs/js/jquery.js'></script>
+			<script src='/view/libs/js/utils.js'></script>
 			<script src="/view/libs/js/tether.js"></script>
 			<script type='text/javascript' src='/view/libs/js/bootstrap.js'></script>
 			<script type='text/javascript' src='/view/libs/js/submenu.js'></script>	
