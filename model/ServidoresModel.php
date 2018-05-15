@@ -46,6 +46,10 @@ class ServidoresModel extends Model{
 		$this->confirmaSenha = $confirmaSenha;
 	}
 	
+	public function setFoto($foto){
+		$this->foto = $foto;
+	}
+	
 	public function getListaServidoresStatus(){
 		
 		$this->conectar();
@@ -143,6 +147,22 @@ class ServidoresModel extends Model{
 	
 	public function editar(){
 		
+		if($this->foto != NULL){
+			
+			$nomeAnexo = registrarAnexo($this->foto, $_SERVER['DOCUMENT_ROOT'].'/_registros/fotos/');
+			
+			if($_SESSION['FOTO'] != 'default.jpg'){
+				
+				unlink($_SERVER['DOCUMENT_ROOT'].'/_registros/fotos/'.$_SESSION['FOTO']);
+				
+			}
+			
+			$this->setFoto($nomeAnexo);
+				
+			$_SESSION['FOTO'] = $nomeAnexo;
+		
+		}
+		
 		if( ($this->senha != NULL && $this->confirmaSenha != NULL) && ($this->senha != $this->confirmaSenha) ){
 			
 			$this->setMensagemResposta('As senhas não conferem!');
@@ -179,6 +199,10 @@ class ServidoresModel extends Model{
 		
 		$query .= ($this->status != NULL) ?  "DS_STATUS = '".$this->status."', " : ""; 
 		
+		$query .= ($this->foto != NULL)   ?  "DS_FOTO = '".$this->foto."', " : ""; 
+		
+		$query .= ($this->senha != NULL)  ?  "SENHA = '".md5($this->senha)."', " : ""; 
+		
 		$query .= "WHERE ID=".$this->id."";	
 
 		$query = str_replace(", WHERE", " WHERE", $query);
@@ -189,7 +213,9 @@ class ServidoresModel extends Model{
 		
 		$this->desconectar();
 		
-		$mensagemResposta = ($resultado) ? 'Edição realizada com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
+		$mensagemResposta = ($resultado) 
+			? 'Edição realizada com sucesso!' 
+			: 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
 
 		$this->setMensagemResposta($mensagemResposta);
 		

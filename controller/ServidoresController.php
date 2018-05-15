@@ -86,6 +86,8 @@ class ServidoresController extends Controller{
 		
 		$status        = (isset($_GET['status']))          ? $_GET['status']         : NULL;
 		
+		$foto          = (isset($_FILES['arquivoFoto']))    ? $_FILES['arquivoFoto'] : NULL;
+		
 		$senha         = (isset($_POST['senha']))          ? $_POST['senha']         : NULL;
 		
 		$confirmaSenha = (isset($_POST['confirmaSenha']))  ? $_POST['confirmaSenha'] : NULL;
@@ -101,6 +103,8 @@ class ServidoresController extends Controller{
 		$this->servidoresModel->setFuncao($funcao);
 		
 		$this->servidoresModel->setStatus($status);
+		
+		$this->servidoresModel->setFoto($foto);
 		
 		$this->servidoresModel->setSenha($senha);
 		

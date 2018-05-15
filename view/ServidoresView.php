@@ -189,7 +189,7 @@ class ServidoresView extends View{
 			<div class="col-md-10">
 				<div class="form-group">
 					<label class="control-label" for="exampleInputEmail1">Selecione a nova foto</label>
-					<input class="form-control" type='file' id='arquivo_foto' name='arquivo_foto' enctype="multipart/form-data"/>
+					<input class="form-control" type='file' id='arquivoFoto' name='arquivoFoto' enctype="multipart/form-data"/>
 				</div>	
 			</div>
 			<div class="col-md-2">
