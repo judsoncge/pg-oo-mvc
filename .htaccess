@@ -24,7 +24,10 @@ RewriteRule ^servidores/ativos                    /index.php?acao=lista&modulo=S
 RewriteRule ^servidores/inativos                  /index.php?acao=lista&modulo=Servidores&status=INATIVO
 
 
-
+RewriteRule ^chamados/cadastrar                   /index.php?acao=cadastro&modulo=Chamados
+RewriteRule ^cadastrar/chamado            	      /index.php?acao=cadastrar&modulo=Chamados
+RewriteRule ^chamados/ativos                      /index.php?acao=lista&modulo=Chamados&status=ATIVO
+RewriteRule ^chamados/inativos                    /index.php?acao=lista&modulo=Chamados&status=INATIVO
 
 
 

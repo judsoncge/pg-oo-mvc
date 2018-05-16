@@ -126,10 +126,13 @@ class View{
 							<a href='#'><i class='fa fa-headphones icone-menu' aria-hidden='true'></i>Chamados</a>
 						</li>
 							<li class='chamados-subitem'>
-								<a href=''><i class='fa fa-headphones icone-menu' aria-hidden='true'></i>Ativos</a>
+								<a href='chamados/cadastrar/'><i class='fa fa-headphones icone-menu' aria-hidden='true'></i>Abrir Chamado</a>
 							</li>
 							<li class='chamados-subitem'>
-								<a href='' ><i class='fa fa-headphones icone-menu' aria-hidden='true'></i>Inativos</a>
+								<a href='chamados/ativos/'><i class='fa fa-headphones icone-menu' aria-hidden='true'></i>Ativos</a>
+							</li>
+							<li class='chamados-subitem'>
+								<a href='chamados/inativos/' ><i class='fa fa-headphones icone-menu' aria-hidden='true'></i>Inativos</a>
 							</li>
 						<li id='comunicacao'>
 							<a href='#'><i class='fa fa-volume-up icone-menu' aria-hidden='true'></i>Comunicação</a>

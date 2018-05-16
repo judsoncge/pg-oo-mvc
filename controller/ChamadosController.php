@@ -6,41 +6,36 @@ class ChamadosController extends Controller{
 
 	function __construct(){
 		
-		$this->chamadosModel   = new ServidoresModel();
-		$this->servidoresView  = new ServidoresView();
-		$this->setoresModel    = new SetoresModel();
+		$this->chamadosView    = new ChamadosView();
+		$this->chamadosModel   = new ChamadosModel();
 		
 	}
 	
 	public function carregarCadastro(){
 		
-		$listaSetores = $this->setoresModel->getIDNomeSetores();
+		$this->chamadosView->setTitulo('CHAMADOS > ABRIR CHAMADO');
 		
-		$_REQUEST['LISTA_SETORES'] = $listaSetores;
+		$this->chamadosView->setConteudo('cadastro');
 	
-		$this->servidoresView->setTitulo('SERVIDORES > CADASTRAR');
-		
-		$this->servidoresView->setConteudo('cadastro');
-	
-		$this->servidoresView->carregar();
+		$this->chamadosView->carregar();
 		
 	}
 	
 	public function listar(){
 		
-		$this->servidoresModel->setStatus($_GET['status']);
+		$this->chamadosModel->setStatus($_GET['status']);
 		
-		$listaServidores = $this->servidoresModel->getListaServidoresStatus();
+		$listaChamados = $this->chamadosModel->getListaChamadosStatus();
 		
 		$titulo = ($_GET['status']=='ATIVO') ? 'CHAMADOS > ATIVOS' : 'CHAMADOS > INATIVOS';
 		
-		$this->servidoresView->setTitulo($titulo);
+		$this->chamadosView->setTitulo($titulo);
 		
-		$this->servidoresView->setConteudo('lista');
+		$this->chamadosView->setConteudo('lista');
 		
-		$_REQUEST['LISTA_SERVIDORES'] = $listaServidores;
+		$_REQUEST['LISTA_CHAMADOS'] = $listaChamados;
 		
-		$this->servidoresView->carregar();
+		$this->chamadosView->carregar();
 		
 	}
 	
