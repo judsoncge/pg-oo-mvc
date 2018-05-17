@@ -1,5 +1,7 @@
 <?php
 
+require_once $_SERVER['DOCUMENT_ROOT'].'/model/FuncoesGlobais.php';
+
 class Model{
 	
 	//atributo da conexao com banco de dados
@@ -61,6 +63,24 @@ class Model{
 		$this->desconectar();
 		
 		return mysqli_num_rows($resultado);
+		
+	}
+	
+	public function cadastrarHistorico($tabela, $id_referente, $mensagem, $id_servidor, $acao){
+		
+		$data = date('Y-m-d H:i:s');
+		
+		$resultado = mysqli_query($this->conexao, "
+		
+		INSERT INTO tb_historico_".$tabela." 
+		
+		(ID_REFERENTE, TX_MENSAGEM, ID_SERVIDOR, DT_MENSAGEM, DS_ACAO)
+		
+		VALUES
+		
+		(".$id_referente.", '".$mensagem."', ".$id_servidor.", '".$data."', '".$acao."')
+		
+		") or die(mysqli_error($this->conexao));
 		
 	}
 	

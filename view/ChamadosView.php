@@ -58,12 +58,12 @@ class ChamadosView extends View{
 
 ?>
 	
-		<form name="cadastro" method="POST" action="cadastrar/chamado/" enctype="multipart/form-data">
+		<form name="cadastro" method="POST" action="/cadastrar/chamado/" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-md-6">
 					 <div class="form-group">
 						<label class="control-label" for="exampleInputEmail1">Natureza do problema:</label>
-						<select class="form-control" id="natureza" name="natureza_problema" required/>
+						<select class="form-control" id="natureza" name="natureza" required />
 							<option value="">Selecione a natureza do problema</option>
 							<option value="WORD">WORD</option>
 							<option value="EXCEL">EXCEL</option>

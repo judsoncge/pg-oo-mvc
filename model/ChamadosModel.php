@@ -1,7 +1,6 @@
 <?php
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/model/Model.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/model/FuncoesGlobais.php';
 
 class ChamadosModel extends Model{
 	
@@ -10,9 +9,6 @@ class ChamadosModel extends Model{
 	private $natureza;
 	private $servidorRequisitante;
 	private $status;
-	private $dataAbertura;
-	private $dataFechamento;
-	private $dataEncerramento;
 	private $avaliacao;
 	
 	
@@ -36,18 +32,6 @@ class ChamadosModel extends Model{
 		$this->status = $status;
 	}
 	
-	public function setDataAbertura($dataAbertura){
-		$this->dataAbertura = $dataAbertura;
-	}
-	
-	public function setDataFechamento($dataFechamento){
-		$this->dataFechamento = $dataFechamento;
-	}
-	
-	public function setDataEncerramento($dataEncerramento){
-		$this->dataEncerramento = $dataEncerramento;
-	}
-	
 	public function setAvaliacao($avaliacao){
 		$this->avaliacao = $avaliacao;
 	}
@@ -56,9 +40,23 @@ class ChamadosModel extends Model{
 		
 		$this->conectar();
 		
-		$data = date('Y-m-d');
+		$data = date('Y-m-d H:i:s');
 		
-		//to do
+		$resultado = mysqli_query($this->conexao, "
+			
+		INSERT INTO tb_chamados
+		
+		(DS_PROBLEMA, DS_NATUREZA, ID_SERVIDOR_REQUISITANTE, DT_ABERTURA)
+		
+		VALUES
+		
+		('".$this->problema."','".$this->natureza."','".$this->servidorRequisitante."','".$data."')
+		
+		") or die(mysqli_error($this->conexao));
+		
+		$this->setID(mysqli_insert_id($this->conexao));
+		
+		$this->cadastrarHistorico('chamados', $this->id, 'ABRIU UM NOVO CHAMADO', $this->servidorRequisitante, 'ABERTURA');
 		
 		$this->desconectar();
 		

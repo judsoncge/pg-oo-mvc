@@ -41,30 +41,26 @@ class ChamadosController extends Controller{
 	
 	public function cadastrar(){
 		
-		$nome   = $_POST['nome'];
+		$natureza = (isset($_POST['natureza'])) ? $_POST['natureza'] : NULL;
 		
-		$cpf    = $_POST['CPF'];
+		$problema = (isset($_POST['problema'])) ? $_POST['problema'] : NULL;
 		
-		$setor  = $_POST['setor'];
+		$servidorRequisitante = $_SESSION['ID'];
 		
-		$funcao = $_POST['funcao'];
+		$this->chamadosModel->setNatureza($natureza);
 		
-		$this->servidoresModel->setNome($nome);
+		$this->chamadosModel->setProblema($problema);
 		
-		$this->servidoresModel->setCPF($cpf);
+		$this->chamadosModel->setServidorRequisitante($servidorRequisitante);
 		
-		$this->servidoresModel->setSetor($setor);
+		$_SESSION['RESULTADO_OPERACAO'] = $this->chamadosModel->cadastrar();
 		
-		$this->servidoresModel->setFuncao($funcao);
-		
-		$_SESSION['RESULTADO_OPERACAO'] = $this->servidoresModel->cadastrar();
-		
-		$_SESSION['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
+		$_SESSION['MENSAGEM'] = $this->chamadosModel->getMensagemResposta();
 		
 		if($_SESSION['RESULTADO_OPERACAO']){
-			Header('Location: /servidores/ativos/');
+			Header('Location: /chamados/ativos/');
 		}else{
-			Header('Location: /servidores/cadastrar/');
+			Header('Location: /chamados/cadastrar/');
 		}
 		
 	}	

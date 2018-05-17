@@ -1,7 +1,6 @@
 <?php
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/model/Model.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/model/FuncoesGlobais.php';
 
 class ArquivosModel extends Model{
 	
