@@ -80,7 +80,7 @@ class ServidoresModel extends Model{
 	
 	}
 	
-	public function getDadosId(){
+	public function getDadosID(){
 		
 		$this->conectar();
 		

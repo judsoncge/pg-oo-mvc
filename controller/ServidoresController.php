@@ -136,7 +136,7 @@ class ServidoresController extends Controller{
 		
 				$this->servidoresModel->setID($_GET['id']);
 		
-				$listaDados = $this->servidoresModel->getDadosId();
+				$listaDados = $this->servidoresModel->getDadosID();
 				
 				$this->servidoresView->setTitulo("SERVIDORES > ".strtoupper($listaDados['DS_NOME'])." > EDITAR");
 				

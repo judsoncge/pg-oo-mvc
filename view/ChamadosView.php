@@ -25,7 +25,7 @@ class ChamadosView extends View{
 						
 						foreach($lista as $chamado){ 
 							
-							$styleTR = ($chamado['DS_STATUS'] == 'RESOLVIDO' && $chamado['DS_AVALIACAO'] != "SEM AVALIAÇÃO") 
+							$styleTR = ($chamado['DS_STATUS'] == 'FECHADO' && $chamado['DS_AVALIACAO'] != "SEM AVALIAÇÃO") 
 								? "style='background-color:#f1c40f'" 
 								: "";
 
@@ -37,7 +37,7 @@ class ChamadosView extends View{
 								<td><?php echo $chamado['DS_STATUS'] ?></td>
 								<td><?php echo $chamado['DS_AVALIACAO'] ?></td>
 								<td>
-									<a href="detalhes.php?id=<?php echo $chamado['ID'] ?>">
+									<a href="/detalhar/chamado/<?php echo $chamado['ID'] ?>">
 										<button type='button' class='btn btn-secondary btn-sm' title='Detalhes e operações'>
 											<i class='fa fa-eye' aria-hidden='true'></i>
 										</button>
@@ -98,7 +98,38 @@ class ChamadosView extends View{
 	
 	}
 	
+	public function detalhar(){
+		
+		$lista = $_REQUEST['DADOS_CHAMADO'];
+		
+?>		
 	
+		<div class="row" style="margin-top: 10px;">
+			<div class="col-md-12">
+				<div class="row linha-modal-processo">
+					
+					<?php if($lista['DS_STATUS'] =='ABERTO' and $_SESSION['FUNCAO']=='TI'){ ?>
+					
+							<a href="logica/editar.php?operacao=resolver&id=<?php echo $id ?>"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Resolver chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
+					
+					<?php } 	
+					
+					if($lista['DS_STATUS']=='FECHADO' and $_SESSION['FUNCAO']=='TI' and $lista['DS_AVALIACAO'] != "SEM AVALIAÇÃO"){ ?>
+					
+							<a href="logica/editar.php?operacao=encerrar&id=<?php echo $id ?>"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Encerrar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
+					<?php } 
+					
+					if($_SESSION['FUNCAO'] == 'TI' and $lista['DS_STATUS']=='ABERTO'){ ?>
+							
+							<a href="logica/excluir.php?id=<?php echo $id ?>"><button type='submit' onclick="return confirm('Você tem certeza que deseja apagar este processo?');" class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Excluir&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></button></a>
+						
+					<?php } ?>
+				</div> 
+			</div>
+		</div>
+
+<?php		
+	}
 
 	
 

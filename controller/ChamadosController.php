@@ -21,24 +21,6 @@ class ChamadosController extends Controller{
 		
 	}
 	
-	public function listar(){
-		
-		$this->chamadosModel->setStatus($_GET['status']);
-		
-		$listaChamados = $this->chamadosModel->getListaChamadosStatus();
-		
-		$titulo = ($_GET['status']=='ATIVO') ? 'CHAMADOS > ATIVOS' : 'CHAMADOS > INATIVOS';
-		
-		$this->chamadosView->setTitulo($titulo);
-		
-		$this->chamadosView->setConteudo('lista');
-		
-		$_REQUEST['LISTA_CHAMADOS'] = $listaChamados;
-		
-		$this->chamadosView->carregar();
-		
-	}
-	
 	public function cadastrar(){
 		
 		$natureza = (isset($_POST['natureza'])) ? $_POST['natureza'] : NULL;
@@ -65,98 +47,43 @@ class ChamadosController extends Controller{
 		
 	}	
 	
-	public function editar(){
-
-		$funcao        = (isset($_POST['funcao']))         ? $_POST['funcao']        : NULL;
+	public function listar(){
 		
-		$setor         = (isset($_POST['setor']))          ? $_POST['setor']         : NULL;
-	
-		$nome          = (isset($_POST['nome']))           ? $_POST['nome']          : NULL;
+		$this->chamadosModel->setStatus($_GET['status']);
 		
-		$cpf           = (isset($_POST['CPF']))            ? $_POST['CPF']           : NULL;
+		$listaChamados = $this->chamadosModel->getListaChamadosStatus();
 		
-		$status        = (isset($_GET['status']))          ? $_GET['status']         : NULL;
+		$titulo = ($_GET['status']=='ATIVO') ? 'CHAMADOS > ATIVOS' : 'CHAMADOS > INATIVOS';
 		
-		$foto          = (isset($_FILES['arquivoFoto']))    ? $_FILES['arquivoFoto'] : NULL;
+		$this->chamadosView->setTitulo($titulo);
 		
-		$senha         = (isset($_POST['senha']))          ? $_POST['senha']         : NULL;
+		$this->chamadosView->setConteudo('lista');
 		
-		$confirmaSenha = (isset($_POST['confirmaSenha']))  ? $_POST['confirmaSenha'] : NULL;
+		$_REQUEST['LISTA_CHAMADOS'] = $listaChamados;
 		
-		$id            = $_GET['id'];
-
-		$this->servidoresModel->setNome($nome);
-		
-		$this->servidoresModel->setCPF($cpf);
-		
-		$this->servidoresModel->setSetor($setor);
-		
-		$this->servidoresModel->setFuncao($funcao);
-		
-		$this->servidoresModel->setStatus($status);
-		
-		$this->servidoresModel->setFoto($foto);
-		
-		$this->servidoresModel->setSenha($senha);
-		
-		$this->servidoresModel->setConfirmaSenha($confirmaSenha);
-		
-		$this->servidoresModel->setId($id);
-		
-		$_SESSION['RESULTADO_OPERACAO'] = $this->servidoresModel->editar();
-		
-		$_SESSION['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
-		
-		if($_SESSION['RESULTADO_OPERACAO']){
-			Header('Location: /servidores/ativos/');
-		}else{
-			Header('Location: /servidores/editar/'.$id);
-		}
-		
-		
+		$this->chamadosView->carregar();
 		
 	}
 	
-	public function carregarEdicao(){
+	public function detalhar(){
 		
-		switch($_GET['tipo']){
-			
-			case 'info':
-			
-				$listaSetores = $this->setoresModel->getIDNomeSetores();
+		$id = $_GET['id'];
 		
-				$this->servidoresModel->setID($_GET['id']);
+		$this->chamadosModel->setID($id);
 		
-				$listaDados = $this->servidoresModel->getDadosId();
-				
-				$this->servidoresView->setTitulo("SERVIDORES > ".strtoupper($listaDados['DS_NOME'])." > EDITAR");
-				
-				$_REQUEST['LISTA_SETORES']  = $listaSetores;
-				
-				$_REQUEST['DADOS_SERVIDOR'] = $listaDados;
-				
-				break;
-			
-			case 'senha':
-				$this->servidoresView->setTitulo("EDITAR SENHA");
-				break;
-			
-			case 'foto':
-				$this->servidoresView->setTitulo("EDITAR FOTO");
-				break;
-			
-			
-		}
+		$listaDados = $this->chamadosModel->getDadosID();
 		
+		$this->chamadosView->setTitulo("CHAMADOS > ".$listaDados['ID']." > DETALHES");
 		
-		$this->servidoresView->setConteudo('edicao');
+		$this->chamadosView->setConteudo('detalhes');
 		
-		$this->servidoresView->setTipoEdicao($_GET['tipo']);
+		$_REQUEST['DADOS_CHAMADO'] = $listaDados;
 		
-		$this->servidoresView->carregar();
+		$this->chamadosView->carregar();
 		
 	}
 	
+
 }
 
 ?>

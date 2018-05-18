@@ -128,6 +128,34 @@ class ChamadosModel extends Model{
 
 	}
 	
+	public function getDadosID(){
+		
+		$this->conectar();
+		
+		$resultado = mysqli_query($this->conexao, 
+		
+		"SELECT 
+		
+		a.*, 
+		
+		s1.DS_NOME DS_NOME_REQUISITANTE
+		
+		FROM  tb_chamados a
+		
+		INNER JOIN tb_servidores s1 ON a.ID_SERVIDOR_REQUISITANTE = s1.ID 
+		
+		WHERE a.ID = ".$this->id."
+		
+		");
+		
+		$listaDados = mysqli_fetch_array($resultado);
+		
+		$this->desconectar();
+		
+		return $listaDados;
+		
+	}
+	
 	public function excluir(){
 		
 		$this->conectar();
