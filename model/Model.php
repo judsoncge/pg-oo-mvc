@@ -5,8 +5,8 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/model/FuncoesGlobais.php';
 class Model{
 	
 	//atributo da conexao com banco de dados
-	public $conexao;
-	public $mensagemResposta;
+	protected $conexao;
+	protected $mensagemResposta;
 	
 	public function setMensagemResposta($mensagemResposta){
 		$this->mensagemResposta = $mensagemResposta;
@@ -81,6 +81,36 @@ class Model{
 		(".$id_referente.", '".$mensagem."', ".$id_servidor.", '".$data."', '".$acao."')
 		
 		") or die(mysqli_error($this->conexao));
+		
+	}
+	
+	public function getHistorico($modulo, $id){
+		
+		$this->conectar();
+		
+		$resultado = mysqli_query($this->conexao, "
+		
+		SELECT a.*,
+		
+		s.DS_NOME, s.DS_FOTO
+		
+		FROM tb_historico_$modulo a
+		
+		INNER JOIN tb_servidores s ON a.ID_SERVIDOR = s.ID
+		
+		WHERE a.ID_REFERENTE = ".$id." 
+		
+		") or die(mysqli_error($this->conexao));
+
+		$historico = array();
+	
+		While($row = mysqli_fetch_array($resultado)){ 
+			array_push($historico, $row); 
+		} 
+		
+		$this->desconectar();
+		
+		return $historico;
 		
 	}
 	

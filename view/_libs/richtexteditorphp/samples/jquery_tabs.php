@@ -36,7 +36,7 @@
 <head>
     <title>RichTextEditor - Editor inside jQuery tabs</title>
     <link rel="stylesheet" href="../example.css" type="text/css" />
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/_libs/jquery/1.7.1/jquery.min.js"></script>
 
 	<style type="text/css">
 		#wrapper

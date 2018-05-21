@@ -82,11 +82,11 @@ class ChamadosModel extends Model{
 		
 		a.ID, a.DS_NATUREZA, a.DT_ABERTURA, a.DS_STATUS, a.DS_AVALIACAO, 
 		
-		s1.DS_NOME DS_NOME_REQUISITANTE
+		s.DS_NOME DS_NOME_REQUISITANTE
 		
 		FROM  tb_chamados a
 		
-		INNER JOIN tb_servidores s1 ON a.ID_SERVIDOR_REQUISITANTE = s1.ID 
+		INNER JOIN tb_servidores s ON a.ID_SERVIDOR_REQUISITANTE = s.ID 
 		
 		WHERE a.DS_STATUS ".$restricao_status." 
 		
@@ -138,11 +138,11 @@ class ChamadosModel extends Model{
 		
 		a.*, 
 		
-		s1.DS_NOME DS_NOME_REQUISITANTE
+		s.DS_NOME DS_NOME_REQUISITANTE
 		
 		FROM  tb_chamados a
 		
-		INNER JOIN tb_servidores s1 ON a.ID_SERVIDOR_REQUISITANTE = s1.ID 
+		INNER JOIN tb_servidores s ON a.ID_SERVIDOR_REQUISITANTE = s.ID 
 		
 		WHERE a.ID = ".$this->id."
 		

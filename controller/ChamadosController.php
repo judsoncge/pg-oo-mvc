@@ -73,11 +73,15 @@ class ChamadosController extends Controller{
 		
 		$listaDados = $this->chamadosModel->getDadosID();
 		
+		$historico  = $this->chamadosModel->getHistorico('chamados', $id);
+		
 		$this->chamadosView->setTitulo("CHAMADOS > ".$listaDados['ID']." > DETALHES");
 		
 		$this->chamadosView->setConteudo('detalhes');
 		
-		$_REQUEST['DADOS_CHAMADO'] = $listaDados;
+		$_REQUEST['DADOS_CHAMADO']     = $listaDados;
+		
+		$_REQUEST['HISTORICO_CHAMADO'] = $historico;
 		
 		$this->chamadosView->carregar();
 		

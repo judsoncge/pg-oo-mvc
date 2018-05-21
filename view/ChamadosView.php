@@ -102,37 +102,106 @@ class ChamadosView extends View{
 		
 		$lista = $_REQUEST['DADOS_CHAMADO'];
 		
+		$historico = $_REQUEST['HISTORICO_CHAMADO'];
+		
 ?>		
 	
-		<div class="row" style="margin-top: 10px;">
+		<div class="row linha-modal-processo">
 			<div class="col-md-12">
-				<div class="row linha-modal-processo">
-					
-					<?php if($lista['DS_STATUS'] =='ABERTO' and $_SESSION['FUNCAO']=='TI'){ ?>
-					
-							<a href="logica/editar.php?operacao=resolver&id=<?php echo $id ?>"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Resolver chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
-					
-					<?php } 	
-					
-					if($lista['DS_STATUS']=='FECHADO' and $_SESSION['FUNCAO']=='TI' and $lista['DS_AVALIACAO'] != "SEM AVALIAÇÃO"){ ?>
-					
-							<a href="logica/editar.php?operacao=encerrar&id=<?php echo $id ?>"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Encerrar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
-					<?php } 
-					
-					if($_SESSION['FUNCAO'] == 'TI' and $lista['DS_STATUS']=='ABERTO'){ ?>
-							
-							<a href="logica/excluir.php?id=<?php echo $id ?>"><button type='submit' onclick="return confirm('Você tem certeza que deseja apagar este processo?');" class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Excluir&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></button></a>
+				<?php if($lista['DS_STATUS'] =='ABERTO'){ ?>
+				
+						<a href="/editar/chamado/<?php echo $lista['ID'] ?><?php echo $id ?>"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Fechar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
+				
+				<?php } 	
+				
+				if($lista['DS_STATUS']=='FECHADO' and $lista['DS_AVALIACAO'] != "SEM AVALIAÇÃO"){ ?>
+				
+						<a href="/editar/chamado/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Encerrar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
+				<?php } 
+				
+				if($lista['DS_STATUS']=='ABERTO'){ ?>
 						
-					<?php } ?>
-				</div> 
+						<a href="/excluir/chamado/<?php echo $lista['ID'] ?>"><button type='submit' onclick="return confirm('Você tem certeza que deseja apagar este processo?');" class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Excluir&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></button></a>
+					
+				<?php } ?>
+			</div> 
+		</div>
+		<div class="row linha-modal-processo">
+			<div class="col-md-12">
+				<b>Status</b>:
+					<?php echo $lista['DS_STATUS'] ?><br><br>	
+				<b>Data de abertura  </b>: 
+					<?php echo date_format(new DateTime($lista['DT_ABERTURA']), 'd/m/Y H:i:s') ?><br> 
+				<b>Data de fechamento  </b>: 
+					<?php 
+						
+						$data = ($lista['DT_FECHAMENTO'] == NULL) 
+							? "Sem data" 
+							: date_format(new DateTime($lista['DT_FECHAMENTO']), 'd/m/Y H:i:s');
+						
+						echo $data;
+						
+					?>
+				<br> 
+				<b>Data de encerramento  </b>: 
+					<?php 
+						
+						$data = ($lista['DT_ENCERRAMENTO'] == NULL) 
+							? "Sem data" 
+							: date_format(new DateTime($lista['DT_ENCERRAMENTO']), 'd/m/Y H:i:s');
+						
+						echo $data;
+						
+					?>
+				<br>  
+				<b>Requisitante      </b>: 
+					<?php echo $lista['DS_NOME_REQUISITANTE'] ?><br>
+				<b>Problema          </b>: 
+					<?php echo $lista['DS_PROBLEMA'] ?><br> 
+				<b>Natureza          </b>:
+					<?php echo $lista['DS_NATUREZA'] ?>	
 			</div>
 		</div>
+		<?php 
+		
+			$this->carregarHistorico($historico); 
+			
+			if($lista['DS_AVALIACAO'] == 'SEM AVALIAÇÃO' and $lista['DS_STATUS'] != 'ENCERRADO'){
+			
+				$this->carregarEnviarMensagem('chamados', $lista['ID']);
+			
+			}
+			
+			if($lista['DS_AVALIACAO'] == 'SEM AVALIAÇÃO' and $lista['DS_STATUS'] == 'FECHADO'){
+				
+		?>
+		
+				<div class="row linha-modal-processo">
+					<form name="cadastro" method="POST" action="/editar/chamado/<?php echo $lista['ID'] ?>" enctype="multipart/form-data">
+						<div class="col-md-10">
+							<select class="form-control" id="avaliacao" name="avaliacao" required/>
+								<option value="">Avalie o atendimento</option>
+								<option value="PÉSSIMO">PÉSSIMO</option>
+								<option value="RUIM">RUIM</option>
+								<option value="REGULAR">REGULAR</option>
+								<option value="BOM">BOM</option>
+								<option value="EXCELENTE">EXCELENTE</option>
+							</select>
+						</div>
+						<div class='col-md-2'>
+							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-dar-saida'>Avaliar &nbsp;&nbsp;<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+						</div>
+					</form>				
+				</div>
+
+		<?php
+			
+			}
+			
+		?>
 
 <?php		
 	}
-
-	
-
 }
 
 ?>
