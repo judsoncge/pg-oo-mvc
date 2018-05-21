@@ -27,6 +27,7 @@ RewriteRule ^servidores/inativos                  /index.php?acao=lista&modulo=S
 RewriteRule ^detalhar/chamado/(.*)                /index.php?acao=detalhes&modulo=Chamados&id=$1
 RewriteRule ^chamados/cadastrar                   /index.php?acao=cadastro&modulo=Chamados
 RewriteRule ^cadastrar/chamado            	      /index.php?acao=cadastrar&modulo=Chamados
+RewriteRule ^editar/chamado/(.*)/(.*)	          /index.php?acao=editar&modulo=Chamados&id=$1&status=$2
 RewriteRule ^chamados/ativos                      /index.php?acao=lista&modulo=Chamados&status=ATIVO
 RewriteRule ^chamados/inativos                    /index.php?acao=lista&modulo=Chamados&status=INATIVO
 

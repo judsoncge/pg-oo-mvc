@@ -122,8 +122,6 @@ class ServidoresController extends Controller{
 			Header('Location: /servidores/editar/'.$id);
 		}
 		
-		
-		
 	}
 	
 	public function carregarEdicao(){

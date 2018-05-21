@@ -112,14 +112,53 @@ class ChamadosModel extends Model{
 		
 		$this->conectar();
 		
-		//to do
+		$data = date('Y-m-d H:i:s');
 		
-		$this->desconectar();
+		$query  = "UPDATE tb_chamados SET ";
 		
-		if(isset($anexoAntigo)){
-			unlink($_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/'.$anexoAntigo);
+		if($this->status != NULL){
+			
+			$query .= "DS_STATUS = '".$this->status."', ";
+
+		    switch($this->status){
+				
+				case 'FECHADO':
+					$query .= "DT_FECHAMENTO = '".$data."', ";
+					$textoMensagem = "FECHOU O CHAMADO";
+					$acao = 'FECHAMENTO';
+					break;
+				
+				case 'ENCERRADO':
+					$query .= "DT_ENCERRAMENTO = '".$data."', ";
+					$textoMensagem = "ENCERROU O CHAMADO";
+					$acao = 'ENCERRAMENTO';
+					break;
+				
+			}
+			
+		}elseif($this->avaliacao != NULL){
+			
+			$query .= ($this->avaliacao != NULL)  ?  "DS_AVALIACAO = '".$this->avaliacao."', " : ""; 
+			
+			$textoMensagem = "AVALIOU O CHAMADO: " . $this->avaliacao;
+			$acao = 'AVALIAÇÃO';
+		
 		}
 		
+		$query .= ($this->avaliacao != NULL)  ?  "DS_AVALIACAO = '".$this->avaliacao."', " : ""; 
+		
+		$query .= "WHERE ID=".$this->id."";	
+
+		$query = str_replace(", WHERE", " WHERE", $query);
+	
+		mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
+		
+		$resultado = mysqli_affected_rows($this->conexao);
+		
+		$this->cadastrarHistorico('chamados', $this->id, $textoMensagem, $_SESSION['ID'], $acao);
+
+		$this->desconectar();
+
 		$mensagemResposta = ($resultado) ? 'O chamado foi editado com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
 			
 		$this->setMensagemResposta($mensagemResposta);

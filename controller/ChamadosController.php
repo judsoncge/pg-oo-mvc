@@ -47,6 +47,32 @@ class ChamadosController extends Controller{
 		
 	}	
 	
+	public function editar(){
+		
+		$status = (isset($_GET['status'])) ? $_GET['status'] : NULL;
+
+		$avaliacao = (isset($_POST['avaliacao'])) ? $_POST['avaliacao'] : NULL;
+		
+		$id = $_GET['id'];
+
+		$this->chamadosModel->setStatus($status);
+		
+		$this->chamadosModel->setAvaliacao($avaliacao);
+		
+		$this->chamadosModel->setId($id);
+		
+		$_SESSION['RESULTADO_OPERACAO'] = $this->chamadosModel->editar();
+		
+		$_SESSION['MENSAGEM'] = $this->chamadosModel->getMensagemResposta();
+		
+		if($_SESSION['RESULTADO_OPERACAO']){
+			Header('Location: /chamados/ativos/');
+		}else{
+			Header('Location: /chamados/editar/'.$id);
+		}
+		
+	}
+	
 	public function listar(){
 		
 		$this->chamadosModel->setStatus($_GET['status']);

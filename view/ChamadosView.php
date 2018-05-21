@@ -25,7 +25,7 @@ class ChamadosView extends View{
 						
 						foreach($lista as $chamado){ 
 							
-							$styleTR = ($chamado['DS_STATUS'] == 'FECHADO' && $chamado['DS_AVALIACAO'] != "SEM AVALIAÇÃO") 
+							$styleTR = ($chamado['DS_STATUS'] == 'FECHADO' && $chamado['DS_AVALIACAO'] != 'SEM AVALIAÇÃO') 
 								? "style='background-color:#f1c40f'" 
 								: "";
 
@@ -110,13 +110,13 @@ class ChamadosView extends View{
 			<div class="col-md-12">
 				<?php if($lista['DS_STATUS'] =='ABERTO'){ ?>
 				
-						<a href="/editar/chamado/<?php echo $lista['ID'] ?><?php echo $id ?>"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Fechar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
+						<a href="/editar/chamado/<?php echo $lista['ID'] ?>/FECHADO"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Fechar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
 				
 				<?php } 	
 				
 				if($lista['DS_STATUS']=='FECHADO' and $lista['DS_AVALIACAO'] != "SEM AVALIAÇÃO"){ ?>
 				
-						<a href="/editar/chamado/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Encerrar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
+						<a href="/editar/chamado/<?php echo $lista['ID'] ?>/ENCERRADO"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Encerrar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
 				<?php } 
 				
 				if($lista['DS_STATUS']=='ABERTO'){ ?>
@@ -177,7 +177,7 @@ class ChamadosView extends View{
 		?>
 		
 				<div class="row linha-modal-processo">
-					<form name="cadastro" method="POST" action="/editar/chamado/<?php echo $lista['ID'] ?>" enctype="multipart/form-data">
+					<form name="cadastro" method="POST" action="/editar/chamado/<?php echo $lista['ID'] ?>/" enctype="multipart/form-data">
 						<div class="col-md-10">
 							<select class="form-control" id="avaliacao" name="avaliacao" required/>
 								<option value="">Avalie o atendimento</option>
