@@ -10,6 +10,7 @@ class ChamadosModel extends Model{
 	private $servidorRequisitante;
 	private $status;
 	private $avaliacao;
+	private $mensagem;
 	
 	
 	public function setID($id){
@@ -34,6 +35,10 @@ class ChamadosModel extends Model{
 	
 	public function setAvaliacao($avaliacao){
 		$this->avaliacao = $avaliacao;
+	}
+	
+	public function setMensagem($mensagem){
+		$this->mensagem = $mensagem;
 	}
 	
 	public function cadastrar(){
@@ -108,9 +113,11 @@ class ChamadosModel extends Model{
 		
 	}
 	
-	public function editar(){
+	public function editarStatus($modulo, $status, $id){
 		
 		$this->conectar();
+		
+		parent::editarStatus($modulo, $status, $id);
 		
 		$data = date('Y-m-d H:i:s');
 		

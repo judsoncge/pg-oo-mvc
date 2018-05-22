@@ -37,8 +37,8 @@ class ChamadosView extends View{
 								<td><?php echo $chamado['DS_STATUS'] ?></td>
 								<td><?php echo $chamado['DS_AVALIACAO'] ?></td>
 								<td>
-									<a href="/detalhar/chamado/<?php echo $chamado['ID'] ?>">
-										<button type='button' class='btn btn-secondary btn-sm' title='Detalhes e operações'>
+									<a href="/chamados/visualizar/<?php echo $chamado['ID'] ?>">
+										<button type='button' class='btn btn-secondary btn-sm' title='Visualizar'>
 											<i class='fa fa-eye' aria-hidden='true'></i>
 										</button>
 									</a>
@@ -98,7 +98,7 @@ class ChamadosView extends View{
 	
 	}
 	
-	public function detalhar(){
+	public function visualizar(){
 		
 		$lista = $_REQUEST['DADOS_CHAMADO'];
 		
@@ -168,7 +168,7 @@ class ChamadosView extends View{
 			
 			if($lista['DS_AVALIACAO'] == 'SEM AVALIAÇÃO' and $lista['DS_STATUS'] != 'ENCERRADO'){
 			
-				$this->carregarEnviarMensagem('chamados', $lista['ID']);
+				$this->carregarEnviarMensagem('chamado', $lista['ID']);
 			
 			}
 			

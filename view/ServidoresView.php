@@ -47,7 +47,7 @@ class ServidoresView extends View{
 									
 									<?php
 									
-										if($servidor['DS_FUNCAO'] == 'ATIVO'){
+										if($servidor['DS_STATUS'] == 'ATIVO'){
 											$getStatus = 'INATIVO';
 											$title = 'Inativar';
 										}else{
@@ -57,7 +57,7 @@ class ServidoresView extends View{
 									
 									?>
 									
-									<a href='/editar/servidor/<?php echo $servidor['ID'] ?>/<?php echo $getStatus ?>'>
+									<a href='/editar/servidor/status/<?php echo $servidor['ID'] ?>/<?php echo $getStatus ?>'>
 										<button type='button' class='btn btn-secondary btn-sm' title='<?php echo $title ?>'>
 											<i class="fa fa-minus-square-o" aria-hidden="true"></i>
 										</button>
@@ -106,7 +106,7 @@ class ServidoresView extends View{
 			$listaDados = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_SERVIDOR'] : NULL;
 			
 			$action = ($this->conteudo == 'edicao') 
-				? "/editar/servidor/".$listaDados['ID']."/ATIVO"
+				? "/editar/servidor/info/".$listaDados['ID']."/ATIVO"
 				: '/cadastrar/servidor/';
 				
 			$nomeBotao = ($this->conteudo == 'edicao') ? 'Editar' : 'Cadastrar';
@@ -151,7 +151,7 @@ class ServidoresView extends View{
 		
 ?>
 		
-	<form name="cadastro" method="POST" action="/editar/servidor/<?php echo $_SESSION['ID'] ?>/ATIVO" enctype="multipart/form-data"> 
+	<form name="cadastro" method="POST" action="/editar/servidor/senha/<?php echo $_SESSION['ID'] ?>/" enctype="multipart/form-data"> 
 		<div class="row">
 			<div class="col-md-5">
 				<div class="form-group">
@@ -184,7 +184,7 @@ class ServidoresView extends View{
 		
 ?>	
 
-	<form name="cadastro" method="POST" action="/editar/servidor/<?php echo $_SESSION['ID'] ?>/ATIVO" enctype="multipart/form-data"> 
+	<form name="cadastro" method="POST" action="/editar/servidor/foto/<?php echo $_SESSION['ID'] ?>/" enctype="multipart/form-data"> 
 		<div class="row">
 			<div class="col-md-10">
 				<div class="form-group">

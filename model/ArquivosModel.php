@@ -146,37 +146,17 @@ class ArquivosModel extends Model{
 		
 		$this->conectar();
 		
-		$query = "UPDATE tb_arquivos SET ";
-		
-		$query .= ($this->tipo != NULL) ? "DS_TIPO = ".$this->tipo.", " : "";  
-		
-		$query .= ($this->servidorDestino != NULL) ? "ID_SERVIDOR_DESTINO = ".$this->servidorDestino.", " : "";  
-		
-		if($this->anexo != NULL){
-			
-			$nomeAnexo = registrarAnexo($this->anexo, $_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/');
-			
-			$anexoAntigo = $this->getNomeAnexo();
-			
-			$query .= "DS_ANEXO = ".$nomeAnexo.", ";
-			
-		}
-		
-		$query .= ($this->status != NULL) ? "DS_STATUS = '".$this->status."' " : ""; 
+		$query = "UPDATE tb_arquivos SET DS_TIPO = '".$this->tipo."', ID_SERVIDOR_DESTINO = ".$this->servidorDestino." WHERE ID = ".$this->id."";
 
-		$query .= " WHERE ID='".$this->id."'";
-		
 		mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
 		
 		$resultado = mysqli_affected_rows($this->conexao);
 		
 		$this->desconectar();
 		
-		if(isset($anexoAntigo)){
-			unlink($_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/'.$anexoAntigo);
-		}
-		
-		$mensagemResposta = ($resultado) ? 'O arquivo foi editado com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
+		$mensagemResposta = ($resultado) 
+			? 'O arquivo foi editado com sucesso!' 
+			: 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
 			
 		$this->setMensagemResposta($mensagemResposta);
 		
@@ -188,12 +168,7 @@ class ArquivosModel extends Model{
 		
 		$this->conectar();
 		
-		$resultado = mysqli_query($this->conexao, 
-		
-		"DELETE FROM tb_arquivos 
-		WHERE ID=".$this->id."
-		
-		") or die(mysqli_error($this->conexao));
+		$resultado = mysqli_query($this->conexao, "DELETE FROM tb_arquivos WHERE ID=".$this->id."") or die(mysqli_error($this->conexao));
 		
 		$resultado = mysqli_affected_rows($this->conexao);
 		
@@ -203,7 +178,9 @@ class ArquivosModel extends Model{
 			unlink($_SERVER['DOCUMENT_ROOT']."/_registros/anexos/".$this->anexo);
 		}
 		
-		$mensagemResposta = ($resultado) ? 'O arquivo foi excluído com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
+		$mensagemResposta = ($resultado) 
+			? 'O arquivo foi excluído com sucesso!' 
+			: 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
 			
 		$this->setMensagemResposta($mensagemResposta);
 		

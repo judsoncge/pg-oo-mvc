@@ -58,7 +58,7 @@ class ServidoresModel extends Model{
 		
 		SELECT 
 		
-		s1.ID, s1.DS_CPF, s1.DS_NOME, s1.DS_FUNCAO, s2.DS_ABREVIACAO
+		s1.ID, s1.DS_CPF, s1.DS_NOME, s1.DS_FUNCAO, s1.DS_STATUS, s2.DS_ABREVIACAO
 		
 		FROM tb_servidores s1
 		
@@ -147,30 +147,6 @@ class ServidoresModel extends Model{
 	
 	public function editar(){
 		
-		if($this->foto != NULL){
-			
-			$nomeAnexo = registrarAnexo($this->foto, $_SERVER['DOCUMENT_ROOT'].'/_registros/fotos/');
-			
-			if($_SESSION['FOTO'] != 'default.jpg'){
-				
-				unlink($_SERVER['DOCUMENT_ROOT'].'/_registros/fotos/'.$_SESSION['FOTO']);
-				
-			}
-			
-			$this->setFoto($nomeAnexo);
-				
-			$_SESSION['FOTO'] = $nomeAnexo;
-		
-		}
-		
-		if( ($this->senha != NULL && $this->confirmaSenha != NULL) && ($this->senha != $this->confirmaSenha) ){
-			
-			$this->setMensagemResposta('As senhas não conferem!');
-			
-			return 0;
-			
-		}
-		
 		if($this->cpf != NULL){
 			
 			$existe = $this->verificaExisteRegistroId('tb_servidores', 'DS_CPF', $this->cpf, $this->id);
@@ -187,26 +163,8 @@ class ServidoresModel extends Model{
 		
 		$this->conectar();
 		
-		$query  = "UPDATE tb_servidores SET ";
+		$query  = "UPDATE tb_servidores SET DS_FUNCAO = '".$this->funcao."', ID_SETOR = ".$this->setor.", DS_NOME = '".$this->nome."', DS_CPF = '".$this->cpf."' WHERE ID=".$this->id."";
 		
-		$query .= ($this->funcao != NULL) ?  "DS_FUNCAO = '".$this->funcao."', " : ""; 
-		
-		$query .= ($this->setor != NULL)  ?  "ID_SETOR = ".$this->setor.", " : ""; 
-		
-		$query .= ($this->nome != NULL)   ?  "DS_NOME = '".$this->nome."', " : ""; 
-		
-		$query .= ($this->setor != NULL)  ?  "DS_CPF = '".$this->cpf."', " : ""; 
-		
-		$query .= ($this->status != NULL) ?  "DS_STATUS = '".$this->status."', " : ""; 
-		
-		$query .= ($this->foto != NULL)   ?  "DS_FOTO = '".$this->foto."', " : ""; 
-		
-		$query .= ($this->senha != NULL)  ?  "SENHA = '".md5($this->senha)."', " : ""; 
-		
-		$query .= "WHERE ID=".$this->id."";	
-
-		$query = str_replace(", WHERE", " WHERE", $query);
-	
 		mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
 		
 		$resultado = mysqli_affected_rows($this->conexao);
@@ -215,6 +173,71 @@ class ServidoresModel extends Model{
 		
 		$mensagemResposta = ($resultado) 
 			? 'Edição realizada com sucesso!' 
+			: 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
+
+		$this->setMensagemResposta($mensagemResposta);
+		
+		return $resultado;
+		
+	}
+	
+	public function editarSenha(){
+		
+		if($this->senha != $this->confirmaSenha){
+			
+			$this->setMensagemResposta('As senhas não conferem!');
+			
+			return 0;
+			
+		}else{
+			
+			$this->senha = md5($this->senha);
+			
+			$this->conectar();
+			
+			$query = "UPDATE tb_servidores SET SENHA = '".$this->senha."' WHERE ID = ".$this->id."";
+			
+			mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
+		
+			$resultado = mysqli_affected_rows($this->conexao);
+			
+			$this->desconectar();
+			
+			$mensagemResposta = ($resultado) 
+				? 'Senha alterada com sucesso!' 
+				: 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
+
+			$this->setMensagemResposta($mensagemResposta);
+			
+			return $resultado;
+		
+		}
+	}
+	
+	public function editarFoto(){
+		
+		$nomeAnexo = registrarAnexo($this->foto, $_SERVER['DOCUMENT_ROOT'].'/_registros/fotos/');
+			
+		if($_SESSION['FOTO'] != 'default.jpg'){
+			
+			unlink($_SERVER['DOCUMENT_ROOT'].'/_registros/fotos/'.$_SESSION['FOTO']);
+			
+		}
+		
+		$this->conectar();
+		
+		$query = "UPDATE tb_servidores SET DS_FOTO = '".$nomeAnexo."' WHERE ID = ".$this->id."";
+		
+		mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
+			
+		$_SESSION['FOTO'] = $nomeAnexo;
+		
+		$resultado = mysqli_affected_rows($this->conexao);
+		
+		$this->desconectar();
+		
+		$mensagemResposta = ($resultado) 
+			? 'Foto alterada com sucesso!' 
 			: 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
 
 		$this->setMensagemResposta($mensagemResposta);

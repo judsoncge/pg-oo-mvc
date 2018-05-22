@@ -22,26 +22,19 @@ class Controller{
 	protected $servidoresView;
 	protected $setoresModel; 
 	
-	public function editarStatus($tabela, $status, $id){
+	public function enviarMensagem($modulo, $id){	
+			
+		$model = new $moduloModel();
 		
-		$this->conectar();
+		$model->setModulo($modulo);
 		
-		$resultado = mysqli_query($this->conexao, 
+		$model->setID($id);
 		
-		"UPDATE ".$tabela."
+		$model->enviarMensagem();
 		
-		SET DS_STATUS='".$status."'
 		
-		WHERE ID='".$id."'
 		
-		") or die(mysqli_error($this->conexao));
 		
-		$resultado = mysqli_affected_rows($this->conexao);
-		
-		$this->desconectar();
-		
-		return $resultado;
-
 	}
 
 }

@@ -75,32 +75,42 @@ class ArquivosController extends Controller{
 	
 	public function editar(){
 		
-		$tipo =            (isset($_POST['tipo']))           ? $_POST['tipo']           : NULL;
+		$id = (isset($_GET['id'])) ? $_GET['id'] : NULL;
 		
-		$servidorDestino = (isset($_POST['servidor']))       ? $_POST['servidor']       : NULL;
+		switch($_GET['operacao']){
+			
+			case 'status':
+				
+				$status = (isset($_GET['status'])) ? $_GET['status'] : NULL;
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->arquivosModel->editarStatus('arquivos', $status, $id);
+				
+				break;
+				
+			case 'info': 
+			
+				$tipo = (isset($_POST['tipo'])) ? $_POST['tipo'] : NULL;
 		
-		$anexo =           (isset($_FILES['arquivo_anexo'])) ? $_FILES['arquivo_anexo'] : NULL;
+				$servidorDestino = (isset($_POST['servidor'])) ? $_POST['servidor'] : NULL;
 		
-		$status =          (isset($_GET['status']))          ? $_GET['status']          : NULL;
+				$anexo = (isset($_FILES['arquivo_anexo'])) ? $_FILES['arquivo_anexo'] : NULL;
+				
+				$this->arquivosModel->setTipo($tipo);
 		
-		$id =              (isset($_GET['id']))              ? $_GET['id']              : NULL;
+				$this->arquivosModel->setServidorDestino($servidorDestino);
 		
-		$this->arquivosModel->setTipo($tipo);
-		
-		$this->arquivosModel->setServidorDestino($servidorDestino);
-		
-		$this->arquivosModel->setAnexo($anexo);
-		
-		$this->arquivosModel->setStatus($status);
-		
-		$this->arquivosModel->setID($id);
-		
-		$_SESSION['RESULTADO_OPERACAO'] = $this->arquivosModel->editar();
+				$this->arquivosModel->setAnexo($anexo);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->arquivosModel->editar();
+				
+				break;
+			
+		}
 		
 		$_SESSION['MENSAGEM'] = $this->arquivosModel->getMensagemResposta();
 	
-		$this->listar('ATIVO');
-	
+		Header('Location: /arquivos/ativos/');
+		
 	}
 	
 	public function excluir(){
@@ -113,7 +123,7 @@ class ArquivosController extends Controller{
 		
 		$_SESSION['MENSAGEM'] = $this->arquivosModel->getMensagemResposta();
 	
-		$this->listar('ATIVO');
+		Header('Location: /arquivos/ativos/');
 	
 	}
 	

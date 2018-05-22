@@ -11,7 +11,7 @@ RewriteRule ^arquivos/cadastrar       	 	      /index.php?acao=cadastro&modulo=A
 RewriteRule ^cadastrar/arquivo        	 	      /index.php?acao=cadastrar&modulo=Arquivos
 RewriteRule ^arquivos/ativos          		      /index.php?acao=lista&modulo=Arquivos&status=ATIVO
 RewriteRule ^arquivos/inativos        	          /index.php?acao=lista&modulo=Arquivos&status=INATIVO
-RewriteRule ^editar/arquivo/(.*)/(.*)             /index.php?acao=editar&modulo=Arquivos&id=$1&status=$2
+RewriteRule ^editar/arquivo/(.*)/(.*)/(.*)        /index.php?acao=editar&modulo=Arquivos&operacao=$1&id=$2&status=$3
 RewriteRule ^excluir/arquivo/(.*)/(.*)            /index.php?acao=excluir&modulo=Arquivos&id=$1&anexo=$2
  
 RewriteRule ^servidores/cadastrar                 /index.php?acao=cadastro&modulo=Servidores
@@ -19,15 +19,15 @@ RewriteRule ^cadastrar/servidor               	  /index.php?acao=cadastrar&modul
 RewriteRule ^servidores/editar/(.*)               /index.php?acao=edicao&tipo=info&modulo=Servidores&id=$1
 RewriteRule ^servidores/senha/                    /index.php?acao=edicao&tipo=senha&modulo=Servidores&id=$1
 RewriteRule ^servidores/foto/                     /index.php?acao=edicao&tipo=foto&modulo=Servidores&id=$1
-RewriteRule ^editar/servidor/(.*)/(.*)            /index.php?acao=editar&modulo=Servidores&id=$1&status=$2
+RewriteRule ^editar/servidor/(.*)/(.*)/(.*)       /index.php?acao=editar&modulo=Servidores&operacao=$1&id=$2&status=$3
 RewriteRule ^servidores/ativos                    /index.php?acao=lista&modulo=Servidores&status=ATIVO
 RewriteRule ^servidores/inativos                  /index.php?acao=lista&modulo=Servidores&status=INATIVO
 
 
-RewriteRule ^detalhar/chamado/(.*)                /index.php?acao=detalhes&modulo=Chamados&id=$1
+RewriteRule ^chamados/visualizar/(.*)             /index.php?acao=visualizar&modulo=Chamados&id=$1
 RewriteRule ^chamados/cadastrar                   /index.php?acao=cadastro&modulo=Chamados
 RewriteRule ^cadastrar/chamado            	      /index.php?acao=cadastrar&modulo=Chamados
-RewriteRule ^editar/chamado/(.*)/(.*)	          /index.php?acao=editar&modulo=Chamados&id=$1&status=$2
+RewriteRule ^editar/chamado/(.*)/(.*)	          /index.php?acao=editar&modulo=Chamados&operacao=$1&id=$1&status=$2
 RewriteRule ^chamados/ativos                      /index.php?acao=lista&modulo=Chamados&status=ATIVO
 RewriteRule ^chamados/inativos                    /index.php?acao=lista&modulo=Chamados&status=INATIVO
 

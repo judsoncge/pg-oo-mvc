@@ -46,11 +46,11 @@ class ServidoresController extends Controller{
 	
 	public function cadastrar(){
 		
-		$nome   = $_POST['nome'];
+		$nome = $_POST['nome'];
 		
-		$cpf    = $_POST['CPF'];
+		$cpf = $_POST['CPF'];
 		
-		$setor  = $_POST['setor'];
+		$setor = $_POST['setor'];
 		
 		$funcao = $_POST['funcao'];
 		
@@ -75,52 +75,92 @@ class ServidoresController extends Controller{
 	}	
 	
 	public function editar(){
-
-		$funcao        = (isset($_POST['funcao']))         ? $_POST['funcao']        : NULL;
 		
-		$setor         = (isset($_POST['setor']))          ? $_POST['setor']         : NULL;
+		$id = (isset($_GET['id'])) ? $_GET['id'] : NULL;
+		
+		$this->servidoresModel->setID($id);
+		
+		switch($_GET['operacao']){
+			
+			case 'status':
+			
+				$status = (isset($_GET['status'])) ? $_GET['status'] : NULL;
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->servidoresModel->editarStatus('servidores', $status, $id);
+				
+				$_SESSION['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
+				
+				Header('Location: /servidores/ativos/');
+				
+				break;
+			
+			case 'info':
+				
+				$funcao = (isset($_POST['funcao'])) ? $_POST['funcao'] : NULL;
+		
+				$setor = (isset($_POST['setor'])) ? $_POST['setor'] : NULL;
 	
-		$nome          = (isset($_POST['nome']))           ? $_POST['nome']          : NULL;
+				$nome = (isset($_POST['nome'])) ? $_POST['nome'] : NULL;
 		
-		$cpf           = (isset($_POST['CPF']))            ? $_POST['CPF']           : NULL;
+				$cpf = (isset($_POST['CPF'])) ? $_POST['CPF'] : NULL;
+				
+				$this->servidoresModel->setNome($nome);
 		
-		$status        = (isset($_GET['status']))          ? $_GET['status']         : NULL;
+				$this->servidoresModel->setCPF($cpf);
+				
+				$this->servidoresModel->setSetor($setor);
+				
+				$this->servidoresModel->setFuncao($funcao);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->servidoresModel->editar();
+				
+				$_SESSION['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
+				
+				if($_SESSION['RESULTADO_OPERACAO']){
+					Header('Location: /servidores/ativos/');
+				}else{
+					Header('Location: /servidores/editar/'.$id);
+				}
+				
+				break;
+			
+			case 'senha':
+							
+				$senha = (isset($_POST['senha'])) ? $_POST['senha'] : NULL;
 		
-		$foto          = (isset($_FILES['arquivoFoto']))    ? $_FILES['arquivoFoto'] : NULL;
+				$confirmaSenha = (isset($_POST['confirmaSenha'])) ? $_POST['confirmaSenha'] : NULL;
+				
+				$this->servidoresModel->setSenha($senha);
 		
-		$senha         = (isset($_POST['senha']))          ? $_POST['senha']         : NULL;
+				$this->servidoresModel->setConfirmaSenha($confirmaSenha);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->servidoresModel->editarSenha();
+				
+				$_SESSION['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
 		
-		$confirmaSenha = (isset($_POST['confirmaSenha']))  ? $_POST['confirmaSenha'] : NULL;
-		
-		$id            = $_GET['id'];
+				Header('Location: /servidores/senha/');
+				
+				break;
+			
+			case 'foto': 
+			
+				$foto = (isset($_FILES['arquivoFoto'])) ? $_FILES['arquivoFoto'] : NULL;
+				
+				$this->servidoresModel->setFoto($foto);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->servidoresModel->editarFoto();
+				
+				$_SESSION['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
+				
+				Header('Location: /servidores/foto/');
+			
+				break;
 
-		$this->servidoresModel->setNome($nome);
-		
-		$this->servidoresModel->setCPF($cpf);
-		
-		$this->servidoresModel->setSetor($setor);
-		
-		$this->servidoresModel->setFuncao($funcao);
-		
-		$this->servidoresModel->setStatus($status);
-		
-		$this->servidoresModel->setFoto($foto);
-		
-		$this->servidoresModel->setSenha($senha);
-		
-		$this->servidoresModel->setConfirmaSenha($confirmaSenha);
-		
-		$this->servidoresModel->setId($id);
-		
-		$_SESSION['RESULTADO_OPERACAO'] = $this->servidoresModel->editar();
-		
-		$_SESSION['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
-		
-		if($_SESSION['RESULTADO_OPERACAO']){
-			Header('Location: /servidores/ativos/');
-		}else{
-			Header('Location: /servidores/editar/'.$id);
 		}
+
+		
+		
+		
 		
 	}
 	

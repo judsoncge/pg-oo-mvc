@@ -114,6 +114,28 @@ class Model{
 		
 	}
 	
+	public function editarStatus($modulo, $status, $id){
+		
+		$this->conectar();
+		
+		$query = "UPDATE tb_".$modulo." SET DS_STATUS = '".$status."' WHERE ID = ".$id."";
+		
+		mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
+		
+		$resultado = mysqli_affected_rows($this->conexao);
+		
+		$this->desconectar();
+		
+		$mensagemResposta = ($resultado) 
+			? "O status foi alterado para $status com sucesso!" 
+			: 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
+			
+		$this->setMensagemResposta($mensagemResposta);
+		
+		return $resultado;
+		
+	}
+	
 }
 
 ?>

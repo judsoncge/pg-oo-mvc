@@ -49,27 +49,45 @@ class ChamadosController extends Controller{
 	
 	public function editar(){
 		
-		$status = (isset($_GET['status'])) ? $_GET['status'] : NULL;
-
-		$avaliacao = (isset($_POST['avaliacao'])) ? $_POST['avaliacao'] : NULL;
-		
-		$id = $_GET['id'];
-
-		$this->chamadosModel->setStatus($status);
-		
-		$this->chamadosModel->setAvaliacao($avaliacao);
+		$id = (isset($_GET['id'])) ? $_GET['id'] : NULL;
 		
 		$this->chamadosModel->setId($id);
 		
-		$_SESSION['RESULTADO_OPERACAO'] = $this->chamadosModel->editar();
+		switch($_GET['operacao']){
+			
+			case 'status':
+		
+				$status = (isset($_GET['status'])) ? $_GET['status'] : NULL;
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->chamadosModel->editarStatus('tb_chamados', $status, $id);
+				
+				break;
+				
+			case 'avaliar':
+			
+				$avaliacao = (isset($_POST['avaliacao'])) ? $_POST['avaliacao'] : NULL;
+
+				$this->chamadosModel->setAvaliacao($avaliacao);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->chamadosModel->avaliar();
+				
+				break;
+				
+			case 'mensagem': 
+				
+				$mensagem = (isset($_POST['mensagem'])) ? $_POST['mensagem'] : NULL;
+				
+				$this->chamadosModel->setMensagem($mensagem);
+		
+				$_SESSION['RESULTADO_OPERACAO'] = $this->chamadosModel->cadastrarHistorico();
+		
+				break;
+		
+		}	
 		
 		$_SESSION['MENSAGEM'] = $this->chamadosModel->getMensagemResposta();
-		
-		if($_SESSION['RESULTADO_OPERACAO']){
-			Header('Location: /chamados/ativos/');
-		}else{
-			Header('Location: /chamados/editar/'.$id);
-		}
+	
+		Header('Location: /chamados/visualizar/'.$id);
 		
 	}
 	
@@ -91,7 +109,7 @@ class ChamadosController extends Controller{
 		
 	}
 	
-	public function detalhar(){
+	public function visualizar(){
 		
 		$id = $_GET['id'];
 		
@@ -101,9 +119,9 @@ class ChamadosController extends Controller{
 		
 		$historico  = $this->chamadosModel->getHistorico('chamados', $id);
 		
-		$this->chamadosView->setTitulo("CHAMADOS > ".$listaDados['ID']." > DETALHES");
+		$this->chamadosView->setTitulo("CHAMADOS > ".$listaDados['ID']." > VISUALIZAR");
 		
-		$this->chamadosView->setConteudo('detalhes');
+		$this->chamadosView->setConteudo('visualizar');
 		
 		$_REQUEST['DADOS_CHAMADO']     = $listaDados;
 		

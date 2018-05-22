@@ -1,5 +1,0 @@
-SELECT DAY(DT_TRAMITACAO), CD_SERVIDOR_ORIGEM, s.NM_SERVIDOR, COUNT(*) FROM `tb_tramitacao_processos` t LEFT JOIN `tb_servidores` s ON t.CD_SERVIDOR_ORIGEM = s.CD_SERVIDOR where YEAR(DT_TRAMITACAO) = '2017' AND MONTH(DT_TRAMITACAO) = '10' AND NM_SERVIDOR IN ('José Anilton', 'Carlos Alberto', 'Claudivan', 'Cleonice
-', 'Fabiana Cristina', 'Flávio André', 'Hertz', 'Isabel Cristina', 'Lilian Maria', 'Lucy Maria', 'Luiz
-', 'Márcia', 'Cleonice', 'Viviane')  group by CD_SERVIDOR_ORIGEM, YEAR(DT_TRAMITACAO), MONTH(DT_TRAMITACAO),DAY(DT_TRAMITACAO) ORDER BY DAY(DT_TRAMITACAO)
-
-Cleonice, Luis

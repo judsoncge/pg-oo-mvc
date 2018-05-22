@@ -38,14 +38,10 @@ class ArquivosView extends View{
 							<td>
 								<?php 
 
-									if($_SESSION['ID'] == $arquivo['ID_SERVIDOR_CRIACAO'] && ($arquivo['DS_STATUS']=='ATIVO' || $arquivo['DS_STATUS']=='APROVADO')){ 
-									
-								 
-									
 										if($arquivo['DS_STATUS'] == 'ATIVO'){
 										
 								?>
-											<a href='/editar/arquivo/<?php echo $arquivo['ID'] ?>/APROVADO'>
+											<a href='/editar/arquivo/status/<?php echo $arquivo['ID'] ?>/APROVADO'>
 												<button type='button' class='btn btn-secondary btn-sm' title='Aprovar'>
 													<i class="fa fa-check" aria-hidden="true"></i>
 												</button>
@@ -54,9 +50,10 @@ class ArquivosView extends View{
 								<?php
 										}
 										
+										
 										if($arquivo['DS_STATUS'] == 'APROVADO'){
 								?>
-											<a href='/editar/arquivo/<?php echo $arquivo['ID'] ?>/INATIVO'>
+											<a href='/editar/arquivo/status/<?php echo $arquivo['ID'] ?>/INATIVO'>
 												<button type='button' class='btn btn-secondary btn-sm' title='Inativar'>
 													<i class="fa fa-minus-square-o" aria-hidden="true"></i>
 												</button>
@@ -64,20 +61,13 @@ class ArquivosView extends View{
 										
 								<?php
 										}	
+										
 								?>		
-								
-								
 										<a href='/excluir/arquivo/<?php echo $arquivo['ID'] ?>/<?php echo $arquivo['DS_ANEXO'] ?>'>
 											<button type='button' class='btn btn-secondary btn-sm' title='Excluir'>
 												<i class="fa fa-trash" aria-hidden="true"></i>
 											</button>
 										</a>
-										
-							  <?php 
-							  
-							        } 
-									
-								?>
 							</td>									
 						</tr>
 				<?php 

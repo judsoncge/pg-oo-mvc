@@ -55,9 +55,9 @@ if(isset($_GET['acao'])){
 			
 			break;
 		
-		case 'detalhes':
+		case 'visualizar':
 			
-			$controller->detalhar();
+			$controller->visualizar();
 			
 			break;
 			
@@ -79,6 +79,7 @@ if(isset($_GET['acao'])){
 			$controller->excluir();
 			
 			break;
+			
 	}
 		
 
