@@ -70,34 +70,34 @@ class ArquivosModel extends Model{
 	
 	public function cadastrar(){
 		
-		$this->conectar();
-		
 		$data = date('Y-m-d');
 		
 		$nomeAnexo = registrarAnexo($this->anexo, $_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/');
 	
-		mysqli_query($this->conexao, 
+		$query = "INSERT INTO tb_arquivos (DS_TIPO, DT_CRIACAO, ID_SERVIDOR_CRIACAO, ID_SERVIDOR_DESTINO, DS_STATUS, DS_ANEXO) VALUES ('".$this->tipo."','".$data."','".$_SESSION['ID']."','".$this->servidorDestino."','ATIVO', '".$nomeAnexo."')";
 		
-		"INSERT INTO tb_arquivos 
-		
-		(DS_TIPO, DT_CRIACAO, ID_SERVIDOR_CRIACAO, ID_SERVIDOR_DESTINO, DS_STATUS, DS_ANEXO)
-		
-		VALUES
-		
-		('".$this->tipo."','".$data."','".$_SESSION['ID']."','".$this->servidorDestino."','ATIVO', '".$nomeAnexo."')
-		
-		");
-		
-		$resultado = mysqli_affected_rows($this->conexao);
-		
-		$this->desconectar();
-		
-		$mensagemResposta = ($resultado) ? 'O arquivo foi cadastrado com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
-			
-		$this->setMensagemResposta($mensagemResposta);
+		$resultado = $this->executarQuery($query);
 		
 		return $resultado;
 		
+	}
+	
+	public function editar(){
+		
+		$query = "UPDATE tb_arquivos SET DS_TIPO = '".$this->tipo."', ID_SERVIDOR_DESTINO = ".$this->servidorDestino." WHERE ID = ".$this->id."";
+
+		$resultado = $this->executarQuery($query);
+		
+		return $resultado;
+
+	}
+	
+	public function excluir($tabela, $id){
+		
+		unlink($_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/'.$this->anexo);
+		
+		parent::excluir($tabela, $id);
+
 	}
 
 	public function getListaArquivosStatus(){
@@ -141,81 +141,7 @@ class ArquivosModel extends Model{
 		return $listaArquivos;
 		
 	}
-	
-	public function editar(){
-		
-		$this->conectar();
-		
-		$query = "UPDATE tb_arquivos SET DS_TIPO = '".$this->tipo."', ID_SERVIDOR_DESTINO = ".$this->servidorDestino." WHERE ID = ".$this->id."";
-
-		mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
-		
-		$resultado = mysqli_affected_rows($this->conexao);
-		
-		$this->desconectar();
-		
-		$mensagemResposta = ($resultado) 
-			? 'O arquivo foi editado com sucesso!' 
-			: 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
-			
-		$this->setMensagemResposta($mensagemResposta);
-		
-		return $resultado;
-
-	}
-	
-	public function excluir(){
-		
-		$this->conectar();
-		
-		$resultado = mysqli_query($this->conexao, "DELETE FROM tb_arquivos WHERE ID=".$this->id."") or die(mysqli_error($this->conexao));
-		
-		$resultado = mysqli_affected_rows($this->conexao);
-		
-		$this->desconectar();
-		
-		if($resultado){
-			unlink($_SERVER['DOCUMENT_ROOT']."/_registros/anexos/".$this->anexo);
-		}
-		
-		$mensagemResposta = ($resultado) 
-			? 'O arquivo foi excluído com sucesso!' 
-			: 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
-			
-		$this->setMensagemResposta($mensagemResposta);
-		
-		return $resultado;
-
-	}
-	
-	public function getNomeAnexo(){
-		
-		$resultado = mysqli_query($this->conexao, "SELECT DS_ANEXO FROM tb_arquivos WHERE ID = ".$this->id."");
-		
-		$nomeAnexo = mysqli_fetch_row($resultado);
-		
-		return $nomeAnexo[0];
-
-	}
 
 }	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ?>

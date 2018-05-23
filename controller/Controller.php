@@ -14,41 +14,8 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/model/ChamadosModel.php';
 
 class Controller{
 	
-	protected $loginModel;
-	protected $loginView;
-	protected $arquivosModel;
-	protected $arquivosView;
-	protected $servidoresModel;
-	protected $servidoresView;
-	protected $setoresModel; 
 	
-	public function enviarMensagem($modulo, $id){	
-			
-		$model = new $moduloModel();
-		
-		$model->setModulo($modulo);
-		
-		$model->setID($id);
-		
-		$model->enviarMensagem();
-		
-		
-		
-		
-	}
-
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 ?>

@@ -45,3 +45,5 @@ ALTER TABLE `tb_historico_chamados` CHANGE `DS_ACAO` `DS_ACAO` ENUM('ABERTURA','
 UPDATE `tb_historico_chamados` SET TX_MENSAGEM = 'ABRIU UM NOVO CHAMADO' WHERE TX_MENSAGEM = 'SOLICITOU AJUDA';
 
 UPDATE `tb_historico_chamados` SET tx_mensagem = 'FECHOU O CHAMADO' WHERE tx_mensagem = 'RESOLVEU O CHAMADO';
+
+ALTER TABLE `tb_historico_chamados` DROP FOREIGN KEY `tb_historico_chamados_ibfk_1`; ALTER TABLE `tb_historico_chamados` ADD CONSTRAINT `tb_historico_chamados_ibfk_1` FOREIGN KEY (`ID_REFERENTE`) REFERENCES `tb_chamados`(`ID`) ON DELETE CASCADE ON UPDATE RESTRICT;

@@ -115,14 +115,12 @@ class ArquivosController extends Controller{
 	
 	public function excluir(){
 		
-		$this->arquivosModel->setID($_GET['id']);
-		
 		$this->arquivosModel->setAnexo($_GET['anexo']);
 		
-		$_SESSION['RESULTADO_OPERACAO'] = $this->arquivosModel->excluir();
+		$_SESSION['RESULTADO_OPERACAO'] = $this->arquivosModel->excluir('tb_arquivos', $_GET['id']);
 		
 		$_SESSION['MENSAGEM'] = $this->arquivosModel->getMensagemResposta();
-	
+		
 		Header('Location: /arquivos/ativos/');
 	
 	}

@@ -42,6 +42,40 @@ class Model{
 		
 	}
 	
+	public function executarQuery($query){
+		
+		$this->conectar();
+		
+		mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
+		
+		$resultado = mysqli_affected_rows($this->conexao);
+		
+		$this->desconectar();
+		
+		$mensagemResposta = ($resultado) 
+			? 'Operação realizada com sucesso!' 
+			: 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
+			
+		$this->setMensagemResposta($mensagemResposta);
+		
+		return $resultado;
+		
+	}
+	
+	public function executarQueryID($query){
+		
+		$this->conectar();
+		
+		mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
+		
+		$id = mysqli_insert_id($this->conexao);
+		
+		$this->desconectar();
+		
+		return $id;
+		
+	}
+	
 	public function verificaExisteRegistro($tabela, $campo, $valor){
 		
 		$this->conectar();
@@ -70,17 +104,12 @@ class Model{
 		
 		$data = date('Y-m-d H:i:s');
 		
-		$resultado = mysqli_query($this->conexao, "
+		$query = "INSERT INTO tb_historico_".$tabela." (ID_REFERENTE, TX_MENSAGEM, ID_SERVIDOR, DT_MENSAGEM, DS_ACAO) VALUES
+		(".$id_referente.", '".$mensagem."', ".$id_servidor.", '".$data."', '".$acao."')";
 		
-		INSERT INTO tb_historico_".$tabela." 
+		$resultado = $this->executarQuery($query);
 		
-		(ID_REFERENTE, TX_MENSAGEM, ID_SERVIDOR, DT_MENSAGEM, DS_ACAO)
-		
-		VALUES
-		
-		(".$id_referente.", '".$mensagem."', ".$id_servidor.", '".$data."', '".$acao."')
-		
-		") or die(mysqli_error($this->conexao));
+		return $resultado;
 		
 	}
 	
@@ -116,24 +145,20 @@ class Model{
 	
 	public function editarStatus($modulo, $status, $id){
 		
-		$this->conectar();
-		
 		$query = "UPDATE tb_".$modulo." SET DS_STATUS = '".$status."' WHERE ID = ".$id."";
 		
-		mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
-		
-		$resultado = mysqli_affected_rows($this->conexao);
-		
-		$this->desconectar();
-		
-		$mensagemResposta = ($resultado) 
-			? "O status foi alterado para $status com sucesso!" 
-			: 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
-			
-		$this->setMensagemResposta($mensagemResposta);
+		$resultado = $this->executarQuery($query);
 		
 		return $resultado;
 		
+	}
+	
+	public function excluir($tabela, $id){
+		
+		$query = "DELETE FROM ".$tabela." WHERE ID=".$id."";
+		
+		$this->executarQuery($query);
+
 	}
 	
 }

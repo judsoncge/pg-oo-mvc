@@ -59,12 +59,14 @@ class ChamadosController extends Controller{
 		
 				$status = (isset($_GET['status'])) ? $_GET['status'] : NULL;
 				
-				$_SESSION['RESULTADO_OPERACAO'] = $this->chamadosModel->editarStatus('tb_chamados', $status, $id);
+				$this->chamadosModel->setStatus($status);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->chamadosModel->editarStatus('chamados', $status, $id);
 				
 				break;
 				
 			case 'avaliar':
-			
+				
 				$avaliacao = (isset($_POST['avaliacao'])) ? $_POST['avaliacao'] : NULL;
 
 				$this->chamadosModel->setAvaliacao($avaliacao);
@@ -83,11 +85,21 @@ class ChamadosController extends Controller{
 		
 				break;
 		
-		}	
+		}
 		
 		$_SESSION['MENSAGEM'] = $this->chamadosModel->getMensagemResposta();
 	
 		Header('Location: /chamados/visualizar/'.$id);
+		
+	}
+	
+	public function excluir(){
+		
+		$_SESSION['RESULTADO_OPERACAO'] = $this->chamadosModel->excluir('tb_chamados', $_GET['id']);
+		
+		$_SESSION['MENSAGEM'] = $this->chamadosModel->getMensagemResposta();
+		
+		Header('Location: /chamados/ativos/');
 		
 	}
 	

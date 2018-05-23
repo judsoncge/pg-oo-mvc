@@ -43,33 +43,15 @@ class ChamadosModel extends Model{
 	
 	public function cadastrar(){
 		
-		$this->conectar();
-		
 		$data = date('Y-m-d H:i:s');
 		
-		$resultado = mysqli_query($this->conexao, "
-			
-		INSERT INTO tb_chamados
+		$query = "INSERT INTO tb_chamados (DS_PROBLEMA, DS_NATUREZA, ID_SERVIDOR_REQUISITANTE, DT_ABERTURA) VALUES ('".$this->problema."','".$this->natureza."','".$this->servidorRequisitante."','".$data."')";
 		
-		(DS_PROBLEMA, DS_NATUREZA, ID_SERVIDOR_REQUISITANTE, DT_ABERTURA)
+		$id = $this->executarQueryID($query);
 		
-		VALUES
+		$resultado = $this->cadastrarHistorico('chamados', $id, 'ABRIU UM NOVO CHAMADO', $this->servidorRequisitante, 'ABERTURA');
 		
-		('".$this->problema."','".$this->natureza."','".$this->servidorRequisitante."','".$data."')
-		
-		") or die(mysqli_error($this->conexao));
-		
-		$this->setID(mysqli_insert_id($this->conexao));
-		
-		$this->cadastrarHistorico('chamados', $this->id, 'ABRIU UM NOVO CHAMADO', $this->servidorRequisitante, 'ABERTURA');
-		
-		$this->desconectar();
-		
-		$mensagemResposta = ($resultado) ? 'O chamado foi aberto com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
-			
-		$this->setMensagemResposta($mensagemResposta);
-		
-		return $resultado;
+		return $id;
 		
 	}
 
@@ -123,55 +105,50 @@ class ChamadosModel extends Model{
 		
 		$query  = "UPDATE tb_chamados SET ";
 		
-		if($this->status != NULL){
-			
-			$query .= "DS_STATUS = '".$this->status."', ";
-
-		    switch($this->status){
+		switch($this->status){
 				
-				case 'FECHADO':
-					$query .= "DT_FECHAMENTO = '".$data."', ";
-					$textoMensagem = "FECHOU O CHAMADO";
-					$acao = 'FECHAMENTO';
-					break;
+			case 'FECHADO':
 				
-				case 'ENCERRADO':
-					$query .= "DT_ENCERRAMENTO = '".$data."', ";
-					$textoMensagem = "ENCERROU O CHAMADO";
-					$acao = 'ENCERRAMENTO';
-					break;
+				$query .= "DT_FECHAMENTO = '".$data."' ";
 				
-			}
+				$textoMensagem = "FECHOU O CHAMADO";
+				
+				$acao = 'FECHAMENTO';
+				
+				break;
 			
-		}elseif($this->avaliacao != NULL){
-			
-			$query .= ($this->avaliacao != NULL)  ?  "DS_AVALIACAO = '".$this->avaliacao."', " : ""; 
-			
-			$textoMensagem = "AVALIOU O CHAMADO: " . $this->avaliacao;
-			$acao = 'AVALIAÇÃO';
-		
+			case 'ENCERRADO':
+				
+				$query .= "DT_ENCERRAMENTO = '".$data."' ";
+				
+				$textoMensagem = "ENCERROU O CHAMADO";
+				
+				$acao = 'ENCERRAMENTO';
+				
+				break;
+				
 		}
 		
-		$query .= ($this->avaliacao != NULL)  ?  "DS_AVALIACAO = '".$this->avaliacao."', " : ""; 
+		$query .= "WHERE ID=".$this->id."";
 		
-		$query .= "WHERE ID=".$this->id."";	
-
-		$query = str_replace(", WHERE", " WHERE", $query);
-	
-		mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
+		$this->executarQuery($query);
 		
-		$resultado = mysqli_affected_rows($this->conexao);
-		
-		$this->cadastrarHistorico('chamados', $this->id, $textoMensagem, $_SESSION['ID'], $acao);
-
-		$this->desconectar();
-
-		$mensagemResposta = ($resultado) ? 'O chamado foi editado com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
-			
-		$this->setMensagemResposta($mensagemResposta);
+		$resultado = $this->cadastrarHistorico('chamados', $this->id, $textoMensagem, $_SESSION['ID'], $acao);
 		
 		return $resultado;
 
+	}
+	
+	public function avaliar(){
+		
+		$query = "UPDATE tb_chamados SET DS_AVALIACAO = '".$this->avaliacao."' WHERE ID = ".$this->id."";
+		
+		$this->executarQuery($query);
+		
+		$resultado = $this->cadastrarHistorico('chamados', $this->id, 'AVALIOU O CHAMADO: ' . $this->avaliacao, $_SESSION['ID'], $acao);
+		
+		return $resultado;
+		
 	}
 	
 	public function getDadosID(){
@@ -201,48 +178,8 @@ class ChamadosModel extends Model{
 		return $listaDados;
 		
 	}
-	
-	public function excluir(){
-		
-		$this->conectar();
-		
-		$resultado = mysqli_query($this->conexao, 
-		
-		"DELETE FROM tb_chamados 
-		WHERE ID=".$this->id."
-		
-		") or die(mysqli_error($this->conexao));
-		
-		$resultado = mysqli_affected_rows($this->conexao);
-		
-		$this->desconectar();
-		
-		$mensagemResposta = ($resultado) ? 'O chamado foi excluído com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
-			
-		$this->setMensagemResposta($mensagemResposta);
-		
-		return $resultado;
 
-	}
 
 }	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ?>

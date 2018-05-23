@@ -27,9 +27,10 @@ RewriteRule ^servidores/inativos                  /index.php?acao=lista&modulo=S
 RewriteRule ^chamados/visualizar/(.*)             /index.php?acao=visualizar&modulo=Chamados&id=$1
 RewriteRule ^chamados/cadastrar                   /index.php?acao=cadastro&modulo=Chamados
 RewriteRule ^cadastrar/chamado            	      /index.php?acao=cadastrar&modulo=Chamados
-RewriteRule ^editar/chamado/(.*)/(.*)	          /index.php?acao=editar&modulo=Chamados&operacao=$1&id=$1&status=$2
+RewriteRule ^editar/chamado/(.*)/(.*)/(.*)  	  /index.php?acao=editar&modulo=Chamados&operacao=$1&id=$2&status=$3
 RewriteRule ^chamados/ativos                      /index.php?acao=lista&modulo=Chamados&status=ATIVO
 RewriteRule ^chamados/inativos                    /index.php?acao=lista&modulo=Chamados&status=INATIVO
+RewriteRule ^excluir/chamado/(.*)                 /index.php?acao=excluir&modulo=Chamados&id=$1
 
 
 

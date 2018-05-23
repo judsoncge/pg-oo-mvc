@@ -118,27 +118,9 @@ class ServidoresModel extends Model{
 		
 		}else{
 			
-			$this->conectar();
-		
-			$resultado = mysqli_query($this->conexao, "
+			$query = "INSERT INTO tb_servidores (DS_FUNCAO, ID_SETOR, DS_NOME, DS_CPF) VALUES ('".$this->funcao."','".$this->setor."','".$this->nome."','".$this->cpf."')";
 			
-			INSERT INTO tb_servidores
-			
-			(DS_FUNCAO, ID_SETOR, DS_NOME, DS_CPF)
-			
-			VALUES
-			
-			('".$this->funcao."','".$this->setor."','".$this->nome."','".$this->cpf."')
-			
-			") or die(mysqli_error($this->conexao));
-			
-			$resultado = mysqli_affected_rows($this->conexao);
-			
-			$this->desconectar();
-			
-			$mensagemResposta = ($resultado) ? $this->nome.' foi cadastrado(a) com sucesso!' : 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
-			
-			$this->setMensagemResposta($mensagemResposta);
+			$resultado = $this->executarQuery($query);
 			
 			return $resultado;
 		}
@@ -161,21 +143,9 @@ class ServidoresModel extends Model{
 			
 		}		
 		
-		$this->conectar();
-		
 		$query  = "UPDATE tb_servidores SET DS_FUNCAO = '".$this->funcao."', ID_SETOR = ".$this->setor.", DS_NOME = '".$this->nome."', DS_CPF = '".$this->cpf."' WHERE ID=".$this->id."";
 		
-		mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
-		
-		$resultado = mysqli_affected_rows($this->conexao);
-		
-		$this->desconectar();
-		
-		$mensagemResposta = ($resultado) 
-			? 'Edição realizada com sucesso!' 
-			: 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
-
-		$this->setMensagemResposta($mensagemResposta);
+		$resultado = $this->executarQuery($query);
 		
 		return $resultado;
 		
@@ -193,21 +163,9 @@ class ServidoresModel extends Model{
 			
 			$this->senha = md5($this->senha);
 			
-			$this->conectar();
-			
 			$query = "UPDATE tb_servidores SET SENHA = '".$this->senha."' WHERE ID = ".$this->id."";
 			
-			mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
-		
-			$resultado = mysqli_affected_rows($this->conexao);
-			
-			$this->desconectar();
-			
-			$mensagemResposta = ($resultado) 
-				? 'Senha alterada com sucesso!' 
-				: 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
-
-			$this->setMensagemResposta($mensagemResposta);
+			$resultado = $this->executarQuery($query);
 			
 			return $resultado;
 		
@@ -224,47 +182,16 @@ class ServidoresModel extends Model{
 			
 		}
 		
-		$this->conectar();
-		
 		$query = "UPDATE tb_servidores SET DS_FOTO = '".$nomeAnexo."' WHERE ID = ".$this->id."";
 		
-		mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
-			
+		$resultado = $this->executarQuery($query);
+		
 		$_SESSION['FOTO'] = $nomeAnexo;
-		
-		$resultado = mysqli_affected_rows($this->conexao);
-		
-		$this->desconectar();
-		
-		$mensagemResposta = ($resultado) 
-			? 'Foto alterada com sucesso!' 
-			: 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
-
-		$this->setMensagemResposta($mensagemResposta);
 		
 		return $resultado;
 		
 	}
 	
-	
 }	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ?>

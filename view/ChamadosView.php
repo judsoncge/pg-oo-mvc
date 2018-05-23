@@ -110,28 +110,26 @@ class ChamadosView extends View{
 			<div class="col-md-12">
 				<?php if($lista['DS_STATUS'] =='ABERTO'){ ?>
 				
-						<a href="/editar/chamado/<?php echo $lista['ID'] ?>/FECHADO"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Fechar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
+						<a href="/editar/chamado/status/<?php echo $lista['ID'] ?>/FECHADO"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Fechar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
 				
 				<?php } 	
 				
 				if($lista['DS_STATUS']=='FECHADO' and $lista['DS_AVALIACAO'] != "SEM AVALIAÇÃO"){ ?>
 				
-						<a href="/editar/chamado/<?php echo $lista['ID'] ?>/ENCERRADO"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Encerrar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
+						<a href="/editar/chamado/status/<?php echo $lista['ID'] ?>/ENCERRADO"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Encerrar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
 				<?php } 
 				
 				if($lista['DS_STATUS']=='ABERTO'){ ?>
 						
-						<a href="/excluir/chamado/<?php echo $lista['ID'] ?>"><button type='submit' onclick="return confirm('Você tem certeza que deseja apagar este processo?');" class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Excluir&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></button></a>
+						<a href="/excluir/chamado/<?php echo $lista['ID'] ?>"><button type='submit' onclick="return confirm('Você tem certeza que deseja apagar este chamado?');" class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Excluir&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></button></a>
 					
 				<?php } ?>
 			</div> 
 		</div>
 		<div class="row linha-modal-processo">
 			<div class="col-md-12">
-				<b>Status</b>:
-					<?php echo $lista['DS_STATUS'] ?><br><br>	
-				<b>Data de abertura  </b>: 
-					<?php echo date_format(new DateTime($lista['DT_ABERTURA']), 'd/m/Y H:i:s') ?><br> 
+				<b>Status</b>: <?php echo $lista['DS_STATUS'] ?><br><br>	
+				<b>Data de abertura  </b>: <?php echo date_format(new DateTime($lista['DT_ABERTURA']), 'd/m/Y H:i:s') ?><br> 
 				<b>Data de fechamento  </b>: 
 					<?php 
 						
@@ -154,12 +152,9 @@ class ChamadosView extends View{
 						
 					?>
 				<br>  
-				<b>Requisitante      </b>: 
-					<?php echo $lista['DS_NOME_REQUISITANTE'] ?><br>
-				<b>Problema          </b>: 
-					<?php echo $lista['DS_PROBLEMA'] ?><br> 
-				<b>Natureza          </b>:
-					<?php echo $lista['DS_NATUREZA'] ?>	
+				<b>Requisitante</b>: <?php echo $lista['DS_NOME_REQUISITANTE'] ?><br>
+				<b>Problema</b>: <?php echo $lista['DS_PROBLEMA'] ?><br> 
+				<b>Natureza</b>: <?php echo $lista['DS_NATUREZA'] ?>	
 			</div>
 		</div>
 		<?php 
@@ -177,7 +172,7 @@ class ChamadosView extends View{
 		?>
 		
 				<div class="row linha-modal-processo">
-					<form name="cadastro" method="POST" action="/editar/chamado/<?php echo $lista['ID'] ?>/" enctype="multipart/form-data">
+					<form name="cadastro" method="POST" action="/editar/chamado/avaliar/<?php echo $lista['ID'] ?>/" enctype="multipart/form-data">
 						<div class="col-md-10">
 							<select class="form-control" id="avaliacao" name="avaliacao" required/>
 								<option value="">Avalie o atendimento</option>
