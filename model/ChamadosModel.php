@@ -9,9 +9,7 @@ class ChamadosModel extends Model{
 	private $natureza;
 	private $servidorRequisitante;
 	private $status;
-	private $avaliacao;
-	private $mensagem;
-	
+	private $avaliacao;	
 	
 	public function setID($id){
 		$this->id = $id;

@@ -79,9 +79,7 @@ class ChamadosController extends Controller{
 				
 				$mensagem = (isset($_POST['mensagem'])) ? $_POST['mensagem'] : NULL;
 				
-				$this->chamadosModel->setMensagem($mensagem);
-		
-				$_SESSION['RESULTADO_OPERACAO'] = $this->chamadosModel->cadastrarHistorico();
+				$_SESSION['RESULTADO_OPERACAO'] = $this->chamadosModel->cadastrarHistorico('chamados', $id, 'DISSE: ' . $mensagem, $_SESSION['ID'], 'MENSAGEM');
 		
 				break;
 		

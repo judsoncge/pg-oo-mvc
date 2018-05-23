@@ -450,7 +450,7 @@ class View{
 		
 ?>
 	<div class="row linha-modal-processo">
-		<form method='POST' action="/editar/<?php echo $modulo ?>/<?php echo $id ?>/" enctype='multipart/form-data'>	
+		<form method='POST' action="/editar/<?php echo $modulo ?>/mensagem/<?php echo $id ?>/" enctype='multipart/form-data'>	
 			<div class="col-md-10">
 				<input class="form-control" id="mensagem" name="mensagem" placeholder="Digite aqui a sua mensagem (Máximo de 100 caracteres)" type="text" maxlenght="100" required />	
 			</div>
