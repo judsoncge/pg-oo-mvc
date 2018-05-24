@@ -408,7 +408,7 @@ class View{
 		
 	<div class="row linha-modal-processo">
 		<div class="col-md-12">
-			<label><b>Histórico do chamado</b>:</label>
+			<label><b>Histórico</b>:</label>
 			<br>	
 			<?php
 			
