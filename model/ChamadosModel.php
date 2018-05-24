@@ -47,7 +47,7 @@ class ChamadosModel extends Model{
 		
 		$restricao_status = ($this->status == 'ATIVO') ? " IN ('ABERTO', 'FECHADO') " : " = 'ENCERRADO' ";
 		
-		$restricao_servidor = ($this->servidorRequisitante != NULL) ? '%' : $this->servidorRequisitante;
+		$restricao_servidor = ($this->servidorRequisitante != NULL) ? $this->servidorRequisitante : '%' ;
 		
 		$query =
 		

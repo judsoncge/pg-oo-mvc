@@ -20,7 +20,7 @@ class ChamadosView extends View{
 				</thead>
 				<tbody>
 					<?php 
-					
+										
 						$lista = $_REQUEST['LISTA_CHAMADOS'];
 						
 						foreach($lista as $chamado){ 
