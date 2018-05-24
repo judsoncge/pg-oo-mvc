@@ -3,17 +3,11 @@
 require_once $_SERVER['DOCUMENT_ROOT'].'/model/Model.php';
 
 class ChamadosModel extends Model{
-	
-	private $id;
+
 	private $problema;
 	private $natureza;
 	private $servidorRequisitante;
-	private $status;
 	private $avaliacao;	
-	
-	public function setID($id){
-		$this->id = $id;
-	}
 	
 	public function setProblema($problema){
 		$this->problema = $problema;
@@ -25,10 +19,6 @@ class ChamadosModel extends Model{
 	
 	public function setServidorRequisitante($servidorRequisitante){
 		$this->servidorRequisitante = $servidorRequisitante;
-	}
-	
-	public function setStatus($status){
-		$this->status = $status;
 	}
 	
 	public function setAvaliacao($avaliacao){

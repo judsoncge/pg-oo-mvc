@@ -3,14 +3,12 @@
 require_once $_SERVER['DOCUMENT_ROOT'].'/model/Model.php';
 
 class ServidoresModel extends Model{
-	
-	private $id;
+
 	private $funcao;
 	private $setor;
 	private $nome;
 	private $cpf;
 	private $foto;
-	private $status;
 	private $senha;
 	private $confirmaSenha;
 	
@@ -28,14 +26,6 @@ class ServidoresModel extends Model{
 	
 	public function setCPF($cpf){
 		$this->cpf = $cpf;	
-	}
-	
-	public function setStatus($status){
-		$this->status = $status;
-	}
-	
-	public function setId($id){
-		$this->id = $id;
 	}
 	
 	public function setSenha($senha){

@@ -47,11 +47,11 @@ class View{
 			
 			<script src='/view/_libs/js/jquery.js'></script>
 			<script src='/view/_libs/js/utils.js'></script>
-			<script src="/view/_libs/js/tether.js"></script>
+			<script src='/view/_libs/js/tether.js'></script>
 			<script type='text/javascript' src='/view/_libs/js/bootstrap.js'></script>
 			<script type='text/javascript' src='/view/_libs/js/submenu.js'></script>	
-			<script type="text/javascript" src="/view/_libs/js/jquery.quicksearch.js"></script>
-			<script type="text/javascript" src="/view/_libs/js/temporizadores.js"></script>
+			<script type='text/javascript' src='/view/_libs/js/jquery.quicksearch.js'></script>
+			<script type='text/javascript' src='/view/_libs/js/temporizadores.js'></script>
 			<script type='text/javascript' src='/view/_libs/js/jquery.maskedinput.js'></script>
 			<script type='text/javascript' src='/view/_libs/js/util.js'></script>
 			<?php $this->adicionarScripts(); ?>
@@ -138,10 +138,13 @@ class View{
 							<a href='#'><i class='fa fa-volume-up icone-menu' aria-hidden='true'></i>Comunicação</a>
 						</li>
 							<li class='comunicacao-subitem'>
-								<a href=''><i class='fa fa-volume-up icone-menu' aria-hidden='true'></i>Ativos</a>
+								<a href='/comunicacao/cadastrar/'><i class='fa fa-volume-up icone-menu' aria-hidden='true'></i>Cadastrar</a>
 							</li>
 							<li class='comunicacao-subitem'>
-								<a href='' ><i class='fa fa-volume-up icone-menu' aria-hidden='true'></i>Inativos</a>
+								<a href='/comunicacao/ativos/'><i class='fa fa-volume-up icone-menu' aria-hidden='true'></i>Ativos</a>
+							</li>
+							<li class='comunicacao-subitem'>
+								<a href='/comunicacao/inativos/' ><i class='fa fa-volume-up icone-menu' aria-hidden='true'></i>Inativos</a>
 							</li>
 						<li id='processos'>
 							<a href='#'><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Processos</a>

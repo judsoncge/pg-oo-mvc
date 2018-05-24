@@ -34,14 +34,14 @@ class ArquivosController extends Controller{
 		$this->arquivosModel->setServidorCriacao($_SESSION['ID']);
 		
 		$listaArquivos = $this->arquivosModel->getListaArquivosStatus();
+
+		$_REQUEST['LISTA_ARQUIVOS'] = $listaArquivos;
 		
 		$titulo = ($_GET['status']=='ATIVO') ? 'ARQUIVOS > ATIVOS' : 'ARQUIVOS > INATIVOS';
 		
 		$this->arquivosView->setTitulo($titulo);
 		
 		$this->arquivosView->setConteudo('lista');
-		
-		$_REQUEST['LISTA_ARQUIVOS'] = $listaArquivos;
 		
 		$this->arquivosView->carregar();
 		

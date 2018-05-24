@@ -3,13 +3,11 @@
 require_once $_SERVER['DOCUMENT_ROOT'].'/model/Model.php';
 
 class ArquivosModel extends Model{
-	
-	private $id;
+
 	private $tipo;
 	private $dataCriacao;
 	private $servidorCriacao;
 	private $servidorDestino;
-	private $status;
 	private $anexo;
 	
 	public function getID(){

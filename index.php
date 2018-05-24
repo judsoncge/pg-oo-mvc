@@ -4,6 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/controller/LoginController.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/ArquivosController.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/ServidoresController.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/ChamadosController.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/controller/ComunicacaoController.php';
 
 session_start();
 

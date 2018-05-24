@@ -6,7 +6,16 @@ class Model{
 
 	protected $conexao;
 	protected $mensagemResposta;
-	protected $servidorAcao;
+	protected $id;
+	protected $status;
+	
+	public function setID($id){
+		$this->id = $id;
+	}
+	
+	public function setStatus($status){
+		$this->status = $status;
+	}
 	
 	public function setMensagemResposta($mensagemResposta){
 		$this->mensagemResposta = $mensagemResposta;
