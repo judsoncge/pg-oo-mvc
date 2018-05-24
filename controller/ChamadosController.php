@@ -105,6 +105,10 @@ class ChamadosController extends Controller{
 		
 		$this->chamadosModel->setStatus($_GET['status']);
 		
+		$servidorRequisitante = ($_SESSION['FUNCAO'] == 'TI') ? NULL : $_SESSION['ID'];
+		
+		$this->chamadosModel->setServidorRequisitante($servidorRequisitante);
+		
 		$listaChamados = $this->chamadosModel->getListaChamadosStatus();
 		
 		$titulo = ($_GET['status']=='ATIVO') ? 'CHAMADOS > ATIVOS' : 'CHAMADOS > INATIVOS';
@@ -133,7 +137,7 @@ class ChamadosController extends Controller{
 		
 		$this->chamadosView->setConteudo('visualizar');
 		
-		$_REQUEST['DADOS_CHAMADO']     = $listaDados;
+		$_REQUEST['DADOS_CHAMADO'] = $listaDados;
 		
 		$_REQUEST['HISTORICO_CHAMADO'] = $historico;
 		

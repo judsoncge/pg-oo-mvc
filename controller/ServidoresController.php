@@ -146,11 +146,15 @@ class ServidoresController extends Controller{
 			
 				$foto = (isset($_FILES['arquivoFoto'])) ? $_FILES['arquivoFoto'] : NULL;
 				
+				$this->servidoresModel->excluirFoto($_SESSION['FOTO']);
+				
 				$this->servidoresModel->setFoto($foto);
 				
 				$_SESSION['RESULTADO_OPERACAO'] = $this->servidoresModel->editarFoto();
 				
 				$_SESSION['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
+				
+				$_SESSION['FOTO'] = $this->servidoresModel->getFoto();
 				
 				Header('Location: /servidores/foto/');
 			

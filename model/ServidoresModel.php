@@ -50,11 +50,13 @@ class ServidoresModel extends Model{
 		$this->foto = $foto;
 	}
 	
+	public function getFoto(){
+		return $this->foto;
+	}
+	
 	public function getListaServidoresStatus(){
 		
-		$this->conectar();
-		
-		$resultado = mysqli_query($this->conexao, "
+		$query = "
 		
 		SELECT 
 		
@@ -66,25 +68,17 @@ class ServidoresModel extends Model{
 		
 		WHERE DS_STATUS='".$this->status."' 
 		
-		ORDER BY DS_NOME") or die(mysqli_error($this->conexao));
+		ORDER BY DS_NOME";
 		
-		$listaServidores = array();
+		$lista = $this->executarQueryLista($query);
 		
-		While($row = mysqli_fetch_array($resultado)){ 
-			array_push($listaServidores, $row); 
-		} 
-		
-		$this->desconectar();
-		
-		return $listaServidores;
+		return $lista;
 	
 	}
 	
 	public function getDadosID(){
 		
-		$this->conectar();
-		
-		$resultado = mysqli_query($this->conexao, "
+		$query = "
 		
 		SELECT 
 		
@@ -96,13 +90,12 @@ class ServidoresModel extends Model{
 
 		WHERE s1.ID=".$this->id."
 		
-		") or die(mysqli_error($this->conexao));
+		";
 		
-		$listaDados = mysqli_fetch_array($resultado);
 		
-		$this->desconectar();
+		$lista = $this->executarQueryListaID($query);
 		
-		return $listaDados;
+		return $lista;
 		
 	}
 	
@@ -174,22 +167,26 @@ class ServidoresModel extends Model{
 	
 	public function editarFoto(){
 		
-		$nomeAnexo = registrarAnexo($this->foto, $_SERVER['DOCUMENT_ROOT'].'/_registros/fotos/');
-			
-		if($_SESSION['FOTO'] != 'default.jpg'){
-			
-			unlink($_SERVER['DOCUMENT_ROOT'].'/_registros/fotos/'.$_SESSION['FOTO']);
-			
-		}
+		$nomeAnexo = registrarAnexo($this->foto, $_SERVER['DOCUMENT_ROOT'].'/_registros/fotos/');		
 		
 		$query = "UPDATE tb_servidores SET DS_FOTO = '".$nomeAnexo."' WHERE ID = ".$this->id."";
 		
 		$resultado = $this->executarQuery($query);
 		
-		$_SESSION['FOTO'] = $nomeAnexo;
+		$this->setFoto($nomeAnexo);
 		
 		return $resultado;
 		
+	}
+	
+	public function excluirFoto($foto){
+		
+		if($foto != 'default.jpg'){
+			
+			unlink($_SERVER['DOCUMENT_ROOT'].'/_registros/fotos/'.$foto);
+			
+		}
+	
 	}
 	
 }	

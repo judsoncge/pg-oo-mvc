@@ -64,7 +64,7 @@ class ArquivosView extends View{
 										
 								?>		
 										<a href='/excluir/arquivo/<?php echo $arquivo['ID'] ?>/<?php echo $arquivo['DS_ANEXO'] ?>'>
-											<button type='button' class='btn btn-secondary btn-sm' title='Excluir'>
+											<button type='button' class='btn btn-secondary btn-sm' onclick="return confirm('Você tem certeza que deseja apagar este arquivo?');" title='Excluir'>
 												<i class="fa fa-trash" aria-hidden="true"></i>
 											</button>
 										</a>

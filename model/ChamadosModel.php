@@ -55,13 +55,11 @@ class ChamadosModel extends Model{
 
 	public function getListaChamadosStatus(){
 		
-		$this->conectar();
-		
 		$restricao_status = ($this->status == 'ATIVO') ? " IN ('ABERTO', 'FECHADO') " : " = 'ENCERRADO' ";
 		
-		$restricao_servidor = ($_SESSION['FUNCAO'] != 'TI') ? " AND ID_SERVIDOR_REQUISITANTE = ".$_SESSION['ID']."" : "";
+		$restricao_servidor = ($this->servidorRequisitante != NULL) ? '%' : $this->servidorRequisitante;
 		
-		$resultado = mysqli_query($this->conexao, 
+		$query =
 		
 		"SELECT 
 		
@@ -75,21 +73,15 @@ class ChamadosModel extends Model{
 		
 		WHERE a.DS_STATUS ".$restricao_status." 
 		
-		".$restricao_servidor."
+		AND ID_SERVIDOR_REQUISITANTE LIKE '".$restricao_servidor."' 
 		
 		ORDER BY a.DT_ABERTURA desc
 		
-		");
-		
-		$listaChamados = array();
+		";
 	
-		While($row = mysqli_fetch_array($resultado)){ 
-			array_push($listaChamados, $row); 
-		} 
+		$lista = $this->executarQueryLista($query);
 		
-		$this->desconectar();
-		
-		return $listaChamados;
+		return $lista;
 		
 	}
 	
@@ -151,9 +143,7 @@ class ChamadosModel extends Model{
 	
 	public function getDadosID(){
 		
-		$this->conectar();
-		
-		$resultado = mysqli_query($this->conexao, 
+		$query =
 		
 		"SELECT 
 		
@@ -167,14 +157,11 @@ class ChamadosModel extends Model{
 		
 		WHERE a.ID = ".$this->id."
 		
-		");
+		";
 		
-		$listaDados = mysqli_fetch_array($resultado);
+		$lista = $this->executarQueryListaID($query);
 		
-		$this->desconectar();
-		
-		return $listaDados;
-		
+		return $lista;
 	}
 
 

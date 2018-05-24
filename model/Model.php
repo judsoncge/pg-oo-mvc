@@ -3,10 +3,10 @@
 require_once $_SERVER['DOCUMENT_ROOT'].'/model/FuncoesGlobais.php';
 
 class Model{
-	
-	//atributo da conexao com banco de dados
+
 	protected $conexao;
 	protected $mensagemResposta;
+	protected $servidorAcao;
 	
 	public function setMensagemResposta($mensagemResposta){
 		$this->mensagemResposta = $mensagemResposta;
@@ -14,6 +14,10 @@ class Model{
 	
 	public function getMensagemResposta(){
 		return $this->mensagemResposta;
+	}
+	
+	public function setServidorAcao($servidorAcao){
+		$this->servidorAcao = $servidorAcao;
 	}
 	
 	
@@ -74,6 +78,38 @@ class Model{
 		
 		return $id;
 		
+	}
+	
+	public function executarQueryLista($query){
+		
+		$this->conectar();
+		
+		$resultado = mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
+		
+		$lista = array();
+	
+		While($row = mysqli_fetch_array($resultado)){ 
+			array_push($lista, $row); 
+		} 
+		
+		$this->desconectar();
+		
+		return $lista;
+
+	}
+	
+	public function executarQueryListaID($query){
+		
+		$this->conectar();
+		
+		$resultado = mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
+		
+		$lista = mysqli_fetch_array($resultado);
+		
+		$this->desconectar();
+		
+		return $lista;
+
 	}
 	
 	public function verificaExisteRegistro($tabela, $campo, $valor){
@@ -157,7 +193,9 @@ class Model{
 		
 		$query = "DELETE FROM ".$tabela." WHERE ID=".$id."";
 		
-		$this->executarQuery($query);
+		$resultado = $this->executarQuery($query);
+		
+		return $resultado;
 
 	}
 	

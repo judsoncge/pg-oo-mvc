@@ -96,17 +96,19 @@ class ArquivosModel extends Model{
 		
 		unlink($_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/'.$this->anexo);
 		
-		parent::excluir($tabela, $id);
+		$query = "DELETE FROM ".$tabela." WHERE ID=".$id."";
+		
+		$resultado = $this->executarQuery($query);
+		
+		return $resultado;
 
 	}
 
 	public function getListaArquivosStatus(){
 		
-		$this->conectar();
-		
 		$restricao_status = ($this->status == 'ATIVO') ? " IN ('ATIVO', 'APROVADO') " : " = 'INATIVO' ";
 		
-		$resultado = mysqli_query($this->conexao, 
+		$query = 
 		
 		"SELECT 
 		
@@ -128,17 +130,11 @@ class ArquivosModel extends Model{
 		
 		OR    a.ID_SERVIDOR_DESTINO = ".$this->servidorCriacao.") ORDER BY a.DT_CRIACAO desc
 		
-		");
+		";
 		
-		$listaArquivos = array();
-	
-		While($row = mysqli_fetch_array($resultado)){ 
-			array_push($listaArquivos, $row); 
-		} 
+		$lista = $this->executarQueryLista($query);
 		
-		$this->desconectar();
-		
-		return $listaArquivos;
+		return $lista;
 		
 	}
 
