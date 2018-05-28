@@ -39,7 +39,7 @@ class ChamadosModel extends Model{
 		
 		$resultado = $this->cadastrarHistorico('chamados', $id, 'ABRIU UM NOVO CHAMADO', $this->servidorRequisitante, 'ABERTURA');
 		
-		return $id;
+		return $resultado;
 		
 	}
 

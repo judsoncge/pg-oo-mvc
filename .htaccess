@@ -33,6 +33,8 @@ RewriteRule ^excluir/chamado/(.*)                 /index.php?acao=excluir&modulo
 
 RewriteRule ^comunicacao/ativos                   /index.php?acao=lista&modulo=Comunicacao&status=ATIVO
 RewriteRule ^comunicacao/inativos                 /index.php?acao=lista&modulo=Comunicacao&status=INATIVO
+RewriteRule ^comunicacao/cadastrar                /index.php?acao=cadastro&modulo=Comunicacao
+RewriteRule ^cadastrar/comunicacao                /index.php?acao=cadastrar&modulo=Comunicacao
 
 
 

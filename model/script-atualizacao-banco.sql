@@ -47,3 +47,10 @@ UPDATE `tb_historico_chamados` SET TX_MENSAGEM = 'ABRIU UM NOVO CHAMADO' WHERE T
 UPDATE `tb_historico_chamados` SET tx_mensagem = 'FECHOU O CHAMADO' WHERE tx_mensagem = 'RESOLVEU O CHAMADO';
 
 ALTER TABLE `tb_historico_chamados` DROP FOREIGN KEY `tb_historico_chamados_ibfk_1`; ALTER TABLE `tb_historico_chamados` ADD CONSTRAINT `tb_historico_chamados_ibfk_1` FOREIGN KEY (`ID_REFERENTE`) REFERENCES `tb_chamados`(`ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+ALTER TABLE `tb_comunicacao` CHANGE `DS_STATUS` `DS_STATUS` ENUM('OCULTADA','PUBLICADA','INATIVA') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'OCULTADA';
+
+ALTER TABLE `tb_anexos_comunicacao` CHANGE `NM_LEGENDA` `DS_LEGENDA` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `NM_CREDITOS` `DS_CREDITOS` VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `NM_ARQUIVO` `DS_ARQUIVO` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
+ALTER TABLE `tb_anexos_comunicacao` DROP FOREIGN KEY `tb_anexos_comunicacao_ibfk_1`; ALTER TABLE `tb_anexos_comunicacao` ADD CONSTRAINT `tb_anexos_comunicacao_ibfk_1` FOREIGN KEY (`ID_COMUNICACAO`) REFERENCES `tb_comunicacao`(`ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
+

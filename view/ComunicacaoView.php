@@ -3,6 +3,79 @@
 require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
 class ComunicacaoView extends View{
+
+	public function adicionarScripts(){ ?>
+	
+		<script src='//cdn.tinymce.com/4/tinymce.min.js'></script>
+		
+		<script>tinymce.init({ selector:'textarea' });</script>
+		
+		<script type='text/javascript'>
+		
+			var id_row = 1;
+			var id = 1;
+
+			function adicionarImagem(){
+				
+				var newdiv = document.createElement('div');
+				
+				newdiv.setAttribute("name", "campos"+id);
+				
+				newdiv.setAttribute("id", id);
+				
+				newdiv.innerHTML = 
+				"<div class='row'>"+
+					"<div class='col-md-4'>"+
+						"Selecione a imagem:<br>"+
+							"<input type='file' id='selecao-arquivo' name='imagens[]' accept='.jpg, .jpeg, .pjpeg, .gif, .png' id='imagem' required />"+	
+					"</div>"+
+					"<div class='col-md-3'>"+
+						"Legenda:<br>"+
+						"<input class='form-control' id='legenda' name='legendas[]' placeholder='Máximo de 100 caracteres' type='text' maxlength='100' required />"+	
+					"</div>"+
+					"<div class='col-md-2' >"+
+						"Créditos:<br>"+
+						"<input class='form-control' id='creditos' name='creditos[]' placeholder='Máx. de 30 caracteres' type='text' maxlength='30' required />"+
+					"</div>"+
+					"<div class='col-md-2' >"+
+						"É pequena?<br>"+
+						"<select class='form-control' id='pequenas' name='pequenas[]' placeholder='Máximo de 30 caracteres' type='text' maxlength='30' required />"+
+							"<option value='0'>Não</option>"+
+							"<option value='1'>Sim</option>"+
+						"</select>"+
+					"</div>"+
+					"<div class='col-md-1' >"+
+						"Remover:<br>"+
+						"<center><a href='javascript:void(0)' title='remover' onclick='removerImagem("+id+");'><i class='fa fa-times' aria-hidden='true'></i></a></center>"+
+					"</div>"+
+				"</div>";
+				
+				var nova_imagem = document.getElementById("adicionarImagem");
+
+				nova_imagem.appendChild(newdiv);
+				
+				id++;
+			}
+
+			function removerImagem(id){
+				
+				document.getElementById(id).innerHTML=""; 
+				
+			}
+
+			function aparecerSubmit(){
+				
+				document.getElementById("submitImagens").style.display="block";
+				
+			}
+		
+		</script>
+	
+<?php
+	
+	}
+		
+
 	
 	public function listar(){ ?>
 		
@@ -52,40 +125,73 @@ class ComunicacaoView extends View{
 
 ?>
 	
-		<form name="cadastro" method="POST" action="/cadastrar/chamado/" enctype="multipart/form-data">
-			<div class="row">
-				<div class="col-md-6">
-					 <div class="form-group">
-						<label class="control-label" for="exampleInputEmail1">Natureza do problema:</label>
-						<select class="form-control" id="natureza" name="natureza" required />
-							<option value="">Selecione a natureza do problema</option>
-							<option value="WORD">WORD</option>
-							<option value="EXCEL">EXCEL</option>
-							<option value="POWER POINT">POWER POINT</option>
-							<option value="TRELLO">TRELLO</option>
-							<option value="SIAFEM">SIAFEM</option>
-							<option value="SIAPI">SIAPI</option>
-							<option value="COMPUTADOR OU PEÇA COM DEFEITO">COMPUTADOR OU PEÇA COM DEFEITO</option>
-							<option value="INTERNET">INTERNET</option>
-							<option value="COMPARTILHAMENTO DE PASTA">COMPARTILHAMENTO DE PASTA</option>
-							<option value="IMPRESSORA">IMPRESSORA</option>
-							<option value="PAINEL DE GESTÃO">PAINEL DE GESTÃO</option>
-							<option value="OUTRO">OUTRO</option>
-						</select>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label class="control-label" for="comment">Problema: (máx 300 carac.)</label>
-						<input type='text' class='form-control' rows='1' id='problema' name='problema' maxlength="300" required></input>	
-					</div>	
-				</div>
-			</div>	
-			<div class="row" id="cad-button">
-				<div class="col-md-12">
-					<button type="submit" class="btn btn-default" name="submit" value="Send" id="submit">Abrir chamado</button>
+		<form name='cadastro' id='cadastro' method='POST' action='/cadastrar/comunicacao/' enctype='multipart/form-data'>
+			<div class='row'>
+				<div class='col-md-12'>
+					<div class='form-group'>
+						<label class='control-label' for='exampleInputEmail1'>Chapéu</label>
+						<input class='form-control' id='chapeu' name='chapeu' placeholder='Máximo de 30 caracteres' 
+						type='text' maxlength='30' required />	
+					</div> 
 				</div>
 			</div>
+			<div class='row'>
+				<div class='col-md-12'>
+					<div class='form-group'>
+						<label class='control-label' for='exampleInputEmail1'>Título</label>
+						<input class='form-control' id='titulo' name='titulo' placeholder='Máximo de 100 caracteres' 
+						type='text' maxlength='100' required />	
+					</div>  
+				</div>
+			</div>
+			<div class='row'>
+				<div class='col-md-12'>
+					<div class='form-group'>
+						<label class='control-label' for='exampleInputEmail1'>Intertítulo</label>
+						<input class='form-control' id='intertitulo' name='intertitulo' placeholder='Máximo de 200 caracteres' 
+						type='text' maxlength='200' required />	
+					</div>  
+				</div>
+			</div>
+			<div class='row'>
+				<div class='col-md-12'>
+					<div class='form-group'>
+						<label class='control-label' for='exampleInputEmail1'>Créditos</label>
+						<input class='form-control' id='creditos' name='creditosTexto' placeholder='Máximo de 30 caracteres' 
+						type='text' maxlength='30' required />	
+					</div>  
+				</div>
+			</div>
+			<div class='row'>
+				<div class='col-md-12'>
+					<div class='form-group'>
+						<label class='control-label' for='exampleInputEmail1'>Texto</label>
+						<textarea class='form-control' id='texto' name='texto' rows='15' required />Seu texto aqui</textarea>	
+					</div>  
+				</div>
+			</div>
+			<div class='row'>
+				<div class='col-md-12'>
+					<label class='control-label' for='exampleInputEmail1'>Data de publicação</label>
+					<input type='datetime-local' name='dataPublicacao' id='dataPublicacao' required /><br>
+				</div>
+			</div>
+			
+			<div class='row'>
+				<div class='col-md-6' >
+					<label class='control-label' for='exampleInputEmail1'>Adicionar imagens</label>
+					<a href='javascript:void(0)' onclick='adicionarImagem()'><i class='fa fa-plus-circle' aria-hidden='true'></i></a>
+				</div>
+			</div>
+			<div id='adicionarImagem'>
+			
+			
+			</div>
+			<div class='row' id='cad-button'>
+				<div class='col-md-12'>
+					<button type='submit' class='btn btn-default' name='submit' value='Send' id='submit'>Cadastrar</button>
+				</div>
+			</div>	
 		</form>
 	
 <?php	

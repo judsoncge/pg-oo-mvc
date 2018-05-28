@@ -13,7 +13,7 @@ class ComunicacaoController extends Controller{
 	
 	public function carregarCadastro(){
 		
-		$this->comunicacaoView->setTitulo('CHAMADOS > CADASTRAR COMUNICAÇÃO');
+		$this->comunicacaoView->setTitulo('COMUNICAÇÃO > CADASTRAR COMUNICAÇÃO');
 		
 		$this->comunicacaoView->setConteudo('cadastro');
 	
@@ -23,26 +23,54 @@ class ComunicacaoController extends Controller{
 	
 	public function cadastrar(){
 		
-		$natureza = (isset($_POST['natureza'])) ? $_POST['natureza'] : NULL;
+		$chapeu = (isset($_POST['chapeu'])) ? $_POST['chapeu'] : NULL;
 		
-		$problema = (isset($_POST['problema'])) ? $_POST['problema'] : NULL;
+		$titulo = (isset($_POST['titulo'])) ? $_POST['titulo'] : NULL;
 		
-		$servidorRequisitante = $_SESSION['ID'];
+		$intertitulo = (isset($_POST['intertitulo'])) ? $_POST['intertitulo'] : NULL;
 		
-		$this->comunicacaoModel->setNatureza($natureza);
+		$creditosTexto = (isset($_POST['creditosTexto'])) ? $_POST['creditosTexto'] : NULL;
 		
-		$this->comunicacaoModel->setProblema($problema);
+		$texto = (isset($_POST['texto'])) ? $_POST['texto'] : NULL;
 		
-		$this->comunicacaoModel->setServidorRequisitante($servidorRequisitante);
+		$dataPublicacao = (isset($_POST['dataPublicacao'])) ? $_POST['dataPublicacao'] : NULL;
+		
+		$anexos = $_FILES['imagens'];
+		
+		$legendas = $_POST['legendas'];
+		
+		$creditos = $_POST['creditos'];
+		
+		$pequenas = $_POST['pequenas'];
+		
+		$this->comunicacaoModel->setChapeu($chapeu);
+		
+		$this->comunicacaoModel->setTitulo($titulo);
+		
+		$this->comunicacaoModel->setIntertitulo($intertitulo);
+		
+		$this->comunicacaoModel->setCreditosTexto($creditosTexto);
+		
+		$this->comunicacaoModel->setTexto($texto);
+		
+		$this->comunicacaoModel->setDataPublicacao($dataPublicacao);
+		
+		$this->comunicacaoModel->setAnexos($anexos);
+		
+		$this->comunicacaoModel->setLegendas($legendas);
+		
+		$this->comunicacaoModel->setCreditos($creditos);
+		
+		$this->comunicacaoModel->setPequenas($pequenas);
 		
 		$_SESSION['RESULTADO_OPERACAO'] = $this->comunicacaoModel->cadastrar();
 		
 		$_SESSION['MENSAGEM'] = $this->comunicacaoModel->getMensagemResposta();
 		
 		if($_SESSION['RESULTADO_OPERACAO']){
-			Header('Location: /chamados/ativos/');
+			Header('Location: /comunicacao/ativos/');
 		}else{
-			Header('Location: /chamados/cadastrar/');
+			Header('Location: /comunicacao/cadastrar/');
 		}
 		
 	}	
