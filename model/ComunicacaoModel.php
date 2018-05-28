@@ -115,7 +115,7 @@ class ComunicacaoModel extends Model{
 	
 	public function getCincoNoticiasMaisAtuais(){
 		
-		$query = "SELECT DS_TITULO, DS_INTERTITULO, DT_PUBLICACAO FROM tb_comunicacao WHERE DS_STATUS = 'PUBLICADA' ORDER BY DT_PUBLICACAO DESC LIMIT 5";
+		$query = "SELECT ID, DS_TITULO, DS_INTERTITULO, DT_PUBLICACAO FROM tb_comunicacao WHERE DS_STATUS = 'PUBLICADA' ORDER BY DT_PUBLICACAO DESC LIMIT 5";
 		
 		$lista = $this->executarQueryLista($query);
 		
@@ -146,25 +146,36 @@ class ComunicacaoModel extends Model{
 		return $lista;
 		
 	}
+
+	public function getImagens($tamanho){
+
+		$query = "SELECT * FROM tb_anexos_comunicacao WHERE BL_PEQUENA = $tamanho AND ID_COMUNICACAO = $this->id";
+
+		$lista = $this->executarQueryLista($query);
+		
+		return $lista;
+	
+	}
+
+	public function getDadosID(){
+		
+		$query =
+		
+		"SELECT 
+		
+		ID, DS_CHAPEU, DS_TITULO, DS_INTERTITULO, DS_CREDITOS, TX_NOTICIA, DT_PUBLICACAO, DS_STATUS
+		
+		FROM  tb_comunicacao
+		
+		WHERE ID = ".$this->id."
+		
+		";
+		
+		$lista = $this->executarQueryListaID($query);
+		
+		return $lista;
+	}
 	
 }	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ?>

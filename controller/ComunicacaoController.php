@@ -153,17 +153,13 @@ class ComunicacaoController extends Controller{
 		
 		$this->comunicacaoModel->setID($id);
 		
-		$listaDados = $this->comunicacaoModel->getDadosID();
-		
-		$historico  = $this->comunicacaoModel->getHistorico('chamados', $id);
-		
-		$this->comunicacaoView->setTitulo("CHAMADOS > ".$listaDados['ID']." > VISUALIZAR");
+		$_REQUEST['DADOS_COMUNICACAO'] = $this->comunicacaoModel->getDadosID();
+
+		$_REQUEST['IMAGENS_GRANDES'] = $this->comunicacaoModel->getImagens(0);
+
+		$_REQUEST['IMAGENS_PEQUENAS'] = $this->comunicacaoModel->getImagens(1);
 		
 		$this->comunicacaoView->setConteudo('visualizar');
-		
-		$_REQUEST['DADOS_CHAMADO'] = $listaDados;
-		
-		$_REQUEST['HISTORICO_CHAMADO'] = $historico;
 		
 		$this->comunicacaoView->carregar();
 		

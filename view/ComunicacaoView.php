@@ -68,7 +68,13 @@ class ComunicacaoView extends View{
 				document.getElementById("submitImagens").style.display="block";
 				
 			}
-		
+		</script>	
+		<script type='text/javascript' src='/view/_libs/js/js_responsiveslides.js'></script>
+		<link rel='stylesheet' href='/view/_libs/css/responsiveslides.css'>
+		<script>
+		  $(function() {
+			$('.rslides').responsiveSlides();
+		  });
 		</script>
 	
 <?php
@@ -200,103 +206,108 @@ class ComunicacaoView extends View{
 	
 	public function visualizar(){
 		
-		$lista = $_REQUEST['DADOS_CHAMADO'];
-		
-		$historico = $_REQUEST['HISTORICO_CHAMADO'];
+		$lista = $_REQUEST['DADOS_COMUNICACAO'];		
+		$listaImagensGrandes = $_REQUEST['IMAGENS_GRANDES'];
+		$listaImagensPequenas = $_REQUEST['IMAGENS_PEQUENAS'];
 		
 ?>		
-	
-		<div class="row linha-modal-processo">
-			<div class="col-md-12">
-				<?php if($lista['DS_STATUS'] =='ABERTO'){ ?>
-				
-						<a href="/editar/chamado/status/<?php echo $lista['ID'] ?>/FECHADO"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Fechar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
-				
-				<?php } 	
-				
-				if($lista['DS_STATUS']=='FECHADO' and $lista['DS_AVALIACAO'] != "SEM AVALIAÇÃO"){ ?>
-				
-						<a href="/editar/chamado/status/<?php echo $lista['ID'] ?>/ENCERRADO"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Encerrar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
-				<?php } 
-				
-				if($lista['DS_STATUS']=='ABERTO'){ ?>
-						
-						<a href="/excluir/chamado/<?php echo $lista['ID'] ?>"><button type='submit' onclick="return confirm('Você tem certeza que deseja apagar este chamado?');" class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Excluir&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></button></a>
-					
-				<?php } ?>
-			</div> 
-		</div>
-		<div class="row linha-modal-processo">
-			<div class="col-md-12">
-				<b>Status</b>: <?php echo $lista['DS_STATUS'] ?><br><br>	
-				<b>Data de abertura  </b>: <?php echo date_format(new DateTime($lista['DT_ABERTURA']), 'd/m/Y H:i:s') ?><br> 
-				<b>Data de fechamento  </b>: 
-					<?php 
-						
-						$data = ($lista['DT_FECHAMENTO'] == NULL) 
-							? "Sem data" 
-							: date_format(new DateTime($lista['DT_FECHAMENTO']), 'd/m/Y H:i:s');
-						
-						echo $data;
-						
-					?>
-				<br> 
-				<b>Data de encerramento  </b>: 
-					<?php 
-						
-						$data = ($lista['DT_ENCERRAMENTO'] == NULL) 
-							? "Sem data" 
-							: date_format(new DateTime($lista['DT_ENCERRAMENTO']), 'd/m/Y H:i:s');
-						
-						echo $data;
-						
-					?>
-				<br>  
-				<b>Requisitante</b>: <?php echo $lista['DS_NOME_REQUISITANTE'] ?><br>
-				<b>Problema</b>: <?php echo $lista['DS_PROBLEMA'] ?><br> 
-				<b>Natureza</b>: <?php echo $lista['DS_NATUREZA'] ?>	
-			</div>
-		</div>
-		<?php 
-		
-			$this->carregarHistorico($historico); 
-			
-			if($lista['DS_AVALIACAO'] == 'SEM AVALIAÇÃO' and $lista['DS_STATUS'] != 'ENCERRADO'){
-			
-				$this->carregarEnviarMensagem('chamado', $lista['ID']);
-			
-			}
-			
-			if($lista['DS_AVALIACAO'] == 'SEM AVALIAÇÃO' and $lista['DS_STATUS'] == 'FECHADO'){
-				
-		?>
-		
-				<div class="row linha-modal-processo">
-					<form name="cadastro" method="POST" action="/editar/chamado/avaliar/<?php echo $lista['ID'] ?>/" enctype="multipart/form-data">
-						<div class="col-md-10">
-							<select class="form-control" id="avaliacao" name="avaliacao" required/>
-								<option value="">Avalie o atendimento</option>
-								<option value="PÉSSIMO">PÉSSIMO</option>
-								<option value="RUIM">RUIM</option>
-								<option value="REGULAR">REGULAR</option>
-								<option value="BOM">BOM</option>
-								<option value="EXCELENTE">EXCELENTE</option>
-							</select>
-						</div>
-						<div class='col-md-2'>
-							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-dar-saida'>Avaliar &nbsp;&nbsp;<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
-						</div>
-					</form>				
-				</div>
+		<div class="container caixa-conteudo">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="container">
+						<div class="row" style="margin-top: 10px;">
+							<div class="col-md-12">
+								<div class="row linha-modal-processo">
+									
+									<?php if($lista['DS_STATUS'] == 'OCULTADA'){ ?>
+									
+										<a href="/editar/comunicacao/status/<?php echo $lista['ID'] ?>/PUBLICADA"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Publicar</button></a>
+										
+									<?php } 
 
-		<?php
-			
-			}
-			
-		?>
+									if($lista['DS_STATUS'] != 'INATIVA'){ ?>
+									
+										<a href="/editar/comunicacao/status/<?php echo $lista['ID'] ?>/INATIVA"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Inativar</button></a>
+									
+									<?php } 
+									
+									if($lista['DS_STATUS'] != 'PUBLICADA'){ ?>
+
+										<a href="/editar/comunicacao/status/<?php echo $lista['ID'] ?>/OCULTADA"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Ocultar</button></a>
+									
+									<?php } ?>
+									
+									<a onclick="return confirm('Tem certeza que deseja apagar esta comunicação?')" href="/excluir/comunicacao/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-dar-saida'>Excluir</button></a>
+										
+									<a href="/comunicacao/editar/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-dar-saida'>Editar</button></a>					
+								
+								</div>
+														
+								<div class="row linha-modal-processo">
+									<small><?php echo "Publicada em: " . date_format(new DateTime($lista['DT_PUBLICACAO']), 'd/m/Y H:i'); ?></small><br>
+									
+									<h6><?php echo $lista['DS_CHAPEU'] ?></h6><br>
+									
+									<h3><strong><?php echo $lista['DS_TITULO'] ?></strong></h3><br>
+									
+									<h5><?php echo $lista['DS_INTERTITULO'] ?></h5><br>
+									
+									<?php if(count($listaImagensGrandes) > 0) { ?>
+										
+										<ul id='imagensgrandes' class='slides'>
+										
+											<?php $this->carregarImagens($listaImagensGrandes); ?> 
+										
+										</ul>
+									<br>
+									
+									<h6>
+									<?php 
+										
+										} 
+										
+										echo $lista['DS_CREDITOS'];
+										
+									?>
+									</h6><br><br>				
+									<div>
+										<?php if(count($listaImagensPequenas) > 0) { ?>
+											
+											<ul id='imagenspequenas' class='rslides'>
+											
+												<?php $this->carregarImagens($listaImagensPequenas); ?> 
+											
+											</ul>
+											
+										<?php }	echo $lista['TX_NOTICIA']; ?>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
 
 <?php		
 	}
+	
+	public function carregarImagens($lista){
+		
+		foreach($lista as $imagem){
+
+?>
+			<li class='modal-card-foto3'>	
+				<img src="/_registros/fotos-noticias/<?php echo $imagem['DS_ARQUIVO'] ?>" ></img>
+				<p style='text-align:center;'><?php echo $imagem['DS_LEGENDA'] . " (" . $imagem['DS_CREDITOS'] . ") " ?></p>
+			</li>
+					
+<?php 
+		
+		}
+		
+	}
+	
 }
 
 ?>

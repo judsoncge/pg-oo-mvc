@@ -207,6 +207,16 @@ class Model{
 		return $resultado;
 
 	}
+
+	public function getDadosID(){
+
+
+
+
+
+
+
+	}
 	
 }
 

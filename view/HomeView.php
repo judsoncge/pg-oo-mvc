@@ -22,8 +22,8 @@ class HomeView extends View{
 			?>
 			
 				<font size='2px'>(<?php echo date_format(new DateTime($noticia['DT_PUBLICACAO']) , 'd/m/Y H:i') ?>)</font>
-				<a href="#"><h3><?php echo $noticia['DS_INTERTITULO'] ?></h3></a>
-				<font size="2px"><?php echo $noticia['DS_TITULO'] ?></font>						
+				<a href='/comunicacao/visualizar/<?php echo $noticia['ID'] ?>'><h3><?php echo $noticia['DS_INTERTITULO'] ?></h3></a>
+				<font size='2px'><?php echo $noticia['DS_TITULO'] ?></font>						
 				<br>
 				<br>
 			<?php
