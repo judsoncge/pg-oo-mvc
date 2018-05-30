@@ -106,7 +106,7 @@ class ServidoresView extends View{
 			$listaDados = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_SERVIDOR'] : NULL;
 			
 			$action = ($this->conteudo == 'edicao') 
-				? "/editar/servidor/info/".$listaDados['ID']."/ATIVO"
+				? "/editar/servidor/info/".$listaDados['ID']."/"
 				: '/cadastrar/servidor/';
 				
 			$nomeBotao = ($this->conteudo == 'edicao') ? 'Editar' : 'Cadastrar';

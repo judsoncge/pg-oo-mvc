@@ -128,80 +128,180 @@ class ComunicacaoView extends View{
 	}
 	
 	public function cadastrar(){
-
+		
+		$this->carregarFormulario();
+	
+	}
+	
+	public function editar(){
+		
+		$this->carregarFormulario();
+		
+	}
+	
+	public function carregarFormulario(){
+		
+		$listaDados = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_COMUNICACAO'] : NULL;
+		$listaDadosImagens = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_IMAGENS'] : NULL;
+			
+		$action = ($this->conteudo == 'edicao') 
+			? "/editar/comunicacao/info/".$listaDados['ID']."/"
+			: '/cadastrar/comunicacao/';
+				
+		$nomeBotao = ($this->conteudo == 'edicao') ? 'Editar' : 'Cadastrar';
+		
 ?>
+		
+	<form name='cadastro' id='cadastro' method='POST' action="<?php echo $action; ?>" enctype='multipart/form-data'>
+		<div class='row'>
+			<div class='col-md-12'>
+				<div class='form-group'>
+					<label class='control-label' for='exampleInputEmail1'>Chapéu</label>
+					<input class='form-control' id='chapeu' name='chapeu' placeholder='Máximo de 30 caracteres' 
+					type='text' maxlength='30' value="<?php if(isset($listaDados)){echo $listaDados['DS_CHAPEU'];} ?>" required />	
+				</div> 
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-md-12'>
+				<div class='form-group'>
+					<label class='control-label' for='exampleInputEmail1'>Título</label>
+					<input class='form-control' id='titulo' name='titulo' placeholder='Máximo de 100 caracteres' 
+					type='text' maxlength='100' value="<?php if(isset($listaDados)){echo $listaDados['DS_TITULO'];} ?>" required />	
+				</div>  
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-md-12'>
+				<div class='form-group'>
+					<label class='control-label' for='exampleInputEmail1'>Intertítulo</label>
+					<input class='form-control' id='intertitulo' name='intertitulo' placeholder='Máximo de 200 caracteres' 
+					type='text' maxlength='200' value="<?php if(isset($listaDados)){echo $listaDados['DS_INTERTITULO'];} ?>" required />	
+				</div>  
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-md-12'>
+				<div class='form-group'>
+					<label class='control-label' for='exampleInputEmail1'>Créditos</label>
+					<input class='form-control' id='creditos' name='creditosTexto' placeholder='Máximo de 30 caracteres' 
+					type='text' maxlength='30' value="<?php if(isset($listaDados)){echo $listaDados['DS_CREDITOS'];} ?>" required />	
+				</div>  
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-md-12'>
+				<div class='form-group'>
+					<label class='control-label' for='exampleInputEmail1'>Texto</label>
+					<textarea class='form-control' id='texto' name='texto' rows='15' required /><?php if(isset($listaDados)){echo $listaDados['TX_NOTICIA'];} ?></textarea>	
+				</div>  
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-md-12'>
+				<label class='control-label' for='exampleInputEmail1'>Data de publicação</label>
+				<input type='datetime-local' name='dataPublicacao' id='dataPublicacao' value="<?php if(isset($listaDados)){echo $listaDados['DT_PUBLICACAO'];} ?>" required /><br>
+			</div>
+		</div>
+		
+		<?php 
+		
+			if($this->conteudo == 'edicao'){
+				
+		?>
+		
+				<div>
+					
+					<?php 
+					
+						foreach($listaDadosImagens as $imagem){
+
+							$caminho = $_SERVER['DOCUMENT_ROOT'] . "/_registros/fotos-noticias/".$imagem['DS_ARQUIVO'];
+					
+					?>
+				
+							<div class='row'>
+								<div class='col-md-12'>
+									<strong>
+									
+									Nome: <?php echo $imagem['DS_ARQUIVO'] ?>
+									
+									(<a onclick="return confirm('Tem certeza que deseja apagar este registro?')" href="#" >Excluir</a>)
+									
+									</strong>
+								</div>
+							</div>
+							
+							<div class='row'>
+								<div class='col-md-4'>
+									Selecione a imagem (somente se quiser mudar):<br>
+										<input type='file' id='selecao-arquivo' name='imagem_editar' accept='.jpg, .jpeg, .pjpeg, .gif, .png' id='imagem' />	
+								</div>
+								<div class='col-md-3'>
+									Legenda:<br>
+									<input class='form-control' id='legenda' name='legenda_editar' value='<?php echo $imagem['DS_LEGENDA'] ?>' placeholder='Máximo de 100 caracteres' type='text' maxlength='100' required />	
+								</div>
+								<div class='col-md-2' >
+									Créditos:<br>
+									<input class='form-control' id='creditos' name='creditos_editar' value='<?php echo $imagem['DS_CREDITOS'] ?>' placeholder='Máx. de 30 caracteres' type='text' maxlength='30' required />
+								</div>
+								<div class='col-md-2' >
+									É pequena?<br>
+									<select class='form-control' id='pequenas' name='pequena_editar' placeholder='Máximo de 30 caracteres' type='text' maxlength='30' required />
+										<option value='<?php echo $imagem['BL_PEQUENA'] ?>'><?php if($imagem['BL_PEQUENA']){echo "Sim";}else{echo "Não";} ?></option>
+										<option value='0'>Não</option>
+										<option value='1'>Sim</option>
+									</select>
+								</div>
+							</div>					
+							<hr>
+						<?php
+
+						}
+						
+						?>
+					
+				</div>
+
+		<?php
 	
-		<form name='cadastro' id='cadastro' method='POST' action='/cadastrar/comunicacao/' enctype='multipart/form-data'>
-			<div class='row'>
-				<div class='col-md-12'>
-					<div class='form-group'>
-						<label class='control-label' for='exampleInputEmail1'>Chapéu</label>
-						<input class='form-control' id='chapeu' name='chapeu' placeholder='Máximo de 30 caracteres' 
-						type='text' maxlength='30' required />	
-					</div> 
-				</div>
-			</div>
-			<div class='row'>
-				<div class='col-md-12'>
-					<div class='form-group'>
-						<label class='control-label' for='exampleInputEmail1'>Título</label>
-						<input class='form-control' id='titulo' name='titulo' placeholder='Máximo de 100 caracteres' 
-						type='text' maxlength='100' required />	
-					</div>  
-				</div>
-			</div>
-			<div class='row'>
-				<div class='col-md-12'>
-					<div class='form-group'>
-						<label class='control-label' for='exampleInputEmail1'>Intertítulo</label>
-						<input class='form-control' id='intertitulo' name='intertitulo' placeholder='Máximo de 200 caracteres' 
-						type='text' maxlength='200' required />	
-					</div>  
-				</div>
-			</div>
-			<div class='row'>
-				<div class='col-md-12'>
-					<div class='form-group'>
-						<label class='control-label' for='exampleInputEmail1'>Créditos</label>
-						<input class='form-control' id='creditos' name='creditosTexto' placeholder='Máximo de 30 caracteres' 
-						type='text' maxlength='30' required />	
-					</div>  
-				</div>
-			</div>
-			<div class='row'>
-				<div class='col-md-12'>
-					<div class='form-group'>
-						<label class='control-label' for='exampleInputEmail1'>Texto</label>
-						<textarea class='form-control' id='texto' name='texto' rows='15' required />Seu texto aqui</textarea>	
-					</div>  
-				</div>
-			</div>
-			<div class='row'>
-				<div class='col-md-12'>
-					<label class='control-label' for='exampleInputEmail1'>Data de publicação</label>
-					<input type='datetime-local' name='dataPublicacao' id='dataPublicacao' required /><br>
-				</div>
-			</div>
+			}
 			
-			<div class='row'>
-				<div class='col-md-6' >
-					<label class='control-label' for='exampleInputEmail1'>Adicionar imagens</label>
-					<a href='javascript:void(0)' onclick='adicionarImagem()'><i class='fa fa-plus-circle' aria-hidden='true'></i></a>
-				</div>
-			</div>
-			<div id='adicionarImagem'>
+			$this->carregarAdicionarImagens();
 			
-			
+		?>
+		
+		<div class='row' id='cad-button'>
+			<div class='col-md-12'>
+				<button type='submit' class='btn btn-default' name='submit' value='Send' id='submit'><?php echo $nomeBotao ?></button>
 			</div>
-			<div class='row' id='cad-button'>
-				<div class='col-md-12'>
-					<button type='submit' class='btn btn-default' name='submit' value='Send' id='submit'>Cadastrar</button>
-				</div>
-			</div>	
-		</form>
-	
+		</div>	
+	</form>
+
 <?php	
+		
+	}
 	
+	public function carregarAdicionarImagens(){
+		
+?>
+
+		<div class='row'>
+			<div class='col-md-6' >
+				<label class='control-label' for='exampleInputEmail1'>Adicionar imagens</label>
+				<a href='javascript:void(0)' onclick='adicionarImagem()'>
+					<i class='fa fa-plus-circle' aria-hidden='true'></i>
+				</a>
+			</div>
+		</div>
+				
+		<div id='adicionarImagem'>
+		
+		
+		</div>	
+
+<?php		
+		
 	}
 	
 	public function visualizar(){
@@ -224,16 +324,16 @@ class ComunicacaoView extends View{
 										<a href="/editar/comunicacao/status/<?php echo $lista['ID'] ?>/PUBLICADA"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Publicar</button></a>
 										
 									<?php } 
+									
+									if($lista['DS_STATUS'] == 'PUBLICADA'){ ?>
+
+										<a href="/editar/comunicacao/status/<?php echo $lista['ID'] ?>/OCULTADA"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Ocultar</button></a>
+									
+									<?php } 
 
 									if($lista['DS_STATUS'] != 'INATIVA'){ ?>
 									
 										<a href="/editar/comunicacao/status/<?php echo $lista['ID'] ?>/INATIVA"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Inativar</button></a>
-									
-									<?php } 
-									
-									if($lista['DS_STATUS'] != 'PUBLICADA'){ ?>
-
-										<a href="/editar/comunicacao/status/<?php echo $lista['ID'] ?>/OCULTADA"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Ocultar</button></a>
 									
 									<?php } ?>
 									

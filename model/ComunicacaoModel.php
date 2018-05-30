@@ -156,6 +156,16 @@ class ComunicacaoModel extends Model{
 		return $lista;
 	
 	}
+	
+	public function getDadosImagensID(){
+		
+		$query = "SELECT * FROM tb_anexos_comunicacao WHERE ID_COMUNICACAO = $this->id";
+
+		$lista = $this->executarQueryLista($query);
+		
+		return $lista;
+		
+	}
 
 	public function getDadosID(){
 		
@@ -163,9 +173,9 @@ class ComunicacaoModel extends Model{
 		
 		"SELECT 
 		
-		ID, DS_CHAPEU, DS_TITULO, DS_INTERTITULO, DS_CREDITOS, TX_NOTICIA, DT_PUBLICACAO, DS_STATUS
+		ID, DS_CHAPEU, DS_TITULO, DS_INTERTITULO, DS_CREDITOS, TX_NOTICIA, DATE_FORMAT(DT_PUBLICACAO, '%Y-%m-%dT%H:%i') AS DT_PUBLICACAO, DS_STATUS
 		
-		FROM  tb_comunicacao
+		FROM tb_comunicacao
 		
 		WHERE ID = ".$this->id."
 		

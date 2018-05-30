@@ -21,6 +21,22 @@ class ComunicacaoController extends Controller{
 		
 	}
 	
+	public function carregarEdicao(){
+		
+		$id = $_GET['id'];
+		
+		$this->comunicacaoModel->setID($id);
+		
+		$_REQUEST['DADOS_COMUNICACAO'] = $this->comunicacaoModel->getDadosID();
+		
+		$_REQUEST['DADOS_IMAGENS'] = $this->comunicacaoModel->getDadosImagensID();
+		
+		$this->comunicacaoView->setConteudo('edicao');
+		
+		$this->comunicacaoView->carregar();
+		
+	}
+	
 	public function cadastrar(){
 		
 		$chapeu = (isset($_POST['chapeu'])) ? $_POST['chapeu'] : NULL;
@@ -89,7 +105,7 @@ class ComunicacaoController extends Controller{
 				
 				$this->comunicacaoModel->setStatus($status);
 				
-				$_SESSION['RESULTADO_OPERACAO'] = $this->comunicacaoModel->editarStatus('chamados', $status, $id);
+				$_SESSION['RESULTADO_OPERACAO'] = $this->comunicacaoModel->editarStatus('comunicacao', $status, $id);
 				
 				break;
 				
@@ -115,7 +131,7 @@ class ComunicacaoController extends Controller{
 		
 		$_SESSION['MENSAGEM'] = $this->comunicacaoModel->getMensagemResposta();
 	
-		Header('Location: /chamados/visualizar/'.$id);
+		Header('Location: /comunicacao/visualizar/'.$id);
 		
 	}
 	
