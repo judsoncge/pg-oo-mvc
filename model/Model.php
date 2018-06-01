@@ -202,10 +202,18 @@ class Model{
 		
 		$query = "DELETE FROM ".$tabela." WHERE ID=".$id."";
 		
+		
+		
 		$resultado = $this->executarQuery($query);
 		
 		return $resultado;
 
+	}
+	
+	public function excluirArquivo($pasta, $nomeArquivo){
+		
+		unlink($_SERVER['DOCUMENT_ROOT']."/_registros/$pasta/$nomeArquivo");
+		
 	}
 
 	public function getDadosID(){

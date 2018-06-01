@@ -176,6 +176,14 @@ class ComunicacaoController extends Controller{
 				$_SESSION['RESULTADO_OPERACAO'] = $this->comunicacaoModel->editarImagem();
 		
 				break;
+				
+			case 'excluir-imagem':
+				
+				$this->comunicacaoModel->excluir('tb_anexos_comunicacao', $_GET['img']);
+				
+				$this->comunicacaoModel->excluirArquivo('fotos-noticias', $_GET['nome']);
+				
+				break;
 		
 		}
 		
@@ -187,11 +195,11 @@ class ComunicacaoController extends Controller{
 	
 	public function excluir(){
 		
-		$_SESSION['RESULTADO_OPERACAO'] = $this->comunicacaoModel->excluir('tb_chamados', $_GET['id']);
+		$_SESSION['RESULTADO_OPERACAO'] = $this->comunicacaoModel->excluir('tb_comunicacao', $_GET['id']);
 		
 		$_SESSION['MENSAGEM'] = $this->comunicacaoModel->getMensagemResposta();
 		
-		Header('Location: /chamados/ativos/');
+		Header('Location: /comunicacao/ativos/');
 		
 	}
 	

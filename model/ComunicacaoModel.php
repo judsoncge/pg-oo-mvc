@@ -230,6 +230,38 @@ class ComunicacaoModel extends Model{
 		return $lista;
 	}
 	
+	public function excluir($tabela, $id){
+		
+		switch($tabela){
+			
+			case 'tb_comunicacao':
+			
+				$query = "SELECT DS_ARQUIVO FROM tb_anexos_comunicacao WHERE ID_COMUNICACAO= $id";
+		
+				$listaNomesImagens = $this->executarQueryLista($query);
+		
+				foreach($listaNomesImagens as $imagem){
+			
+					$this->excluirArquivo('fotos-noticias', $imagem['DS_ARQUIVO']);
+			
+				}
+				
+				$resultado = parent::excluir($tabela, $id);
+				
+				break;
+				
+			case 'tb_anexos_comunicacao':
+			
+				$resultado = parent::excluir($tabela, $id);
+				
+				break;
+		
+		}		
+		
+		return $resultado;
+		
+	}
+	
 }	
 
 ?>

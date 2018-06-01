@@ -235,7 +235,7 @@ class ComunicacaoView extends View{
 						
 						<div class='row'>
 							<div class='col-md-12'>
-								<strong>Nome: <?php echo $imagem['DS_ARQUIVO'] ?> (<a onclick="return confirm('Tem certeza que deseja apagar este registro?')" href="/editar/comunicacao/excluir-imagem/<?php echo $imagem['ID'] ?>/" >Excluir</a>)</strong>
+								<strong>Nome: <?php echo $imagem['DS_ARQUIVO'] ?> (<a onclick="return confirm('Tem certeza que deseja apagar este registro?')" href="/editar/comunicacao/excluir-imagem/<?php echo $listaDados['ID'] ?>/<?php echo $imagem['ID'] ?>/<?php echo $imagem['DS_ARQUIVO'] ?>" >Excluir</a>)</strong>
 							</div>
 						</div>
 						
@@ -283,73 +283,72 @@ class ComunicacaoView extends View{
 				<div class="col-lg-12">
 					<div class="container">
 						<div class="row" style="margin-top: 10px;">
-							<div class="col-md-12">
-								<div class="row linha-modal-processo">
-									
-									<?php if($lista['DS_STATUS'] == 'OCULTADA'){ ?>
-									
-										<a href="/editar/comunicacao/status/<?php echo $lista['ID'] ?>/PUBLICADA"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Publicar</button></a>
+							<?php if($lista['DS_STATUS'] != 'INATIVA'){ ?>
+								<div class="col-md-12">
+									<div class="row linha-modal-processo">
 										
-									<?php } 
-									
-									if($lista['DS_STATUS'] == 'PUBLICADA'){ ?>
+											<?php if($lista['DS_STATUS'] == 'OCULTADA'){ ?>
+											
+												<a href="/editar/comunicacao/status/<?php echo $lista['ID'] ?>/PUBLICADA"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Publicar</button></a>
+												
+											<?php } 
+											
+											if($lista['DS_STATUS'] == 'PUBLICADA'){ ?>
 
-										<a href="/editar/comunicacao/status/<?php echo $lista['ID'] ?>/OCULTADA"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Ocultar</button></a>
-									
-									<?php } 
+												<a href="/editar/comunicacao/status/<?php echo $lista['ID'] ?>/OCULTADA"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Ocultar</button></a>
+											
+											<?php } ?>
 
-									if($lista['DS_STATUS'] != 'INATIVA'){ ?>
-									
-										<a href="/editar/comunicacao/status/<?php echo $lista['ID'] ?>/INATIVA"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Inativar</button></a>
+											<a href="/editar/comunicacao/status/<?php echo $lista['ID'] ?>/INATIVA"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Inativar</button></a>
+																			
+											<a onclick="return confirm('Tem certeza que deseja apagar esta comunicação?')" href="/excluir/comunicacao/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-dar-saida'>Excluir</button></a>
+												
+											<a href="/comunicacao/editar/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-dar-saida'>Editar</button></a>					
 									
 									<?php } ?>
 									
-									<a onclick="return confirm('Tem certeza que deseja apagar esta comunicação?')" href="/excluir/comunicacao/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-dar-saida'>Excluir</button></a>
+									</div>
+															
+									<div class="row linha-modal-processo">
+										<small><?php echo "Publicada em: " . date_format(new DateTime($lista['DT_PUBLICACAO']), 'd/m/Y H:i'); ?></small><br>
+										<br>
+										<h6><?php echo $lista['DS_CHAPEU'] ?></h6><br>
 										
-									<a href="/comunicacao/editar/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-dar-saida'>Editar</button></a>					
-								
-								</div>
-														
-								<div class="row linha-modal-processo">
-									<small><?php echo "Publicada em: " . date_format(new DateTime($lista['DT_PUBLICACAO']), 'd/m/Y H:i'); ?></small><br>
-									<br>
-									<h6><?php echo $lista['DS_CHAPEU'] ?></h6><br>
-									
-									<h3><strong><?php echo $lista['DS_TITULO'] ?></strong></h3><br>
-									
-									<h5><?php echo $lista['DS_INTERTITULO'] ?></h5><br>
-									
-									<?php if(count($listaImagensGrandes) > 0) { ?>
+										<h3><strong><?php echo $lista['DS_TITULO'] ?></strong></h3><br>
 										
-										<ul id='imagensgrandes' class='rslides'>
+										<h5><?php echo $lista['DS_INTERTITULO'] ?></h5><br>
 										
-											<?php $this->carregarImagens($listaImagensGrandes); ?> 
-										
-										</ul>
-									<br>
-									
-									<h6>
-									<?php 
-										
-										} 
-									
-										echo $lista['DS_CREDITOS'];
-										
-									?>
-									</h6><br><br>				
-									<div>
-										<?php if(count($listaImagensPequenas) > 0) { ?>
+										<?php if(count($listaImagensGrandes) > 0) { ?>
 											
-											<ul id='imagenspequenas' class='rslides'>
+											<ul id='imagensgrandes' class='rslides'>
 											
-												<?php $this->carregarImagens($listaImagensPequenas); ?> 
+												<?php $this->carregarImagens($listaImagensGrandes); ?> 
 											
 											</ul>
+										<br>
+										
+										<h6>
+										<?php 
 											
-										<?php }	echo $lista['TX_NOTICIA']; ?>
+											} 
+										
+											echo $lista['DS_CREDITOS'];
+											
+										?>
+										</h6><br><br>				
+										<div>
+											<?php if(count($listaImagensPequenas) > 0) { ?>
+												
+												<ul id='imagenspequenas' class='rslides'>
+												
+													<?php $this->carregarImagens($listaImagensPequenas); ?> 
+												
+												</ul>
+												
+											<?php }	echo $lista['TX_NOTICIA']; ?>
+										</div>
 									</div>
 								</div>
-							</div>
 						</div>
 					</div>
 				</div>
