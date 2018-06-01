@@ -31,14 +31,16 @@ RewriteRule ^chamados/ativos                      /index.php?acao=lista&modulo=C
 RewriteRule ^chamados/inativos                    /index.php?acao=lista&modulo=Chamados&status=INATIVO
 RewriteRule ^excluir/chamado/(.*)                 /index.php?acao=excluir&modulo=Chamados&id=$1
 
-RewriteRule ^comunicacao/ativos                   /index.php?acao=lista&modulo=Comunicacao&status=ATIVO
-RewriteRule ^comunicacao/inativos                 /index.php?acao=lista&modulo=Comunicacao&status=INATIVO
-RewriteRule ^comunicacao/cadastrar                /index.php?acao=cadastro&modulo=Comunicacao
-RewriteRule ^cadastrar/comunicacao                /index.php?acao=cadastrar&modulo=Comunicacao
-RewriteRule ^comunicacao/visualizar/(.*)          /index.php?acao=visualizar&modulo=Comunicacao&id=$1
-RewriteRule ^editar/comunicacao/(.*)/(.*)/(.*)    /index.php?acao=editar&modulo=Comunicacao&operacao=$1&id=$2&status=$3
-RewriteRule ^excluir/comunicacao/(.*)             /index.php?acao=excluir&modulo=Chamados&id=$1
-RewriteRule ^comunicacao/editar/(.*)              /index.php?acao=edicao&tipo=info&modulo=Comunicacao&id=$1
+RewriteRule ^comunicacao/ativos                         /index.php?acao=lista&modulo=Comunicacao&status=ATIVO
+RewriteRule ^comunicacao/inativos                       /index.php?acao=lista&modulo=Comunicacao&status=INATIVO
+RewriteRule ^comunicacao/cadastrar                      /index.php?acao=cadastro&modulo=Comunicacao
+RewriteRule ^comunicacao/editar/(.*)                    /index.php?acao=edicao&modulo=Comunicacao&id=$1
+RewriteRule ^cadastrar/comunicacao                      /index.php?acao=cadastrar&modulo=Comunicacao
+RewriteRule ^comunicacao/visualizar/(.*)                /index.php?acao=visualizar&modulo=Comunicacao&id=$1
+RewriteRule ^editar/comunicacao/imagem/(.*)/(.*)        /index.php?acao=editar&modulo=Comunicacao&operacao=imagem&id=$1&img=$2
+RewriteRule ^editar/comunicacao/(.*)/(.*)/(.*)          /index.php?acao=editar&modulo=Comunicacao&operacao=$1&id=$2&status=$3
+RewriteRule ^excluir/comunicacao/(.*)                   /index.php?acao=excluir&modulo=Chamados&id=$1
+
 
  
 

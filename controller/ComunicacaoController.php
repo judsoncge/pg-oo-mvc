@@ -51,13 +51,13 @@ class ComunicacaoController extends Controller{
 		
 		$dataPublicacao = (isset($_POST['dataPublicacao'])) ? $_POST['dataPublicacao'] : NULL;
 		
-		$anexos = $_FILES['imagens'];
+		$anexos = (isset($_FILES['imagens'])) ? $_FILES['imagens'] : NULL;
+				
+		$legendas = (isset($_POST['legendas'])) ? $_POST['legendas'] : NULL;
 		
-		$legendas = $_POST['legendas'];
+		$creditos = (isset($_POST['creditos'])) ? $_POST['creditos'] : NULL;
 		
-		$creditos = $_POST['creditos'];
-		
-		$pequenas = $_POST['pequenas'];
+		$pequenas = (isset($_POST['pequenas'])) ? $_POST['pequenas'] : NULL;
 		
 		$this->comunicacaoModel->setChapeu($chapeu);
 		
@@ -109,21 +109,71 @@ class ComunicacaoController extends Controller{
 				
 				break;
 				
-			case 'avaliar':
+			case 'info':
 				
-				$avaliacao = (isset($_POST['avaliacao'])) ? $_POST['avaliacao'] : NULL;
-
-				$this->comunicacaoModel->setAvaliacao($avaliacao);
+				$chapeu = (isset($_POST['chapeu'])) ? $_POST['chapeu'] : NULL;
+		
+				$titulo = (isset($_POST['titulo'])) ? $_POST['titulo'] : NULL;
 				
-				$_SESSION['RESULTADO_OPERACAO'] = $this->comunicacaoModel->avaliar();
+				$intertitulo = (isset($_POST['intertitulo'])) ? $_POST['intertitulo'] : NULL;
+				
+				$creditosTexto = (isset($_POST['creditosTexto'])) ? $_POST['creditosTexto'] : NULL;
+				
+				$texto = (isset($_POST['texto'])) ? $_POST['texto'] : NULL;
+				
+				$dataPublicacao = (isset($_POST['dataPublicacao'])) ? $_POST['dataPublicacao'] : NULL;
+				
+				$anexos = (isset($_FILES['imagens'])) ? $_FILES['imagens'] : NULL;
+				
+				$legendas = (isset($_POST['legendas'])) ? $_POST['legendas'] : NULL;
+				
+				$creditos = (isset($_POST['creditos'])) ? $_POST['creditos'] : NULL;
+				
+				$pequenas = (isset($_POST['pequenas'])) ? $_POST['pequenas'] : NULL;
+				
+				$this->comunicacaoModel->setChapeu($chapeu);
+				
+				$this->comunicacaoModel->setTitulo($titulo);
+				
+				$this->comunicacaoModel->setIntertitulo($intertitulo);
+				
+				$this->comunicacaoModel->setCreditosTexto($creditosTexto);
+				
+				$this->comunicacaoModel->setTexto($texto);
+				
+				$this->comunicacaoModel->setDataPublicacao($dataPublicacao);
+				
+				$this->comunicacaoModel->setAnexos($anexos);
+				
+				$this->comunicacaoModel->setLegendas($legendas);
+				
+				$this->comunicacaoModel->setCreditos($creditos);
+				
+				$this->comunicacaoModel->setPequenas($pequenas);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->comunicacaoModel->editar();
 				
 				break;
 				
-			case 'mensagem': 
+			case 'imagem':
 				
-				$mensagem = (isset($_POST['mensagem'])) ? $_POST['mensagem'] : NULL;
+				$idImagem = $_GET['img'];
 				
-				$_SESSION['RESULTADO_OPERACAO'] = $this->comunicacaoModel->cadastrarHistorico('chamados', $id, 'DISSE: ' . $mensagem, $_SESSION['ID'], 'MENSAGEM');
+				$legenda = (isset($_POST['legendaEditar'])) ? $_POST['legendaEditar'] : NULL;
+				
+				$credito = (isset($_POST['creditosEditar'])) ? $_POST['creditosEditar'] : NULL;
+				
+				$pequena = (isset($_POST['pequenaEditar'])) ? $_POST['pequenaEditar'] : NULL;
+				
+				$this->comunicacaoModel->setIDImagem($idImagem);
+				
+				$this->comunicacaoModel->setLegendas($legenda);
+				
+				$this->comunicacaoModel->setCreditos($credito);
+				
+				$this->comunicacaoModel->setPequenas($pequena);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->comunicacaoModel->editarImagem();
 		
 				break;
 		
