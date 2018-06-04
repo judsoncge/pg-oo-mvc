@@ -63,7 +63,7 @@ class ProcessosModel extends Model{
 		
 		$this->prazo = somarData($data, $qtdDiasPrazo);
 		
-		$query = "INSERT INTO tb_processos (DS_NUMERO, BL_URGENCIA, ID_ASSUNTO, DS_DETALHES, ID_ORGAO_INTERESSADO, DS_INTERESSADO, DT_ENTRADA, DT_PRAZO, ID_SETOR_LOCALIZACAO, ID_SERVIDOR_LOCALIZACAO) VALUES ('".$this->numero."','".$this->urgencia."', '".$this->assunto."','".strtoupper($this->detalhes)."','".$this->orgao."','".strtoupper($this->interessado)."','".$data."','".$this->prazo."','".$this->setorLocalizacao."', '".$this->servidorLocalizacao."')";
+		$query = "INSERT INTO tb_processos (DS_NUMERO, BL_URGENCIA, ID_ASSUNTO, DS_DETALHES, ID_ORGAO_INTERESSADO, DS_INTERESSADO, DT_ENTRADA, DT_PRAZO, ID_SERVIDOR_LOCALIZACAO) VALUES ('".$this->numero."','".$this->urgencia."', '".$this->assunto."','".strtoupper($this->detalhes)."','".$this->orgao."','".strtoupper($this->interessado)."','".$data."','".$this->prazo."', '".$this->servidorLocalizacao."')";
 		
 		$id = $this->executarQueryID($query);
 		
@@ -170,6 +170,41 @@ class ProcessosModel extends Model{
 		$lista = $this->executarQueryListaID($query);
 		
 		return $lista;
+	}
+	
+	public function getListaProcessosStatus(){
+		
+		$restricaoStatus = ($this->status == 'ATIVO') ? " NOT IN ('ARQUIVADO', 'SAIU') " : " IN ('ARQUIVADO', 'SAIU') ";
+		
+		$query = "
+		
+		SELECT 
+		
+		a.ID,
+		a.DS_NUMERO, 
+		a.ID_SERVIDOR_LOCALIZACAO,  
+		a.DT_PRAZO, 
+		a.DS_STATUS, 
+		a.BL_ATRASADO, 
+		a.NR_DIAS,
+		b.BL_RECEBIDO,
+		c.DS_NOME NOME_SERVIDOR,
+		c.ID_SETOR,
+		d.DS_NOME NOME_SETOR
+		
+		FROM tb_processos a
+		
+		INNER JOIN tb_tramitacao_processos b ON a.ID = b.ID_PROCESSO
+		INNER JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
+		INNER JOIN tb_setores d ON c.ID_SETOR = d.ID
+		
+		WHERE a.DS_STATUS NOT IN ('ARQUIVADO', 'SAIU')
+		
+		GROUP BY b.ID_PROCESSO HAVING MAX(b.ID)
+		
+		";
+		
+		
 	}
 	
 	public function getListaAssuntos(){

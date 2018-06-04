@@ -52,7 +52,7 @@ class ChamadosModel extends Model{
 		
 		s.DS_NOME DS_NOME_REQUISITANTE
 		
-		FROM  tb_chamados a
+		FROM tb_chamados a
 		
 		INNER JOIN tb_servidores s ON a.ID_SERVIDOR_REQUISITANTE = s.ID 
 		

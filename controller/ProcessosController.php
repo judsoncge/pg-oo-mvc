@@ -45,8 +45,6 @@ class ProcessosController extends Controller{
 		
 		$servidorLocalizacao = $_SESSION['ID'];
 		
-		$setorLocalizacao = $_SESSION['SETOR'];
-		
 		$this->processosModel->setNumero($numero);
 		
 		$this->processosModel->setAssunto($assunto);
@@ -58,9 +56,7 @@ class ProcessosController extends Controller{
 		$this->processosModel->setDetalhes($detalhes);
 		
 		$this->processosModel->setServidorLocalizacao($servidorLocalizacao);
-		
-		$this->processosModel->setSetorLocalizacao($setorLocalizacao);
-		
+
 		$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->cadastrar();
 		
 		$_SESSION['MENSAGEM'] = $this->processosModel->getMensagemResposta();
@@ -131,13 +127,9 @@ class ProcessosController extends Controller{
 		
 		$this->processosModel->setStatus($_GET['status']);
 		
-		$servidorRequisitante = ($_SESSION['FUNCAO'] == 'TI') ? NULL : $_SESSION['ID'];
+		$listaProcessos = $this->processosModel->getListaProcessosStatus();
 		
-		$this->processosModel->setServidorRequisitante($servidorRequisitante);
-		
-		$listaChamados = $this->processosModel->getListaChamadosStatus();
-		
-		$titulo = ($_GET['status']=='ATIVO') ? 'CHAMADOS > ATIVOS' : 'CHAMADOS > INATIVOS';
+		$titulo = ($_GET['status']=='ATIVO') ? 'PROCESSOS > ATIVOS' : 'PROCESSOS > INATIVOS';
 		
 		$this->processosView->setTitulo($titulo);
 		

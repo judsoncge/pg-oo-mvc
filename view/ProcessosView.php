@@ -4,6 +4,16 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
 class ProcessosView extends View{
 	
+	public function adicionarScripts(){ ?>		
+		
+		<script src='<?php echo $_SERVER['DOCUMENT_ROOT'].'/js/receber.js' ?>'></script>
+		<script src='<?php echo $_SERVER['DOCUMENT_ROOT'].'/js/filtros.js'  ?>'></script>
+		<script src='<?php echo $_SERVER['DOCUMENT_ROOT'].'/js/exportar.js' ?>'></script>	
+
+<?php	
+	
+	}
+	
 	public function listar(){ ?>
 		
 		<div class="col-md-12 table-responsive" style="overflow: auto; width: 100%; height: 300px;">
