@@ -43,5 +43,9 @@ RewriteRule ^editar/comunicacao/(.*)/(.*)/(.*)           /index.php?acao=editar&
 RewriteRule ^excluir/comunicacao/(.*)                    /index.php?acao=excluir&modulo=Comunicacao&id=$1
 
 
- 
+RewriteRule ^processos/ativos                          /index.php?acao=lista&modulo=Processos&status=ATIVO
+RewriteRule ^processos/inativos                        /index.php?acao=lista&modulo=Processos&status=INATIVO
+RewriteRule ^processos/cadastrar                       /index.php?acao=cadastro&modulo=Processos
+RewriteRule ^cadastrar/processo            	           /index.php?acao=cadastrar&modulo=Processos
+RewriteRule ^processos/editar/(.*)                     /index.php?acao=edicao&modulo=Processos&id=$1
 

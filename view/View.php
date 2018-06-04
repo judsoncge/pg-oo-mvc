@@ -150,11 +150,11 @@ class View{
 							<a href='#'><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Processos</a>
 						</li>
 							<li class='processos-subitem'>
-								<a href=''><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Cadastrar</a>
+								<a href='/processos/cadastrar/'><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Cadastrar</a>
 							</li>
 						
 							<li class='processos-subitem'>
-								<a href=''><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Ativos</a>
+								<a href='/processos/ativos/'><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Ativos</a>
 							</li>
 							<li class='processos-subitem'>
 								<a href='' ><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Consultar</a>

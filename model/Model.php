@@ -8,6 +8,7 @@ class Model{
 	protected $mensagemResposta;
 	protected $id;
 	protected $status;
+	protected $servidorSessao;
 	
 	public function setID($id){
 		$this->id = $id;
@@ -25,8 +26,8 @@ class Model{
 		return $this->mensagemResposta;
 	}
 	
-	public function setServidorAcao($servidorAcao){
-		$this->servidorAcao = $servidorAcao;
+	public function setServidorSessao($servidorSessao){
+		$this->servidorSessao = $servidorSessao;
 	}
 	
 	
@@ -118,6 +119,20 @@ class Model{
 		$this->desconectar();
 		
 		return $lista;
+
+	}
+	
+	public function executarQueryRegistro($query){
+		
+		$this->conectar();
+		
+		$resultado = mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
+		
+		$registro = mysqli_fetch_row($resultado);
+		
+		$this->desconectar();
+		
+		return $registro[0];
 
 	}
 	
@@ -218,13 +233,10 @@ class Model{
 
 	public function getDadosID(){
 
-
-
-
-
-
+	
 
 	}
+
 	
 }
 

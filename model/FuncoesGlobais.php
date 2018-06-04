@@ -4,6 +4,16 @@ ini_set('max_execution_time', 10000);
 
 date_default_timezone_set('America/Bahia');
 
+function somarData($data, $dias, $meses = 0, $ano = 0){
+	
+   $data = explode("-", $data);
+   
+   $novaData = date("Y-m-d", mktime(0, 0, 0, $data[1] + $meses, $data[2] + $dias, $data[0] + $ano) );
+   
+   return $novaData;
+   
+}
+
 function retiraCaracteresEspeciais($string){
 	
 	$string = str_replace(" ","-",$string);

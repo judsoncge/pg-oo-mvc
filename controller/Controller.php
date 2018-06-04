@@ -13,8 +13,11 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/ChamadosView.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/model/ChamadosModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/view/ComunicacaoView.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/model/ComunicacaoModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/model/ProcessosModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/view/ProcessosView.php';
 
 class Controller{
+	
 	
 	
 }

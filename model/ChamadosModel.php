@@ -6,7 +6,6 @@ class ChamadosModel extends Model{
 
 	private $problema;
 	private $natureza;
-	private $servidorRequisitante;
 	private $avaliacao;	
 	
 	public function setProblema($problema){
@@ -16,11 +15,7 @@ class ChamadosModel extends Model{
 	public function setNatureza($natureza){
 		$this->natureza = $natureza;
 	}
-	
-	public function setServidorRequisitante($servidorRequisitante){
-		$this->servidorRequisitante = $servidorRequisitante;
-	}
-	
+
 	public function setAvaliacao($avaliacao){
 		$this->avaliacao = $avaliacao;
 	}
@@ -33,11 +28,11 @@ class ChamadosModel extends Model{
 		
 		$data = date('Y-m-d H:i:s');
 		
-		$query = "INSERT INTO tb_chamados (DS_PROBLEMA, DS_NATUREZA, ID_SERVIDOR_REQUISITANTE, DT_ABERTURA) VALUES ('".$this->problema."','".$this->natureza."','".$this->servidorRequisitante."','".$data."')";
+		$query = "INSERT INTO tb_chamados (DS_PROBLEMA, DS_NATUREZA, ID_SERVIDOR_REQUISITANTE, DT_ABERTURA) VALUES ('".$this->problema."','".$this->natureza."','".$this->servidorSessao."','".$data."')";
 		
 		$id = $this->executarQueryID($query);
 		
-		$resultado = $this->cadastrarHistorico('chamados', $id, 'ABRIU UM NOVO CHAMADO', $this->servidorRequisitante, 'ABERTURA');
+		$resultado = $this->cadastrarHistorico('chamados', $id, 'ABRIU UM NOVO CHAMADO', $this->servidorSessao, 'ABERTURA');
 		
 		return $resultado;
 		
@@ -47,7 +42,7 @@ class ChamadosModel extends Model{
 		
 		$restricao_status = ($this->status == 'ATIVO') ? " IN ('ABERTO', 'FECHADO') " : " = 'ENCERRADO' ";
 		
-		$restricao_servidor = ($this->servidorRequisitante != NULL) ? $this->servidorRequisitante : '%' ;
+		$restricao_servidor = ($this->servidorSessao != NULL) ? $this->servidorSessao : '%' ;
 		
 		$query =
 		
