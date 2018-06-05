@@ -21,6 +21,7 @@ class ProcessosView extends View{
 		$listaSetores = $_REQUEST['LISTA_SETORES']; 
 
 ?>	
+
 		<div class="well">
 			<form>
 				<div class="row">						
@@ -96,7 +97,6 @@ class ProcessosView extends View{
 		$listaProcessos = $_REQUEST['LISTA_PROCESSOS'];
 		
 	?>
-		
 			<table class="table table-hover tabela-dados">
 				<thead>
 					<tr>
@@ -115,8 +115,16 @@ class ProcessosView extends View{
 					<?php 
 						
 						$l = sizeof($listaProcessos);
+					?>	
+						<center>
+							<h5>
+								<div id='qtde'>Total: <?php echo $l . " " ?>
+									<button onclick="javascript: exportar();" class="btn btn-sm btn-success" name="submit" value="Send">Exportar</button>
+								</div>
+							</h5>
+						</center>
 						
-						echo "<center><h5><div id='qtde'>Total: $l</div></h5></center>";
+					<?php 
 					
 						foreach($listaProcessos as $processo){ 
 						

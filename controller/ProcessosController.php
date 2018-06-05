@@ -64,7 +64,7 @@ class ProcessosController extends Controller{
 		$_SESSION['MENSAGEM'] = $this->processosModel->getMensagemResposta();
 		
 		if($_SESSION['RESULTADO_OPERACAO']){
-			Header('Location: /processos/cadastrar/');
+			Header('Location: /processos/ativos');
 		}else{
 			Header('Location: /processos/cadastrar/');
 		}
