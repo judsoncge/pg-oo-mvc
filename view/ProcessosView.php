@@ -6,9 +6,9 @@ class ProcessosView extends View{
 	
 	public function adicionarScripts(){ ?>		
 		
-		<script src='<?php echo $_SERVER['DOCUMENT_ROOT'].'view/_libs/js/receber.js' ?>'></script>
-		<script src='<?php echo $_SERVER['DOCUMENT_ROOT'].'view/_libs/js/filtros.js'  ?>'></script>
-		<script src='<?php echo $_SERVER['DOCUMENT_ROOT'].'view/_libs/js/exportar.js' ?>'></script>	
+		<script src='/view/_libs/js/receber.js' ?>'></script>
+		<script src='/view/_libs/js/filtros.js'  ?>'></script>
+		<script src='/view/_libs/js/exportar.js' ?>'></script>	
 
 <?php	
 	
@@ -84,9 +84,7 @@ class ProcessosView extends View{
 			</form>
 		</div>
 		
-		<div id="resultado" class="col-md-12 table-responsive" style="overflow: auto; width: 100%; height: 300px;">
-			
-		<div id="carregando" class="carregando"><i class="fa fa-refresh spin" aria-hidden="true"></i> <span>Carregando dados...</span></div>	
+		
 
 <?php
 	
@@ -94,9 +92,18 @@ class ProcessosView extends View{
 	
 	public function listar(){
 
+		$this->carregarTabela();			
+	
+	}
+	
+	public function carregarTabela(){
+		
 		$listaProcessos = $_REQUEST['LISTA_PROCESSOS'];
 		
-	?>
+?>		
+		<div id="resultado" class="col-md-12 table-responsive" style="overflow: auto; width: 100%; height: 300px;">
+			
+		<div id="carregando" class="carregando"><i class="fa fa-refresh spin" aria-hidden="true"></i> <span>Carregando dados...</span></div>	
 			<table class="table table-hover tabela-dados">
 				<thead>
 					<tr>
@@ -190,7 +197,7 @@ class ProcessosView extends View{
 			</table>
 		</div>
 <?php 
-	
+		
 	}
 	
 	public function cadastrar(){

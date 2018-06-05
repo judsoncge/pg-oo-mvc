@@ -43,10 +43,11 @@ RewriteRule ^editar/comunicacao/(.*)/(.*)/(.*)           /index.php?acao=editar&
 RewriteRule ^excluir/comunicacao/(.*)                    /index.php?acao=excluir&modulo=Comunicacao&id=$1
 
 
-RewriteRule ^processos/ativos                          /index.php?acao=lista&modulo=Processos&status=ATIVO
+RewriteRule ^processos/ativos/1                        /index.php?acao=lista&modulo=Processos&status=ATIVO&filtro=1
+RewriteRule ^processos/ativos/0                         /index.php?acao=lista&modulo=Processos&status=ATIVO&filtro=0
 RewriteRule ^processos/inativos                        /index.php?acao=lista&modulo=Processos&status=INATIVO
 RewriteRule ^processos/cadastrar                       /index.php?acao=cadastro&modulo=Processos
 RewriteRule ^cadastrar/processo            	           /index.php?acao=cadastrar&modulo=Processos
-RewriteRule ^processos/visualizar/(.*)                  /index.php?acao=visualizar&modulo=Processos&id=$1
+RewriteRule ^processos/visualizar/(.*)                 /index.php?acao=visualizar&modulo=Processos&id=$1
 RewriteRule ^processos/editar/(.*)                     /index.php?acao=edicao&modulo=Processos&id=$1
 

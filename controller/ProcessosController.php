@@ -127,26 +127,66 @@ class ProcessosController extends Controller{
 	
 	public function listar(){
 		
-		$this->processosModel->setStatus($_GET['status']);
+		if(!$_GET['filtro']){
+			
+			$this->processosModel->setStatus($_GET['status']);
 		
-		$this->processosModel->setServidorLocalizacao($_SESSION['ID']);
+			$this->processosModel->setServidorLocalizacao($_SESSION['ID']);
+			
+			$this->servidoresModel->setStatus($_GET['status']);
+			
+			$_REQUEST['LISTA_SERVIDORES'] = $this->servidoresModel->getListaServidoresStatus();
+			
+			$_REQUEST['LISTA_SETORES'] = $this->setoresModel->getIDNomeSetores();
+			
+			$_REQUEST['LISTA_PROCESSOS'] = $this->processosModel->getListaProcessosStatus();
+			
+			$titulo = ($_GET['status']=='ATIVO') ? 'PROCESSOS > ATIVOS' : 'PROCESSOS > INATIVOS';
+			
+			$this->processosView->setTitulo($titulo);
+			
+			$this->processosView->setConteudo('lista');
+			
+			$this->processosView->carregar();
+			
+		}else{
+			
+			$status = $_GET['status'];
 		
-		$this->servidoresModel->setStatus($_GET['status']);
+			$this->servidoresModel->setStatus($status);
+			
+			$this->processosModel->setStatus($status);
+			
+			$_REQUEST['LISTA_SERVIDORES'] = $this->servidoresModel->getListaServidoresStatus();
+			
+			$_REQUEST['LISTA_SETORES'] = $this->setoresModel->getIDNomeSetores();
+			
+			$filtroServidor = $_POST['filtroservidor'];
+
+			$filtroSetor = $_POST['filtrosetor'];
+
+			$filtroSituacao = $_POST['filtrosituacao'];
+
+			$filtroSobrestado = $_POST['filtrosobrestado'];
+
+			$filtroProcesso = $_POST['filtroprocesso'];
+			
+			$this->processosModel->setServidorLocalizacao($filtroServidor);
+			
+			$this->processosModel->setSetorLocalizacao($filtroSetor);
+			
+			$this->processosModel->setAtrasado($filtroSituacao);
+			
+			$this->processosModel->setSobrestado($filtroSobrestado);
+			
+			$this->processosModel->setNumero($filtroProcesso);
+			
+			$_REQUEST['LISTA_PROCESSOS'] = $this->processosModel->getListaProcessosStatusComFiltro();
 		
-		$_REQUEST['LISTA_SERVIDORES'] = $this->servidoresModel->getListaServidoresStatus();
-		
-		$_REQUEST['LISTA_SETORES'] = $this->setoresModel->getIDNomeSetores();
-		
-		$_REQUEST['LISTA_PROCESSOS'] = $this->processosModel->getListaProcessosStatus();
-		
-		$titulo = ($_GET['status']=='ATIVO') ? 'PROCESSOS > ATIVOS' : 'PROCESSOS > INATIVOS';
-		
-		$this->processosView->setTitulo($titulo);
-		
-		$this->processosView->setConteudo('lista');
-		
-		$this->processosView->carregar();
-		
+			$this->processosView->listar();
+
+		}
+
 	}
 	
 	public function visualizar(){

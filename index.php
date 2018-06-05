@@ -40,9 +40,9 @@ if(isset($_GET['acao'])){
 			break;	
 		
 		case 'lista':
-
-			$controller->listar();
 			
+			$controller->listar();
+		
 			break;
 			
 		case 'cadastro':

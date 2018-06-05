@@ -154,7 +154,7 @@ class View{
 							</li>
 						
 							<li class='processos-subitem'>
-								<a href='/processos/ativos/'><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Ativos</a>
+								<a href='/processos/ativos/0'><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Ativos</a>
 							</li>
 							<li class='processos-subitem'>
 								<a href='' ><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Consultar</a>

@@ -13,6 +13,8 @@ class ProcessosModel extends Model{
 	private $prazo;	
 	private $servidorLocalizacao;	
 	private $setorLocalizacao;	
+	private $atrasado;
+	private $sobrestado;
 	
 	
 	public function setNumero($numero){
@@ -49,6 +51,14 @@ class ProcessosModel extends Model{
 	
 	public function setSetorLocalizacao($setorLocalizacao){
 		$this->setorLocalizacao = $setorLocalizacao;
+	}
+	
+	public function setAtrasado($atrasado){
+		$this->atrasado = $atrasado;
+	}
+	
+	public function setSobrestado($sobrestado){
+		$this->sobrestado = $sobrestado;
 	}
 	
 	public function cadastrar(){
@@ -158,9 +168,66 @@ class ProcessosModel extends Model{
 		INNER JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
 		INNER JOIN tb_setores d ON c.ID_SETOR = d.ID
 		
-		WHERE a.DS_STATUS NOT IN ('ARQUIVADO', 'SAIU') 
+		WHERE a.DS_STATUS ".$restricaoStatus." 
 		
 		AND a.ID_SERVIDOR_LOCALIZACAO = ".$this->servidorLocalizacao."
+		
+		ORDER BY BL_URGENCIA DESC, NR_DIAS DESC
+		
+		";
+		
+		$lista = $this->executarQueryLista($query);
+		
+		return $lista;
+		
+	}
+	
+	public function getListaProcessosStatusComFiltro(){
+		
+		$restricaoStatus = ($this->status == 'ATIVO') ? " NOT IN ('ARQUIVADO', 'SAIU') " : " IN ('ARQUIVADO', 'SAIU') ";
+		
+		if($this->servidorLocalizacao == '%' and $this->setorLocalizacao != '%'){
+			
+			$restricaoServidorSetor = "ID_SERVIDOR_LOCALIZACAO IN (SELECT ID FROM tb_servidores WHERE ID_SETOR like '$this->setorLocalizacao')";
+		
+		}elseif($this->servidorLocalizacao != '%' and $this->setorLocalizacao == '%'){
+			
+			$restricaoServidorSetor = "ID_SERVIDOR_LOCALIZACAO like '$this->servidorLocalizacao'";
+		
+		}elseif($this->servidorLocalizacao != '%' and $this->setorLocalizacao != '%'){
+			
+			$restricaoServidorSetor = "(ID_SERVIDOR_LOCALIZACAO like '$this->servidorLocalizacao' OR ID_SERVIDOR_LOCALIZACAO IN (SELECT ID FROM tb_servidores WHERE ID_SETOR = '$this->setorLocalizacao'))";
+			
+		}elseif($this->servidorLocalizacao == '%' and $this->setorLocalizacao == '%'){
+			
+			$restricaoServidorSetor = "ID_SERVIDOR_LOCALIZACAO like '%'";
+		}
+		
+		$query = "
+		
+		SELECT 
+		
+		a.*,
+		c.DS_NOME NOME_SERVIDOR,
+		c.ID_SETOR,
+		d.DS_ABREVIACAO NOME_SETOR
+		
+		FROM tb_processos a
+		
+		INNER JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
+		INNER JOIN tb_setores d ON c.ID_SETOR = d.ID
+		
+		WHERE a.DS_STATUS ".$restricaoStatus." 
+		
+		AND ".$restricaoServidorSetor."
+		
+		AND BL_ATRASADO like '$this->atrasado' 
+		
+		AND BL_SOBRESTADO like '$this->sobrestado' 
+		
+		AND DS_NUMERO LIKE '%$this->numero%'
+		
+		ORDER BY BL_URGENCIA DESC, NR_DIAS DESC
 		
 		";
 		
