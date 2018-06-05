@@ -72,38 +72,6 @@ class ProcessosModel extends Model{
 		return $resultado;
 		
 	}
-
-	public function getListaChamadosStatus(){
-		
-		$restricao_status = ($this->status == 'ATIVO') ? " IN ('ABERTO', 'FECHADO') " : " = 'ENCERRADO' ";
-		
-		$restricao_servidor = ($this->servidorRequisitante != NULL) ? $this->servidorRequisitante : '%' ;
-		
-		$query =
-		
-		"SELECT 
-		
-		a.ID, a.DS_NATUREZA, a.DT_ABERTURA, a.DS_STATUS, a.DS_AVALIACAO, 
-		
-		s.DS_NOME DS_NOME_REQUISITANTE
-		
-		FROM  tb_chamados a
-		
-		INNER JOIN tb_servidores s ON a.ID_SERVIDOR_REQUISITANTE = s.ID 
-		
-		WHERE a.DS_STATUS ".$restricao_status." 
-		
-		AND ID_SERVIDOR_REQUISITANTE LIKE '".$restricao_servidor."' 
-		
-		ORDER BY a.DT_ABERTURA desc
-		
-		";
-	
-		$lista = $this->executarQueryLista($query);
-		
-		return $lista;
-		
-	}
 	
 	public function editarStatus($modulo, $status, $id){
 		
@@ -180,30 +148,25 @@ class ProcessosModel extends Model{
 		
 		SELECT 
 		
-		a.ID,
-		a.DS_NUMERO, 
-		a.ID_SERVIDOR_LOCALIZACAO,  
-		a.DT_PRAZO, 
-		a.DS_STATUS, 
-		a.BL_ATRASADO, 
-		a.NR_DIAS,
-		b.BL_RECEBIDO,
+		a.*,
 		c.DS_NOME NOME_SERVIDOR,
 		c.ID_SETOR,
-		d.DS_NOME NOME_SETOR
+		d.DS_ABREVIACAO NOME_SETOR
 		
 		FROM tb_processos a
 		
-		INNER JOIN tb_tramitacao_processos b ON a.ID = b.ID_PROCESSO
 		INNER JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
 		INNER JOIN tb_setores d ON c.ID_SETOR = d.ID
 		
-		WHERE a.DS_STATUS NOT IN ('ARQUIVADO', 'SAIU')
+		WHERE a.DS_STATUS NOT IN ('ARQUIVADO', 'SAIU') 
 		
-		GROUP BY b.ID_PROCESSO HAVING MAX(b.ID)
+		AND a.ID_SERVIDOR_LOCALIZACAO = ".$this->servidorLocalizacao."
 		
 		";
 		
+		$lista = $this->executarQueryLista($query);
+		
+		return $lista;
 		
 	}
 	

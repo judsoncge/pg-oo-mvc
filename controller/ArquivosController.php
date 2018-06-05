@@ -16,9 +16,7 @@ class ArquivosController extends Controller{
 		
 		$this->servidoresModel->setStatus('ATIVO');
 		
-		$listaServidores = $this->servidoresModel->getListaServidoresStatus();
-		
-		$_REQUEST['LISTA_SERVIDORES'] = $listaServidores;
+		$_REQUEST['LISTA_SERVIDORES'] = $this->servidoresModel->getListaServidoresStatus();
 		
 		$this->arquivosView->setTitulo('ARQUIVOS > CADASTRAR');
 		

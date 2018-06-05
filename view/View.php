@@ -469,7 +469,7 @@ class View{
 
 	public function carregarFooter(){ ?>
 
-		<footer style='display: none;'>
+		<footer style='display: none;'>		
 		</footer>
 		</html>
 		

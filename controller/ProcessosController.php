@@ -8,6 +8,8 @@ class ProcessosController extends Controller{
 		
 		$this->processosView    = new ProcessosView();
 		$this->processosModel   = new ProcessosModel();
+		$this->servidoresModel  = new ServidoresModel();
+		$this->setoresModel     = new SetoresModel();
 		
 	}
 	
@@ -127,15 +129,21 @@ class ProcessosController extends Controller{
 		
 		$this->processosModel->setStatus($_GET['status']);
 		
-		$listaProcessos = $this->processosModel->getListaProcessosStatus();
+		$this->processosModel->setServidorLocalizacao($_SESSION['ID']);
+		
+		$this->servidoresModel->setStatus($_GET['status']);
+		
+		$_REQUEST['LISTA_SERVIDORES'] = $this->servidoresModel->getListaServidoresStatus();
+		
+		$_REQUEST['LISTA_SETORES'] = $this->setoresModel->getIDNomeSetores();
+		
+		$_REQUEST['LISTA_PROCESSOS'] = $this->processosModel->getListaProcessosStatus();
 		
 		$titulo = ($_GET['status']=='ATIVO') ? 'PROCESSOS > ATIVOS' : 'PROCESSOS > INATIVOS';
 		
 		$this->processosView->setTitulo($titulo);
 		
 		$this->processosView->setConteudo('lista');
-		
-		$_REQUEST['LISTA_CHAMADOS'] = $listaChamados;
 		
 		$this->processosView->carregar();
 		
