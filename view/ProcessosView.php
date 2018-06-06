@@ -139,7 +139,7 @@ class ProcessosView extends View{
 					
 					    <?php } ?>
 							<td><?php echo $processo['DS_NUMERO'] ?></td>
-							<td><?php echo $processo['NOME_SERVIDOR'] ?></td>
+							<td id="servidorLocalizacao<?php echo $processo['ID'] ?>"><?php echo $processo['NOME_SERVIDOR'] ?></td>
 							<td><?php echo $processo['NOME_SETOR']  ?></td>
 							<td><?php echo $processo['DT_PRAZO'] ?></td>
 							<td><?php echo $processo['DS_STATUS'] ?></td>
@@ -172,7 +172,7 @@ class ProcessosView extends View{
 										
 										<br> 
 												
-										<a href='#'>DEVOLVER</a>
+										<a href='/editar/processo/devolver/<?php echo $processo['ID'] ?>'>DEVOLVER</a>
 								
 								<?php } else{ ?>
 									

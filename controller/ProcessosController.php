@@ -80,10 +80,24 @@ class ProcessosController extends Controller{
 		switch($_GET['operacao']){
 			
 			case 'receber':
+			
+				$this->processosModel->setServidorLocalizacao($_SESSION['ID']);
 		
 				$this->processosModel->receber();
 				
+				$this->processosModel->cadastrarHistorico('processos', $id, 'CONFIRMOU O RECEBIMENTO DO PROCESSO', $_SESSION['ID'], 'CONFIRMAR PROCESSO');
+				
 				return 0;
+				
+			case 'devolver':
+			
+				$this->processosModel->setServidorLocalizacao($_SESSION['ID']);
+		
+				$this->processosModel->devolver();
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->cadastrarHistorico('processos', $id, 'DEVOLVEU O PROCESSO', $_SESSION['ID'], 'RETORNAR PROCESSO');
+				
+				break;
 				
 			case 'avaliar':
 				
@@ -107,17 +121,17 @@ class ProcessosController extends Controller{
 		
 		$_SESSION['MENSAGEM'] = $this->processosModel->getMensagemResposta();
 	
-		Header('Location: /chamados/visualizar/'.$id);
+		Header('Location: /processos/ativos/');
 		
 	}
 	
 	public function excluir(){
 		
-		$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->excluir('tb_chamados', $_GET['id']);
+		$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->excluir('tb_processos', $_GET['id']);
 		
 		$_SESSION['MENSAGEM'] = $this->processosModel->getMensagemResposta();
 		
-		Header('Location: /chamados/ativos/');
+		Header('Location: /processos/ativos/');
 		
 	}
 	
@@ -210,8 +224,6 @@ class ProcessosController extends Controller{
 		$this->processosModel->setStatus('ATIVO');
 		
 		$_REQUEST['LISTA_PROCESSOS'] = $this->processosModel->getListaProcessosStatusComFiltro();
-		
-		//var_dump($_REQUEST['LISTA_PROCESSOS']); exit();
 		
 		$this->processosView->exportar();
 

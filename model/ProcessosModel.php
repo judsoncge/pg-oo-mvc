@@ -261,7 +261,15 @@ class ProcessosModel extends Model{
 	
 	public function receber(){
 		
-		$query = "UPDATE tb_processos SET BL_RECEBIDO = 1 WHERE ID = '$this->id'";
+		$query = "UPDATE tb_processos SET BL_RECEBIDO = 1, ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao WHERE ID = $this->id";
+		
+		$this->executarQuery($query);
+		
+	}
+	
+	public function devolver(){
+		
+		$query = "UPDATE tb_processos SET BL_RECEBIDO = 0, ID_SERVIDOR_LOCALIZACAO = (SELECT ID_SERVIDOR FROM tb_historico_processos WHERE DS_ACAO = 'TRAMITAÇÃO' AND ID_REFERENTE = $this->id ORDER BY DT_MENSAGEM DESC LIMIT 1) WHERE ID = $this->id";
 		
 		$this->executarQuery($query);
 		

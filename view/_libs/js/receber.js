@@ -11,9 +11,13 @@ function receber(idProcesso){
 		//se a funcao tiver sucesso...
 		success: function(){
 			
+			$("#servidorLocalizacao"+idProcesso).empty();
+			
+			$("#servidorLocalizacao"+idProcesso).html('Agora está com você');
+			
 			$("#statusRecebido"+idProcesso).empty();
 			
-			$("#statusRecebido"+idProcesso).html("SIM");
+			$("#statusRecebido"+idProcesso).html('SIM');
 			
 			$("#recebido"+idProcesso).empty();
 			

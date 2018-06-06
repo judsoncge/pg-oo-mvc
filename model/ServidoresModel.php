@@ -179,6 +179,13 @@ class ServidoresModel extends Model{
 	
 	}
 	
+	public function getDadoID(){
+		
+		
+		
+		
+	}
+	
 }	
 
 ?>
