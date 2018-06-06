@@ -159,6 +159,7 @@ class ProcessosModel extends Model{
 		SELECT 
 		
 		a.*,
+		DATE_FORMAT(a.DT_PRAZO, '%d/%m/%Y') DT_PRAZO,
 		c.DS_NOME NOME_SERVIDOR,
 		c.ID_SETOR,
 		d.DS_ABREVIACAO NOME_SETOR
@@ -208,6 +209,7 @@ class ProcessosModel extends Model{
 		SELECT 
 		
 		a.*,
+		DATE_FORMAT(a.DT_PRAZO, '%d/%m/%Y') DT_PRAZO,
 		c.DS_NOME NOME_SERVIDOR,
 		c.ID_SETOR,
 		d.DS_ABREVIACAO NOME_SETOR
@@ -254,6 +256,14 @@ class ProcessosModel extends Model{
 		$lista = $this->executarQueryLista($query);
 		
 		return $lista;
+		
+	}
+	
+	public function receber(){
+		
+		$query = "UPDATE tb_processos SET BL_RECEBIDO = 1 WHERE ID = '$this->id'";
+		
+		$this->executarQuery($query);
 		
 	}
 

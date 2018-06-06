@@ -82,6 +82,12 @@ if(isset($_GET['acao'])){
 			
 			break;
 			
+		case 'exportar':
+		
+			$controller->exportar();
+			
+			break;
+			
 	}
 		
 

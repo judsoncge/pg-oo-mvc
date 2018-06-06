@@ -14,7 +14,7 @@ class LoginModel extends Model{
 		$this->conectar();
 		
 		//fazendo a query para buscar o servidor com as credenciais enviadas pelo controller
-		$resultado = mysqli_query($this->conexao, "SELECT ID, DS_FUNCAO, ID_SETOR, DS_NOME, DS_FOTO FROM tb_servidores WHERE DS_CPF = '$CPF' AND SENHA = '$senha'") or die(mysqli_error($this->conexao));
+		$resultado = mysqli_query($this->conexao, "SELECT a.ID, DS_FUNCAO, ID_SETOR, a.DS_NOME, DS_FOTO, b.DS_NOME NOME_SETOR FROM tb_servidores a, tb_setores b WHERE a.ID_SETOR = b.ID AND DS_CPF = '$CPF' AND SENHA = '$senha'") or die(mysqli_error($this->conexao));
 		
 		//pegando o resultado da query em um array, que pode ser nulo caso nao encontre nenhum usuario
 		$dadosUsuario = mysqli_fetch_array($resultado);

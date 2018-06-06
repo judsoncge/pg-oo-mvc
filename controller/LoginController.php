@@ -29,11 +29,12 @@ class LoginController extends Controller{
 		
 		if($dadosUsuario != NULL){
 			
-			$_SESSION['ID']     =  $dadosUsuario['ID'];
-			$_SESSION['FUNCAO'] =  $dadosUsuario['DS_FUNCAO'];
-			$_SESSION['SETOR']  =  $dadosUsuario['ID_SETOR'];
-			$_SESSION['NOME']   =  $dadosUsuario['DS_NOME'];
-			$_SESSION['FOTO']   =  $dadosUsuario['DS_FOTO'];
+			$_SESSION['ID']     =     $dadosUsuario['ID'];
+			$_SESSION['FUNCAO'] =     $dadosUsuario['DS_FUNCAO'];
+			$_SESSION['SETOR']  =     $dadosUsuario['ID_SETOR'];
+			$_SESSION['NOME']   =     $dadosUsuario['DS_NOME'];
+			$_SESSION['FOTO']   =     $dadosUsuario['DS_FOTO'];
+			$_SESSION['NOME_SETOR'] = $dadosUsuario['NOME_SETOR'];
 		
 			$this->homeController->listar();
 		

@@ -79,15 +79,11 @@ class ProcessosController extends Controller{
 		
 		switch($_GET['operacao']){
 			
-			case 'status':
+			case 'receber':
 		
-				$status = (isset($_GET['status'])) ? $_GET['status'] : NULL;
+				$this->processosModel->receber();
 				
-				$this->processosModel->setStatus($status);
-				
-				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->editarStatus('chamados', $status, $id);
-				
-				break;
+				return 0;
 				
 			case 'avaliar':
 				
@@ -186,6 +182,38 @@ class ProcessosController extends Controller{
 			$this->processosView->listar();
 
 		}
+
+	}
+	
+	public function exportar(){
+		
+		$filtroServidor = $_GET['filtroservidor'];
+
+		$filtroSetor = $_GET['filtrosetor'];
+
+		$filtroSituacao = $_GET['filtrosituacao'];
+
+		$filtroSobrestado = $_GET['filtrosobrestado'];
+
+		$filtroProcesso = $_GET['filtroprocesso'];
+		
+		$this->processosModel->setServidorLocalizacao($filtroServidor);
+		
+		$this->processosModel->setSetorLocalizacao($filtroSetor);
+		
+		$this->processosModel->setAtrasado($filtroSituacao);
+		
+		$this->processosModel->setSobrestado($filtroSobrestado);
+		
+		$this->processosModel->setNumero($filtroProcesso);
+		
+		$this->processosModel->setStatus('ATIVO');
+		
+		$_REQUEST['LISTA_PROCESSOS'] = $this->processosModel->getListaProcessosStatusComFiltro();
+		
+		//var_dump($_REQUEST['LISTA_PROCESSOS']); exit();
+		
+		$this->processosView->exportar();
 
 	}
 	

@@ -8,8 +8,8 @@ class ProcessosView extends View{
 		
 		<script src='/view/_libs/js/receber.js' ?>'></script>
 		<script src='/view/_libs/js/filtros.js'  ?>'></script>
-		<script src='/view/_libs/js/exportar.js' ?>'></script>	
-
+		<script src='/view/_libs/js/exportar.js'  ?>'></script>
+		
 <?php	
 	
 	}
@@ -29,6 +29,7 @@ class ProcessosView extends View{
 						<div class="form-group">
 							<label class="control-label" for="exampleInputEmail1">Filtro de servidor</label><br>
 							<select id="filtroservidor" name="filtroservidor" >
+								<option value="<?php echo $_SESSION['ID'] ?>"><?php echo $_SESSION['NOME'] ?></option>
 								<option value="%">Todos</option>
 								<?php foreach($listaServidores as $servidor){ ?>
 										<option value="<?php echo $servidor['ID'] ?>">
@@ -42,6 +43,7 @@ class ProcessosView extends View{
 						<div class="form-group">
 							<label class="control-label" for="exampleInputEmail1">Filtro de setor</label><br>
 								<select id="filtrosetor" name="filtrosetor" >
+									<option value="<?php echo $_SESSION['SETOR'] ?>"><?php echo $_SESSION['NOME_SETOR'] ?></option>
 									<option value="%">Todos</option>
 									<?php foreach($listaSetores as $setor){ ?>
 										<option value="<?php echo $setor['ID'] ?>">
@@ -87,16 +89,9 @@ class ProcessosView extends View{
 		
 
 <?php
-	
 	}
 	
 	public function listar(){
-
-		$this->carregarTabela();			
-	
-	}
-	
-	public function carregarTabela(){
 		
 		$listaProcessos = $_REQUEST['LISTA_PROCESSOS'];
 		
@@ -104,6 +99,15 @@ class ProcessosView extends View{
 		<div id="resultado" class="col-md-12 table-responsive" style="overflow: auto; width: 100%; height: 300px;">
 			
 		<div id="carregando" class="carregando"><i class="fa fa-refresh spin" aria-hidden="true"></i> <span>Carregando dados...</span></div>	
+		
+		<center>
+			<h5>
+				<div id='qtde'>Total: <?php echo sizeof($listaProcessos) . " " ?>
+					<button onclick="javascript: exportar();" class='btn btn-sm btn-success' name='submit' value='Send'>Exportar</button>
+				</div>
+			</h5>
+		</center>
+		
 			<table class="table table-hover tabela-dados">
 				<thead>
 					<tr>
@@ -119,17 +123,6 @@ class ProcessosView extends View{
 					</tr>	
 				</thead>
 				<tbody>
-					<?php 
-						
-						$l = sizeof($listaProcessos);
-					?>	
-						<center>
-							<h5>
-								<div id='qtde'>Total: <?php echo $l . " " ?>
-									<button onclick="javascript: exportar();" class="btn btn-sm btn-success" name="submit" value="Send">Exportar</button>
-								</div>
-							</h5>
-						</center>
 						
 					<?php 
 					
@@ -148,7 +141,7 @@ class ProcessosView extends View{
 							<td><?php echo $processo['DS_NUMERO'] ?></td>
 							<td><?php echo $processo['NOME_SERVIDOR'] ?></td>
 							<td><?php echo $processo['NOME_SETOR']  ?></td>
-							<td><?php echo date_format(new DateTime($processo['DT_PRAZO']), 'd/m/Y') ?></td>
+							<td><?php echo $processo['DT_PRAZO'] ?></td>
 							<td><?php echo $processo['DS_STATUS'] ?></td>
 							<td><?php 
 									if($processo['BL_ATRASADO']){
@@ -197,6 +190,112 @@ class ProcessosView extends View{
 			</table>
 		</div>
 <?php 
+		
+	}
+	
+	public function exportar(){
+		
+		include($_SERVER['DOCUMENT_ROOT'].'/view/_libs/mpdf60/mpdf.php');
+		
+		$listaProcessos = $_REQUEST['LISTA_PROCESSOS'];
+		
+		$html = "<style type='text/css'>
+		#customers {
+		font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+		border-collapse: collapse;
+		width: 100%;
+		}
+
+		#customers td, #customers th {
+			border: 1px solid #ddd;
+			padding: 8px;
+		}
+
+		#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+		#customers tr:hover {background-color: #ddd;}
+
+		#customers th {
+			padding-top: 12px;
+			padding-bottom: 12px;
+			text-align: left;
+			background-color: #4CAF50;
+			color: white;
+		}
+		</style>
+		<table id='customers'>
+			<thead>
+				<tr>
+					<th><center>Número  </center></th>
+					<th><center>Servidor</center></th>
+					<th><center>Setor</center></th>
+					<th><center>Prazo   </center></th>
+					<th><center>Status  </center></th>
+					<th><center>Situação</center></th>
+					<th><center>Dias    </center></th>
+					<th><center>Recebido</center></th>
+				</tr>	
+			</thead>";
+			
+		foreach($listaProcessos as $processo){
+			
+			$atrasado = ($processo['BL_ATRASADO']) ? "ATRASADO" : "DENTRO DO PRAZO";
+
+			$recebido = ($processo['BL_RECEBIDO']) ? "SIM" : "NÃO";
+			
+			$html .= 
+		 "<tr> 
+			<td>
+				<center>
+					".$processo['DS_NUMERO']."
+				</center>
+			</td>
+			<td>
+				<center>
+					".$processo['NOME_SERVIDOR']."
+				</center>
+			</td>
+			<td>
+				<center>
+					".$processo['NOME_SETOR']."
+				</center>
+			</td>
+			<td>
+				<center>
+					".$processo['DT_PRAZO']."
+				</center>
+			</td>
+			<td>
+				<center>
+					".$processo['DS_STATUS']."
+				</center>
+			</td>
+			<td>
+				<center>
+					".$atrasado."
+				</center>
+			</td>
+			<td>
+				<center>
+					".$processo['NR_DIAS']."
+				</center>
+			</td>
+			<td>
+				<center>
+					".$recebido."
+				</center>
+			</td>				
+		</tr>";
+
+		}
+		
+		$html .= "  </tbody>	
+		</table>";
+				
+		$mpdf=new mPDF();
+		$mpdf->WriteHTML($html);   
+		$mpdf->Output();
+		exit();
 		
 	}
 	

@@ -48,7 +48,7 @@ class ChamadosModel extends Model{
 		
 		"SELECT 
 		
-		a.ID, a.DS_NATUREZA, a.DT_ABERTURA, a.DS_STATUS, a.DS_AVALIACAO, 
+		a.ID, a.DS_NATUREZA, DATE_FORMAT(a.DT_ABERTURA, '%d/%m/%Y às %H:%i:%s') DT_ABERTURA , a.DS_STATUS, a.DS_AVALIACAO, 
 		
 		s.DS_NOME DS_NOME_REQUISITANTE
 		
@@ -133,6 +133,10 @@ class ChamadosModel extends Model{
 		"SELECT 
 		
 		a.*, 
+		
+		DATE_FORMAT(a.DT_ABERTURA, '%d/%m/%Y às %H:%i:%s') DT_ABERTURA,
+		DATE_FORMAT(a.DT_FECHAMENTO, '%d/%m/%Y às %H:%i:%s') DT_FECHAMENTO,
+		DATE_FORMAT(a.DT_ENCERRAMENTO, '%d/%m/%Y às %H:%i:%s') DT_ENCERRAMENTO,
 		
 		s.DS_NOME DS_NOME_REQUISITANTE
 		

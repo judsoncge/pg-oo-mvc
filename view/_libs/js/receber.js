@@ -1,9 +1,9 @@
-function receber(id_processo, id_tramitacao){
+function receber(idProcesso){
 	
 	$.ajax({
 				
 		//chamo o php que faz a query baseado no que o usuario escolheu no select
-		url: "logica/editar.php?id="+id_processo+"&operacao=recebido&tramitacao="+id_tramitacao,
+		url: "/editar/processo/receber/"+idProcesso+"",
 		type: 'GET',
 		dataType: 'html',
 		//data: dados,
@@ -11,15 +11,15 @@ function receber(id_processo, id_tramitacao){
 		//se a funcao tiver sucesso...
 		success: function(){
 			
-			$("#statusRecebido"+id_processo).empty();
+			$("#statusRecebido"+idProcesso).empty();
 			
-			$("#statusRecebido"+id_processo).html("<center>SIM</center>");
+			$("#statusRecebido"+idProcesso).html("SIM");
 			
-			$("#recebido"+id_processo).empty();
+			$("#recebido"+idProcesso).empty();
 			
-			$("#recebido"+id_processo).html("<center>"+
-										"<a href='detalhes.php?id="+id_processo+"'>"+
-											"<button type='button' class='btn btn-secondary btn-sm' title='Detalhes e operações'>"+
+			$("#recebido"+idProcesso).html("<center>"+
+										"<a href='/processos/visualizar/"+idProcesso+"'>"+
+											"<button type='button' class='btn btn-secondary btn-sm' title='Visualizar'>"+
 												"<i class='fa fa-eye' aria-hidden='true'></i>"+
 											"</button>"+
 										"</a>"+

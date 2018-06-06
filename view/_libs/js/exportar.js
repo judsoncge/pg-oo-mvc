@@ -8,6 +8,8 @@ function exportar(){
 
 	var filtrosobrestado = $('#filtrosobrestado').val();
 	
-	window.open("js/pdf.php?filtroservidor="+filtroservidor+"&filtrosetor="+filtrosetor+"&filtrosituacao="+filtrosituacao+"&filtrosobrestado="+filtrosobrestado+"",'_blank');
+	var filtroprocesso = $('#filtroprocesso').val();
+	
+	window.open("/index.php?acao=exportar&modulo=Processos&filtroservidor="+filtroservidor+"&filtrosetor="+filtrosetor+"&filtrosituacao="+filtrosituacao+"&filtrosobrestado="+filtrosobrestado+"&filtroprocesso="+filtroprocesso+"",'_blank');
 	
 }

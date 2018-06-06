@@ -31,7 +31,7 @@ class ChamadosView extends View{
 
 					?>
 							<tr <?php echo $styleTR ?>>
-								<td><?php echo date_format(new DateTime($chamado['DT_ABERTURA']), 'd/m/Y H:i:s') ?></td>
+								<td><?php echo $chamado['DT_ABERTURA'] ?></td>
 								<td><?php echo $chamado['DS_NATUREZA'] ?></td>
 								<td><?php echo $chamado['DS_NOME_REQUISITANTE'] ?></td>
 								<td><?php echo $chamado['DS_STATUS'] ?></td>
@@ -129,7 +129,7 @@ class ChamadosView extends View{
 		<div class="row linha-modal-processo">
 			<div class="col-md-12">
 				<b>Status</b>: <?php echo $lista['DS_STATUS'] ?><br><br>	
-				<b>Data de abertura  </b>: <?php echo date_format(new DateTime($lista['DT_ABERTURA']), 'd/m/Y H:i:s') ?><br> 
+				<b>Data de abertura  </b>: <?php echo $lista['DT_ABERTURA'] ?><br> 
 				<b>Data de fechamento  </b>: 
 					<?php 
 						
