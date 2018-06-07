@@ -110,18 +110,18 @@ class ChamadosView extends View{
 					
 					<?php if($lista['DS_STATUS'] =='ABERTO' and $_SESSION['FUNCAO']=='TI'){ ?>
 					
-							<a href="logica/editar.php?operacao=resolver&id=<?php echo $id ?>"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Resolver chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
+							<a href="logica/editar.php?operacao=resolver&id=<?php echo $id ?>"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Resolver chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden='true'></i></button></a>
 					
 					<?php } 	
 					
 					if($lista['DS_STATUS']=='FECHADO' and $_SESSION['FUNCAO']=='TI' and $lista['DS_AVALIACAO'] != "SEM AVALIAÇÃO"){ ?>
 					
-							<a href="logica/editar.php?operacao=encerrar&id=<?php echo $id ?>"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Encerrar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
+							<a href="logica/editar.php?operacao=encerrar&id=<?php echo $id ?>"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Encerrar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden='true'></i></button></a>
 					<?php } 
 					
 					if($_SESSION['FUNCAO'] == 'TI' and $lista['DS_STATUS']=='ABERTO'){ ?>
 							
-							<a href="logica/excluir.php?id=<?php echo $id ?>"><button type='submit' onclick="return confirm('Você tem certeza que deseja apagar este processo?');" class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Excluir&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></button></a>
+							<a href="logica/excluir.php?id=<?php echo $id ?>"><button type='submit' onclick="return confirm('Você tem certeza que deseja apagar este processo?');" class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Excluir&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden='true'></i></button></a>
 						
 					<?php } ?>
 				</div> 

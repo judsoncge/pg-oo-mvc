@@ -47,7 +47,7 @@ class ArquivosView extends View{
 								?>
 											<a href='/editar/arquivo/<?php echo $arquivo['ID'] ?>/APROVADO'>
 												<button type='button' class='btn btn-secondary btn-sm' title='Aprovar'>
-													<i class="fa fa-check" aria-hidden="true"></i>
+													<i class="fa fa-check" aria-hidden='true'></i>
 												</button>
 											</a>
 								
@@ -58,7 +58,7 @@ class ArquivosView extends View{
 								?>
 											<a href='/editar/arquivo/<?php echo $arquivo['ID'] ?>/INATIVO'>
 												<button type='button' class='btn btn-secondary btn-sm' title='Inativar'>
-													<i class="fa fa-minus-square-o" aria-hidden="true"></i>
+													<i class="fa fa-minus-square-o" aria-hidden='true'></i>
 												</button>
 											</a>
 										
@@ -69,7 +69,7 @@ class ArquivosView extends View{
 								
 										<a href='/excluir/arquivo/<?php echo $arquivo['ID'] ?>/<?php echo $arquivo['DS_ANEXO'] ?>'>
 											<button type='button' class='btn btn-secondary btn-sm' title='Excluir'>
-												<i class="fa fa-trash" aria-hidden="true"></i>
+												<i class="fa fa-trash" aria-hidden='true'></i>
 											</button>
 										</a>
 										

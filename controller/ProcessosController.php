@@ -147,7 +147,7 @@ class ProcessosController extends Controller{
 			
 			$_REQUEST['LISTA_SERVIDORES'] = $this->servidoresModel->getListaServidoresStatus();
 			
-			$_REQUEST['LISTA_SETORES'] = $this->setoresModel->getIDNomeSetores();
+			$_REQUEST['LISTA_SETORES'] = $this->setoresModel->getSetores();
 			
 			$_REQUEST['LISTA_PROCESSOS'] = $this->processosModel->getListaProcessosStatus();
 			
@@ -161,15 +161,13 @@ class ProcessosController extends Controller{
 			
 		}else{
 			
-			$status = $_GET['status'];
-		
-			$this->servidoresModel->setStatus($status);
+			$this->servidoresModel->setStatus('ATIVO');
 			
-			$this->processosModel->setStatus($status);
+			$this->processosModel->setStatus($_GET['status']);
 			
 			$_REQUEST['LISTA_SERVIDORES'] = $this->servidoresModel->getListaServidoresStatus();
 			
-			$_REQUEST['LISTA_SETORES'] = $this->setoresModel->getIDNomeSetores();
+			$_REQUEST['LISTA_SETORES'] = $this->setoresModel->getSetores();
 			
 			$filtroServidor = $_POST['filtroservidor'];
 
@@ -178,6 +176,8 @@ class ProcessosController extends Controller{
 			$filtroSituacao = $_POST['filtrosituacao'];
 
 			$filtroSobrestado = $_POST['filtrosobrestado'];
+			
+			$filtroRecebido = $_POST['filtrorecebido'];
 
 			$filtroProcesso = $_POST['filtroprocesso'];
 			
@@ -188,6 +188,8 @@ class ProcessosController extends Controller{
 			$this->processosModel->setAtrasado($filtroSituacao);
 			
 			$this->processosModel->setSobrestado($filtroSobrestado);
+			
+			$this->processosModel->setRecebido($filtroRecebido);
 			
 			$this->processosModel->setNumero($filtroProcesso);
 			
@@ -208,6 +210,8 @@ class ProcessosController extends Controller{
 		$filtroSituacao = $_GET['filtrosituacao'];
 
 		$filtroSobrestado = $_GET['filtrosobrestado'];
+		
+		$filtroRecebido = $_GET['filtrorecebido'];
 
 		$filtroProcesso = $_GET['filtroprocesso'];
 		
@@ -219,10 +223,12 @@ class ProcessosController extends Controller{
 		
 		$this->processosModel->setSobrestado($filtroSobrestado);
 		
+		$this->processosModel->setRecebido($filtroRecebido);
+		
 		$this->processosModel->setNumero($filtroProcesso);
 		
 		$this->processosModel->setStatus('ATIVO');
-		
+	
 		$_REQUEST['LISTA_PROCESSOS'] = $this->processosModel->getListaProcessosStatusComFiltro();
 		
 		$this->processosView->exportar();
@@ -237,21 +243,30 @@ class ProcessosController extends Controller{
 		
 		$listaDados = $this->processosModel->getDadosID();
 		
-		$historico  = $this->processosModel->getHistorico('chamados', $id);
+		$historico = $this->processosModel->getHistorico('processos', $id);
 		
-		$this->processosView->setTitulo("CHAMADOS > ".$listaDados['ID']." > VISUALIZAR");
+		$ativo = ($listaDados['DS_STATUS'] != 'ARQUIVADO' && $listaDados['DS_STATUS'] != 'SAIU') ? 1 : 0;
+		
+		$apensado = $this->processosModel->verificaExisteRegistro('tb_processos_apensados', 'ID_PROCESSO_APENSADO', $id);
+		
+		$situacao = ($listaDados['BL_ATRASADO']) ? "<font color='red'> (ATRASADO)</font>" : "<font color='green'> (DENTRO DO PRAZO)</font>";
+		
+		$this->processosView->setTitulo("PROCESSOS > ".$listaDados['DS_NUMERO']." > VISUALIZAR <br> $situacao");
 		
 		$this->processosView->setConteudo('visualizar');
 		
-		$_REQUEST['DADOS_CHAMADO'] = $listaDados;
+		$_REQUEST['DADOS_PROCESSO'] = $listaDados;
 		
-		$_REQUEST['HISTORICO_CHAMADO'] = $historico;
+		$_REQUEST['HISTORICO_PROCESSO'] = $historico;
+		
+		$_REQUEST['ATIVO'] = $ativo;
+		
+		$_REQUEST['APENSADO'] = $apensado;
 		
 		$this->processosView->carregar();
 		
 	}
 	
-
 }
 
 ?>

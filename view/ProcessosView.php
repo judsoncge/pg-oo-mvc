@@ -39,7 +39,7 @@ class ProcessosView extends View{
 							</select>
 						</div>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-2">
 						<div class="form-group">
 							<label class="control-label" for="exampleInputEmail1">Filtro de setor</label><br>
 								<select id="filtrosetor" name="filtrosetor" >
@@ -47,7 +47,7 @@ class ProcessosView extends View{
 									<option value="%">Todos</option>
 									<?php foreach($listaSetores as $setor){ ?>
 										<option value="<?php echo $setor['ID'] ?>">
-											<?php echo $setor['DS_NOME']; ?>
+											<?php echo $setor['DS_ABREVIACAO']; ?>
 										</option>
 									<?php } ?>
 								</select>
@@ -58,7 +58,7 @@ class ProcessosView extends View{
 							<label class="control-label" for="exampleInputEmail1">Filtro de situação</label><br>
 								<select id="filtrosituacao" name="filtrosituacao" >
 									<option value="%">Todos</option>
-									<option value="0">DENTRO DO PRAZO</option>
+									<option value="0">NO PRAZO</option>
 									<option value="1">ATRASADO</option>
 								</select>
 						</div>
@@ -68,8 +68,18 @@ class ProcessosView extends View{
 							<label class="control-label" for="exampleInputEmail1">Sobrestado</label><br>
 							<select id="filtrosobrestado" name="filtrosobrestado" >
 								<option value="%">Todos</option>
-								<option value="0">Não</option>
-								<option value="1">Sim</option>
+								<option value="0">NÃO</option>
+								<option value="1">SIM</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="form-group">
+							<label class="control-label" for="exampleInputEmail1">Recebido</label><br>
+							<select id="filtrorecebido" name="filtrorecebido" >
+								<option value="%">Todos</option>
+								<option value="0">NÃO</option>
+								<option value="1">SIM</option>
 							</select>
 						</div>
 					</div>
@@ -98,7 +108,7 @@ class ProcessosView extends View{
 ?>		
 		<div id="resultado" class="col-md-12 table-responsive" style="overflow: auto; width: 100%; height: 300px;">
 			
-		<div id="carregando" class="carregando"><i class="fa fa-refresh spin" aria-hidden="true"></i> <span>Carregando dados...</span></div>	
+		<div id="carregando" class="carregando"><i class="fa fa-refresh spin" aria-hidden='true'></i> <span>Carregando dados...</span></div>	
 		
 		<center>
 			<h5>
@@ -176,7 +186,7 @@ class ProcessosView extends View{
 								
 								<?php } else{ ?>
 									
-										<a href="/processos/visualizar/<?php echo $id ?>">
+										<a href="/processos/visualizar/<?php echo $processo['ID'] ?>">
 											<button type='button' class='btn btn-secondary btn-sm' title='Visualizar'>
 												<i class='fa fa-eye' aria-hidden='true'></i>
 											</button>
@@ -377,63 +387,292 @@ class ProcessosView extends View{
 	
 	public function visualizar(){
 		
-		$lista = $_REQUEST['DADOS_CHAMADO'];
+		$lista = $_REQUEST['DADOS_PROCESSO'];
 		
-		$historico = $_REQUEST['HISTORICO_CHAMADO'];
+		$historico = $_REQUEST['HISTORICO_PROCESSO'];
+		
+		$ativo = $_REQUEST['ATIVO'];
+		
+		$apensado = $_REQUEST['APENSADO'];
 		
 ?>		
 	
-		<div class="row linha-modal-processo">
-			<div class="col-md-12">
-				<?php if($lista['DS_STATUS'] =='ABERTO'){ ?>
-				
-						<a href="/editar/chamado/status/<?php echo $lista['ID'] ?>/FECHADO"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Fechar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
-				
-				<?php } 	
-				
-				if($lista['DS_STATUS']=='FECHADO' and $lista['DS_AVALIACAO'] != "SEM AVALIAÇÃO"){ ?>
-				
-						<a href="/editar/chamado/status/<?php echo $lista['ID'] ?>/ENCERRADO"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Encerrar chamado&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden="true"></i></button></a>
-				<?php } 
-				
-				if($lista['DS_STATUS']=='ABERTO'){ ?>
-						
-						<a href="/excluir/chamado/<?php echo $lista['ID'] ?>"><button type='submit' onclick="return confirm('Você tem certeza que deseja apagar este chamado?');" class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Excluir&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></button></a>
-					
-				<?php } ?>
-			</div> 
+		<div class='container'>
+
+<?php 
+				if($ativo and !$apensado and !$lista['BL_RECEBIDO']){
+?>
+						<div class='row linha-modal-processo'>
+							<center>
+									<div class='alert alert-warning'>O processo físico foi recebido?
+									
+										<a href='/editar/processo/devolver/<?php echo $lista['ID'] ?>'>Sim</a>
+										/
+										<a href='/editar/processo/devolver/<?php echo $lista['ID'] ?>'>Não</a>
+								
+									</div>
+							</center>
+						</div>
+<?php 
+					exit();
+				} 
+			
+?>
 		</div>
-		<div class="row linha-modal-processo">
-			<div class="col-md-12">
-				<b>Status</b>: <?php echo $lista['DS_STATUS'] ?><br><br>	
-				<b>Data de abertura  </b>: <?php echo date_format(new DateTime($lista['DT_ABERTURA']), 'd/m/Y H:i:s') ?><br> 
-				<b>Data de fechamento  </b>: 
-					<?php 
+		
+		<div class="container caixa-conteudo">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="container">				
+<?php 
+							
+							if($ativo){
+								
+								if($lista["BL_URGENCIA"]){							
+?>
+									<div class="alert alert-warning">&#9888; ESTE PROCESSO É URGENTE!</div>
+<?php 
+								} 
+								
+								if($lista["BL_SOBRESTADO"]){ 
+								
+?>
+
+									<div class="alert alert-warning">&#9888; ESTE PROCESSO ESTÁ EM SOBRESTADO!</div>
+								
+<?php   
 						
-						$data = ($lista['DT_FECHAMENTO'] == NULL) 
-							? "Sem data" 
-							: date_format(new DateTime($lista['DT_FECHAMENTO']), 'd/m/Y H:i:s');
+								} 
+								
+								if(($lista["BL_RECEBIDO"] and !$apensado)){
+									
+?>						
+									<div class="row linha-modal-processo">
+
+<?php	
+										if(!$lista["BL_SOBRESTADO"]){
+?>
+										
+											<a href="#"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Marcar sobrestado&nbsp;&nbsp;&nbsp;<i class="fa fa-warning" aria-hidden='true'></i></button></a>
+										
+<?php	
+										}
+										
+										if($lista["BL_SOBRESTADO"]){
+?>
+										
+											<a href="#"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Desmarcar sobrestado&nbsp;&nbsp;&nbsp;<i class="fa fa-warning" aria-hidden='true'></i></button></a>
+										
+<?php	
+										}
+										
+										if(!$lista["BL_URGENCIA"]){
+?>
+										
+											<a href="#"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-urgencia'>Marcar como urgente&nbsp;&nbsp;&nbsp;<i class="fa fa-warning" aria-hidden='true'></i></button></a>
+										
+<?php	
+										}else{
+?>
+										
+											<a href="#"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-urgencia'>Desmarcar urgência&nbsp;&nbsp;&nbsp;<i class="fa fa-warning" aria-hidden='true'></i></button></a>
+										
+<?php	
+										}
+?>
+										
+											<a href="#"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Editar&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil" aria-hidden='true'></i></button></a>
+									
+											
+											<a href="#"><button type='submit' onclick="return confirm('Você tem certeza que deseja apagar este processo?');" class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Excluir&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden='true'></i></button></a>
+										
+									</div>
+
+									<div class='row linha-modal-processo'>
+	
+<?php 
+										if($lista['DS_STATUS']=='EM ANDAMENTO'){
+											
+											
+?>
+											<a href="#"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Finalizar em nome do setor&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden='true'></i></button></a>	
+<?php	
+										}
+										
+										if($lista['DS_STATUS']=='FINALIZADO PELO SETOR'){
+?>
+												
+											<a href="#"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Finalizar em nome do gabinete&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden='true'></i></button></a>
+											
+											<a href="#"><button type='submit' class='btn btn-sm btn-success pull-left' name='submit' value='Send' id='botao-dar-saida'>Desfazer finalização do setor&nbsp;&nbsp;<i class="fa fa-external-link-square" aria-hidden='true'></i></button></a>	
+											
+											<a href="#"><button type='submit' class='btn btn-sm btn-warning pull-left' name='submit' value='Send' id='botao-arquivar'>Arquivar&nbsp;&nbsp;<i class="fa fa-folder" aria-hidden='true'></i></button></a>
+											
+<?php	
+										}
+								
+										if($lista['DS_STATUS']=='FINALIZADO PELO GABINETE'){
+?>
+											
+											<a href="#"><button type='submit' class='btn btn-sm btn-success pull-left'name='submit' value='Send' id='botao-dar-saida'>Desfazer finalização do gabinete&nbsp;&nbsp;<i class="fa fa-external-link-square" aria-hidden='true'></i></button></a>
+
+											<a href="logica/editar.php?operacao=sair&id=<?php echo $id ?>"><button type='submit' class='btn btn-sm btn-success pull-left' name='submit' value='Send' id='botao-dar-saida'>Dar saída&nbsp;&nbsp;<i class="fa fa-external-link-square" aria-hidden='true'></i></button></a>						
+<?php	
+										}
+?>
+											
+									</div>
+											
+<?php			
+								
+								}
+							
+							}elseif($lista['DS_STATUS'] == 'SAIU'){ 
+								
+?>		
+								
+								<a href="#"><button type='submit' class='btn btn-sm btn-success pull-left'name='submit' value='Send' id='botao-dar-saida'>Voltar para o órgão<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>
+										
+<?php
+
+							}elseif($lista['DS_STATUS'] == 'ARQUIVADO'){
+
+?>
+					
+								<a href="#"><button type='submit' class='btn btn-sm btn-success pull-left' name='submit' value='Send' id='botao-dar-saida'>Desarquivar<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>		
+								
 						
-						echo $data;
-						
-					?>
-				<br> 
-				<b>Data de encerramento  </b>: 
-					<?php 
-						
-						$data = ($lista['DT_ENCERRAMENTO'] == NULL) 
-							? "Sem data" 
-							: date_format(new DateTime($lista['DT_ENCERRAMENTO']), 'd/m/Y H:i:s');
-						
-						echo $data;
-						
-					?>
-				<br>  
-				<b>Requisitante</b>: <?php echo $lista['DS_NOME_REQUISITANTE'] ?><br>
-				<b>Problema</b>: <?php echo $lista['DS_PROBLEMA'] ?><br> 
-				<b>Natureza</b>: <?php echo $lista['DS_NATUREZA'] ?>	
+<?php		
+							
+							} 
+?>
+							<div class='row linha-modal-processo'>
+								
+								<div class='col-md-12'>
+									
+									STATUS: <?php echo $lista["DS_STATUS"] ?><br><br>
+									
+									Está com: <?php echo $lista["NOME_SERVIDOR"] ?><br>
+									
+									No Setor: <?php echo $lista["NOME_SETOR"] ?><br>
+	
+									Assunto: <?php $lista["NOME_ASSUNTO"] ?><br>
+									
+									Detalhes: <?php echo $lista["DS_DETALHES"] ?><br><br>
+									
+									Órgão interessado: <?php echo $lista["NOME_ORGAO"] ?><br>
+									
+									Nome do interessado: <?php echo $lista["DS_INTERESSADO"] ?><br><br>
+									
+									Dias no órgão: <?php echo $lista["NR_DIAS"] ?><br>
+										
+									Dias em sobrestado: <?php echo $lista["NR_DIAS_SOBRESTADO"] ?><br>	
+															
+									Data de entrada: <?php echo $lista["DT_ENTRADA"] ?><br>
+									
+									Prazo: <?php echo $lista["DT_PRAZO"] ?><br>
+									
+									Data de saída: <?php echo $lista["DT_SAIDA"] ?><br><br>
+									
+									Responsáveis: 
+										<?php //imprime a lista de responsaveis e se o servidor tiver permissao, imprime tambem o x para um servidor ser retirado da lista de responsaveis
+										while($r = mysqli_fetch_object($responsaveis)){
+											
+											$id_responsavel = $r->ID_SERVIDOR;
+											
+											echo retorna_nome_servidor($id_responsavel, $conexao_com_banco);
+											
+											if($ativo and ($_SESSION['funcao'] == 'SUPERINTENDENTE' or $_SESSION['funcao'] == 'ASSESSOR TÉCNICO' or $_SESSION['funcao'] == 'TI')){
+												echo " <a href='logica/editar.php?id=$id&operacao=remover_responsavel&responsavel=$id_responsavel' title='remover responsável'><i class='fa fa-remove' aria-hidden='true'></i></a>";
+											}
+											echo ", ";
+										} ?><br>
+									
+									Responsável líder:      
+										<?php //imprime o responsavel lider
+										echo retorna_nome_servidor($responsavel_lider, $conexao_com_banco); ?>
+										<br>
+									
+									
+									<br>
+									Processos apensados:
+										<?php 
+										//imprime a lista de processos apensados ao processo atual com o link para ver seus detalhes.								
+										while($r = mysqli_fetch_object($apensados)){
+											
+											$id_apensado = $r->ID_PROCESSO_APENSADO;
+											
+											echo 
+											
+											"<a href='detalhes.php?id=$id_apensado'>" . 
+											
+											retorna_numero_processo($id_apensado, $conexao_com_banco) .
+
+											"</a>";
+											
+											//se tiver permissao, o usuario pode desapensar um processo
+											if($ativo){
+												echo " <a href='logica/editar.php?id=$id&operacao=remover_apenso&apenso=$id_apensado' title='remover apenso'><i class='fa fa-remove' aria-hidden='true'></i></a>";
+											}
+											echo ", ";
+											
+										} ?>
+										<br>
+									
+									Processo mãe:
+										<?php 
+										//se tiver um processo mae, imprime o numero dele com o link para visualizacao de detalhes
+										echo 
+											
+										"<a href='detalhes.php?id=$id_mae'>" . 
+											
+										retorna_numero_processo($id_mae, $conexao_com_banco) .
+
+										"</a>"; 
+										
+										?><br>
+									
+									<br>
+									
+								</div>
+							</div>
+							
+							
+							//TABELA DE DOCUMENTOS
+?>
+					</div>
+				</div>
 			</div>
 		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		<?php 
 		
 			$this->carregarHistorico($historico); 
@@ -461,7 +700,7 @@ class ProcessosView extends View{
 							</select>
 						</div>
 						<div class='col-md-2'>
-							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-dar-saida'>Avaliar &nbsp;&nbsp;<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-dar-saida'>Avaliar &nbsp;&nbsp;<i class="fa fa-arrow-circle-right" aria-hidden='true'></i></button>
 						</div>
 					</form>				
 				</div>

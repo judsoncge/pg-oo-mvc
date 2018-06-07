@@ -14,7 +14,7 @@ class ServidoresController extends Controller{
 	
 	public function carregarCadastro(){
 		
-		$_REQUEST['LISTA_SETORES'] = $this->setoresModel->getIDNomeSetores();
+		$_REQUEST['LISTA_SETORES'] = $this->setoresModel->getSetores();
 	
 		$this->servidoresView->setTitulo('SERVIDORES > CADASTRAR');
 		
@@ -170,7 +170,7 @@ class ServidoresController extends Controller{
 		
 				$this->servidoresModel->setID($_GET['id']);
 				
-				$_REQUEST['LISTA_SETORES']  = $this->setoresModel->getIDNomeSetores();
+				$_REQUEST['LISTA_SETORES']  = $this->setoresModel->getSetores();
 		
 				$_REQUEST['DADOS_SERVIDOR'] = $this->servidoresModel->getDadosID();
 				

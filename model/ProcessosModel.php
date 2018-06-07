@@ -15,6 +15,7 @@ class ProcessosModel extends Model{
 	private $setorLocalizacao;	
 	private $atrasado;
 	private $sobrestado;
+	private $recebido;
 	
 	
 	public function setNumero($numero){
@@ -59,6 +60,10 @@ class ProcessosModel extends Model{
 	
 	public function setSobrestado($sobrestado){
 		$this->sobrestado = $sobrestado;
+	}
+	
+	public function setRecebido($recebido){
+		$this->recebido = $recebido;
 	}
 	
 	public function cadastrar(){
@@ -134,14 +139,22 @@ class ProcessosModel extends Model{
 		"SELECT 
 		
 		a.*, 
+		DATE_FORMAT(a.DT_ENTRADA, '%d/%m/%Y') DT_ENTRADA,
+		DATE_FORMAT(a.DT_SAIDA, '%d/%m/%Y') DT_SAIDA,
+		DATE_FORMAT(a.DT_PRAZO, '%d/%m/%Y') DT_PRAZO,
+		b.DS_NOME NOME_SERVIDOR,
+		c.DS_NOME NOME_SETOR,
+		d.DS_NOME NOME_ASSUNTO,
+		e.DS_NOME NOME_ORGAO
 		
-		s.DS_NOME DS_NOME_REQUISITANTE
+		FROM  tb_processos a
 		
-		FROM  tb_chamados a
+		LEFT JOIN tb_servidores b ON a.ID_SERVIDOR_LOCALIZACAO = b.ID 
+		LEFT JOIN tb_setores c ON b.ID_SETOR = c.ID 
+		LEFT JOIN tb_assuntos_processos d ON a.ID_ASSUNTO = d.ID 
+		LEFT JOIN tb_orgaos e ON a.ID_ORGAO_INTERESSADO = e.ID 
 		
-		INNER JOIN tb_servidores s ON a.ID_SERVIDOR_REQUISITANTE = s.ID 
-		
-		WHERE a.ID = ".$this->id."
+		WHERE a.ID = $this->id
 		
 		";
 		
@@ -225,7 +238,9 @@ class ProcessosModel extends Model{
 		
 		AND BL_ATRASADO like '$this->atrasado' 
 		
-		AND BL_SOBRESTADO like '$this->sobrestado' 
+		AND BL_SOBRESTADO like '$this->sobrestado'
+		
+		AND BL_RECEBIDO like '$this->recebido'
 		
 		AND DS_NUMERO LIKE '%$this->numero%'
 		
@@ -274,7 +289,6 @@ class ProcessosModel extends Model{
 		$this->executarQuery($query);
 		
 	}
-
 
 }	
 

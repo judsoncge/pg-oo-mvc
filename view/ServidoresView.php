@@ -41,7 +41,7 @@ class ServidoresView extends View{
 								<td>
 									<a href="/servidores/editar/<?php echo $servidor['ID'] ?>">
 										<button type='button' class='btn btn-secondary btn-sm' title='Editar'>
-											<i class="fa fa-pencil" aria-hidden="true"></i>
+											<i class="fa fa-pencil" aria-hidden='true'></i>
 										</button>
 									</a>
 									
@@ -59,7 +59,7 @@ class ServidoresView extends View{
 									
 									<a href='/editar/servidor/status/<?php echo $servidor['ID'] ?>/<?php echo $getStatus ?>'>
 										<button type='button' class='btn btn-secondary btn-sm' title='<?php echo $title ?>'>
-											<i class="fa fa-minus-square-o" aria-hidden="true"></i>
+											<i class="fa fa-minus-square-o" aria-hidden='true'></i>
 										</button>
 									</a>
 								</td>
