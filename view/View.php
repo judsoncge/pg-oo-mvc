@@ -406,7 +406,7 @@ class View{
 
 ?>
 		
-	<div class="row linha-modal-processo">
+	<div class="row linha-modal-processo" style='max-height: 200px; overflow: auto;'>
 		<div class="col-md-12">
 			<label><b>Histórico</b>:</label>
 			<br>	

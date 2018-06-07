@@ -175,9 +175,7 @@ class Model{
 	
 	public function getHistorico($modulo, $id){
 		
-		$this->conectar();
-		
-		$resultado = mysqli_query($this->conexao, "
+		$query = "
 		
 		SELECT a.*,
 		
@@ -189,15 +187,11 @@ class Model{
 		
 		WHERE a.ID_REFERENTE = ".$id." 
 		
-		") or die(mysqli_error($this->conexao));
-
-		$historico = array();
-	
-		While($row = mysqli_fetch_array($resultado)){ 
-			array_push($historico, $row); 
-		} 
+		ORDER BY DT_MENSAGEM DESC
 		
-		$this->desconectar();
+		";
+
+		$historico = $this->executarQueryLista($query);
 		
 		return $historico;
 		

@@ -243,11 +243,17 @@ class ProcessosController extends Controller{
 		
 		$listaDados = $this->processosModel->getDadosID();
 		
-		$historico = $this->processosModel->getHistorico('processos', $id);
+		$_REQUEST['DOCUMENTOS_PROCESSO'] = $this->processosModel->getListaDocumentos();
 		
-		$ativo = ($listaDados['DS_STATUS'] != 'ARQUIVADO' && $listaDados['DS_STATUS'] != 'SAIU') ? 1 : 0;
+		$_REQUEST['RESPONSAVEIS_PROCESSO'] = $this->processosModel->getListaResponsaveis();
 		
-		$apensado = $this->processosModel->verificaExisteRegistro('tb_processos_apensados', 'ID_PROCESSO_APENSADO', $id);
+		$_REQUEST['PROCESSOS_APENSADOS'] = $this->processosModel->getListaApensados();
+		
+		$_REQUEST['HISTORICO_PROCESSO'] = $this->processosModel->getHistorico('processos', $id);
+		
+		$_REQUEST['ATIVO'] = ($listaDados['DS_STATUS'] != 'ARQUIVADO' && $listaDados['DS_STATUS'] != 'SAIU') ? 1 : 0;
+		
+		$_REQUEST['APENSADO'] = $this->processosModel->verificaExisteRegistro('tb_processos_apensados', 'ID_PROCESSO_APENSADO', $id);
 		
 		$situacao = ($listaDados['BL_ATRASADO']) ? "<font color='red'> (ATRASADO)</font>" : "<font color='green'> (DENTRO DO PRAZO)</font>";
 		
@@ -256,12 +262,6 @@ class ProcessosController extends Controller{
 		$this->processosView->setConteudo('visualizar');
 		
 		$_REQUEST['DADOS_PROCESSO'] = $listaDados;
-		
-		$_REQUEST['HISTORICO_PROCESSO'] = $historico;
-		
-		$_REQUEST['ATIVO'] = $ativo;
-		
-		$_REQUEST['APENSADO'] = $apensado;
 		
 		$this->processosView->carregar();
 		

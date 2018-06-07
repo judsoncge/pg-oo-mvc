@@ -145,14 +145,18 @@ class ProcessosModel extends Model{
 		b.DS_NOME NOME_SERVIDOR,
 		c.DS_NOME NOME_SETOR,
 		d.DS_NOME NOME_ASSUNTO,
-		e.DS_NOME NOME_ORGAO
+		e.DS_NOME NOME_ORGAO,
+		f.ID_PROCESSO_MAE,
+		g.DS_NUMERO NUMERO_PROCESSO_MAE
 		
-		FROM  tb_processos a
+		FROM tb_processos a
 		
 		LEFT JOIN tb_servidores b ON a.ID_SERVIDOR_LOCALIZACAO = b.ID 
 		LEFT JOIN tb_setores c ON b.ID_SETOR = c.ID 
 		LEFT JOIN tb_assuntos_processos d ON a.ID_ASSUNTO = d.ID 
-		LEFT JOIN tb_orgaos e ON a.ID_ORGAO_INTERESSADO = e.ID 
+		LEFT JOIN tb_orgaos e ON a.ID_ORGAO_INTERESSADO = e.ID
+		LEFT JOIN tb_processos_apensados f ON a.ID = f.ID_PROCESSO_APENSADO
+		LEFT JOIN tb_processos g ON f.ID_PROCESSO_MAE = g.ID
 		
 		WHERE a.ID = $this->id
 		
@@ -287,6 +291,74 @@ class ProcessosModel extends Model{
 		$query = "UPDATE tb_processos SET BL_RECEBIDO = 0, ID_SERVIDOR_LOCALIZACAO = (SELECT ID_SERVIDOR FROM tb_historico_processos WHERE DS_ACAO = 'TRAMITAÇÃO' AND ID_REFERENTE = $this->id ORDER BY DT_MENSAGEM DESC LIMIT 1) WHERE ID = $this->id";
 		
 		$this->executarQuery($query);
+		
+	}
+	
+	public function getListaResponsaveis(){
+	
+		$query = "
+		
+		SELECT a.*, 
+		
+		b.DS_NOME NOME_SERVIDOR 
+		
+		FROM tb_responsaveis_processos a
+		
+		INNER JOIN tb_servidores b ON a.ID_SERVIDOR = b.ID
+		
+		WHERE ID_PROCESSO = $this->id
+
+		";
+		
+		$lista = $this->executarQueryLista($query);
+		
+		return $lista;
+		
+		
+	}
+	
+	public function getListaApensados(){
+	
+		$query = "
+		
+		SELECT b.ID_PROCESSO_APENSADO, c.DS_NUMERO 
+
+		FROM tb_processos a 
+
+		INNER JOIN tb_processos_apensados b ON a.ID = b.ID_PROCESSO_MAE 
+		INNER JOIN tb_processos c ON b.ID_PROCESSO_APENSADO = c.ID 
+
+		WHERE a.ID = $this->id
+		
+		";
+		
+		$lista = $this->executarQueryLista($query);
+		
+		return $lista;
+		
+	}
+	
+	public function getListaDocumentos(){
+	
+		$query = "
+		
+		SELECT 
+		
+		a.*,
+		DATE_FORMAT(a.DT_CRIACAO, '%d/%m/%Y') DT_CRIACAO,
+		b.DS_NOME NOME_CRIADOR
+		
+		FROM tb_documentos a 
+
+		INNER JOIN tb_servidores b ON a.ID_SERVIDOR_CRIACAO = b.ID 
+
+		WHERE a.ID_PROCESSO = $this->id
+		
+		";
+		
+		$lista = $this->executarQueryLista($query);
+		
+		return $lista;
 		
 	}
 
