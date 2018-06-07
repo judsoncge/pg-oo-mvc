@@ -565,7 +565,7 @@ class ProcessosView extends View{
 						
 						No Setor: <?php echo $lista["NOME_SETOR"] ?><br>
 
-						Assunto: <?php $lista["NOME_ASSUNTO"] ?><br>
+						Assunto: <?php echo $lista["NOME_ASSUNTO"] ?><br>
 						
 						Detalhes: <?php echo $lista["DS_DETALHES"] ?><br><br>
 						
