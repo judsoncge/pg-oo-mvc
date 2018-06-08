@@ -106,7 +106,7 @@ class ChamadosView extends View{
 		
 ?>		
 	
-		<div class="row linha-modal-processo">
+		<div class='row linha-modal-processo'>
 			<div class="col-md-12">
 				<?php if($lista['DS_STATUS'] =='ABERTO'){ ?>
 				
@@ -126,7 +126,7 @@ class ChamadosView extends View{
 				<?php } ?>
 			</div> 
 		</div>
-		<div class="row linha-modal-processo">
+		<div class='row linha-modal-processo'>
 			<div class="col-md-12">
 				<b>Status</b>: <?php echo $lista['DS_STATUS'] ?><br><br>	
 				<b>Data de abertura  </b>: <?php echo $lista['DT_ABERTURA'] ?><br> 
@@ -171,7 +171,7 @@ class ChamadosView extends View{
 				
 		?>
 		
-				<div class="row linha-modal-processo">
+				<div class='row linha-modal-processo'>
 					<form name="cadastro" method="POST" action="/editar/chamado/avaliar/<?php echo $lista['ID'] ?>/" enctype="multipart/form-data">
 						<div class="col-md-10">
 							<select class="form-control" id="avaliacao" name="avaliacao" required/>

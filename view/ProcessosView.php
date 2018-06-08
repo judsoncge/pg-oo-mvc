@@ -6,9 +6,16 @@ class ProcessosView extends View{
 	
 	public function adicionarScripts(){ ?>		
 		
-		<script src='/view/_libs/js/receber.js' ?>'></script>
-		<script src='/view/_libs/js/filtros.js'  ?>'></script>
-		<script src='/view/_libs/js/exportar.js'  ?>'></script>
+		<script src='/view/_libs/js/receber.js'></script>
+		<script src='/view/_libs/js/filtros.js'></script>
+		<script src='/view/_libs/js/exportar.js'></script>
+		<script type='text/javascript'>
+			window.onload = function(){
+				$('#responsaveis').multipleSelect();
+				$('#apensos').multipleSelect();
+				
+			}
+		</script>
 		
 <?php	
 	
@@ -22,73 +29,73 @@ class ProcessosView extends View{
 
 ?>	
 
-		<div class="well">
+		<div class='well'>
 			<form>
-				<div class="row">						
-					<div class="col-md-4">
-						<div class="form-group">
-							<label class="control-label" for="exampleInputEmail1">Filtro de servidor</label><br>
-							<select id="filtroservidor" name="filtroservidor" >
-								<option value="<?php echo $_SESSION['ID'] ?>"><?php echo $_SESSION['NOME'] ?></option>
-								<option value="%">Todos</option>
+				<div class='row'>						
+					<div class='col-md-4'>
+						<div class='form-group'>
+							<label class='control-label' for='exampleInputEmail1'>Filtro de servidor</label><br>
+							<select id='filtroservidor' name='filtroservidor' >
+								<option value='<?php echo $_SESSION['ID'] ?>'><?php echo $_SESSION['NOME'] ?></option>
+								<option value='%'>Todos</option>
 								<?php foreach($listaServidores as $servidor){ ?>
-										<option value="<?php echo $servidor['ID'] ?>">
+										<option value='<?php echo $servidor['ID'] ?>'>
 											<?php echo $servidor['DS_NOME']; ?>
 										</option>
 								<?php } ?>
 							</select>
 						</div>
 					</div>
-					<div class="col-md-2">
-						<div class="form-group">
-							<label class="control-label" for="exampleInputEmail1">Filtro de setor</label><br>
-								<select id="filtrosetor" name="filtrosetor" >
-									<option value="<?php echo $_SESSION['SETOR'] ?>"><?php echo $_SESSION['NOME_SETOR'] ?></option>
-									<option value="%">Todos</option>
+					<div class='col-md-2'>
+						<div class='form-group'>
+							<label class='control-label' for='exampleInputEmail1'>Filtro de setor</label><br>
+								<select id='filtrosetor' name='filtrosetor' >
+									<option value='<?php echo $_SESSION['SETOR'] ?>'><?php echo $_SESSION['NOME_SETOR'] ?></option>
+									<option value='%'>Todos</option>
 									<?php foreach($listaSetores as $setor){ ?>
-										<option value="<?php echo $setor['ID'] ?>">
+										<option value='<?php echo $setor['ID'] ?>'>
 											<?php echo $setor['DS_ABREVIACAO']; ?>
 										</option>
 									<?php } ?>
 								</select>
 						</div>
 					</div>
-					<div class="col-md-2">
-						<div class="form-group">
-							<label class="control-label" for="exampleInputEmail1">Filtro de situação</label><br>
-								<select id="filtrosituacao" name="filtrosituacao" >
-									<option value="%">Todos</option>
-									<option value="0">NO PRAZO</option>
-									<option value="1">ATRASADO</option>
+					<div class='col-md-2'>
+						<div class='form-group'>
+							<label class='control-label' for='exampleInputEmail1'>Filtro de situação</label><br>
+								<select id='filtrosituacao' name='filtrosituacao' >
+									<option value='%'>Todos</option>
+									<option value='0'>NO PRAZO</option>
+									<option value='1'>ATRASADO</option>
 								</select>
 						</div>
 					</div>
-					<div class="col-md-2">
-						<div class="form-group">
-							<label class="control-label" for="exampleInputEmail1">Sobrestado</label><br>
-							<select id="filtrosobrestado" name="filtrosobrestado" >
-								<option value="%">Todos</option>
-								<option value="0">NÃO</option>
-								<option value="1">SIM</option>
+					<div class='col-md-2'>
+						<div class='form-group'>
+							<label class='control-label' for='exampleInputEmail1'>Sobrestado</label><br>
+							<select id='filtrosobrestado' name='filtrosobrestado' >
+								<option value='%'>Todos</option>
+								<option value='0'>NÃO</option>
+								<option value='1'>SIM</option>
 							</select>
 						</div>
 					</div>
-					<div class="col-md-2">
-						<div class="form-group">
-							<label class="control-label" for="exampleInputEmail1">Recebido</label><br>
-							<select id="filtrorecebido" name="filtrorecebido" >
-								<option value="%">Todos</option>
-								<option value="0">NÃO</option>
-								<option value="1">SIM</option>
+					<div class='col-md-2'>
+						<div class='form-group'>
+							<label class='control-label' for='exampleInputEmail1'>Recebido</label><br>
+							<select id='filtrorecebido' name='filtrorecebido' >
+								<option value='%'>Todos</option>
+								<option value='0'>NÃO</option>
+								<option value='1'>SIM</option>
 							</select>
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="form-group">
-							<div class="input-group margin-bottom-sm">
-								<span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span> <input type="text" class="input-search form-control" alt="tabela-dados" placeholder="Busque pelo numero do processo" id="filtroprocesso" name="filtroprocesso" autofocus="autofocus" />
+				<div class='row'>
+					<div class='col-md-12'>
+						<div class='form-group'>
+							<div class='input-group margin-bottom-sm'>
+								<span class='input-group-addon'><i class='fa fa-search fa-fw'></i></span> <input type='text' class='input-search form-control' alt='tabela-dados' placeholder='Busque pelo numero do processo' id='filtroprocesso' name='filtroprocesso' autofocus='autofocus' />
 							</div>
 						</div>	
 					</div>
@@ -450,7 +457,7 @@ class ProcessosView extends View{
 					if(($lista["BL_RECEBIDO"] and !$apensado)){
 						
 ?>						
-						<div class="row linha-modal-processo">
+						<div class='row linha-modal-processo'>
 
 <?php	
 							if(!$lista["BL_SOBRESTADO"]){
@@ -533,7 +540,7 @@ class ProcessosView extends View{
 				}elseif($lista['DS_STATUS'] == 'SAIU'){ 
 					
 ?>		
-					<div class="row linha-modal-processo">
+					<div class='row linha-modal-processo'>
 						
 						<a href="#"><button type='submit' class='btn btn-sm btn-success pull-left'name='submit' value='Send' id='botao-dar-saida'>Voltar para o órgão<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>
 						
@@ -544,7 +551,7 @@ class ProcessosView extends View{
 				}elseif($lista['DS_STATUS'] == 'ARQUIVADO'){
 
 ?>
-					<div class="row linha-modal-processo">
+					<div class='row linha-modal-processo'>
 						
 						<a href="#"><button type='submit' class='btn btn-sm btn-success pull-left' name='submit' value='Send' id='botao-dar-saida'>Desarquivar<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>
 
@@ -650,7 +657,7 @@ class ProcessosView extends View{
 				</div>
 				
 				
-				<div class="row linha-modal-processo">
+				<div class='row linha-modal-processo'>
 					
 					<b>Documentos do processo</b>:<br>
 					
@@ -692,7 +699,144 @@ class ProcessosView extends View{
 					</table>
 				</div>
 				
-				<?php $this->carregarHistorico($historico);
+<?php 			$this->carregarHistorico($historico);
+				
+				if($ativo){
+					$this->carregarEnviarMensagem('processo', $lista['ID']);
+				}
+				
+?>
+				
+				<div class='row linha-modal-processo'>
+					<label class="control-label" for="exampleInputEmail1"><b>Solicitar Sobrestado:</b></label>
+					<form method='POST' action='#' enctype='multipart/form-data'>	
+						<div class="col-md-10">
+							<input class="form-control" id="justificativa" name="justificativa" placeholder="Digite aqui a sua justificativa (Máximo de 50 caracteres)" type="text" maxlength="50" required />	
+						</div>
+						<div class='col-md-2'>
+							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar' onclick="play()">Solicitar &nbsp;&nbsp;<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+						</div>
+					</form>
+				</div>	
+
+				<div class='row linha-modal-processo'>
+					<form method='POST' action='#' enctype='multipart/form-data'>	
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label" for="exampleInputEmail1"><b>Anexar documento:</b></label>
+									<?php $this->carregarSelectTiposDocumento(); ?>
+							</div>  
+						</div>
+						<div class="col-md-4">
+									<div class="form-group">
+										<label class="control-label" for="exampleInputEmail1">Enviar anexo</label><br>
+										<input type="file" class="" name="arquivo_anexo" id="arquivo_anexo"/>
+									</div>
+								</div>	
+						<div class="col-md-2">
+							<br>
+							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Anexar &nbsp;&nbsp;<i class="fa fa-arrow-circle-right"  aria-hidden="true"></i></button>
+						</div>
+					</form>	
+				</div>
+				
+				<div class='row linha-modal-processo'>
+					<form method='POST' action='#' enctype='multipart/form-data'>	
+						<div class='col-md-10'>
+							<label class='control-label' for='exampleInputEmail1'><b>Defina os responsáveis</b>:</label><br>
+							<select multiple id='responsaveis' name='responsaveis[]' style='width: 96%;' required>
+								<?php 
+								
+								//$lista3 = 
+								
+								//retorna_podem_ser_responsaveis_processo($informacoes['ID'], $conexao_com_banco);
+								
+								//while($r3 = mysqli_fetch_object($lista3)){ ?>
+								
+									<option value="<?php //echo $r3->ID ?>">
+										<?php //echo "  " . $r3->NM_SERVIDOR; ?>
+									</option>
+								
+								<?php //} ?>
+							</select>
+						</div>
+						<div class='col-md-2'>
+							<br>
+							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Definir &nbsp;&nbsp;<i class='fa fa-arrow-circle-right' aria-hidden='true'></i></button>
+						</div>
+					</form>	
+				</div>
+				
+				<form name='teste' method='POST' action='#' enctype='multipart/form-data'>
+					<div class='row linha-modal-processo'>
+						<div class='col-md-10'>
+							<label class='control-label' for='exampleInputEmail1'><b>Defina o responsável líder</b>:</label><br>
+							<select class='form-control' id='lider' name='lider' required />
+								
+								<option value=''>Líder atual: </option>
+<?php 
+								//$lista2 = retorna_lista_nao_lideres_processo($id, $conexao_com_banco);
+								
+								//while($r2 = mysqli_fetch_object($lista2)){ 
+								
+?>	
+									<option value="<?php //echo $r2->ID_SERVIDOR ?>"><?php //echo $r2->NM_SERVIDOR; ?></option>
+									
+<?php 							
+								//} 
+?>
+							</select>
+						</div>
+						<div class='col-md-2'>
+							<br>
+							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Definir &nbsp;&nbsp;<i class='fa fa-arrow-circle-right' aria-hidden='true'></i></button>
+						</div>
+					</div>
+				</form>
+				
+				<div class='row linha-modal-processo'>
+					<form method='POST' action='#' enctype='multipart/form-data'>	
+						<div class='col-md-10'>
+							<label class='control-label' for='exampleInputEmail1'><b>Defina os Apensos</b>:</label><br>
+							<select multiple id='apensos' name='apensos[]' style='width: 96%;' required>
+								<?php //$lista3 = retorna_processos_apensar($id, $conexao_com_banco);
+								//'while($r3 = mysqli_fetch_object($lista3)){ ?>
+								<option value="<?php //echo $r3->ID ?>"><?php //echo $r3->CD_PROCESSO ?></option><?php //} ?>
+							</select>
+						</div>
+						<div class='col-md-2'>
+							<br>
+							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Apensar &nbsp;&nbsp;<i class='fa fa-arrow-circle-right'  aria-hidden='true'></i></button>
+						</div>
+					</form>	
+				</div>
+				
+				<form name='teste' method='POST' action='logica/editar.php?operacao=tramitar&id=<?php echo $informacoes['ID'] ?>' enctype='multipart/form-data'>	
+					<div class='row linha-modal-processo'>
+						<div class='col-md-10'>
+							<select class='form-control' id='tramitar' name='tramitar' required/>
+								<option value=''>Selecione o servidor para tramitar</option>
+								
+								<?php 
+								
+									//$lista2 = retorna_servidores_tramitar($conexao_com_banco);
+									
+									//while($r2 = mysqli_fetch_object($lista2)){ 
+								
+								?>
+								
+									<option value='<?php //echo $r2->ID ?>'><?php //echo $r2->NM_SERVIDOR; ?></option>
+									
+								<?php //} ?>
+							</select>
+						</div>
+						
+						<div class='col-md-2'>
+							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Tramitar &nbsp;&nbsp;<i class='fa fa-arrow-circle-right' aria-hidden='true'></i></button>
+						</div>
+					</div>
+				</form>
+<?php
 
 	}	
 	

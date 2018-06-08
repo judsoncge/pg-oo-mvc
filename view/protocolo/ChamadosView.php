@@ -106,7 +106,7 @@ class ChamadosView extends View{
 	
 		<div class="row" style="margin-top: 10px;">
 			<div class="col-md-12">
-				<div class="row linha-modal-processo">
+				<div class='row linha-modal-processo'>
 					
 					<?php if($lista['DS_STATUS'] =='ABERTO' and $_SESSION['FUNCAO']=='TI'){ ?>
 					

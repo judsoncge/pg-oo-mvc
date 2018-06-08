@@ -224,7 +224,7 @@ class ComunicacaoView extends View{
 <?php if($this->conteudo == 'edicao'){ ?>
 		
 		
-		<div class="row linha-modal-processo">
+		<div class='row linha-modal-processo'>
 		<h3>Edição de Imagens</h3><br>
 			<div>
 				<?php foreach($listaDadosImagens as $imagem){
@@ -285,7 +285,7 @@ class ComunicacaoView extends View{
 						<div class="row" style="margin-top: 10px;">
 							<?php if($lista['DS_STATUS'] != 'INATIVA'){ ?>
 								<div class="col-md-12">
-									<div class="row linha-modal-processo">
+									<div class='row linha-modal-processo'>
 										
 											<?php if($lista['DS_STATUS'] == 'OCULTADA'){ ?>
 											
@@ -309,7 +309,7 @@ class ComunicacaoView extends View{
 									
 									</div>
 															
-									<div class="row linha-modal-processo">
+									<div class='row linha-modal-processo'>
 										<small><?php echo "Publicada em: " . date_format(new DateTime($lista['DT_PUBLICACAO']), 'd/m/Y H:i'); ?></small><br>
 										<br>
 										<h6><?php echo $lista['DS_CHAPEU'] ?></h6><br>

@@ -337,7 +337,7 @@ class View{
 	public function carregarSelectTiposDocumento(){ ?>
 		
 		<select class="form-control" id="tipo" name="tipo" required >
-			<option value="">Selecione o tipo de arquivo</option>
+			<option value="">Selecione o tipo</option>
 			<option value="APRESENTAÇÃO">APRESENTAÇÃO</option>
 			<option value="AQUISIÇÃO">AQUISIÇÃO</option>
 			<option value="CERTIFICADO">CERTIFICADO</option>
@@ -406,7 +406,7 @@ class View{
 
 ?>
 		
-	<div class="row linha-modal-processo" style='max-height: 200px; overflow: auto;'>
+	<div class='row linha-modal-processo' style='max-height: 200px; overflow: auto;'>
 		<div class="col-md-12">
 			<label><b>Histórico</b>:</label>
 			<br>	
@@ -417,15 +417,42 @@ class View{
 					switch($hist['DS_ACAO']){
 						
 						case 'ABERTURA':
-						case 'FECHAMENTO':
-						case 'ENCERRAMENTO':
 						case 'AVALIAÇÃO':
+						case 'TRAMITAÇÃO':
+						case 'VOLTAR':
+						case 'RESPONSÁVEIS':
+						case 'REMOVER RESPONSÁVEL':
+						case 'CRIAÇÃO DE DOCUMENTO':
+						case 'EXCLUSÃO DE DOCUMENTO':
+						case 'EDIÇÃO':
+						case 'LÍDER':
+						case 'APENSAR':
+						case 'REMOVER APENSO':
 							$rgb = 'rgba(46, 204, 113,0.3)';
 							break;
 						case 'MENSAGEM':
 							$rgb = 'rgba(243, 156, 18,0.4)';
 							break;
-					
+						case 'FECHAMENTO':
+						case 'ENCERRAMENTO':
+						case 'CONCLUSÃO':
+						case 'FINALIZAÇÃO':
+						case 'FINALIZAÇÃO DESFEITA':
+						case 'ARQUIVAMENTO':
+						case 'DESARQUIVAMENTO':
+						case 'SAÍDA':
+							$rgb = 'rgba(52,152,219 ,1)';
+							break;
+						case 'URGENTE':
+						case 'SOBRESTADO':
+							$rgb = 'rgba(231,76,60 ,1)';
+							break;
+						case 'CONFIRMAR PROCESSO':
+							$rgb = 'rgba(39,174,96 ,1)';
+							break;
+						case 'RETORNAR PROCESSO':
+							$rgb = 'rgba(127,140,141 ,1)';
+							break;
 					}
 
 			?>
@@ -452,10 +479,11 @@ class View{
 	public function carregarEnviarmensagem($modulo, $id){
 		
 ?>
-	<div class="row linha-modal-processo">
+	<div class='row linha-modal-processo'>
+		<b>Envie uma mensagem</b>:<br>
 		<form method='POST' action="/editar/<?php echo $modulo ?>/mensagem/<?php echo $id ?>/" enctype='multipart/form-data'>	
 			<div class="col-md-10">
-				<input class="form-control" id="mensagem" name="mensagem" placeholder="Digite aqui a sua mensagem (Máximo de 100 caracteres)" type="text" maxlenght="100" required />	
+				<input class="form-control" id="mensagem" name="mensagem" placeholder="Digite aqui a sua mensagem (Máximo de 100 caracteres)" type="text" maxlength="100" required />	
 			</div>
 			<div class='col-md-2'>
 				<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-dar-saida'>Enviar &nbsp;&nbsp;<i class="fa fa-arrow-circle-right" aria-hidden='true'></i></button>
