@@ -10,6 +10,8 @@ class ProcessosModel extends Model{
 	private $orgao;
 	private $interessado;
 	private $detalhes;	
+	private $dataEntrada;	
+	private $dataSaida;	
 	private $prazo;	
 	private $servidorLocalizacao;	
 	private $setorLocalizacao;	
@@ -66,8 +68,26 @@ class ProcessosModel extends Model{
 		$this->recebido = $recebido;
 	}
 	
+	public function setDataEntrada($dataEntrada){
+		$this->dataEntrada = $dataEntrada;
+	}
+	
+	public function setDataSaida($dataSaida){
+		$this->dataSaida = $dataSaida;
+	}
+	
 	public function cadastrar(){
 		
+		$existe = $this->verificaExisteRegistro('tb_processos', 'DS_NUMERO', $this->numero);
+		
+		if($existe){
+			
+			$this->setMensagemResposta('Já existe um(a) processo com este número. Por favor, tente outro.');
+			
+			return 0;
+		
+		}else{
+			
 		$data = date('Y-m-d');
 		
 		$this->urgencia = ($this->assunto == 32) ? 1 : 0;
@@ -86,50 +106,108 @@ class ProcessosModel extends Model{
 		
 		return $resultado;
 		
+		}
+		
 	}
 	
-	public function editarStatus($modulo, $status, $id){
+	public function marcarSobrestado(){
 		
-		$this->conectar();
+		$this->editarCampo('processos', 'BL_SOBRESTADO', $this->sobrestado);
+				
+		$mensagem = ($_GET['valor']) ? 'MARCOU O PROCESSO COMO SOBRESTADO' : 'DESMARCOU O SOBRESTADO DESTE PROCESSO';
 		
-		parent::editarStatus($modulo, $status, $id);
+		$resultado = $this->cadastrarHistorico('processos', $mensagem, 'SOBRESTADO');
 		
-		$data = date('Y-m-d H:i:s');
+		return $resultado; 
 		
-		$query  = "UPDATE tb_chamados SET ";
+	}
+	
+	public function marcarUrgencia(){
+		
+		$this->editarCampo('processos', 'BL_URGENCIA', $this->urgencia);
+				
+		$mensagem = ($_GET['valor']) ? 'MARCOU COMO URGENTE' : 'DESMARCOU A URGENCIA DESTE PROCESSO';
+		
+		$resultado = $this->cadastrarHistorico('processos', $mensagem, 'URGENTE');
+		
+		return $resultado; 
+		
+	}
+	
+	public function sair(){
+		
+		$this->editarCampo('processos', 'DS_STATUS', 'SAIU');
+				
+		$mensagem = 'DEU SAÍDA NO PROCESSO';
+		
+		$resultado = $this->cadastrarHistorico('processos', $mensagem, 'URGENTE');
+		
+		return $resultado; 
+		
+	}
+	
+	public function editarStatus(){
+		
+		$this->editarCampo('processos', 'DS_STATUS', $this->status);
 		
 		switch($this->status){
 				
-			case 'FECHADO':
+			case 'FINALIZADO PELO SETOR':
 				
-				$query .= "DT_FECHAMENTO = '".$data."' ";
+				$mensagem = 'FINALIZOU O PROCESSO EM NOME DO SETOR';
 				
-				$textoMensagem = "FECHOU O CHAMADO";
-				
-				$acao = 'FECHAMENTO';
+				$acao = 'FINALIZAÇÃO';
 				
 				break;
 			
-			case 'ENCERRADO':
+			case 'FINALIZADO PELO GABINETE':
 				
-				$query .= "DT_ENCERRAMENTO = '".$data."' ";
+				$mensagem = 'FINALIZOU O PROCESSO EM NOME DO GABINETE';
 				
-				$textoMensagem = "ENCERROU O CHAMADO";
+				$acao = 'FINALIZAÇÃO';
 				
-				$acao = 'ENCERRAMENTO';
+				break;
+				
+			case 'SAIU':
+			
+				$this->editarCampo('processos', 'DT_SAIDA', date('Y-m-d H:i:s'));
+				
+				$mensagem = 'DEU SAÍDA NO PROCESSO';
+				
+				$acao = 'SAÍDA';
 				
 				break;
 				
 		}
 		
-		$query .= "WHERE ID=".$this->id."";
-		
-		$this->executarQuery($query);
-		
-		$resultado = $this->cadastrarHistorico('chamados', $this->id, $textoMensagem, $_SESSION['ID'], $acao);
+		$resultado = $this->cadastrarHistorico('processos', $mensagem, $acao);
 		
 		return $resultado;
 
+	}
+	
+	public function voltar(){
+		
+		$this->dataEntrada = date('Y-m-d');
+		
+		$query = "SELECT ID_ASSUNTO FROM tb_processos WHERE ID = $this->id";
+		
+		$this->assunto = $this->executarQueryRegistro($query);
+		
+		$query = "SELECT NR_DIAS_PRAZO FROM tb_assuntos_processos WHERE ID = $this->assunto";
+		
+		$qtdDiasPrazo = $this->executarQueryRegistro($query);
+		
+		$this->prazo = somarData($this->dataEntrada, $qtdDiasPrazo);
+		
+		$query = "UPDATE tb_processos SET DT_ENTRADA = '$this->dataEntrada', DT_PRAZO = '$this->prazo', DT_SAIDA = NULL, NR_DIAS = 0, DS_STATUS = 'EM ANDAMENTO' WHERE ID = $this->id";
+		
+		$this->executarQuery($query);
+		
+		$resultado = $this->cadastrarHistorico('processos', 'COLOCOU O PROCESSO DE VOLTA NO ORGAO', 'VOLTAR');
+		
+		return $resultado;		
+		
 	}
 	
 	public function getDadosID(){

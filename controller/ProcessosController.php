@@ -58,13 +58,14 @@ class ProcessosController extends Controller{
 		$this->processosModel->setDetalhes($detalhes);
 		
 		$this->processosModel->setServidorLocalizacao($servidorLocalizacao);
+	
 
 		$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->cadastrar();
 		
 		$_SESSION['MENSAGEM'] = $this->processosModel->getMensagemResposta();
 		
 		if($_SESSION['RESULTADO_OPERACAO']){
-			Header('Location: /processos/ativos');
+			Header('Location: /processos/ativos/0');
 		}else{
 			Header('Location: /processos/cadastrar/');
 		}
@@ -76,6 +77,8 @@ class ProcessosController extends Controller{
 		$id = (isset($_GET['id'])) ? $_GET['id'] : NULL;
 		
 		$this->processosModel->setId($id);
+		
+		$this->processosModel->setServidorSessao($_SESSION['ID']);
 		
 		switch($_GET['operacao']){
 			
@@ -99,13 +102,33 @@ class ProcessosController extends Controller{
 				
 				break;
 				
-			case 'avaliar':
+			case 'sobrestado':
+			
+				$this->processosModel->setSobrestado($_GET['valor']);
 				
-				$avaliacao = (isset($_POST['avaliacao'])) ? $_POST['avaliacao'] : NULL;
-
-				$this->processosModel->setAvaliacao($avaliacao);
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->marcarSobrestado();
 				
-				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->avaliar();
+				break;
+				
+			case 'urgencia':
+				
+				$this->processosModel->setUrgencia($_GET['valor']);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->marcarUrgencia();
+				
+				break;
+				
+			case 'status':
+				
+				$this->processosModel->setStatus($_GET['valor']);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->editarStatus();
+				
+				break;
+				
+			case 'voltar':
+			
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->voltar();
 				
 				break;
 				
@@ -121,7 +144,7 @@ class ProcessosController extends Controller{
 		
 		$_SESSION['MENSAGEM'] = $this->processosModel->getMensagemResposta();
 	
-		Header('Location: /processos/ativos/');
+		Header('Location: /processos/visualizar/'.$id);
 		
 	}
 	

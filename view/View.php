@@ -54,11 +54,11 @@ class View{
 			<script type='text/javascript' src='/view/_libs/js/temporizadores.js'></script>
 			<script type='text/javascript' src='/view/_libs/js/jquery.maskedinput.js'></script>
 			<script type='text/javascript' src='/view/_libs/js/util.js'></script>
-			<?php $this->adicionarScripts(); ?>
 			<link rel='stylesheet' type='text/css' href='/view/_libs/css/font-awesome.min.css' >
 			<link rel='stylesheet' type='text/css' href='/view/_libs/css/bootstrap.css'>
 			<link rel='stylesheet' type='text/css' href='/view/_libs/css/simple-sidebar.css'>
 			<link rel='stylesheet' type='text/css' href='/view/_libs/css/estilo.css'>
+			<?php $this->adicionarScripts(); ?>
 		</head>	
 <?php 
 	}

@@ -4,21 +4,27 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
 class ProcessosView extends View{
 	
-	public function adicionarScripts(){ ?>		
-		
-		<script src='/view/_libs/js/receber.js'></script>
-		<script src='/view/_libs/js/filtros.js'></script>
-		<script src='/view/_libs/js/exportar.js'></script>
-		<script type='text/javascript'>
-			window.onload = function(){
-				$('#responsaveis').multipleSelect();
-				$('#apensos').multipleSelect();
-				
-			}
-		</script>
+	public function adicionarScripts(){ 
+	
+		if($this->conteudo == 'lista' or $this->conteudo == 'visualizar'){
+	
+	?>		
+	
+			<script src='/view/_libs/js/receber.js'></script>
+			<script src='/view/_libs/js/filtros.js'></script>
+			<script src='/view/_libs/js/exportar.js'></script>
+			<link rel='stylesheet' type='text/css' href='/view/_libs/css/multiple-select.css'>
+			<script type='text/javascript' src='/view/_libs/js/multiple-select.js'></script>
+			<script type='text/javascript'>
+				window.onload = function(){
+					$('#responsaveis').multipleSelect();
+					$('#apensos').multipleSelect();
+					
+				}
+			</script>
 		
 <?php	
-	
+		}
 	}
 	
 	public function carregarFiltro(){
@@ -435,7 +441,7 @@ class ProcessosView extends View{
 		
 				
 <?php 
-							
+		
 				if($ativo){
 					
 					if($lista["BL_URGENCIA"]){							
@@ -463,15 +469,13 @@ class ProcessosView extends View{
 							if(!$lista["BL_SOBRESTADO"]){
 ?>
 							
-								<a href="#"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Marcar sobrestado&nbsp;&nbsp;&nbsp;<i class="fa fa-warning" aria-hidden='true'></i></button></a>
+								<a href="/editar/processo/sobrestado/<?php echo $lista['ID'] ?>/1"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Marcar sobrestado&nbsp;&nbsp;&nbsp;<i class="fa fa-warning" aria-hidden='true'></i></button></a>
 							
 <?php	
-							}
-							
-							if($lista["BL_SOBRESTADO"]){
+							}else{
 ?>
 							
-								<a href="#"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Desmarcar sobrestado&nbsp;&nbsp;&nbsp;<i class="fa fa-warning" aria-hidden='true'></i></button></a>
+								<a href="/editar/processo/sobrestado/<?php echo $lista['ID'] ?>/0"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Desmarcar sobrestado&nbsp;&nbsp;&nbsp;<i class="fa fa-warning" aria-hidden='true'></i></button></a>
 							
 <?php	
 							}
@@ -479,13 +483,13 @@ class ProcessosView extends View{
 							if(!$lista["BL_URGENCIA"]){
 ?>
 							
-								<a href="#"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-urgencia'>Marcar como urgente&nbsp;&nbsp;&nbsp;<i class="fa fa-warning" aria-hidden='true'></i></button></a>
+								<a href="/editar/processo/urgencia/<?php echo $lista['ID'] ?>/1"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-urgencia'>Marcar como urgente&nbsp;&nbsp;&nbsp;<i class="fa fa-warning" aria-hidden='true'></i></button></a>
 							
 <?php	
 							}else{
 ?>
 							
-								<a href="#"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-urgencia'>Desmarcar urgência&nbsp;&nbsp;&nbsp;<i class="fa fa-warning" aria-hidden='true'></i></button></a>
+								<a href="/editar/processo/urgencia/<?php echo $lista['ID'] ?>/0"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-urgencia'>Desmarcar urgência&nbsp;&nbsp;&nbsp;<i class="fa fa-warning" aria-hidden='true'></i></button></a>
 							
 <?php	
 							}
@@ -505,14 +509,14 @@ class ProcessosView extends View{
 								
 								
 ?>
-								<a href="#"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Finalizar em nome do setor&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden='true'></i></button></a>	
+								<a href="/editar/processo/status/<?php echo $lista['ID'] ?>/FINALIZADO PELO SETOR"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Finalizar em nome do setor&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden='true'></i></button></a>	
 <?php	
 							}
 							
 							if($lista['DS_STATUS']=='FINALIZADO PELO SETOR'){
 ?>
 									
-								<a href="#"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Finalizar em nome do gabinete&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden='true'></i></button></a>
+								<a href="/editar/processo/status/<?php echo $lista['ID'] ?>/FINALIZADO PELO GABINETE"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Finalizar em nome do gabinete&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden='true'></i></button></a>
 								
 								<a href="#"><button type='submit' class='btn btn-sm btn-success pull-left' name='submit' value='Send' id='botao-dar-saida'>Desfazer finalização do setor&nbsp;&nbsp;<i class="fa fa-external-link-square" aria-hidden='true'></i></button></a>	
 								
@@ -524,9 +528,9 @@ class ProcessosView extends View{
 							if($lista['DS_STATUS']=='FINALIZADO PELO GABINETE'){
 ?>
 								
-								<a href="#"><button type='submit' class='btn btn-sm btn-success pull-left'name='submit' value='Send' id='botao-dar-saida'>Desfazer finalização do gabinete&nbsp;&nbsp;<i class="fa fa-external-link-square" aria-hidden='true'></i></button></a>
+								<a href='#'><button type='submit' class='btn btn-sm btn-success pull-left'name='submit' value='Send' id='botao-dar-saida'>Desfazer finalização do gabinete&nbsp;&nbsp;<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>
 
-								<a href="logica/editar.php?operacao=sair&id=<?php echo $id ?>"><button type='submit' class='btn btn-sm btn-success pull-left' name='submit' value='Send' id='botao-dar-saida'>Dar saída&nbsp;&nbsp;<i class="fa fa-external-link-square" aria-hidden='true'></i></button></a>						
+								<a href="/editar/processo/status/<?php echo $lista['ID'] ?>/SAIU"><button type='submit' class='btn btn-sm btn-success pull-left' name='submit' value='Send' id='botao-dar-saida'>Dar saída&nbsp;&nbsp;<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>						
 <?php	
 							}
 ?>
@@ -537,30 +541,33 @@ class ProcessosView extends View{
 					
 					}
 				
-				}elseif($lista['DS_STATUS'] == 'SAIU'){ 
+				}else{
+					
+					
+					if($lista['DS_STATUS'] == 'SAIU'){ 
 					
 ?>		
-					<div class='row linha-modal-processo'>
-						
-						<a href="#"><button type='submit' class='btn btn-sm btn-success pull-left'name='submit' value='Send' id='botao-dar-saida'>Voltar para o órgão<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>
-						
-					</div>
+						<div class='row linha-modal-processo'>
 							
+							<a href="/editar/processo/voltar/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-success pull-left'name='submit' value='Send' id='botao-dar-saida'>Voltar processo&nbsp;&nbsp;<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>
+							
+						</div>
+								
 <?php
 
-				}elseif($lista['DS_STATUS'] == 'ARQUIVADO'){
+					}elseif($lista['DS_STATUS'] == 'ARQUIVADO'){
 
 ?>
-					<div class='row linha-modal-processo'>
-						
-						<a href="#"><button type='submit' class='btn btn-sm btn-success pull-left' name='submit' value='Send' id='botao-dar-saida'>Desarquivar<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>
+						<div class='row linha-modal-processo'>
+							
+							<a href="#"><button type='submit' class='btn btn-sm btn-success pull-left' name='submit' value='Send' id='botao-dar-saida'>Desarquivar&nbsp;&nbsp;<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>
 
-					</div>
-					
-			
+						</div>
+	
 <?php		
 				
-				} 
+					} 
+				}
 ?>
 				<div class='row linha-modal-processo'>
 					
@@ -701,9 +708,10 @@ class ProcessosView extends View{
 				
 <?php 			$this->carregarHistorico($historico);
 				
-				if($ativo){
-					$this->carregarEnviarMensagem('processo', $lista['ID']);
-				}
+		if($ativo){
+					
+			$this->carregarEnviarMensagem('processo', $lista['ID']);
+				
 				
 ?>
 				
@@ -837,7 +845,7 @@ class ProcessosView extends View{
 					</div>
 				</form>
 <?php
-
+		}
 	}	
 	
 }

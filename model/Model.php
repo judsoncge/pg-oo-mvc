@@ -160,12 +160,12 @@ class Model{
 		
 	}
 	
-	public function cadastrarHistorico($tabela, $id_referente, $mensagem, $id_servidor, $acao){
+	public function cadastrarHistorico($tabela, $mensagem, $acao){
 		
 		$data = date('Y-m-d H:i:s');
 		
-		$query = "INSERT INTO tb_historico_".$tabela." (ID_REFERENTE, TX_MENSAGEM, ID_SERVIDOR, DT_MENSAGEM, DS_ACAO) VALUES
-		(".$id_referente.", '".$mensagem."', ".$id_servidor.", '".$data."', '".$acao."')";
+		$query = "INSERT INTO tb_historico_$tabela (ID_REFERENTE, TX_MENSAGEM, ID_SERVIDOR, DT_MENSAGEM, DS_ACAO) VALUES
+		($this->id, '$mensagem', $this->servidorSessao, '$data', '$acao')";
 		
 		$resultado = $this->executarQuery($query);
 		
@@ -197,9 +197,9 @@ class Model{
 		
 	}
 	
-	public function editarStatus($modulo, $status, $id){
+	public function editarCampo($modulo, $campo, $valor){
 		
-		$query = "UPDATE tb_".$modulo." SET DS_STATUS = '".$status."' WHERE ID = ".$id."";
+		$query = "UPDATE tb_$modulo SET $campo = '$valor' WHERE ID = $this->id";
 		
 		$resultado = $this->executarQuery($query);
 		
