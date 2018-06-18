@@ -35,7 +35,9 @@ class Model{
 	public function conectar(){
 		
 		//conecta
-		$this->conexao = mysqli_connect('10.50.119.149', 'desenvolvedor', 'cgeagt', 'pg-oo-mvc') or die(mysqli_error($nome_banco));
+		//$this->conexao = mysqli_connect('10.50.119.149', 'desenvolvedor', 'cgeagt', 'pg-oo-mvc') or die(mysqli_error($nome_banco));
+		
+		$this->conexao = mysqli_connect('localhost', 'root', '', 'pg-oo-mvc') or die(mysqli_error($nome_banco));
 		
 		//informando que todo tipo de variavel que vai ou vem do banco sera UFT8
 		mysqli_query($this->conexao, "SET NAMES 'utf8'");
@@ -209,9 +211,7 @@ class Model{
 	
 	public function excluir($tabela, $id){
 		
-		$query = "DELETE FROM ".$tabela." WHERE ID=".$id."";
-		
-		
+		$query = "DELETE FROM $tabela WHERE ID=$id";
 		
 		$resultado = $this->executarQuery($query);
 		

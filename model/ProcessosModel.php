@@ -178,6 +178,39 @@ class ProcessosModel extends Model{
 				
 				break;
 				
+			case 'ARQUIVADO':
+			
+				$this->editarCampo('processos', 'DT_SAIDA', date('Y-m-d H:i:s'));
+				
+				$mensagem = 'ARQUIVOU O PROCESSO';
+				
+				$acao = 'ARQUIVAMENTO';
+				
+				break;
+				
+		}
+		
+		$resultado = $this->cadastrarHistorico('processos', $mensagem, $acao);
+		
+		return $resultado;
+
+	}
+	
+	public function desfazerStatus(){
+		
+		$this->editarCampo('processos', 'DS_STATUS', $this->status);
+		
+		switch($this->status){
+			
+			case 'EM ANDAMENTO':	
+			case 'FINALIZADO PELO SETOR':
+				
+				$mensagem = 'DESFEZ A FINALIZAÇÃO';
+				
+				$acao = 'FINALIZAÇÃO DESFEITA';
+				
+				break;
+
 		}
 		
 		$resultado = $this->cadastrarHistorico('processos', $mensagem, $acao);
@@ -207,6 +240,28 @@ class ProcessosModel extends Model{
 		$resultado = $this->cadastrarHistorico('processos', 'COLOCOU O PROCESSO DE VOLTA NO ORGAO', 'VOLTAR');
 		
 		return $resultado;		
+		
+	}
+	
+	public function desarquivar(){
+		
+		if($_SESSION['FUNCAO']=='CHEFE DE GABINETE' || $_SESSION['FUNCAO']=='GABINETE'){
+			
+			$this->editarCampo('processos', 'DS_STATUS', 'FINALIZADO PELO GABINETE');
+		
+		}else{
+				
+			$this->editarCampo('processos', 'DS_STATUS', 'FINALIZADO PELO SETOR');
+
+		}
+		
+		$query = "UPDATE tb_processos SET DT_SAIDA = NULL WHERE ID = $this->id";
+		
+		$this->executarQuery($query);
+		
+		$resultado = $this->cadastrarHistorico('processos', 'DESARQUIVOU O PROCESSO', 'DESARQUIVAMENTO');
+		
+		return $resultado;
 		
 	}
 	

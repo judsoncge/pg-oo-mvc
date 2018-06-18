@@ -99,3 +99,27 @@ UPDATE tb_historico_processos SET DS_ACAO = 'CRIAÇÃO DE DOCUMENTO' WHERE DS_AC
 update tb_historico_processos set DS_ACAO = 'CRIAÇÃO DE DOCUMENTO' WHERE DS_ACAO = 'ANEXAR';
 
 UPDATE tb_historico_processos set DS_ACAO = 'EXCLUSÃO DE DOCUMENTO' WHERE DS_ACAO = 'EXCLUIR ANEXO';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ALTER TABLE `tb_documentos` DROP FOREIGN KEY `tb_documentos_ibfk_1`; ALTER TABLE `tb_documentos` ADD CONSTRAINT `tb_documentos_ibfk_1` FOREIGN KEY (`ID_PROCESSO`) REFERENCES `tb_processos`(`ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+ALTER TABLE `tb_historico_processos` DROP FOREIGN KEY `tb_historico_processos_ibfk_1`; ALTER TABLE `tb_historico_processos` ADD CONSTRAINT `tb_historico_processos_ibfk_1` FOREIGN KEY (`ID_REFERENTE`) REFERENCES `tb_processos`(`ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+ALTER TABLE `tb_processos_apensados` DROP FOREIGN KEY `tb_processos_apensados_ibfk_1`; ALTER TABLE `tb_processos_apensados` ADD CONSTRAINT `tb_processos_apensados_ibfk_1` FOREIGN KEY (`ID_PROCESSO_MAE`) REFERENCES `tb_processos`(`ID`) ON DELETE CASCADE ON UPDATE RESTRICT; ALTER TABLE `tb_processos_apensados` DROP FOREIGN KEY `tb_processos_apensados_ibfk_2`; ALTER TABLE `tb_processos_apensados` ADD CONSTRAINT `tb_processos_apensados_ibfk_2` FOREIGN KEY (`ID_PROCESSO_APENSADO`) REFERENCES `tb_processos`(`ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+ALTER TABLE `tb_responsaveis_processos` DROP FOREIGN KEY `tb_responsaveis_processos_ibfk_1`; ALTER TABLE `tb_responsaveis_processos` ADD CONSTRAINT `tb_responsaveis_processos_ibfk_1` FOREIGN KEY (`ID_PROCESSO`) REFERENCES `tb_processos`(`ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+ALTER TABLE `tb_tramitacao_processos` DROP FOREIGN KEY `tb_tramitacao_processos_ibfk_1`; ALTER TABLE `tb_tramitacao_processos` ADD CONSTRAINT `tb_tramitacao_processos_ibfk_1` FOREIGN KEY (`ID_PROCESSO`) REFERENCES `tb_processos`(`ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
+

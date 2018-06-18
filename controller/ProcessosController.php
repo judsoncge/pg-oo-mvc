@@ -58,7 +58,6 @@ class ProcessosController extends Controller{
 		$this->processosModel->setDetalhes($detalhes);
 		
 		$this->processosModel->setServidorLocalizacao($servidorLocalizacao);
-	
 
 		$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->cadastrar();
 		
@@ -126,9 +125,23 @@ class ProcessosController extends Controller{
 				
 				break;
 				
+			case 'desfazerstatus':
+				
+				$this->processosModel->setStatus($_GET['valor']);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->desfazerStatus();
+				
+				break;
+				
 			case 'voltar':
 			
 				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->voltar();
+				
+				break;
+				
+			case 'desarquivar':
+			
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->desarquivar();
 				
 				break;
 				
@@ -154,7 +167,7 @@ class ProcessosController extends Controller{
 		
 		$_SESSION['MENSAGEM'] = $this->processosModel->getMensagemResposta();
 		
-		Header('Location: /processos/ativos/');
+		Header('Location: /processos/ativos/0');
 		
 	}
 	
