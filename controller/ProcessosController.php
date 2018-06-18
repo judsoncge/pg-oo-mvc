@@ -74,7 +74,7 @@ class ProcessosController extends Controller{
 	public function editar(){
 		
 		$id = (isset($_GET['id'])) ? $_GET['id'] : NULL;
-		
+	
 		$this->processosModel->setId($id);
 		
 		$this->processosModel->setServidorSessao($_SESSION['ID']);
@@ -145,11 +145,27 @@ class ProcessosController extends Controller{
 				
 				break;
 				
+			case 'removerresponsavel':
+			
+				$this->processosModel->setResponsavel($_GET['valor']);
+			
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->removerResponsavel();
+				
+				break;
+				
+			case 'excluirdocumento':
+			
+				$this->processosModel->setDocumento($_GET['valor']);
+			
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->excluirDocumento();
+				
+				break;
+				
 			case 'mensagem': 
 				
 				$mensagem = (isset($_POST['mensagem'])) ? $_POST['mensagem'] : NULL;
 				
-				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->cadastrarHistorico('chamados', $id, 'DISSE: ' . $mensagem, $_SESSION['ID'], 'MENSAGEM');
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->enviarMensagem('processos', $mensagem);
 		
 				break;
 		

@@ -36,7 +36,7 @@ class ProcessosView extends View{
 ?>	
 
 		<div class='well'>
-			<form>
+			<form id='formularioFiltro'>
 				<div class='row'>						
 					<div class='col-md-4'>
 						<div class='form-group'>
@@ -608,7 +608,7 @@ class ProcessosView extends View{
 								if($ativo){
 									
 ?>												
-									<a href="#" title='remover responsável'><i class='fa fa-remove' aria-hidden='true'></i></a>,
+									<a href="/editar/processo/removerresponsavel/<?php echo $lista['ID'] ?>/<?php echo $responsavel['ID_SERVIDOR'] ?>" title='remover responsável'><i class='fa fa-remove' aria-hidden='true'></i></a>,
 									
 <?php												
 								}
@@ -689,12 +689,15 @@ class ProcessosView extends View{
 									<td><?php echo $documento['DS_TIPO']; ?></td>
 									<td><?php echo $documento['NOME_CRIADOR']; ?></td>
 									<td><?php echo $documento['DT_CRIACAO']; ?></td>
-									<td><a href="<?php echo $_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/'.$documento['DS_ANEXO'] ?>" title="<?php echo $documento['DS_ANEXO']; ?>" download><?php echo substr($documento['DS_ANEXO'], 0, 20) . "..." ; ?></a></td>
+									<td>
+										<a href="/_registros/anexos/<?php echo $documento['DS_ANEXO'] ?>" title="<?php echo $documento['DS_ANEXO']; ?>" download><?php echo substr($documento['DS_ANEXO'], 0, 20) . "..." ; ?>
+										</a>
+									</td>
 									<td>
 <?php 								
 										if($ativo){
 ?> 							
-											<a href="#">Excluir</a>
+											<a href="/editar/processo/excluirdocumento/<?php echo $lista['ID'] ?>/<?php echo $documento['ID'] ?>">Excluir</a>
 											
 <?php								 
 										}

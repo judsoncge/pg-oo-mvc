@@ -13,7 +13,7 @@ class Model{
 	public function setID($id){
 		$this->id = $id;
 	}
-	
+
 	public function setStatus($status){
 		$this->status = $status;
 	}
@@ -160,7 +160,7 @@ class Model{
 		
 		return mysqli_num_rows($resultado);
 		
-	}
+	}	
 	
 	public function cadastrarHistorico($tabela, $mensagem, $acao){
 		
@@ -170,6 +170,14 @@ class Model{
 		($this->id, '$mensagem', $this->servidorSessao, '$data', '$acao')";
 		
 		$resultado = $this->executarQuery($query);
+		
+		return $resultado;
+		
+	}
+	
+	public function enviarMensagem($modulo, $mensagem){
+		
+		$resultado = $this->cadastrarHistorico($modulo, "DISSE: $mensagem", 'MENSAGEM');
 		
 		return $resultado;
 		

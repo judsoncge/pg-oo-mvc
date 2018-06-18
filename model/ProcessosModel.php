@@ -18,7 +18,16 @@ class ProcessosModel extends Model{
 	private $atrasado;
 	private $sobrestado;
 	private $recebido;
+	private $responsavel;
+	private $documento;
 	
+	public function setDocumento($documento){
+		$this->documento = $documento;
+	}
+	
+	public function setResponsavel($responsavel){
+		$this->responsavel = $responsavel;
+	}
 	
 	public function setNumero($numero){
 		$this->numero = $numero;
@@ -134,6 +143,18 @@ class ProcessosModel extends Model{
 		
 	}
 	
+	public function removerResponsavel(){
+		
+		$query = "DELETE FROM tb_responsaveis_processos WHERE ID_SERVIDOR = $this->responsavel AND ID_PROCESSO = $this->id"; 
+		
+		$this->executarQuery($query);
+	
+		$resultado = $this->cadastrarHistorico('processos', 'REMOVEU UM RESPONSÁVEL', 'REMOVER RESPONSÁVEL');
+		
+		return $resultado; 
+		
+	}
+	
 	public function sair(){
 		
 		$this->editarCampo('processos', 'DS_STATUS', 'SAIU');
@@ -217,6 +238,24 @@ class ProcessosModel extends Model{
 		
 		return $resultado;
 
+	}
+	
+	public function excluirDocumento(){
+		
+		$query = "SELECT DS_ANEXO FROM tb_documentos WHERE ID = $this->documento";
+		
+		$nomeDocumento = $this->executarQueryRegistro($query);
+		
+		unlink($_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/'.$nomeDocumento);
+		
+		$query = "DELETE FROM tb_documentos WHERE ID = $this->documento";
+		
+		$this->executarQuery($query);
+		
+		$resultado = $this->cadastrarHistorico('processos', 'EXCLUIU UM DOCUMENTO', 'EXCLUSÃO DE DOCUMENTO');
+		
+		return $resultado;
+		
 	}
 	
 	public function voltar(){

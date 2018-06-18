@@ -458,7 +458,7 @@ class View{
 			?>
 			
 					<div style=' border: solid 1px rgba(0,0,0,0.1); box-shadow: 1px 1px 1px rgba(0,0,0,0.3); padding: 5px 0 5px 10px; border-radius: 5px; width:auto; background-color: <?php echo $rgb ?>; margin: 5px 0 5px 5px;'> 
-						<img class='foto-mensagem' src="/_registros/fotos/<?php echo $hist['DS_FOTO'] ?>" title=<?php echo $hist['DS_NOME'] ?>>
+						<img class='foto-mensagem' src="/_registros/fotos/<?php echo $hist['DS_FOTO'] ?>" title='<?php echo $hist['DS_NOME'] ?>'>
 							<?php echo $hist['TX_MENSAGEM'] ?>
 						<div class="pull-right">
 							<?php echo date_format(new DateTime($hist['DT_MENSAGEM']), 'd/m/Y H:i:s'); ?>
@@ -480,13 +480,12 @@ class View{
 		
 ?>
 	<div class='row linha-modal-processo'>
-		<b>Envie uma mensagem</b>:<br>
 		<form method='POST' action="/editar/<?php echo $modulo ?>/mensagem/<?php echo $id ?>/" enctype='multipart/form-data'>	
-			<div class="col-md-10">
-				<input class="form-control" id="mensagem" name="mensagem" placeholder="Digite aqui a sua mensagem (Máximo de 100 caracteres)" type="text" maxlength="100" required />	
+			<div class='col-md-10'>
+				<input class='form-control' name='mensagem' placeholder='Digite aqui a sua mensagem (Máximo de 100 caracteres)' type='text' maxlength='100' required />	
 			</div>
 			<div class='col-md-2'>
-				<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-dar-saida'>Enviar &nbsp;&nbsp;<i class="fa fa-arrow-circle-right" aria-hidden='true'></i></button>
+				<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-dar-saida'>Enviar &nbsp;&nbsp;<i class='fa fa-arrow-circle-right' aria-hidden='true'></i></button>
 			</div>
 		</form>
 	</div>
