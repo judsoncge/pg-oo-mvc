@@ -4,15 +4,18 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
 class ProcessosView extends View{
 	
-	public function adicionarScripts(){ 
+	public function adicionarScripts(){
 	
-		if($this->conteudo == 'lista' or $this->conteudo == 'visualizar'){
+		if($this->conteudo == 'lista'){
 	
-	?>		
-	
-			<script src='/view/_libs/js/receber.js'></script>
+?>			<script src='/view/_libs/js/receber.js'></script>
 			<script src='/view/_libs/js/filtros.js'></script>
 			<script src='/view/_libs/js/exportar.js'></script>
+
+<?php	
+		}elseif($this->conteudo == 'visualizar'){
+			
+?>			
 			<link rel='stylesheet' type='text/css' href='/view/_libs/css/multiple-select.css'>
 			<script type='text/javascript' src='/view/_libs/js/multiple-select.js'></script>
 			<script type='text/javascript'>
@@ -21,9 +24,9 @@ class ProcessosView extends View{
 					$('#apensos').multipleSelect();
 					
 				}
-			</script>
-		
-<?php	
+			</script>	
+
+<?php			
 		}
 	}
 	
@@ -36,7 +39,7 @@ class ProcessosView extends View{
 ?>	
 
 		<div class='well'>
-			<form id='formularioFiltro'>
+			<form>
 				<div class='row'>						
 					<div class='col-md-4'>
 						<div class='form-group'>
@@ -414,6 +417,8 @@ class ProcessosView extends View{
 		
 		$apensado = $_REQUEST['APENSADO'];
 		
+		$listaServidores = $_REQUEST['LISTA_SERVIDORES'];
+		
 ?>		
 	
 		<div class='container'>
@@ -425,9 +430,9 @@ class ProcessosView extends View{
 						
 								<div class='alert alert-warning'>O processo físico foi recebido?
 								
-									<a href='/editar/processo/devolver/<?php echo $lista['ID'] ?>'>Sim</a>
+									<a href='/editar/processo/receber/<?php echo $lista['ID'] ?>/'>Sim</a>
 									/
-									<a href='/editar/processo/devolver/<?php echo $lista['ID'] ?>'>Não</a>
+									<a href='/editar/processo/devolver/<?php echo $lista['ID'] ?>/'>Não</a>
 							
 								</div>
 						
@@ -740,11 +745,11 @@ class ProcessosView extends View{
 							</div>  
 						</div>
 						<div class="col-md-4">
-									<div class="form-group">
-										<label class="control-label" for="exampleInputEmail1">Enviar anexo</label><br>
-										<input type="file" class="" name="arquivo_anexo" id="arquivo_anexo"/>
-									</div>
-								</div>	
+							<div class="form-group">
+								<label class="control-label" for="exampleInputEmail1">Enviar anexo</label><br>
+								<input type="file" class="" name="arquivo_anexo" id="arquivo_anexo"/>
+							</div>
+						</div>	
 						<div class="col-md-2">
 							<br>
 							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Anexar &nbsp;&nbsp;<i class="fa fa-arrow-circle-right"  aria-hidden="true"></i></button>
@@ -823,26 +828,21 @@ class ProcessosView extends View{
 					</form>	
 				</div>
 				
-				<form name='teste' method='POST' action='logica/editar.php?operacao=tramitar&id=<?php echo $informacoes['ID'] ?>' enctype='multipart/form-data'>	
+				<form name='teste' method='POST' action='/editar/processo/tramitar/<?php echo $lista['ID']?>/' enctype='multipart/form-data'>	
 					<div class='row linha-modal-processo'>
 						<div class='col-md-10'>
-							<select class='form-control' id='tramitar' name='tramitar' required/>
+							<select class='form-control' id='tramitar' name='tramitar' required />
 								<option value=''>Selecione o servidor para tramitar</option>
-								
-								<?php 
-								
-									//$lista2 = retorna_servidores_tramitar($conexao_com_banco);
-									
-									//while($r2 = mysqli_fetch_object($lista2)){ 
-								
-								?>
-								
-									<option value='<?php //echo $r2->ID ?>'><?php //echo $r2->NM_SERVIDOR; ?></option>
-									
-								<?php //} ?>
+<?php 
+									foreach($listaServidores as $servidor){
+?>	
+										<option value='<?php echo $servidor['ID'] ?>'><?php echo $servidor['DS_NOME'] ?></option>		
+										
+<?php									
+									}
+?>
 							</select>
 						</div>
-						
 						<div class='col-md-2'>
 							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Tramitar &nbsp;&nbsp;<i class='fa fa-arrow-circle-right' aria-hidden='true'></i></button>
 						</div>

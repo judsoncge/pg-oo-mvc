@@ -66,6 +66,16 @@ class ServidoresModel extends Model{
 	
 	}
 	
+	public function getListaServidoresTramitar(){
+		
+		$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE DS_STATUS='ATIVO' ORDER BY DS_NOME";
+		
+		$lista = $this->executarQueryLista($query);
+		
+		return $lista;
+	
+	}
+	
 	public function getDadosID(){
 		
 		$query = "

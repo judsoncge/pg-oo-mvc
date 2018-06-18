@@ -3,7 +3,7 @@ function receber(idProcesso){
 	$.ajax({
 				
 		//chamo o php que faz a query baseado no que o usuario escolheu no select
-		url: "/editar/processo/receber/"+idProcesso+"",
+		url: "/editar/processo/receber/"+idProcesso+"/",
 		type: 'GET',
 		dataType: 'html',
 		//data: dados,
@@ -21,13 +21,11 @@ function receber(idProcesso){
 			
 			$("#recebido"+idProcesso).empty();
 			
-			$("#recebido"+idProcesso).html("<center>"+
-										"<a href='/processos/visualizar/"+idProcesso+"'>"+
+			$("#recebido"+idProcesso).html("<a href='/processos/visualizar/"+idProcesso+"'>"+
 											"<button type='button' class='btn btn-secondary btn-sm' title='Visualizar'>"+
 												"<i class='fa fa-eye' aria-hidden='true'></i>"+
 											"</button>"+
-										"</a>"+
-									"</center>");
+										"</a>");
 			
 		}
 		

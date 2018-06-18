@@ -58,6 +58,8 @@ class ProcessosController extends Controller{
 		$this->processosModel->setDetalhes($detalhes);
 		
 		$this->processosModel->setServidorLocalizacao($servidorLocalizacao);
+		
+		$this->processosModel->setServidorSessao($_SESSION['ID']);
 
 		$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->cadastrar();
 		
@@ -87,17 +89,13 @@ class ProcessosController extends Controller{
 		
 				$this->processosModel->receber();
 				
-				$this->processosModel->cadastrarHistorico('processos', $id, 'CONFIRMOU O RECEBIMENTO DO PROCESSO', $_SESSION['ID'], 'CONFIRMAR PROCESSO');
-				
-				return 0;
+				break;
 				
 			case 'devolver':
 			
 				$this->processosModel->setServidorLocalizacao($_SESSION['ID']);
 		
 				$this->processosModel->devolver();
-				
-				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->cadastrarHistorico('processos', $id, 'DEVOLVEU O PROCESSO', $_SESSION['ID'], 'RETORNAR PROCESSO');
 				
 				break;
 				
@@ -168,6 +166,20 @@ class ProcessosController extends Controller{
 				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->enviarMensagem('processos', $mensagem);
 		
 				break;
+				
+			case 'tramitar': 
+			
+				$servidor = $_POST['tramitar'];
+				
+				$this->processosModel->setServidorLocalizacao($servidor);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->tramitar();
+				
+				$_SESSION['MENSAGEM'] = $this->processosModel->getMensagemResposta();
+	
+				Header('Location: /processos/ativos/0');
+		
+				die();
 		
 		}
 		
@@ -294,6 +306,8 @@ class ProcessosController extends Controller{
 		$this->processosModel->setID($id);
 		
 		$listaDados = $this->processosModel->getDadosID();
+		
+		$_REQUEST['LISTA_SERVIDORES'] = $this->servidoresModel->getListaServidoresTramitar();
 		
 		$_REQUEST['DOCUMENTOS_PROCESSO'] = $this->processosModel->getListaDocumentos();
 		

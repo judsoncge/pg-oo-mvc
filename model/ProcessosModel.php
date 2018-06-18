@@ -111,11 +111,29 @@ class ProcessosModel extends Model{
 		
 		$id = $this->executarQueryID($query);
 		
-		$resultado = $this->cadastrarHistorico('processos', $id, 'ABRIU UM NOVO PROCESSO', $this->servidorLocalizacao, 'ABERTURA');
+		$this->setID($id);
+		
+		$resultado = $this->cadastrarHistorico('processos', 'ABRIU UM NOVO PROCESSO', 'ABERTURA');
 		
 		return $resultado;
 		
 		}
+		
+	}
+	
+	public function tramitar(){
+		
+		$query = "UPDATE tb_processos SET BL_RECEBIDO = 0, ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao WHERE ID = $this->id";
+		
+		$this->executarQuery($query);
+		
+		$query = "SELECT DS_NOME FROM tb_servidores WHERE ID = $this->servidorLocalizacao";
+		
+		$nomeServidor = strtoupper($this->executarQueryRegistro($query));
+		
+		$resultado = $this->cadastrarHistorico('processos', "TRAMITOU O PROCESSO PARA $nomeServidor",'TRAMITAÇÃO');
+		
+		return $resultado;
 		
 	}
 	
@@ -456,6 +474,10 @@ class ProcessosModel extends Model{
 		
 		$this->executarQuery($query);
 		
+		$resultado = $this->cadastrarHistorico('processos', 'CONFIRMOU O RECEBIMENTO', 'CONFIRMAR PROCESSO');
+		
+		return $resultado;
+		
 	}
 	
 	public function devolver(){
@@ -463,6 +485,10 @@ class ProcessosModel extends Model{
 		$query = "UPDATE tb_processos SET BL_RECEBIDO = 0, ID_SERVIDOR_LOCALIZACAO = (SELECT ID_SERVIDOR FROM tb_historico_processos WHERE DS_ACAO = 'TRAMITAÇÃO' AND ID_REFERENTE = $this->id ORDER BY DT_MENSAGEM DESC LIMIT 1) WHERE ID = $this->id";
 		
 		$this->executarQuery($query);
+		
+		$resultado = $this->cadastrarHistorico('processos', 'DEVOLVEU O PROCESSO', 'RETORNAR PROCESSO');
+		
+		return $resultado;
 		
 	}
 	

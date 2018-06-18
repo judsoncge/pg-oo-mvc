@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 	//submetendo o formulario que o select esta dentro
-		$('formularioFiltro').submit(function(){
+		$('form').submit(function(){
 			
 			//pegando os dados que vem do form
 			var dados = $(this).serialize();
