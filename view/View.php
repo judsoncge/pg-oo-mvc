@@ -459,10 +459,7 @@ class View{
 			
 					<div style=' border: solid 1px rgba(0,0,0,0.1); box-shadow: 1px 1px 1px rgba(0,0,0,0.3); padding: 5px 0 5px 10px; border-radius: 5px; width:auto; background-color: <?php echo $rgb ?>; margin: 5px 0 5px 5px;'> 
 						<img class='foto-mensagem' src="/_registros/fotos/<?php echo $hist['DS_FOTO'] ?>" title='<?php echo $hist['DS_NOME'] ?>'>
-							<?php echo $hist['TX_MENSAGEM'] ?>
-						<div class="pull-right">
-							<?php echo date_format(new DateTime($hist['DT_MENSAGEM']), 'd/m/Y H:i:s'); ?>
-						</div>
+							<?php echo '(' . date_format(new DateTime($hist['DT_MENSAGEM']), 'd/m/Y H:i:s') . '): ' . $hist['TX_MENSAGEM'] ?>
 					</div>	
 
 			<?php

@@ -20,6 +20,24 @@ class ProcessosModel extends Model{
 	private $recebido;
 	private $responsavel;
 	private $documento;
+	private $justificativaSobrestado;
+	private $tipoDocumento;
+	private $anexoDocumento;
+	
+	public function setTipoDocumento($tipoDocumento){
+		
+		$this->tipoDocumento = $tipoDocumento;
+	}
+	
+	public function setAnexoDocumento($anexoDocumento){
+		
+		$this->anexoDocumento = $anexoDocumento;
+	}
+	
+	public function setJustificativaSobrestado($justificativaSobrestado){
+		
+		$this->justificativaSobrestado = $justificativaSobrestado;
+	}
 	
 	public function setDocumento($documento){
 		$this->documento = $documento;
@@ -118,6 +136,22 @@ class ProcessosModel extends Model{
 		return $resultado;
 		
 		}
+		
+	}
+	
+	public function cadastrarDocumento(){
+		
+		$data = date('Y-m-d');
+		
+		$nomeAnexo = registrarAnexo($this->anexoDocumento, $_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/');
+		
+		$query = "INSERT INTO tb_documentos (ID_PROCESSO, DS_TIPO, DT_CRIACAO, ID_SERVIDOR_CRIACAO, DS_ANEXO) VALUES ($this->id, '$this->tipoDocumento', '$data', $this->servidorSessao, '$nomeAnexo')";
+		
+		$this->executarQuery($query);
+		
+		$resultado = $this->cadastrarHistorico('processos', 'ANEXOU UM DOCUMENTO AO PROCESSO','CRIAÇÃO DE DOCUMENTO');
+		
+		return $resultado;
 		
 	}
 	
@@ -512,6 +546,26 @@ class ProcessosModel extends Model{
 		
 		return $lista;
 		
+		
+	}
+	
+	public function solicitarSobrestado(){
+		
+		$data = date('Y-m-d H:i:s');
+		
+		$query = "INSERT INTO tb_processos_sobrestados (ID_PROCESSO, ID_SERVIDOR_SOLICITANTE, DS_JUSTIFICATIVA, ID_SERVIDOR_RESPOSTA, DT_SOLICITACAO, DT_RESPOSTA, DS_STATUS) VALUES ($this->id, $this->servidorSessao, '$this->justificativaSobrestado', $this->servidorSessao, '$data', '$data', 'ACEITO')";
+		
+		$this->executarQuery($query);
+		
+		$resultado = $this->cadastrarHistorico('processos', "SOLICITOU COLOCAR PROCESSO EM SOBRESTADO: $this->justificativaSobrestado", 'SOBRESTADO');
+		
+		$query = "UPDATE tb_processos SET BL_SOBRESTADO = 1 WHERE ID = $this->id";
+		
+		$this->executarQuery($query);
+		
+		$resultado = $this->cadastrarHistorico('processos', 'ACEITOU A SOLICITAÇÃO E MARCOU O PROCESSO COMO SOBRESTADO', 'SOBRESTADO');
+		
+		return $resultado;
 		
 	}
 	

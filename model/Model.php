@@ -194,7 +194,7 @@ class Model{
 		
 		INNER JOIN tb_servidores s ON a.ID_SERVIDOR = s.ID
 		
-		WHERE a.ID_REFERENTE = ".$id." 
+		WHERE a.ID_REFERENTE = $id
 		
 		ORDER BY DT_MENSAGEM DESC
 		

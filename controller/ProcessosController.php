@@ -167,6 +167,34 @@ class ProcessosController extends Controller{
 		
 				break;
 				
+			case 'solicitarsobrestado':
+			
+				$justificativa = (isset($_POST['justificativa'])) ? $_POST['justificativa'] : NULL;
+				
+				$this->processosModel->setJustificativaSobrestado($justificativa);
+			
+				$this->processosModel->setServidorSessao($_SESSION['ID']);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->solicitarSobrestado();
+				
+				break;	
+					
+			case 'anexardocumento':
+			
+				$tipo = $_POST['tipo'];
+				
+				$anexo = $_FILES['arquivoAnexo'];
+				
+				$this->processosModel->setTipoDocumento($tipo);
+				
+				$this->processosModel->setAnexoDocumento($anexo);
+				
+				$this->processosModel->setServidorSessao($_SESSION['ID']);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->cadastrarDocumento();
+				
+				break;
+				
 			case 'tramitar': 
 			
 				$servidor = $_POST['tramitar'];

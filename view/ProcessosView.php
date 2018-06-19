@@ -725,34 +725,34 @@ class ProcessosView extends View{
 ?>
 				
 				<div class='row linha-modal-processo'>
-					<label class="control-label" for="exampleInputEmail1"><b>Solicitar Sobrestado:</b></label>
-					<form method='POST' action='#' enctype='multipart/form-data'>	
-						<div class="col-md-10">
-							<input class="form-control" id="justificativa" name="justificativa" placeholder="Digite aqui a sua justificativa (Máximo de 50 caracteres)" type="text" maxlength="50" required />	
+					<label class='control-label' for='exampleInputEmail1'><b>Solicitar Sobrestado:</b></label>
+					<form method='POST' action="/editar/processo/solicitarsobrestado/<?php echo $lista['ID']?>" enctype='multipart/form-data'>	
+						<div class='col-md-10'>
+							<input class='form-control' id='justificativa' name='justificativa' placeholder='Digite aqui a sua justificativa (Máximo de 100 caracteres)' type='text' maxlength='100' required />	
 						</div>
 						<div class='col-md-2'>
-							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar' onclick="play()">Solicitar &nbsp;&nbsp;<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar' >Solicitar &nbsp;&nbsp;<i class='fa fa-arrow-circle-right' aria-hidden='true'></i></button>
 						</div>
 					</form>
 				</div>	
 
 				<div class='row linha-modal-processo'>
-					<form method='POST' action='#' enctype='multipart/form-data'>	
-						<div class="col-md-6">
-							<div class="form-group">
-								<label class="control-label" for="exampleInputEmail1"><b>Anexar documento:</b></label>
+					<form method='POST' action="/editar/processo/anexardocumento/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	
+						<div class='col-md-6'>
+							<div class='form-group'>
+								<label class='control-label' for='exampleInputEmail1'><b>Anexar documento:</b></label>
 									<?php $this->carregarSelectTiposDocumento(); ?>
 							</div>  
 						</div>
-						<div class="col-md-4">
-							<div class="form-group">
-								<label class="control-label" for="exampleInputEmail1">Enviar anexo</label><br>
-								<input type="file" class="" name="arquivo_anexo" id="arquivo_anexo"/>
+						<div class='col-md-4'>
+							<div class='form-group'>
+								<label class='control-label' for='exampleInputEmail1'>Enviar anexo</label><br>
+								<input type='file' class='' name='arquivoAnexo' id='arquivoAnexo'/>
 							</div>
 						</div>	
-						<div class="col-md-2">
+						<div class='col-md-2'>
 							<br>
-							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Anexar &nbsp;&nbsp;<i class="fa fa-arrow-circle-right"  aria-hidden="true"></i></button>
+							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Anexar &nbsp;&nbsp;<i class='fa fa-arrow-circle-right'  aria-hidden='true'></i></button>
 						</div>
 					</form>	
 				</div>

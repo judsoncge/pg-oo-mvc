@@ -123,3 +123,9 @@ ALTER TABLE `tb_responsaveis_processos` DROP FOREIGN KEY `tb_responsaveis_proces
 
 ALTER TABLE `tb_tramitacao_processos` DROP FOREIGN KEY `tb_tramitacao_processos_ibfk_1`; ALTER TABLE `tb_tramitacao_processos` ADD CONSTRAINT `tb_tramitacao_processos_ibfk_1` FOREIGN KEY (`ID_PROCESSO`) REFERENCES `tb_processos`(`ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
+ALTER TABLE `tb_processos_sobrestados` CHANGE `NM_JUSTIFICATIVA` `DS_JUSTIFICATIVA` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, CHANGE `NM_STATUS` `DS_STATUS` ENUM('SOLICITADO','ACEITO','RECUSADO') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'SOLICITADO';
+
+ALTER TABLE `tb_processos_sobrestados` CHANGE `DS_JUSTIFICATIVA` `DS_JUSTIFICATIVA` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
+UPDATE tb_historico_processos SET TX_MENSAGEM = 'ANEXOU UM DOCUMENTO AO PROCESSO' WHERE DS_ACAO = '';
+UPDATE tb_historico_processos SET DS_ACAO = 'CRIAÇÃO DE DOCUMENTO' WHERE DS_ACAO = '';
