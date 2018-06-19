@@ -23,6 +23,12 @@ class ProcessosModel extends Model{
 	private $justificativaSobrestado;
 	private $tipoDocumento;
 	private $anexoDocumento;
+	private $listaResponsaveis;
+	
+	public function setListaResponsaveis($listaResponsaveis){
+		
+		$this->listaResponsaveis = $listaResponsaveis;
+	}
 	
 	public function setTipoDocumento($tipoDocumento){
 		
@@ -155,6 +161,16 @@ class ProcessosModel extends Model{
 		
 	}
 	
+	public function getListaPodemSerResponsaveis(){
+		
+		$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE DS_FUNCAO = 'TÉCNICO ANALISTA' AND DS_STATUS = 'ATIVO' AND ID NOT IN (SELECT ID_SERVIDOR FROM tb_responsaveis_processos WHERE ID_PROCESSO='$this->id') ORDER BY DS_NOME";
+		
+		$lista = $this->executarQueryLista($query);
+		
+		return $lista;
+
+	}
+	
 	public function tramitar(){
 		
 		$query = "UPDATE tb_processos SET BL_RECEBIDO = 0, ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao WHERE ID = $this->id";
@@ -190,6 +206,35 @@ class ProcessosModel extends Model{
 		$mensagem = ($_GET['valor']) ? 'MARCOU COMO URGENTE' : 'DESMARCOU A URGENCIA DESTE PROCESSO';
 		
 		$resultado = $this->cadastrarHistorico('processos', $mensagem, 'URGENTE');
+		
+		return $resultado; 
+		
+	}
+	
+	public function definirResponsaveis(){
+		
+		for ($i=0;$i<count($this->listaResponsaveis);$i++){
+	
+			$query = "INSERT INTO tb_responsaveis_processos (ID_PROCESSO, ID_SERVIDOR, BL_LIDER) VALUES ($this->id, ".$this->listaResponsaveis[$i].", 0)";
+			
+			$this->executarQuery($query);
+	
+		}
+
+		$query = "SELECT count(*) FROM tb_responsaveis_processos WHERE ID_PROCESSO = $this->id";
+		
+		$quantidadeResponsaveis = $this->executarQueryRegistro($query);
+		
+		//se existir exatamente 1 responsável, ele se torna o líder.
+		if($quantidadeResponsaveis == 1){
+			
+			$query = "UPDATE tb_responsaveis_processos SET BL_LIDER = 1 WHERE ID_PROCESSO = $this->id";
+			
+			$this->executarQuery($query);;
+			
+		}
+		
+		$resultado = $this->cadastrarHistorico('processos', 'DEFINIU OS RESPONSÁVEIS DO PROCESSO','RESPONSÁVEIS');
 		
 		return $resultado; 
 		

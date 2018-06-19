@@ -143,6 +143,16 @@ class ProcessosController extends Controller{
 				
 				break;
 				
+			case 'definirresponsaveis':
+			
+				$responsaveis = $_POST['responsaveis'];
+			
+				$this->processosModel->setListaResponsaveis($responsaveis);
+			
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->definirResponsaveis();
+				
+				break;
+				
 			case 'removerresponsavel':
 			
 				$this->processosModel->setResponsavel($_GET['valor']);
@@ -344,6 +354,8 @@ class ProcessosController extends Controller{
 		$_REQUEST['PROCESSOS_APENSADOS'] = $this->processosModel->getListaApensados();
 		
 		$_REQUEST['HISTORICO_PROCESSO'] = $this->processosModel->getHistorico('processos', $id);
+		
+		$_REQUEST['LISTA_PODEM_SER_RESPONSAVEIS'] = $this->processosModel->getListaPodemSerResponsaveis();
 		
 		$_REQUEST['ATIVO'] = ($listaDados['DS_STATUS'] != 'ARQUIVADO' && $listaDados['DS_STATUS'] != 'SAIU') ? 1 : 0;
 		

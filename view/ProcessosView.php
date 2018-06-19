@@ -419,6 +419,8 @@ class ProcessosView extends View{
 		
 		$listaServidores = $_REQUEST['LISTA_SERVIDORES'];
 		
+		$listaPodemSerResponsaveis = $_REQUEST['LISTA_PODEM_SER_RESPONSAVEIS'];
+		
 ?>		
 	
 		<div class='container'>
@@ -758,23 +760,19 @@ class ProcessosView extends View{
 				</div>
 				
 				<div class='row linha-modal-processo'>
-					<form method='POST' action='#' enctype='multipart/form-data'>	
+					<form method='POST' action="/editar/processo/definirresponsaveis/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	
 						<div class='col-md-10'>
 							<label class='control-label' for='exampleInputEmail1'><b>Defina os responsáveis</b>:</label><br>
 							<select multiple id='responsaveis' name='responsaveis[]' style='width: 96%;' required>
-								<?php 
-								
-								//$lista3 = 
-								
-								//retorna_podem_ser_responsaveis_processo($informacoes['ID'], $conexao_com_banco);
-								
-								//while($r3 = mysqli_fetch_object($lista3)){ ?>
-								
-									<option value="<?php //echo $r3->ID ?>">
-										<?php //echo "  " . $r3->NM_SERVIDOR; ?>
-									</option>
-								
-								<?php //} ?>
+<?php 
+									foreach($listaPodemSerResponsaveis as $podeSerResponsavel){			
+?>
+										<option value="<?php echo $podeSerResponsavel['ID'] ?>">
+											<?php echo "  " .$podeSerResponsavel['DS_NOME']; ?>
+										</option>	
+<?php 
+									} 
+?>
 							</select>
 						</div>
 						<div class='col-md-2'>
