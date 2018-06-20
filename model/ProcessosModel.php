@@ -24,10 +24,17 @@ class ProcessosModel extends Model{
 	private $tipoDocumento;
 	private $anexoDocumento;
 	private $listaResponsaveis;
+	private $listaApensos;
+	private $responsavelLider;
 	
 	public function setListaResponsaveis($listaResponsaveis){
 		
 		$this->listaResponsaveis = $listaResponsaveis;
+	}
+	
+	public function setListaApensos($listaApensos){
+		
+		$this->listaApensos = $listaApensos;
 	}
 	
 	public function setTipoDocumento($tipoDocumento){
@@ -51,6 +58,10 @@ class ProcessosModel extends Model{
 	
 	public function setResponsavel($responsavel){
 		$this->responsavel = $responsavel;
+	}
+	
+	public function setResponsavelLider($responsavelLider){
+		$this->responsavelLider = $responsavelLider;
 	}
 	
 	public function setNumero($numero){
@@ -171,9 +182,19 @@ class ProcessosModel extends Model{
 
 	}
 	
+	public function getListaProcessosApensar(){
+		
+		$query = "SELECT ID, DS_NUMERO FROM tb_processos WHERE ID_SERVIDOR_LOCALIZACAO = $this->servidorSessao";
+		
+		$lista = $this->executarQueryLista($query);
+		
+		return $lista;
+
+	}
+	
 	public function tramitar(){
 		
-		$query = "UPDATE tb_processos SET BL_RECEBIDO = 0, ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao WHERE ID = $this->id";
+		$query = "UPDATE tb_processos SET BL_RECEBIDO = 0, ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
 		
 		$this->executarQuery($query);
 		
@@ -189,7 +210,9 @@ class ProcessosModel extends Model{
 	
 	public function marcarSobrestado(){
 		
-		$this->editarCampo('processos', 'BL_SOBRESTADO', $this->sobrestado);
+		$query = "UPDATE tb_processos SET BL_SOBRESTADO = $this->sobrestado WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		
+		$this->executarQuery($query);
 				
 		$mensagem = ($_GET['valor']) ? 'MARCOU O PROCESSO COMO SOBRESTADO' : 'DESMARCOU O SOBRESTADO DESTE PROCESSO';
 		
@@ -201,11 +224,37 @@ class ProcessosModel extends Model{
 	
 	public function marcarUrgencia(){
 		
-		$this->editarCampo('processos', 'BL_URGENCIA', $this->urgencia);
+		$query = "UPDATE tb_processos SET BL_URGENCIA = $this->urgencia WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		
+		$this->executarQuery($query);
 				
 		$mensagem = ($_GET['valor']) ? 'MARCOU COMO URGENTE' : 'DESMARCOU A URGENCIA DESTE PROCESSO';
 		
 		$resultado = $this->cadastrarHistorico('processos', $mensagem, 'URGENTE');
+		
+		return $resultado; 
+		
+	}
+	
+	public function apensarProcessos(){
+		
+		for($i=0;$i<count($this->listaApensos);$i++){
+	
+			$query = "INSERT INTO tb_processos_apensados (ID_PROCESSO, ID_PROCESSO_APENSADO) VALUES ($this->id, ".$this->listaApensos[$i].")";
+			
+			$this->executarQuery($query);
+	
+		}
+		
+		$query = "SELECT MAX(DT_PRAZO) FROM tb_processos WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		
+		$maiorData = $this->executarQueryRegistro($query);
+		
+		$query = "UPDATE tb_processos SET DT_PRAZO = '$maiorData' WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		
+		$this->executarQuery($query);
+
+		$resultado = $this->cadastrarHistorico('processos', 'APENSOU PROCESSOS A ESTE PROCESSO','APENSAR');
 		
 		return $resultado; 
 		
@@ -240,6 +289,22 @@ class ProcessosModel extends Model{
 		
 	}
 	
+	public function definirResponsavelLider(){
+		
+		$query = "UPDATE tb_responsaveis_processos SET BL_LIDER = 1 WHERE ID_PROCESSO = $this->id AND ID_SERVIDOR = $this->responsavelLider";
+		
+		$this->executarQuery($query);
+		
+		$query = "UPDATE tb_responsaveis_processos SET BL_LIDER = 0 WHERE ID_PROCESSO = $this->id AND ID_SERVIDOR != $this->responsavelLider";
+		
+		$this->executarQuery($query);
+		
+		$resultado = $this->cadastrarHistorico('processos', 'DEFINIU O RESPONSÁVEL LÍDER','LÍDER');
+		
+		return $resultado; 
+		
+	}
+	
 	public function removerResponsavel(){
 		
 		$query = "DELETE FROM tb_responsaveis_processos WHERE ID_SERVIDOR = $this->responsavel AND ID_PROCESSO = $this->id"; 
@@ -252,21 +317,11 @@ class ProcessosModel extends Model{
 		
 	}
 	
-	public function sair(){
-		
-		$this->editarCampo('processos', 'DS_STATUS', 'SAIU');
-				
-		$mensagem = 'DEU SAÍDA NO PROCESSO';
-		
-		$resultado = $this->cadastrarHistorico('processos', $mensagem, 'URGENTE');
-		
-		return $resultado; 
-		
-	}
-	
 	public function editarStatus(){
 		
-		$this->editarCampo('processos', 'DS_STATUS', $this->status);
+		$query = "UPDATE tb_processos SET DS_STATUS = '$this->status' WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		
+		$this->executarQuery($query);
 		
 		switch($this->status){
 				
@@ -288,7 +343,11 @@ class ProcessosModel extends Model{
 				
 			case 'SAIU':
 			
-				$this->editarCampo('processos', 'DT_SAIDA', date('Y-m-d H:i:s'));
+				$data = date('Y-m-d');
+				
+				$query = "UPDATE tb_processos SET DT_SAIDA = '$data' WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+				
+				$this->executarQuery($query);
 				
 				$mensagem = 'DEU SAÍDA NO PROCESSO';
 				
@@ -298,7 +357,11 @@ class ProcessosModel extends Model{
 				
 			case 'ARQUIVADO':
 			
-				$this->editarCampo('processos', 'DT_SAIDA', date('Y-m-d H:i:s'));
+				$data = date('Y-m-d');
+				
+				$query = "UPDATE tb_processos SET DT_SAIDA = '$data' WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+				
+				$this->executarQuery($query);
 				
 				$mensagem = 'ARQUIVOU O PROCESSO';
 				
@@ -316,7 +379,9 @@ class ProcessosModel extends Model{
 	
 	public function desfazerStatus(){
 		
-		$this->editarCampo('processos', 'DS_STATUS', $this->status);
+		$query = "UPDATE tb_processos SET DS_STATUS = '$this->status' WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		
+		$this->executarQuery($query);
 		
 		switch($this->status){
 			
@@ -369,7 +434,7 @@ class ProcessosModel extends Model{
 		
 		$this->prazo = somarData($this->dataEntrada, $qtdDiasPrazo);
 		
-		$query = "UPDATE tb_processos SET DT_ENTRADA = '$this->dataEntrada', DT_PRAZO = '$this->prazo', DT_SAIDA = NULL, NR_DIAS = 0, DS_STATUS = 'EM ANDAMENTO' WHERE ID = $this->id";
+		$query = "UPDATE tb_processos SET DT_ENTRADA = '$this->dataEntrada', DT_PRAZO = '$this->prazo', DT_SAIDA = NULL, NR_DIAS = 0, DS_STATUS = 'EM ANDAMENTO' WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
 		
 		$this->executarQuery($query);
 		
@@ -391,7 +456,7 @@ class ProcessosModel extends Model{
 
 		}
 		
-		$query = "UPDATE tb_processos SET DT_SAIDA = NULL WHERE ID = $this->id";
+		$query = "UPDATE tb_processos SET DT_SAIDA = NULL WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
 		
 		$this->executarQuery($query);
 		
@@ -415,7 +480,7 @@ class ProcessosModel extends Model{
 		c.DS_NOME NOME_SETOR,
 		d.DS_NOME NOME_ASSUNTO,
 		e.DS_NOME NOME_ORGAO,
-		f.ID_PROCESSO_MAE,
+		f.ID_PROCESSO,
 		g.DS_NUMERO NUMERO_PROCESSO_MAE
 		
 		FROM tb_processos a
@@ -425,7 +490,7 @@ class ProcessosModel extends Model{
 		LEFT JOIN tb_assuntos_processos d ON a.ID_ASSUNTO = d.ID 
 		LEFT JOIN tb_orgaos e ON a.ID_ORGAO_INTERESSADO = e.ID
 		LEFT JOIN tb_processos_apensados f ON a.ID = f.ID_PROCESSO_APENSADO
-		LEFT JOIN tb_processos g ON f.ID_PROCESSO_MAE = g.ID
+		LEFT JOIN tb_processos g ON f.ID_PROCESSO = g.ID
 		
 		WHERE a.ID = $this->id
 		
@@ -549,7 +614,7 @@ class ProcessosModel extends Model{
 	
 	public function receber(){
 		
-		$query = "UPDATE tb_processos SET BL_RECEBIDO = 1, ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao WHERE ID = $this->id";
+		$query = "UPDATE tb_processos SET BL_RECEBIDO = 1, ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
 		
 		$this->executarQuery($query);
 		
@@ -561,7 +626,7 @@ class ProcessosModel extends Model{
 	
 	public function devolver(){
 		
-		$query = "UPDATE tb_processos SET BL_RECEBIDO = 0, ID_SERVIDOR_LOCALIZACAO = (SELECT ID_SERVIDOR FROM tb_historico_processos WHERE DS_ACAO = 'TRAMITAÇÃO' AND ID_REFERENTE = $this->id ORDER BY DT_MENSAGEM DESC LIMIT 1) WHERE ID = $this->id";
+		$query = "UPDATE tb_processos SET BL_RECEBIDO = 0, ID_SERVIDOR_LOCALIZACAO = (SELECT ID_SERVIDOR FROM tb_historico_processos WHERE DS_ACAO = 'TRAMITAÇÃO' AND ID_REFERENTE = $this->id ORDER BY DT_MENSAGEM DESC LIMIT 1) WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
 		
 		$this->executarQuery($query);
 		
@@ -604,7 +669,7 @@ class ProcessosModel extends Model{
 		
 		$resultado = $this->cadastrarHistorico('processos', "SOLICITOU COLOCAR PROCESSO EM SOBRESTADO: $this->justificativaSobrestado", 'SOBRESTADO');
 		
-		$query = "UPDATE tb_processos SET BL_SOBRESTADO = 1 WHERE ID = $this->id";
+		$query = "UPDATE tb_processos SET BL_SOBRESTADO = 1 WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
 		
 		$this->executarQuery($query);
 		
@@ -622,7 +687,7 @@ class ProcessosModel extends Model{
 
 		FROM tb_processos a 
 
-		INNER JOIN tb_processos_apensados b ON a.ID = b.ID_PROCESSO_MAE 
+		INNER JOIN tb_processos_apensados b ON a.ID = b.ID_PROCESSO 
 		INNER JOIN tb_processos c ON b.ID_PROCESSO_APENSADO = c.ID 
 
 		WHERE a.ID = $this->id

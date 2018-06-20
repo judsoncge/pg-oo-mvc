@@ -152,6 +152,16 @@ class ProcessosController extends Controller{
 				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->definirResponsaveis();
 				
 				break;
+			
+			case 'definirlider':
+			
+				$lider = $_POST['lider'];
+			
+				$this->processosModel->setResponsavelLider($lider);
+			
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->definirResponsavelLider();
+				
+				break;
 				
 			case 'removerresponsavel':
 			
@@ -202,6 +212,16 @@ class ProcessosController extends Controller{
 				$this->processosModel->setServidorSessao($_SESSION['ID']);
 				
 				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->cadastrarDocumento();
+				
+				break;
+				
+			case 'apensar':
+			
+				$apensos = $_POST['apensos'];
+			
+				$this->processosModel->setListaApensos($apensos);
+			
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->apensarProcessos();
 				
 				break;
 				
@@ -343,6 +363,8 @@ class ProcessosController extends Controller{
 		
 		$this->processosModel->setID($id);
 		
+		$this->processosModel->setServidorSessao($_SESSION['ID']);
+		
 		$listaDados = $this->processosModel->getDadosID();
 		
 		$_REQUEST['LISTA_SERVIDORES'] = $this->servidoresModel->getListaServidoresTramitar();
@@ -356,6 +378,8 @@ class ProcessosController extends Controller{
 		$_REQUEST['HISTORICO_PROCESSO'] = $this->processosModel->getHistorico('processos', $id);
 		
 		$_REQUEST['LISTA_PODEM_SER_RESPONSAVEIS'] = $this->processosModel->getListaPodemSerResponsaveis();
+		
+		$_REQUEST['LISTA_APENSAR'] = $this->processosModel->getListaProcessosApensar();
 		
 		$_REQUEST['ATIVO'] = ($listaDados['DS_STATUS'] != 'ARQUIVADO' && $listaDados['DS_STATUS'] != 'SAIU') ? 1 : 0;
 		

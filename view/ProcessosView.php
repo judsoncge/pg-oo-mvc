@@ -421,6 +421,8 @@ class ProcessosView extends View{
 		
 		$listaPodemSerResponsaveis = $_REQUEST['LISTA_PODEM_SER_RESPONSAVEIS'];
 		
+		$listaProcessosApensar = $_REQUEST['LISTA_APENSAR'];
+		
 ?>		
 	
 		<div class='container'>
@@ -782,23 +784,22 @@ class ProcessosView extends View{
 					</form>	
 				</div>
 				
-				<form name='teste' method='POST' action='#' enctype='multipart/form-data'>
+				<form name='teste' method='POST' action="/editar/processo/definirlider/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>
 					<div class='row linha-modal-processo'>
 						<div class='col-md-10'>
 							<label class='control-label' for='exampleInputEmail1'><b>Defina o responsável líder</b>:</label><br>
 							<select class='form-control' id='lider' name='lider' required />
 								
-								<option value=''>Líder atual: </option>
-<?php 
-								//$lista2 = retorna_lista_nao_lideres_processo($id, $conexao_com_banco);
+								<option value=''>Selecione</option>
 								
-								//while($r2 = mysqli_fetch_object($lista2)){ 
+<?php 
+								foreach($listaResponsaveis as $responsavel){
 								
 ?>	
-									<option value="<?php //echo $r2->ID_SERVIDOR ?>"><?php //echo $r2->NM_SERVIDOR; ?></option>
+									<option value="<?php echo $responsavel['ID_SERVIDOR'] ?>"><?php echo $responsavel['NOME_SERVIDOR']; ?></option>
 									
 <?php 							
-								//} 
+								} 
 ?>
 							</select>
 						</div>
@@ -810,13 +811,17 @@ class ProcessosView extends View{
 				</form>
 				
 				<div class='row linha-modal-processo'>
-					<form method='POST' action='#' enctype='multipart/form-data'>	
+					<form method='POST' action="/editar/processo/apensar/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	
 						<div class='col-md-10'>
 							<label class='control-label' for='exampleInputEmail1'><b>Defina os Apensos</b>:</label><br>
 							<select multiple id='apensos' name='apensos[]' style='width: 96%;' required>
-								<?php //$lista3 = retorna_processos_apensar($id, $conexao_com_banco);
-								//'while($r3 = mysqli_fetch_object($lista3)){ ?>
-								<option value="<?php //echo $r3->ID ?>"><?php //echo $r3->CD_PROCESSO ?></option><?php //} ?>
+<?php 							
+								foreach($listaProcessosApensar as $processo){
+?>
+									<option value="<?php echo $processo['ID'] ?>"><?php echo $processo['DS_NUMERO'] ?></option>
+								
+<?php 							} 
+?>
 							</select>
 						</div>
 						<div class='col-md-2'>
