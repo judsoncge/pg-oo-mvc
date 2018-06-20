@@ -230,7 +230,7 @@ class ComunicacaoModel extends Model{
 		return $lista;
 	}
 	
-	public function excluir($tabela, $id){
+	public function excluir(){
 		
 		switch($tabela){
 			

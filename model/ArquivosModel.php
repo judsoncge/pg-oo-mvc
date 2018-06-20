@@ -90,7 +90,7 @@ class ArquivosModel extends Model{
 
 	}
 	
-	public function excluir($tabela, $id){
+	public function excluir(){
 		
 		unlink($_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/'.$this->anexo);
 		

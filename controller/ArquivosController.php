@@ -115,7 +115,7 @@ class ArquivosController extends Controller{
 		
 		$this->arquivosModel->setAnexo($_GET['anexo']);
 		
-		$_SESSION['RESULTADO_OPERACAO'] = $this->arquivosModel->excluir('tb_arquivos', $_GET['id']);
+		$_SESSION['RESULTADO_OPERACAO'] = $this->arquivosModel->excluir();
 		
 		$_SESSION['MENSAGEM'] = $this->arquivosModel->getMensagemResposta();
 		

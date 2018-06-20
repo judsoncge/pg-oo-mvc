@@ -9,9 +9,15 @@ class Model{
 	protected $id;
 	protected $status;
 	protected $servidorSessao;
+	protected $tabela;
+	protected $coluna;
 	
 	public function setID($id){
 		$this->id = $id;
+	}
+	
+	public function setTabela($tabela){
+		$this->tabela = $tabela;
 	}
 
 	public function setStatus($status){
@@ -216,9 +222,9 @@ class Model{
 		
 	}
 	
-	public function excluir($tabela, $id){
+	public function excluir(){
 		
-		$query = "DELETE FROM $tabela WHERE ID=$id";
+		$query = "DELETE FROM $this->tabela WHERE ID=$this->id";
 		
 		$resultado = $this->executarQuery($query);
 		

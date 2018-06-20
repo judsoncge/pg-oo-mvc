@@ -195,7 +195,7 @@ class ComunicacaoController extends Controller{
 	
 	public function excluir(){
 		
-		$_SESSION['RESULTADO_OPERACAO'] = $this->comunicacaoModel->excluir('tb_comunicacao', $_GET['id']);
+		$_SESSION['RESULTADO_OPERACAO'] = $this->comunicacaoModel->excluir();
 		
 		$_SESSION['MENSAGEM'] = $this->comunicacaoModel->getMensagemResposta();
 		

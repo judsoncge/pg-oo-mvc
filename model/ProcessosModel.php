@@ -184,7 +184,7 @@ class ProcessosModel extends Model{
 	
 	public function getListaProcessosApensar(){
 		
-		$query = "SELECT ID, DS_NUMERO FROM tb_processos WHERE ID_SERVIDOR_LOCALIZACAO = $this->servidorSessao";
+		$query = "SELECT ID, DS_NUMERO FROM tb_processos WHERE ID != $this->id AND ID_SERVIDOR_LOCALIZACAO = $this->servidorSessao AND BL_RECEBIDO = 1";
 		
 		$lista = $this->executarQueryLista($query);
 		
@@ -296,6 +296,14 @@ class ProcessosModel extends Model{
 		$this->executarQuery($query);
 		
 		$query = "UPDATE tb_responsaveis_processos SET BL_LIDER = 0 WHERE ID_PROCESSO = $this->id AND ID_SERVIDOR != $this->responsavelLider";
+		
+		$this->executarQuery($query);
+		
+		$query = "SELECT ID_SETOR FROM tb_servidores WHERE ID_SERVIDOR = $this->responsavelLider";
+		
+		$setor = $this->executarQueryRegistro($query);
+		
+		$query = "UPDATE tb_processos SET ID_SETOR_RESPONSAVEL = $setor WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
 		
 		$this->executarQuery($query);
 		
@@ -481,7 +489,8 @@ class ProcessosModel extends Model{
 		d.DS_NOME NOME_ASSUNTO,
 		e.DS_NOME NOME_ORGAO,
 		f.ID_PROCESSO,
-		g.DS_NUMERO NUMERO_PROCESSO_MAE
+		g.DS_NUMERO NUMERO_PROCESSO_MAE,
+		g.ID ID_PROCESSO_MAE
 		
 		FROM tb_processos a
 		
@@ -722,6 +731,30 @@ class ProcessosModel extends Model{
 		
 		return $lista;
 		
+	}
+	
+	public function excluir(){
+		
+		$query = "SELECT DS_ANEXO FROM tb_documentos WHERE ID_PROCESSO = $this->id OR ID_PROCESSO IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		
+		$listaDocumentos = $this->executarQueryLista($query);
+		
+		foreach($listaDocumentos as $documento){
+			
+			$this->excluirArquivo('anexos', $documento['DS_ANEXO']);
+	
+		}
+	
+		$query = "DELETE FROM tb_processos WHERE ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		
+		$this->executarQuery($query);
+		
+		$query = "DELETE FROM tb_processos WHERE ID = $this->id";
+		
+		$resultado = $this->executarQuery($query);
+		
+		return $resultado;
+	
 	}
 
 }	

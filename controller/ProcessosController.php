@@ -249,7 +249,9 @@ class ProcessosController extends Controller{
 	
 	public function excluir(){
 		
-		$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->excluir('tb_processos', $_GET['id']);
+		$this->processosModel->setID($_GET['id']);
+		
+		$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->excluir();
 		
 		$_SESSION['MENSAGEM'] = $this->processosModel->getMensagemResposta();
 		

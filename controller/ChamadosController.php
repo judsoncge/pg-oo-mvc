@@ -93,7 +93,7 @@ class ChamadosController extends Controller{
 	
 	public function excluir(){
 		
-		$_SESSION['RESULTADO_OPERACAO'] = $this->chamadosModel->excluir('tb_chamados', $_GET['id']);
+		$_SESSION['RESULTADO_OPERACAO'] = $this->chamadosModel->excluir();
 		
 		$_SESSION['MENSAGEM'] = $this->chamadosModel->getMensagemResposta();
 		
