@@ -144,11 +144,11 @@ class Model{
 
 	}
 	
-	public function verificaExisteRegistro($tabela, $campo, $valor){
+	public function verificaExisteRegistro($campo, $valor){
 		
 		$this->conectar();
 		
-		$resultado = mysqli_query($this->conexao, "SELECT * FROM $tabela WHERE $campo='$valor'") or die(mysqli_error($this->conexao));
+		$resultado = mysqli_query($this->conexao, "SELECT * FROM tb_$this->tabela WHERE $campo='$valor'") or die(mysqli_error($this->conexao));
 		
 		$this->desconectar();
 		
@@ -156,11 +156,11 @@ class Model{
 		
 	}
 	
-	public function verificaExisteRegistroId($tabela, $campo, $valor, $id){
+	public function verificaExisteRegistroId($campo, $valor){
 		
 		$this->conectar();
 		
-		$resultado = mysqli_query($this->conexao, "SELECT * FROM $tabela WHERE $campo='$valor' and ID!='$id'") or die(mysqli_error($this->conexao));
+		$resultado = mysqli_query($this->conexao, "SELECT * FROM tb_$this->tabela WHERE $campo='$valor' and ID!= $this->id") or die(mysqli_error($this->conexao));
 		
 		$this->desconectar();
 		
@@ -213,8 +213,6 @@ class Model{
 	}
 	
 	public function editarStatus(){
-		
-		echo $this->status;
 		
 		$query = "UPDATE tb_$this->tabela SET DS_STATUS = '$this->status' WHERE ID = $this->id";
 		

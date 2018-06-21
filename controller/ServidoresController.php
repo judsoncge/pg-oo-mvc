@@ -7,6 +7,7 @@ class ServidoresController extends Controller{
 	function __construct(){
 		
 		$this->servidoresModel = new ServidoresModel();
+		$this->servidoresModel->setTabela('servidores');
 		$this->servidoresView  = new ServidoresView();
 		$this->setoresModel    = new SetoresModel();
 		
@@ -84,7 +85,9 @@ class ServidoresController extends Controller{
 			
 				$status = (isset($_GET['status'])) ? $_GET['status'] : NULL;
 				
-				$_SESSION['RESULTADO_OPERACAO'] = $this->servidoresModel->editarStatus('servidores', $status, $id);
+				$this->servidoresModel->setStatus($status);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->servidoresModel->editarStatus();
 				
 				$_SESSION['MENSAGEM'] = $this->servidoresModel->getMensagemResposta();
 				
@@ -144,8 +147,6 @@ class ServidoresController extends Controller{
 			
 				$foto = (isset($_FILES['arquivoFoto'])) ? $_FILES['arquivoFoto'] : NULL;
 				
-				$this->servidoresModel->excluirFoto($_SESSION['FOTO']);
-				
 				$this->servidoresModel->setFoto($foto);
 				
 				$_SESSION['RESULTADO_OPERACAO'] = $this->servidoresModel->editarFoto();
@@ -172,7 +173,7 @@ class ServidoresController extends Controller{
 				
 				$_REQUEST['LISTA_SETORES']  = $this->setoresModel->getSetores();
 		
-				$_REQUEST['DADOS_SERVIDOR'] = $this->servidoresModel->getDadosID();
+				$_REQUEST['DADOS_SERVIDOR'] = $listaDados = $this->servidoresModel->getDadosID();
 				
 				$this->servidoresView->setTitulo("SERVIDORES > ".strtoupper($listaDados['DS_NOME'])." > EDITAR");
 				
@@ -188,7 +189,6 @@ class ServidoresController extends Controller{
 			
 			
 		}
-		
 		
 		$this->servidoresView->setConteudo('edicao');
 		

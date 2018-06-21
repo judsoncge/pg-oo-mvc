@@ -101,7 +101,7 @@ class ServidoresModel extends Model{
 	
 	public function cadastrar(){
 		
-		$existe = $this->verificaExisteRegistro('tb_servidores', 'DS_CPF', $this->cpf);
+		$existe = $this->verificaExisteRegistro('DS_CPF', $this->cpf);
 		
 		if($existe){
 			
@@ -124,7 +124,7 @@ class ServidoresModel extends Model{
 		
 		if($this->cpf != NULL){
 			
-			$existe = $this->verificaExisteRegistroId('tb_servidores', 'DS_CPF', $this->cpf, $this->id);
+			$existe = $this->verificaExisteRegistroId('DS_CPF', $this->cpf);
 		
 			if($existe){
 			
@@ -136,7 +136,7 @@ class ServidoresModel extends Model{
 			
 		}		
 		
-		$query  = "UPDATE tb_servidores SET DS_FUNCAO = '".$this->funcao."', ID_SETOR = ".$this->setor.", DS_NOME = '".$this->nome."', DS_CPF = '".$this->cpf."' WHERE ID=".$this->id."";
+		$query  = "UPDATE tb_servidores SET DS_FUNCAO = '$this->funcao', ID_SETOR = $this->setor, DS_NOME = '$this->nome', DS_CPF = '$this->cpf' WHERE ID = $this->id";
 		
 		$resultado = $this->executarQuery($query);
 		
@@ -156,7 +156,7 @@ class ServidoresModel extends Model{
 			
 			$this->senha = md5($this->senha);
 			
-			$query = "UPDATE tb_servidores SET SENHA = '".$this->senha."' WHERE ID = ".$this->id."";
+			$query = "UPDATE tb_servidores SET SENHA = '$this->senha' WHERE ID = $this->id";
 			
 			$resultado = $this->executarQuery($query);
 			
@@ -167,9 +167,11 @@ class ServidoresModel extends Model{
 	
 	public function editarFoto(){
 		
+		$this->excluirFoto($_SESSION['FOTO']);
+		
 		$nomeAnexo = registrarAnexo($this->foto, $_SERVER['DOCUMENT_ROOT'].'/_registros/fotos/');		
 		
-		$query = "UPDATE tb_servidores SET DS_FOTO = '".$nomeAnexo."' WHERE ID = ".$this->id."";
+		$query = "UPDATE tb_servidores SET DS_FOTO = '$nomeAnexo' WHERE ID = $this->id";
 		
 		$resultado = $this->executarQuery($query);
 		
@@ -183,19 +185,11 @@ class ServidoresModel extends Model{
 		
 		if($foto != 'default.jpg'){
 			
-			unlink($_SERVER['DOCUMENT_ROOT'].'/_registros/fotos/'.$foto);
+			$this->excluirArquivo('fotos', $foto);
 			
 		}
 	
-	}
-	
-	public function getDadoID(){
-		
-		
-		
-		
-	}
-	
+	}	
 }	
 
 ?>

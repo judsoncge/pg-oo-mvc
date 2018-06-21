@@ -128,7 +128,7 @@ class ProcessosModel extends Model{
 	
 	public function cadastrar(){
 		
-		$existe = $this->verificaExisteRegistro('tb_processos', 'DS_NUMERO', $this->numero);
+		$existe = $this->verificaExisteRegistro('DS_NUMERO', $this->numero);
 		
 		if($existe){
 			
@@ -154,7 +154,7 @@ class ProcessosModel extends Model{
 		
 		$this->setID($id);
 		
-		$resultado = $this->cadastrarHistorico('processos', 'ABRIU UM NOVO PROCESSO', 'ABERTURA');
+		$resultado = $this->cadastrarHistorico('ABRIU UM NOVO PROCESSO', 'ABERTURA');
 		
 		return $resultado;
 		
@@ -172,7 +172,7 @@ class ProcessosModel extends Model{
 		
 		$this->executarQuery($query);
 		
-		$resultado = $this->cadastrarHistorico('processos', 'ANEXOU UM DOCUMENTO AO PROCESSO','CRIAÇÃO DE DOCUMENTO');
+		$resultado = $this->cadastrarHistorico('ANEXOU UM DOCUMENTO AO PROCESSO','CRIAÇÃO DE DOCUMENTO');
 		
 		return $resultado;
 		
@@ -208,7 +208,7 @@ class ProcessosModel extends Model{
 		
 		$nomeServidor = strtoupper($this->executarQueryRegistro($query));
 		
-		$resultado = $this->cadastrarHistorico('processos', "TRAMITOU O PROCESSO PARA $nomeServidor",'TRAMITAÇÃO');
+		$resultado = $this->cadastrarHistorico("TRAMITOU O PROCESSO PARA $nomeServidor",'TRAMITAÇÃO');
 		
 		return $resultado;
 		
@@ -222,7 +222,7 @@ class ProcessosModel extends Model{
 				
 		$mensagem = ($_GET['valor']) ? 'MARCOU O PROCESSO COMO SOBRESTADO' : 'DESMARCOU O SOBRESTADO DESTE PROCESSO';
 		
-		$resultado = $this->cadastrarHistorico('processos', $mensagem, 'SOBRESTADO');
+		$resultado = $this->cadastrarHistorico($mensagem, 'SOBRESTADO');
 		
 		return $resultado; 
 		
@@ -236,7 +236,7 @@ class ProcessosModel extends Model{
 				
 		$mensagem = ($_GET['valor']) ? 'MARCOU COMO URGENTE' : 'DESMARCOU A URGENCIA DESTE PROCESSO';
 		
-		$resultado = $this->cadastrarHistorico('processos', $mensagem, 'URGENTE');
+		$resultado = $this->cadastrarHistorico($mensagem, 'URGENTE');
 		
 		return $resultado; 
 		
@@ -260,7 +260,7 @@ class ProcessosModel extends Model{
 		
 		$this->executarQuery($query);
 
-		$resultado = $this->cadastrarHistorico('processos', 'APENSOU PROCESSOS A ESTE PROCESSO','APENSAR');
+		$resultado = $this->cadastrarHistorico('APENSOU PROCESSOS A ESTE PROCESSO','APENSAR');
 		
 		return $resultado; 
 		
@@ -272,7 +272,7 @@ class ProcessosModel extends Model{
 		
 		$this->executarQuery($query);
 		
-		$resultado = $this->cadastrarHistorico('processos', 'REMOVEU UM APENSO DO PROCESSO','REMOÇÃO DE APENSO');
+		$resultado = $this->cadastrarHistorico('REMOVEU UM APENSO DO PROCESSO','REMOÇÃO DE APENSO');
 		
 		return $resultado; 
 
@@ -301,7 +301,7 @@ class ProcessosModel extends Model{
 			
 		}
 		
-		$resultado = $this->cadastrarHistorico('processos', 'DEFINIU OS RESPONSÁVEIS DO PROCESSO','RESPONSÁVEIS');
+		$resultado = $this->cadastrarHistorico('DEFINIU OS RESPONSÁVEIS DO PROCESSO','RESPONSÁVEIS');
 		
 		return $resultado; 
 		
@@ -325,7 +325,7 @@ class ProcessosModel extends Model{
 		
 		$this->executarQuery($query);
 		
-		$resultado = $this->cadastrarHistorico('processos', 'DEFINIU O RESPONSÁVEL LÍDER','LÍDER');
+		$resultado = $this->cadastrarHistorico('DEFINIU O RESPONSÁVEL LÍDER','LÍDER');
 		
 		return $resultado; 
 		
@@ -337,7 +337,7 @@ class ProcessosModel extends Model{
 		
 		$this->executarQuery($query);
 	
-		$resultado = $this->cadastrarHistorico('processos', 'REMOVEU UM RESPONSÁVEL', 'REMOVER RESPONSÁVEL');
+		$resultado = $this->cadastrarHistorico('REMOVEU UM RESPONSÁVEL', 'REMOVER RESPONSÁVEL');
 		
 		return $resultado; 
 		
@@ -397,7 +397,7 @@ class ProcessosModel extends Model{
 				
 		}
 		
-		$resultado = $this->cadastrarHistorico('processos', $mensagem, $acao);
+		$resultado = $this->cadastrarHistorico($mensagem, $acao);
 		
 		return $resultado;
 
@@ -422,7 +422,7 @@ class ProcessosModel extends Model{
 
 		}
 		
-		$resultado = $this->cadastrarHistorico('processos', $mensagem, $acao);
+		$resultado = $this->cadastrarHistorico($mensagem, $acao);
 		
 		return $resultado;
 
@@ -434,13 +434,13 @@ class ProcessosModel extends Model{
 		
 		$nomeDocumento = $this->executarQueryRegistro($query);
 		
-		unlink($_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/'.$nomeDocumento);
+		$this->excluirArquivo('anexos', $nomeDocumento);
 		
 		$query = "DELETE FROM tb_documentos WHERE ID = $this->documento";
 		
 		$this->executarQuery($query);
 		
-		$resultado = $this->cadastrarHistorico('processos', 'EXCLUIU UM DOCUMENTO', 'EXCLUSÃO DE DOCUMENTO');
+		$resultado = $this->cadastrarHistorico('EXCLUIU UM DOCUMENTO', 'EXCLUSÃO DE DOCUMENTO');
 		
 		return $resultado;
 		
@@ -464,7 +464,7 @@ class ProcessosModel extends Model{
 		
 		$this->executarQuery($query);
 		
-		$resultado = $this->cadastrarHistorico('processos', 'COLOCOU O PROCESSO DE VOLTA NO ORGAO', 'VOLTAR');
+		$resultado = $this->cadastrarHistorico('COLOCOU O PROCESSO DE VOLTA NO ORGAO', 'VOLTAR');
 		
 		return $resultado;		
 		
@@ -478,7 +478,7 @@ class ProcessosModel extends Model{
 		
 		$this->executarQuery($query);
 		
-		$resultado = $this->cadastrarHistorico('processos', 'DESARQUIVOU O PROCESSO', 'DESARQUIVAMENTO');
+		$resultado = $this->cadastrarHistorico('DESARQUIVOU O PROCESSO', 'DESARQUIVAMENTO');
 		
 		return $resultado;
 		
@@ -637,7 +637,7 @@ class ProcessosModel extends Model{
 		
 		$this->executarQuery($query);
 		
-		$resultado = $this->cadastrarHistorico('processos', 'CONFIRMOU O RECEBIMENTO', 'CONFIRMAR PROCESSO');
+		$resultado = $this->cadastrarHistorico('CONFIRMOU O RECEBIMENTO', 'CONFIRMAR PROCESSO');
 		
 		return $resultado;
 		
@@ -649,7 +649,7 @@ class ProcessosModel extends Model{
 		
 		$this->executarQuery($query);
 		
-		$resultado = $this->cadastrarHistorico('processos', 'DEVOLVEU O PROCESSO', 'RETORNAR PROCESSO');
+		$resultado = $this->cadastrarHistorico('DEVOLVEU O PROCESSO', 'RETORNAR PROCESSO');
 		
 		return $resultado;
 		
@@ -686,13 +686,13 @@ class ProcessosModel extends Model{
 		
 		$this->executarQuery($query);
 		
-		$resultado = $this->cadastrarHistorico('processos', "SOLICITOU COLOCAR PROCESSO EM SOBRESTADO: $this->justificativaSobrestado", 'SOBRESTADO');
+		$resultado = $this->cadastrarHistorico("SOLICITOU COLOCAR PROCESSO EM SOBRESTADO: $this->justificativaSobrestado", 'SOBRESTADO');
 		
 		$query = "UPDATE tb_processos SET BL_SOBRESTADO = 1 WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
 		
 		$this->executarQuery($query);
 		
-		$resultado = $this->cadastrarHistorico('processos', 'ACEITOU A SOLICITAÇÃO E MARCOU O PROCESSO COMO SOBRESTADO', 'SOBRESTADO');
+		$resultado = $this->cadastrarHistorico('ACEITOU A SOLICITAÇÃO E MARCOU O PROCESSO COMO SOBRESTADO', 'SOBRESTADO');
 		
 		return $resultado;
 		
@@ -759,9 +759,7 @@ class ProcessosModel extends Model{
 		
 		$this->executarQuery($query);
 		
-		$query = "DELETE FROM tb_processos WHERE ID = $this->id";
-		
-		$resultado = $this->executarQuery($query);
+		$resultado = parent::excluir();
 		
 		return $resultado;
 	
