@@ -427,7 +427,7 @@ class View{
 						case 'EDIÇÃO':
 						case 'LÍDER':
 						case 'APENSAR':
-						case 'REMOVER APENSO':
+						case 'REMOÇÃO DE APENSO':
 							$rgb = 'rgba(46, 204, 113,0.3)';
 							break;
 						case 'MENSAGEM':

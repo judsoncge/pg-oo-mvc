@@ -428,17 +428,17 @@ class ProcessosView extends View{
 		<div class='container'>
 
 <?php 
-				if($ativo and !$apensado and !$lista['BL_RECEBIDO']){
+				if($ativo and !$lista['BL_RECEBIDO']){
 ?>
 					<div class='row linha-modal-processo'>
 						
-								<div class='alert alert-warning'>O processo físico foi recebido?
-								
-									<a href='/editar/processo/receber/<?php echo $lista['ID'] ?>/'>Sim</a>
-									/
-									<a href='/editar/processo/devolver/<?php echo $lista['ID'] ?>/'>Não</a>
-							
-								</div>
+						<div class='alert alert-warning'>O processo físico foi recebido?
+						
+							<a href='/editar/processo/receber/<?php echo $lista['ID'] ?>/'>Sim</a>
+							/
+							<a href='/editar/processo/devolver/<?php echo $lista['ID'] ?>/'>Não</a>
+					
+						</div>
 						
 					</div>
 <?php 
@@ -551,7 +551,7 @@ class ProcessosView extends View{
 <?php			
 					}
 					
-				}else{
+				}elseif(!$apensado){
 					
 					
 					if($lista['DS_STATUS'] == 'SAIU'){ 
@@ -655,7 +655,7 @@ class ProcessosView extends View{
 <?php
 								if($ativo){
 ?>			
-									<a href='#' title='remover apenso'><i class='fa fa-remove' aria-hidden='true'></i></a>,
+									<a href="/editar/processo/removerapenso/<?php echo $lista['ID'] ?>/<?php echo $processoApensado['ID_PROCESSO_APENSADO'] ?>" title='remover apenso'><i class='fa fa-remove' aria-hidden='true'></i></a>,
 								
 <?php							
 								}
@@ -729,18 +729,6 @@ class ProcessosView extends View{
 ?>
 				
 				<div class='row linha-modal-processo'>
-					<label class='control-label' for='exampleInputEmail1'><b>Solicitar Sobrestado:</b></label>
-					<form method='POST' action="/editar/processo/solicitarsobrestado/<?php echo $lista['ID']?>" enctype='multipart/form-data'>	
-						<div class='col-md-10'>
-							<input class='form-control' id='justificativa' name='justificativa' placeholder='Digite aqui a sua justificativa (Máximo de 100 caracteres)' type='text' maxlength='100' required />	
-						</div>
-						<div class='col-md-2'>
-							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar' >Solicitar &nbsp;&nbsp;<i class='fa fa-arrow-circle-right' aria-hidden='true'></i></button>
-						</div>
-					</form>
-				</div>	
-
-				<div class='row linha-modal-processo'>
 					<form method='POST' action="/editar/processo/anexardocumento/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	
 						<div class='col-md-6'>
 							<div class='form-group'>
@@ -760,6 +748,20 @@ class ProcessosView extends View{
 						</div>
 					</form>	
 				</div>
+				
+<?php 		if($ativo && !$apensado){ 
+?>
+				<div class='row linha-modal-processo'>
+					<label class='control-label' for='exampleInputEmail1'><b>Solicitar Sobrestado:</b></label>
+					<form method='POST' action="/editar/processo/solicitarsobrestado/<?php echo $lista['ID']?>" enctype='multipart/form-data'>	
+						<div class='col-md-10'>
+							<input class='form-control' id='justificativa' name='justificativa' placeholder='Digite aqui a sua justificativa (Máximo de 100 caracteres)' type='text' maxlength='100' required />	
+						</div>
+						<div class='col-md-2'>
+							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar' >Solicitar &nbsp;&nbsp;<i class='fa fa-arrow-circle-right' aria-hidden='true'></i></button>
+						</div>
+					</form>
+				</div>	
 				
 				<div class='row linha-modal-processo'>
 					<form method='POST' action="/editar/processo/definirresponsaveis/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	
@@ -852,6 +854,7 @@ class ProcessosView extends View{
 					</div>
 				</form>
 <?php
+			}
 		}
 	}	
 	

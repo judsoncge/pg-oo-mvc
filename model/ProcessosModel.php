@@ -26,10 +26,16 @@ class ProcessosModel extends Model{
 	private $listaResponsaveis;
 	private $listaApensos;
 	private $responsavelLider;
+	private $apenso;
 	
 	public function setListaResponsaveis($listaResponsaveis){
 		
 		$this->listaResponsaveis = $listaResponsaveis;
+	}
+	
+	public function setApenso($apenso){
+		
+		$this->apenso = $apenso;
 	}
 	
 	public function setListaApensos($listaApensos){
@@ -260,6 +266,18 @@ class ProcessosModel extends Model{
 		
 	}
 	
+	public function removerApenso(){
+		
+		$query = "DELETE FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id AND ID_PROCESSO_APENSADO = $this->apenso";
+		
+		$this->executarQuery($query);
+		
+		$resultado = $this->cadastrarHistorico('processos', 'REMOVEU UM APENSO DO PROCESSO','REMOÇÃO DE APENSO');
+		
+		return $resultado; 
+
+	}
+	
 	public function definirResponsaveis(){
 		
 		for ($i=0;$i<count($this->listaResponsaveis);$i++){
@@ -299,7 +317,7 @@ class ProcessosModel extends Model{
 		
 		$this->executarQuery($query);
 		
-		$query = "SELECT ID_SETOR FROM tb_servidores WHERE ID_SERVIDOR = $this->responsavelLider";
+		$query = "SELECT ID_SETOR FROM tb_servidores WHERE ID = $this->responsavelLider";
 		
 		$setor = $this->executarQueryRegistro($query);
 		
@@ -454,17 +472,9 @@ class ProcessosModel extends Model{
 	
 	public function desarquivar(){
 		
-		if($_SESSION['FUNCAO']=='CHEFE DE GABINETE' || $_SESSION['FUNCAO']=='GABINETE'){
-			
-			$this->editarCampo('processos', 'DS_STATUS', 'FINALIZADO PELO GABINETE');
+		$status = ($_SESSION['FUNCAO']=='CHEFE DE GABINETE' || $_SESSION['FUNCAO']=='GABINETE') ? 'FINALIZADO PELO GABINETE' : 'FINALIZADO PELO SETOR';
 		
-		}else{
-				
-			$this->editarCampo('processos', 'DS_STATUS', 'FINALIZADO PELO SETOR');
-
-		}
-		
-		$query = "UPDATE tb_processos SET DT_SAIDA = NULL WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		$query = "UPDATE tb_processos SET DS_STATUS = '$status', DT_SAIDA = NULL WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
 		
 		$this->executarQuery($query);
 		
@@ -623,7 +633,7 @@ class ProcessosModel extends Model{
 	
 	public function receber(){
 		
-		$query = "UPDATE tb_processos SET BL_RECEBIDO = 1, ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		$query = "UPDATE tb_processos SET BL_RECEBIDO = 1, ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id) OR ID IN (SELECT ID_PROCESSO FROM tb_processos_apensados WHERE ID_PROCESSO_APENSADO = $this->id)";
 		
 		$this->executarQuery($query);
 		
@@ -635,7 +645,7 @@ class ProcessosModel extends Model{
 	
 	public function devolver(){
 		
-		$query = "UPDATE tb_processos SET BL_RECEBIDO = 0, ID_SERVIDOR_LOCALIZACAO = (SELECT ID_SERVIDOR FROM tb_historico_processos WHERE DS_ACAO = 'TRAMITAÇÃO' AND ID_REFERENTE = $this->id ORDER BY DT_MENSAGEM DESC LIMIT 1) WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		$query = "UPDATE tb_processos SET BL_RECEBIDO = 1, ID_SERVIDOR_LOCALIZACAO = (SELECT ID_SERVIDOR FROM tb_historico_processos WHERE DS_ACAO = 'TRAMITAÇÃO' AND ID_REFERENTE = $this->id ORDER BY DT_MENSAGEM DESC LIMIT 1) WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id) OR ID IN (SELECT ID_PROCESSO FROM tb_processos_apensados WHERE ID_PROCESSO_APENSADO = $this->id)";
 		
 		$this->executarQuery($query);
 		

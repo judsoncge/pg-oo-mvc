@@ -97,7 +97,9 @@ class ProcessosController extends Controller{
 		
 				$this->processosModel->devolver();
 				
-				break;
+				Header('Location: /processos/ativos/0');
+		
+				die();
 				
 			case 'sobrestado':
 			
@@ -222,6 +224,16 @@ class ProcessosController extends Controller{
 				$this->processosModel->setListaApensos($apensos);
 			
 				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->apensarProcessos();
+				
+				break;
+				
+			case 'removerapenso':
+			
+				$processoApensado = $_GET['valor'];
+			
+				$this->processosModel->setApenso($processoApensado);
+			
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->removerApenso();
 				
 				break;
 				
