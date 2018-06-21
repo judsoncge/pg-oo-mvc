@@ -8,6 +8,7 @@ class ProcessosController extends Controller{
 		
 		$this->processosView    = new ProcessosView();
 		$this->processosModel   = new ProcessosModel();
+		$this->processosModel->setTabela('processos');
 		$this->servidoresModel  = new ServidoresModel();
 		$this->setoresModel     = new SetoresModel();
 		
@@ -185,7 +186,7 @@ class ProcessosController extends Controller{
 				
 				$mensagem = (isset($_POST['mensagem'])) ? $_POST['mensagem'] : NULL;
 				
-				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->enviarMensagem('processos', $mensagem);
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->enviarMensagem($mensagem);
 		
 				break;
 				

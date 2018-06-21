@@ -82,7 +82,7 @@ class ArquivosModel extends Model{
 	
 	public function editar(){
 		
-		$query = "UPDATE tb_arquivos SET DS_TIPO = '".$this->tipo."', ID_SERVIDOR_DESTINO = ".$this->servidorDestino." WHERE ID = ".$this->id."";
+		$query = "UPDATE tb_arquivos SET DS_TIPO = '$this->tipo', ID_SERVIDOR_DESTINO = $this->servidorDestino WHERE ID = $this->id";
 
 		$resultado = $this->executarQuery($query);
 		
@@ -92,11 +92,9 @@ class ArquivosModel extends Model{
 	
 	public function excluir(){
 		
-		unlink($_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/'.$this->anexo);
+		$this->excluirArquivo('anexos', $this->anexo);
 		
-		$query = "DELETE FROM ".$tabela." WHERE ID=".$id."";
-		
-		$resultado = $this->executarQuery($query);
+		$resultado = parent::excluir();
 		
 		return $resultado;
 

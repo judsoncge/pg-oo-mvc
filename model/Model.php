@@ -168,11 +168,11 @@ class Model{
 		
 	}	
 	
-	public function cadastrarHistorico($tabela, $mensagem, $acao){
+	public function cadastrarHistorico($mensagem, $acao){
 		
 		$data = date('Y-m-d H:i:s');
 		
-		$query = "INSERT INTO tb_historico_$tabela (ID_REFERENTE, TX_MENSAGEM, ID_SERVIDOR, DT_MENSAGEM, DS_ACAO) VALUES ($this->id, '$mensagem', $this->servidorSessao, '$data', '$acao')";
+		$query = "INSERT INTO tb_historico_$this->tabela (ID_REFERENTE, TX_MENSAGEM, ID_SERVIDOR, DT_MENSAGEM, DS_ACAO) VALUES ($this->id, '$mensagem', $this->servidorSessao, '$data', '$acao')";
 		
 		$resultado = $this->executarQuery($query);
 		
@@ -180,9 +180,9 @@ class Model{
 		
 	}
 	
-	public function enviarMensagem($modulo, $mensagem){
+	public function enviarMensagem($mensagem){
 		
-		$resultado = $this->cadastrarHistorico($modulo, "DISSE: $mensagem", 'MENSAGEM');
+		$resultado = $this->cadastrarHistorico("DISSE: $mensagem", 'MENSAGEM');
 		
 		return $resultado;
 		
@@ -212,9 +212,11 @@ class Model{
 		
 	}
 	
-	public function editarCampo($modulo, $campo, $valor){
+	public function editarStatus(){
 		
-		$query = "UPDATE tb_$modulo SET $campo = '$valor' WHERE ID = $this->id";
+		echo $this->status;
+		
+		$query = "UPDATE tb_$this->tabela SET DS_STATUS = '$this->status' WHERE ID = $this->id";
 		
 		$resultado = $this->executarQuery($query);
 		
@@ -222,9 +224,11 @@ class Model{
 		
 	}
 	
+	
+	
 	public function excluir(){
 		
-		$query = "DELETE FROM $this->tabela WHERE ID=$this->id";
+		$query = "DELETE FROM tb_$this->tabela WHERE ID = $this->id";
 		
 		$resultado = $this->executarQuery($query);
 		

@@ -103,7 +103,7 @@ class ArquivosView extends View{
 				<div class="col-md-4">
 					<div class="form-group">
 						<label class="control-label" for="exampleInputEmail1">Escolher anexo</label><br>
-						<input type="file" class="" name="arquivo_anexo" id="arquivo_anexo"/>
+						<input type="file" class="" name="arquivoAnexo" id="arquivoAnexo"/>
 					</div>
 				</div>	
 			</div>

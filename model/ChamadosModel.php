@@ -30,9 +30,9 @@ class ChamadosModel extends Model{
 		
 		$query = "INSERT INTO tb_chamados (DS_PROBLEMA, DS_NATUREZA, ID_SERVIDOR_REQUISITANTE, DT_ABERTURA) VALUES ('".$this->problema."','".$this->natureza."','".$this->servidorSessao."','".$data."')";
 		
-		$id = $this->executarQueryID($query);
+		$this->setID($this->executarQueryID($query));
 		
-		$resultado = $this->cadastrarHistorico('chamados', $id, 'ABRIU UM NOVO CHAMADO', $this->servidorSessao, 'ABERTURA');
+		$resultado = $this->cadastrarHistorico('ABRIU UM NOVO CHAMADO', 'ABERTURA');
 		
 		return $resultado;
 		
@@ -70,23 +70,23 @@ class ChamadosModel extends Model{
 		
 	}
 	
-	public function editarStatus($modulo, $status, $id){
+	public function editarStatus(){
 		
-		$this->conectar();
+		$query = "UPDATE tb_chamados SET DS_STATUS = '$this->status' WHERE ID = $this->id";
 		
-		parent::editarStatus($modulo, $status, $id);
+		$this->executarQuery($query);
 		
 		$data = date('Y-m-d H:i:s');
-		
-		$query  = "UPDATE tb_chamados SET ";
 		
 		switch($this->status){
 				
 			case 'FECHADO':
 				
-				$query .= "DT_FECHAMENTO = '".$data."' ";
+				$query = "UPDATE tb_chamados SET DT_FECHAMENTO = '$data' WHERE ID = $this->id";
 				
-				$textoMensagem = "FECHOU O CHAMADO";
+				$this->executarQuery($query);
+				
+				$mensagem = 'FECHOU O CHAMADO';
 				
 				$acao = 'FECHAMENTO';
 				
@@ -94,9 +94,11 @@ class ChamadosModel extends Model{
 			
 			case 'ENCERRADO':
 				
-				$query .= "DT_ENCERRAMENTO = '".$data."' ";
+				$query = "UPDATE tb_chamados SET DT_ENCERRAMENTO = '$data' WHERE ID = $this->id";
 				
-				$textoMensagem = "ENCERROU O CHAMADO";
+				$this->executarQuery($query);
+				
+				$mensagem = 'ENCERROU O CHAMADO';
 				
 				$acao = 'ENCERRAMENTO';
 				
@@ -104,11 +106,7 @@ class ChamadosModel extends Model{
 				
 		}
 		
-		$query .= "WHERE ID=".$this->id."";
-		
-		$this->executarQuery($query);
-		
-		$resultado = $this->cadastrarHistorico('chamados', $this->id, $textoMensagem, $_SESSION['ID'], $acao);
+		$resultado = $this->cadastrarHistorico($mensagem, $acao);
 		
 		return $resultado;
 
@@ -116,11 +114,11 @@ class ChamadosModel extends Model{
 	
 	public function avaliar(){
 		
-		$query = "UPDATE tb_chamados SET DS_AVALIACAO = '".$this->avaliacao."' WHERE ID = ".$this->id."";
+		$query = "UPDATE tb_chamados SET DS_AVALIACAO = '$this->avaliacao' WHERE ID = $this->id";
 		
 		$this->executarQuery($query);
 		
-		$resultado = $this->cadastrarHistorico('chamados', $this->id, 'AVALIOU O CHAMADO: ' . $this->avaliacao, $_SESSION['ID'], $acao);
+		$resultado = $this->cadastrarHistorico('AVALIOU O CHAMADO: ' . $this->avaliacao,  'AVALIAÇÃO');
 		
 		return $resultado;
 		

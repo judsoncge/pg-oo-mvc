@@ -8,6 +8,7 @@ class ChamadosController extends Controller{
 		
 		$this->chamadosView    = new ChamadosView();
 		$this->chamadosModel   = new ChamadosModel();
+		$this->chamadosModel->setTabela('chamados');
 		
 	}
 	
@@ -53,6 +54,8 @@ class ChamadosController extends Controller{
 		
 		$this->chamadosModel->setId($id);
 		
+		$this->chamadosModel->setServidorSessao($_SESSION['ID']);
+		
 		switch($_GET['operacao']){
 			
 			case 'status':
@@ -79,7 +82,7 @@ class ChamadosController extends Controller{
 				
 				$mensagem = (isset($_POST['mensagem'])) ? $_POST['mensagem'] : NULL;
 				
-				$_SESSION['RESULTADO_OPERACAO'] = $this->chamadosModel->cadastrarHistorico('chamados', $id, 'DISSE: ' . $mensagem, $_SESSION['ID'], 'MENSAGEM');
+				$_SESSION['RESULTADO_OPERACAO'] = $this->chamadosModel->enviarMensagem($mensagem);
 		
 				break;
 		
@@ -92,6 +95,8 @@ class ChamadosController extends Controller{
 	}
 	
 	public function excluir(){
+		
+		$this->chamadosModel->setID($_GET['id']);
 		
 		$_SESSION['RESULTADO_OPERACAO'] = $this->chamadosModel->excluir();
 		

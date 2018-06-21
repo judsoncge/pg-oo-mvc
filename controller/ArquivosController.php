@@ -7,6 +7,7 @@ class ArquivosController extends Controller{
 	function __construct(){
 		
 		$this->arquivosModel   = new ArquivosModel();
+		$this->arquivosModel->setTabela('arquivos');
 		$this->arquivosView    = new ArquivosView();
 		$this->servidoresModel = new ServidoresModel();
 		
@@ -51,7 +52,7 @@ class ArquivosController extends Controller{
 		
 		$servidorDestino = $_POST['servidor'];
 		
-		$anexo = $_FILES['arquivo_anexo'];
+		$anexo = $_FILES['arquivoAnexo'];
 		
 		$this->arquivosModel->setTipo($tipo);
 		
@@ -75,13 +76,17 @@ class ArquivosController extends Controller{
 		
 		$id = (isset($_GET['id'])) ? $_GET['id'] : NULL;
 		
+		$this->arquivosModel->setID($id);
+		
 		switch($_GET['operacao']){
 			
 			case 'status':
 				
 				$status = (isset($_GET['status'])) ? $_GET['status'] : NULL;
 				
-				$_SESSION['RESULTADO_OPERACAO'] = $this->arquivosModel->editarStatus('arquivos', $status, $id);
+				$this->arquivosModel->setStatus($status);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->arquivosModel->editarStatus();
 				
 				break;
 				
@@ -112,6 +117,8 @@ class ArquivosController extends Controller{
 	}
 	
 	public function excluir(){
+		
+		$this->arquivosModel->setID($_GET['id']);
 		
 		$this->arquivosModel->setAnexo($_GET['anexo']);
 		
