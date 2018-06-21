@@ -605,7 +605,16 @@ class ProcessosView extends View{
 						
 						Prazo: <?php echo $lista["DT_PRAZO"] ?><br>
 						
-						Data de saída: <?php echo $lista["DT_SAIDA"] ?><br><br>
+						Data de saída: 
+						<?php 
+						
+						$data = ($lista['DT_SAIDA'] == '00/00/0000') 
+							? 'Sem data'
+							: $lista['DT_SAIDA'];
+						
+						echo $data;
+						
+					?><br><br>
 						
 						Responsáveis: 
 							

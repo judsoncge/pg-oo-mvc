@@ -127,15 +127,15 @@ class ChamadosView extends View{
 			</div> 
 		</div>
 		<div class='row linha-modal-processo'>
-			<div class="col-md-12">
+			<div class='col-md-12'>
 				<b>Status</b>: <?php echo $lista['DS_STATUS'] ?><br><br>	
 				<b>Data de abertura  </b>: <?php echo $lista['DT_ABERTURA'] ?><br> 
 				<b>Data de fechamento  </b>: 
 					<?php 
 						
-						$data = ($lista['DT_FECHAMENTO'] == NULL) 
-							? "Sem data" 
-							: date_format(new DateTime($lista['DT_FECHAMENTO']), 'd/m/Y H:i:s');
+						$data = ($lista['DT_FECHAMENTO'] == '00/00/0000 às 00:00:00') 
+							? 'Sem data' 
+							: $lista['DT_FECHAMENTO'];
 						
 						echo $data;
 						
@@ -144,9 +144,9 @@ class ChamadosView extends View{
 				<b>Data de encerramento  </b>: 
 					<?php 
 						
-						$data = ($lista['DT_ENCERRAMENTO'] == NULL) 
-							? "Sem data" 
-							: date_format(new DateTime($lista['DT_ENCERRAMENTO']), 'd/m/Y H:i:s');
+						$data = ($lista['DT_ENCERRAMENTO'] == '00/00/0000 às 00:00:00') 
+							? 'Sem data'
+							: $lista['DT_ENCERRAMENTO'];
 						
 						echo $data;
 						
