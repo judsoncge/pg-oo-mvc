@@ -15,6 +15,7 @@ class ComunicacaoModel extends Model{
 	private $legendas;
 	private $creditos;
 	private $pequenas;
+	private $nomeImagem;
 	
 	public function setChapeu($chapeu){
 		
@@ -79,6 +80,12 @@ class ComunicacaoModel extends Model{
 	public function setPequenas($pequenas){
 		
 		$this->pequenas = $pequenas;
+		
+	}
+	
+	public function setNomeImagem($nomeImagem){
+		
+		$this->nomeImagem = $nomeImagem;
 		
 	}
 	
@@ -232,11 +239,11 @@ class ComunicacaoModel extends Model{
 	
 	public function excluir(){
 		
-		switch($tabela){
+		switch($this->tabela){
 			
-			case 'tb_comunicacao':
+			case 'comunicacao':
 			
-				$query = "SELECT DS_ARQUIVO FROM tb_anexos_comunicacao WHERE ID_COMUNICACAO= $id";
+				$query = "SELECT DS_ARQUIVO FROM tb_anexos_comunicacao WHERE ID_COMUNICACAO = $this->id";
 		
 				$listaNomesImagens = $this->executarQueryLista($query);
 		
@@ -246,17 +253,17 @@ class ComunicacaoModel extends Model{
 			
 				}
 				
-				$resultado = parent::excluir($tabela, $id);
-				
 				break;
 				
-			case 'tb_anexos_comunicacao':
+			case 'anexos_comunicacao':
 			
-				$resultado = parent::excluir($tabela, $id);
+				$this->excluirArquivo('fotos-noticias', $this->nomeImagem);
 				
 				break;
 		
-		}		
+		}
+
+		$resultado = parent::excluir();		
 		
 		return $resultado;
 		

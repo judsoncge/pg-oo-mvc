@@ -8,6 +8,7 @@ class ComunicacaoController extends Controller{
 		
 		$this->comunicacaoView = new ComunicacaoView();
 		$this->comunicacaoModel = new ComunicacaoModel();
+		$this->comunicacaoModel->setTabela('comunicacao');
 		
 	}
 	
@@ -105,7 +106,7 @@ class ComunicacaoController extends Controller{
 				
 				$this->comunicacaoModel->setStatus($status);
 				
-				$_SESSION['RESULTADO_OPERACAO'] = $this->comunicacaoModel->editarStatus('comunicacao', $status, $id);
+				$_SESSION['RESULTADO_OPERACAO'] = $this->comunicacaoModel->editarStatus();
 				
 				break;
 				
@@ -178,10 +179,18 @@ class ComunicacaoController extends Controller{
 				break;
 				
 			case 'excluir-imagem':
+			
+				$this->comunicacaoModel->setTabela('anexos_comunicacao');
+					
+				$this->comunicacaoModel->setID($_GET['img']);
 				
-				$this->comunicacaoModel->excluir('tb_anexos_comunicacao', $_GET['img']);
+				$this->comunicacaoModel->setNomeImagem($_GET['nome']);
 				
-				$this->comunicacaoModel->excluirArquivo('fotos-noticias', $_GET['nome']);
+				$this->comunicacaoModel->excluir();
+				
+				$this->comunicacaoModel->setTabela('comunicacao');
+				
+				$this->comunicacaoModel->setID($id);
 				
 				break;
 		
@@ -194,6 +203,8 @@ class ComunicacaoController extends Controller{
 	}
 	
 	public function excluir(){
+		
+		$this->comunicacaoModel->setID($_GET['id']);
 		
 		$_SESSION['RESULTADO_OPERACAO'] = $this->comunicacaoModel->excluir();
 		
