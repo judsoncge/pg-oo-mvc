@@ -8,7 +8,7 @@ class ComunicacaoController extends Controller{
 		
 		$this->comunicacaoView = new ComunicacaoView();
 		$this->comunicacaoModel = new ComunicacaoModel();
-		$this->comunicacaoModel->setTabela('comunicacao');
+		$this->comunicacaoModel->setTabela('tb_comunicacao');
 		
 	}
 	
@@ -180,7 +180,7 @@ class ComunicacaoController extends Controller{
 				
 			case 'excluir-imagem':
 			
-				$this->comunicacaoModel->setTabela('anexos_comunicacao');
+				$this->comunicacaoModel->setTabela('tb_anexos_comunicacao');
 					
 				$this->comunicacaoModel->setID($_GET['img']);
 				
@@ -188,7 +188,7 @@ class ComunicacaoController extends Controller{
 				
 				$this->comunicacaoModel->excluir();
 				
-				$this->comunicacaoModel->setTabela('comunicacao');
+				$this->comunicacaoModel->setTabela('tb_comunicacao');
 				
 				$this->comunicacaoModel->setID($id);
 				

@@ -70,7 +70,7 @@ class ArquivosModel extends Model{
 		
 		$data = date('Y-m-d');
 		
-		$nomeAnexo = registrarAnexo($this->anexo, $_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/');
+		$nomeAnexo = $this->registrarAnexo($this->anexo, 'anexos');
 	
 		$query = "INSERT INTO tb_arquivos (DS_TIPO, DT_CRIACAO, ID_SERVIDOR_CRIACAO, ID_SERVIDOR_DESTINO, DS_STATUS, DS_ANEXO) VALUES ('".$this->tipo."','".$data."','".$_SESSION['ID']."','".$this->servidorDestino."','ATIVO', '".$nomeAnexo."')";
 		

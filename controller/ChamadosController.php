@@ -8,7 +8,8 @@ class ChamadosController extends Controller{
 		
 		$this->chamadosView    = new ChamadosView();
 		$this->chamadosModel   = new ChamadosModel();
-		$this->chamadosModel->setTabela('chamados');
+		$this->chamadosModel->setTabela('tb_chamados');
+		$this->chamadosModel->setTabelaHistorico('tb_historico_chamados');
 		
 	}
 	
@@ -136,15 +137,13 @@ class ChamadosController extends Controller{
 		
 		$listaDados = $this->chamadosModel->getDadosID();
 		
-		$historico  = $this->chamadosModel->getHistorico('chamados', $id);
+		$_REQUEST['HISTORICO_CHAMADO']  = $this->chamadosModel->getHistorico();
 		
 		$this->chamadosView->setTitulo("CHAMADOS > ".$listaDados['ID']." > VISUALIZAR");
 		
 		$this->chamadosView->setConteudo('visualizar');
 		
 		$_REQUEST['DADOS_CHAMADO'] = $listaDados;
-		
-		$_REQUEST['HISTORICO_CHAMADO'] = $historico;
 		
 		$this->chamadosView->carregar();
 		

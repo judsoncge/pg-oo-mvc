@@ -56,9 +56,9 @@ class ChamadosModel extends Model{
 		
 		INNER JOIN tb_servidores s ON a.ID_SERVIDOR_REQUISITANTE = s.ID 
 		
-		WHERE a.DS_STATUS ".$restricao_status." 
+		WHERE a.DS_STATUS $restricao_status 
 		
-		AND ID_SERVIDOR_REQUISITANTE LIKE '".$restricao_servidor."' 
+		AND ID_SERVIDOR_REQUISITANTE LIKE '$restricao_servidor' 
 		
 		ORDER BY a.DT_ABERTURA desc
 		

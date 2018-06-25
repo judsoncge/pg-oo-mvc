@@ -146,7 +146,7 @@ class ProcessosModel extends Model{
 		
 		$qtdDiasPrazo = $this->executarQueryRegistro($query);
 		
-		$this->prazo = somarData($data, $qtdDiasPrazo);
+		$this->prazo = $this->somarData($data, $qtdDiasPrazo);
 		
 		$query = "INSERT INTO tb_processos (DS_NUMERO, BL_URGENCIA, ID_ASSUNTO, DS_DETALHES, ID_ORGAO_INTERESSADO, DS_INTERESSADO, DT_ENTRADA, DT_PRAZO, ID_SERVIDOR_LOCALIZACAO) VALUES ('".$this->numero."','".$this->urgencia."', '".$this->assunto."','".strtoupper($this->detalhes)."','".$this->orgao."','".strtoupper($this->interessado)."','".$data."','".$this->prazo."', '".$this->servidorLocalizacao."')";
 		
@@ -166,7 +166,7 @@ class ProcessosModel extends Model{
 		
 		$data = date('Y-m-d');
 		
-		$nomeAnexo = registrarAnexo($this->anexoDocumento, $_SERVER['DOCUMENT_ROOT'].'/_registros/anexos/');
+		$nomeAnexo = $this->registrarAnexo($this->anexoDocumento, 'anexos');
 		
 		$query = "INSERT INTO tb_documentos (ID_PROCESSO, DS_TIPO, DT_CRIACAO, ID_SERVIDOR_CRIACAO, DS_ANEXO) VALUES ($this->id, '$this->tipoDocumento', '$data', $this->servidorSessao, '$nomeAnexo')";
 		
@@ -336,10 +336,21 @@ class ProcessosModel extends Model{
 		$query = "DELETE FROM tb_responsaveis_processos WHERE ID_SERVIDOR = $this->responsavel AND ID_PROCESSO = $this->id"; 
 		
 		$this->executarQuery($query);
+		
+		$query = "SELECT * FROM tb_responsaveis_processos WHERE ID_PROCESSO = $this->id";
+		
+		$listaResponsaveis = $this->executarQueryLista($query);
+		
+		if(count($listaResponsaveis) === 1){
+			
+			$query = "UPDATE tb_responsaveis_processos SET BL_LIDER = 1 WHERE ID_PROCESSO = $this->id";
+			
+			$this->executarQuery($query);
+		}
 	
 		$resultado = $this->cadastrarHistorico('REMOVEU UM RESPONSÁVEL', 'REMOVER RESPONSÁVEL');
 		
-		return $resultado; 
+		return $resultado;
 		
 	}
 	
@@ -458,7 +469,7 @@ class ProcessosModel extends Model{
 		
 		$qtdDiasPrazo = $this->executarQueryRegistro($query);
 		
-		$this->prazo = somarData($this->dataEntrada, $qtdDiasPrazo);
+		$this->prazo = $this->somarData($this->dataEntrada, $qtdDiasPrazo);
 		
 		$query = "UPDATE tb_processos SET DT_ENTRADA = '$this->dataEntrada', DT_PRAZO = '$this->prazo', DT_SAIDA = NULL, NR_DIAS = 0, DS_STATUS = 'EM ANDAMENTO' WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
 		
@@ -500,7 +511,8 @@ class ProcessosModel extends Model{
 		e.DS_NOME NOME_ORGAO,
 		f.ID_PROCESSO,
 		g.DS_NUMERO NUMERO_PROCESSO_MAE,
-		g.ID ID_PROCESSO_MAE
+		g.ID ID_PROCESSO_MAE,
+		h.DS_JUSTIFICATIVA
 		
 		FROM tb_processos a
 		
@@ -510,6 +522,7 @@ class ProcessosModel extends Model{
 		LEFT JOIN tb_orgaos e ON a.ID_ORGAO_INTERESSADO = e.ID
 		LEFT JOIN tb_processos_apensados f ON a.ID = f.ID_PROCESSO_APENSADO
 		LEFT JOIN tb_processos g ON f.ID_PROCESSO = g.ID
+		LEFT JOIN tb_processos_sobrestados h ON h.ID_PROCESSO = a.ID
 		
 		WHERE a.ID = $this->id
 		

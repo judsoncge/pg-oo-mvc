@@ -7,6 +7,8 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/controller/ChamadosController.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/ComunicacaoController.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/ProcessosController.php';
 
+date_default_timezone_set('America/Bahia');
+
 session_start();
 
 if(isset($_GET['acao'])){

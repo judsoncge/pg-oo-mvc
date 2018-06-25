@@ -463,7 +463,7 @@ class ProcessosView extends View{
 					
 ?>
 
-						<div class="alert alert-warning">&#9888; ESTE PROCESSO ESTÁ EM SOBRESTADO!</div>
+						<div class="alert alert-warning">&#9888; ESTE PROCESSO ESTÁ EM SOBRESTADO!: <?php echo $lista['DS_JUSTIFICATIVA'] ?></div>
 					
 <?php   
 			
@@ -605,16 +605,9 @@ class ProcessosView extends View{
 						
 						Prazo: <?php echo $lista["DT_PRAZO"] ?><br>
 						
-						Data de saída: 
-						<?php 
+						Data de saída: <?php echo $lista['DT_SAIDA'] ?>
 						
-						$data = ($lista['DT_SAIDA'] == '00/00/0000') 
-							? 'Sem data'
-							: $lista['DT_SAIDA'];
-						
-						echo $data;
-						
-					?><br><br>
+						<br><br>
 						
 						Responsáveis: 
 							
@@ -759,18 +752,25 @@ class ProcessosView extends View{
 				</div>
 				
 <?php 		if($ativo && !$apensado){ 
+
+				if(!$lista['BL_SOBRESTADO']){
+			
 ?>
-				<div class='row linha-modal-processo'>
-					<label class='control-label' for='exampleInputEmail1'><b>Solicitar Sobrestado:</b></label>
-					<form method='POST' action="/editar/processo/solicitarsobrestado/<?php echo $lista['ID']?>" enctype='multipart/form-data'>	
-						<div class='col-md-10'>
-							<input class='form-control' id='justificativa' name='justificativa' placeholder='Digite aqui a sua justificativa (Máximo de 100 caracteres)' type='text' maxlength='100' required />	
-						</div>
-						<div class='col-md-2'>
-							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar' >Solicitar &nbsp;&nbsp;<i class='fa fa-arrow-circle-right' aria-hidden='true'></i></button>
-						</div>
-					</form>
-				</div>	
+					<div class='row linha-modal-processo'>
+						<label class='control-label' for='exampleInputEmail1'><b>Solicitar Sobrestado:</b></label>
+						<form method='POST' action="/editar/processo/solicitarsobrestado/<?php echo $lista['ID']?>" enctype='multipart/form-data'>	
+							<div class='col-md-10'>
+								<input class='form-control' id='justificativa' name='justificativa' placeholder='Digite aqui a sua justificativa (Máximo de 100 caracteres)' type='text' maxlength='100' required />	
+							</div>
+							<div class='col-md-2'>
+								<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar' >Solicitar &nbsp;&nbsp;<i class='fa fa-arrow-circle-right' aria-hidden='true'></i></button>
+							</div>
+						</form>
+					</div>	
+<?php 		
+				}
+	
+?>
 				
 				<div class='row linha-modal-processo'>
 					<form method='POST' action="/editar/processo/definirresponsaveis/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	
@@ -795,31 +795,37 @@ class ProcessosView extends View{
 					</form>	
 				</div>
 				
-				<form name='teste' method='POST' action="/editar/processo/definirlider/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>
-					<div class='row linha-modal-processo'>
-						<div class='col-md-10'>
-							<label class='control-label' for='exampleInputEmail1'><b>Defina o responsável líder</b>:</label><br>
-							<select class='form-control' id='lider' name='lider' required />
-								
-								<option value=''>Selecione</option>
-								
 <?php 
-								foreach($listaResponsaveis as $responsavel){
-								
-?>	
-									<option value="<?php echo $responsavel['ID_SERVIDOR'] ?>"><?php echo $responsavel['NOME_SERVIDOR']; ?></option>
+				if(count($listaResponsaveis) > 1){
+?>				
+					<form name='teste' method='POST' action="/editar/processo/definirlider/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>
+						<div class='row linha-modal-processo'>
+							<div class='col-md-10'>
+								<label class='control-label' for='exampleInputEmail1'><b>Defina o responsável líder</b>:</label><br>
+								<select class='form-control' id='lider' name='lider' required />
+									<option value=''>Selecione</option>
 									
+<?php 
+									foreach($listaResponsaveis as $responsavel){
+									
+?>	
+										<option value="<?php echo $responsavel['ID_SERVIDOR'] ?>"><?php echo $responsavel['NOME_SERVIDOR']; ?></option>
+										
 <?php 							
-								} 
+									} 
 ?>
-							</select>
+								</select>
+							</div>
+							<div class='col-md-2'>
+								<br>
+								<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Definir &nbsp;&nbsp;<i class='fa fa-arrow-circle-right' aria-hidden='true'></i></button>
+							</div>
 						</div>
-						<div class='col-md-2'>
-							<br>
-							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Definir &nbsp;&nbsp;<i class='fa fa-arrow-circle-right' aria-hidden='true'></i></button>
-						</div>
-					</div>
-				</form>
+					</form>
+				
+<?php 							
+				} 
+?>
 				
 				<div class='row linha-modal-processo'>
 					<form method='POST' action="/editar/processo/apensar/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	

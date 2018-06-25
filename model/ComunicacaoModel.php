@@ -91,7 +91,7 @@ class ComunicacaoModel extends Model{
 	
 	public function cadastrar(){
 		
-		$query = "INSERT INTO tb_comunicacao (DS_CHAPEU, DS_TITULO, DS_INTERTITULO, DS_CREDITOS, TX_NOTICIA, DT_PUBLICACAO) VALUES ('".$this->chapeu."','".$this->titulo."','".$this->intertitulo."','".$this->creditosTexto."','".$this->texto."','".$this->dataPublicacao."')";
+		$query = "INSERT INTO tb_comunicacao (DS_CHAPEU, DS_TITULO, DS_INTERTITULO, DS_CREDITOS, TX_NOTICIA, DT_PUBLICACAO) VALUES ('$this->chapeu','$this->titulo','$this->intertitulo','$this->creditosTexto','$this->texto','$this->dataPublicacao')";
 		
 		$this->setID($this->executarQueryID($query));
 		
@@ -129,7 +129,7 @@ class ComunicacaoModel extends Model{
 		
 			foreach ($this->anexos['error'] as $key => $error){
 					
-				$nomeAnexo = retiraCaracteresEspeciais($this->anexos['name'][$key]);	
+				$nomeAnexo = $this->retiraCaracteresEspeciais($this->anexos['name'][$key]);	
 					
 				$caminho = $_SERVER['DOCUMENT_ROOT'].'/_registros/fotos-noticias/';
 			
@@ -140,8 +140,8 @@ class ComunicacaoModel extends Model{
 					}
 					$nomeAnexo = "[".$a."]".$nomeAnexo;
 				}
-				if(!move_uploaded_file($this->anexos['tmp_name'][$key], $caminho.$nomeAnexo)){ 
-				}
+				
+				move_uploaded_file($this->anexos['tmp_name'][$key], $caminho.$nomeAnexo);
 				
 				$legenda = addslashes($this->legendas[$key]);
 				
@@ -149,10 +149,10 @@ class ComunicacaoModel extends Model{
 				
 				$pequena = $this->pequenas[$key];
 				
-				$query = "INSERT INTO tb_anexos_comunicacao (ID_COMUNICACAO, DS_LEGENDA, DS_CREDITOS, BL_PEQUENA, DS_ARQUIVO) VALUES ('".$this->id."','".$legenda."','".$credito."','".$pequena."','".$nomeAnexo."')";
+				$query = "INSERT INTO tb_anexos_comunicacao (ID_COMUNICACAO, DS_LEGENDA, DS_CREDITOS, BL_PEQUENA, DS_ARQUIVO) VALUES ('$this->id','$legenda','$credito','$pequena','$nomeAnexo')";
 				
 				$resultado = $this->executarQuery($query);
-				 
+				
 			}
 			
 			return $resultado;
@@ -241,7 +241,7 @@ class ComunicacaoModel extends Model{
 		
 		switch($this->tabela){
 			
-			case 'comunicacao':
+			case 'tb_comunicacao':
 			
 				$query = "SELECT DS_ARQUIVO FROM tb_anexos_comunicacao WHERE ID_COMUNICACAO = $this->id";
 		
@@ -255,7 +255,7 @@ class ComunicacaoModel extends Model{
 				
 				break;
 				
-			case 'anexos_comunicacao':
+			case 'tb_anexos_comunicacao':
 			
 				$this->excluirArquivo('fotos-noticias', $this->nomeImagem);
 				

@@ -169,7 +169,7 @@ class ServidoresModel extends Model{
 		
 		$this->excluirFoto($_SESSION['FOTO']);
 		
-		$nomeAnexo = registrarAnexo($this->foto, $_SERVER['DOCUMENT_ROOT'].'/_registros/fotos/');		
+		$nomeAnexo = $this->registrarAnexo($this->foto, 'fotos/');		
 		
 		$query = "UPDATE tb_servidores SET DS_FOTO = '$nomeAnexo' WHERE ID = $this->id";
 		

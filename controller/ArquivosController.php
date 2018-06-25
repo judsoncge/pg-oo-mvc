@@ -7,7 +7,7 @@ class ArquivosController extends Controller{
 	function __construct(){
 		
 		$this->arquivosModel   = new ArquivosModel();
-		$this->arquivosModel->setTabela('arquivos');
+		$this->arquivosModel->setTabela('tb_arquivos');
 		$this->arquivosView    = new ArquivosView();
 		$this->servidoresModel = new ServidoresModel();
 		
