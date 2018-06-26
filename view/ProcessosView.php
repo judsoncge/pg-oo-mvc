@@ -1039,4 +1039,80 @@ class ProcessosView extends View{
 <?php 
 		$this->carregarHistorico($historico);
 	}
+	
+	public function carregarRelatorio(){
+		
+?>	
+		<div class="row linha-grafico">
+			<div class="col-md-12" style="height: 40px;">
+				<center>
+					<b>
+						Total de processos: (ativos, arquivados e saíram): 
+						<?php echo $_REQUEST['QTD_PROCESSOS_TOTAL']; ?>
+					</b>
+				</center>
+			</div>
+		</div>	
+		
+		<div class="row linha-grafico">		
+			<div class="col-md-12">
+				<div class="grafico" id="processos-ativos" >
+					<center>
+						<b>
+							<?php 
+								echo $_REQUEST['QTD_PROCESSOS_ATIVOS'];
+							
+								echo " (" . $_REQUEST['QTD_PROCESSOS_PRAZO'] . " dentro do prazo e "
+							
+								. $_REQUEST['QTD_PROCESSOS_ATRASADOS'] . " atrasados)";
+							?>
+						</b>
+						
+						<br>
+						<br>
+						
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>Setor</th>
+									<th>Total</th>
+									<th>No Prazo</th>
+									<th>Atrasados</th>
+									<th>Em andamento</th>
+									<th>Finalizados pelo setor</th>
+									<th>Finalizados pelo gabinete</th>
+								</tr>
+							</thead>
+							<tbody>
+<?php									
+									$tamanho = count($_REQUEST['NOMES_SETORES']);
+									
+									for($i=0;$i<$tamanho;$i++){ ?>
+										
+										<tr>
+											<td><?php echo $_REQUEST['NOMES_SETORES'][$i]['DS_ABREVIACAO'] ?></td>
+											<td><?php echo $_REQUEST['QTD_PROCESSOS_ATIVOS_SETOR'][$i]['QUANTIDADE'] ?></td>
+											<td><?php echo $_REQUEST['QTD_PROCESSOS_PRAZO_SETOR'][$i]['QUANTIDADE'] ?></td>
+											<td><?php echo $_REQUEST['QTD_PROCESSOS_ATRASADOS_SETOR'][$i]['QUANTIDADE'] ?></td>
+											<td><?php echo $_REQUEST['QTD_PROCESSOS_ANDAMENTO_SETOR'][$i]['QUANTIDADE'] ?></td>
+											<td><?php if(isset($_REQUEST['QTD_PROCESSOS_FINALIZADOS_S_SETOR'][$i]['QUANTIDADE'])){echo $_REQUEST['QTD_PROCESSOS_FINALIZADOS_S_SETOR'][$i]['QUANTIDADE'];}else{echo '0';} ?></td>
+											<td><?php if(isset($_REQUEST['QTD_PROCESSOS_FINALIZADOS_G_SETOR'][$i]['QUANTIDADE'])){echo $_REQUEST['QTD_PROCESSOS_FINALIZADOS_G_SETOR'][$i]['QUANTIDADE'];}else{echo '0';} ?></td>
+										</tr>	
+								
+<?php	
+									}
+?>								
+							</tbody>	
+						</table>	
+					</center>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+<?php	
+	
+	}
+
 }

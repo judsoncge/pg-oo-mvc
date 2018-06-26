@@ -53,9 +53,45 @@ class ProcessosController extends Controller{
 	
 	public function carregarConsulta(){
 		
-		$this->processosView->setTitulo("PROCESSOS > CONSULTAR");
+		$this->processosView->setTitulo('PROCESSOS > CONSULTAR');
 		
 		$this->processosView->setConteudo('consulta');
+	
+		$this->processosView->carregar();
+		
+	}
+	
+	public function carregarRelatorio(){
+		
+		$_REQUEST['QTD_PROCESSOS_TOTAL'] = $this->processosModel->getQuantidadeProcessos();
+		
+		$_REQUEST['QTD_PROCESSOS_ATIVOS'] = $this->processosModel->getQuantidadeProcessosAtivos();
+		
+		$_REQUEST['QTD_PROCESSOS_PRAZO'] = $this->processosModel->getQuantidadeProcessosSituacao(0);
+		
+		$_REQUEST['QTD_PROCESSOS_ATRASADOS'] = $this->processosModel->getQuantidadeProcessosSituacao(1);
+		
+		$_REQUEST['NOMES_SETORES'] = $this->processosModel->getNomesSetoresTemProcessos();
+		
+		$_REQUEST['QTD_PROCESSOS_ATIVOS_SETOR'] = $this->processosModel->getQuantidadeProcessosSetor();
+		
+		$_REQUEST['QTD_PROCESSOS_PRAZO_SETOR'] = $this->processosModel->getQuantidadeProcessosSetorSituacao(0);
+		
+		$_REQUEST['QTD_PROCESSOS_ATRASADOS_SETOR'] = $this->processosModel->getQuantidadeProcessosSetorSituacao(1);
+		
+		$_REQUEST['QTD_PROCESSOS_ANDAMENTO_SETOR'] = $this->processosModel->getQuantidadeProcessosStatusSetor('EM ANDAMENTO');
+		
+		$_REQUEST['QTD_PROCESSOS_FINALIZADOS_S_SETOR'] = $this->processosModel->getQuantidadeProcessosStatusSetor('FINALIZADO PELO SETOR');
+		
+		$_REQUEST['QTD_PROCESSOS_FINALIZADOS_G_SETOR'] = $this->processosModel->getQuantidadeProcessosStatusSetor('FINALIZADO PELO GABINETE');
+		
+		$_REQUEST['TEMPO_MEDIO_PROCESSO'] = $this->processosModel->getTempoMedioProcessos();
+		
+		$_REQUEST['TEMPO_MEDIO_ASSUNTO'] = $this->processosModel->getTempoMedioAssunto();
+		
+		$this->processosView->setTitulo('PROCESSOS > RELATÓRIO');
+		
+		$this->processosView->setConteudo('relatorio');
 	
 		$this->processosView->carregar();
 		
@@ -143,8 +179,6 @@ class ProcessosController extends Controller{
 	}	
 	
 	public function editar(){
-		
-		
 		
 		$id = (isset($_GET['id'])) ? $_GET['id'] : NULL;
 	

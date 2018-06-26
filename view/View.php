@@ -160,7 +160,7 @@ class View{
 								<a href='/processos/consulta' ><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Consultar</a>
 							</li>
 							<li class='processos-subitem'>
-								<a href='' ><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Relatório</a>
+								<a href='/processos/relatorio/' ><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Relatório</a>
 							</li>
 						<li id='servidores'>
 							<a href='#'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Servidores</a>
@@ -237,6 +237,11 @@ class View{
 									case 'consultar':
 									
 										$this->consultar();
+										break;
+										
+									case 'relatorio':
+									
+										$this->carregarRelatorio();
 										break;
 								}
 								
@@ -348,6 +353,8 @@ class View{
 		
 		<select class="form-control" id="tipo" name="tipo" required >
 			<option value="">Selecione o tipo</option>
+			<option value="ANEXOS AO LAUDO">ANEXOS AO LAUDO</option>
+			<option value="ANEXOS AO RELATÓRIO">ANEXOS AO RELATÓRIO</option>
 			<option value="APRESENTAÇÃO">APRESENTAÇÃO</option>
 			<option value="AQUISIÇÃO">AQUISIÇÃO</option>
 			<option value="CERTIFICADO">CERTIFICADO</option>
@@ -359,9 +366,11 @@ class View{
 			<option value="OFÍCIO">OFÍCIO</option>
 			<option value="PARECER">PARECER</option>
 			<option value="PUBLICAÇÃO NO DIÁRIO">PUBLICAÇÃO NO DIÁRIO</option>
+			<option value="RAC">RAC</option>
 			<option value="RELATÓRIO">RELATÓRIO</option>
 			<option value="RESPOSTA AO INTERESSADO">RESPOSTA AO INTERESSADO</option>
 			<option value="TERMO DE REFERÊNCIA">TERMO DE REFERÊNCIA</option>
+			<option value="LAUDO PERICIAL">LAUDO PERICIAL</option>		
 		</select>
 		
 <?php

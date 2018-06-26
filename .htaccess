@@ -55,5 +55,5 @@ RewriteRule ^processos/visualizar/(.*)                 /index.php?acao=visualiza
 RewriteRule ^editar/processo/(.*)/(.*)                 /index.php?acao=editar&modulo=Processos&operacao=$1&id=$2
 RewriteRule ^processos/editar/(.*)                     /index.php?acao=edicao&modulo=Processos&id=$1
 RewriteRule ^processos/exportar/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)                   /index.php?acao=exportar&modulo=Processos&filtroservidor=$1&filtrosetor=$2&filtrosituacao=$3&filtrosobrestado=$4&filtrorecebido=$5&filtroprocesso=$6
-RewriteRule ^excluir/processo/(.*)                 /index.php?acao=excluir&modulo=Processos&id=$1
-
+RewriteRule ^excluir/processo/(.*)                     /index.php?acao=excluir&modulo=Processos&id=$1
+RewriteRule ^processos/relatorio                       /index.php?acao=relatorio&modulo=Processos

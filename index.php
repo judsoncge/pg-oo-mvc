@@ -77,6 +77,12 @@ if(isset($_GET['acao'])){
 			
 			break;
 			
+		case 'relatorio':
+		
+			$controller->carregarRelatorio();
+			
+			break;
+			
 		case 'cadastrar':
 			
 			$controller->cadastrar();

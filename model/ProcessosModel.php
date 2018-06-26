@@ -844,6 +844,177 @@ class ProcessosModel extends Model{
 		return $resultado;
 	
 	}
+	
+	public function getQuantidadeProcessos(){
+		
+		$query = 'SELECT COUNT(*) FROM tb_processos';
+		
+		$quantidade = $this->executarQueryRegistro($query);
+		
+		return $quantidade;
+
+	}
+	
+	public function getQuantidadeProcessosAtivos(){
+		
+		$query = "SELECT COUNT(*) FROM tb_processos WHERE DS_STATUS NOT IN ('ARQUIVADO', 'SAIU')";
+		
+		$quantidade = $this->executarQueryRegistro($query);
+		
+		return $quantidade;
+
+	}
+	
+	public function getQuantidadeProcessosSituacao($situacao){
+		
+		$query = "SELECT COUNT(*) FROM tb_processos WHERE BL_ATRASADO = $situacao AND DS_STATUS NOT IN ('ARQUIVADO', 'SAIU')";
+		
+		$quantidade = $this->executarQueryRegistro($query);
+		
+		return $quantidade;
+
+	}
+	
+	public function getNomesSetoresTemProcessos(){
+		
+		$query = 'SELECT 
+		
+		DISTINCT(c.DS_ABREVIACAO)
+		
+		FROM tb_processos a
+		
+		LEFT JOIN tb_servidores b ON a.ID_SERVIDOR_LOCALIZACAO = b.ID
+		LEFT JOIN tb_setores c ON b.ID_SETOR = c.ID
+        
+        WHERE c.DS_ABREVIACAO IS NOT NULL
+		
+		ORDER BY c.DS_NOME
+		
+		';
+		
+		$lista = $this->executarQueryLista($query);
+		
+		return $lista;
+		
+	}
+	
+	public function getQuantidadeProcessosSetor(){
+		
+		$query = "SELECT 
+		
+		COUNT(*) QUANTIDADE
+
+		FROM tb_processos a
+		
+		LEFT JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
+		LEFT JOIN tb_setores d ON c.ID_SETOR = d.ID
+		
+		WHERE a.DS_STATUS NOT IN ('ARQUIVADO', 'SAIU')
+		
+		GROUP BY d.ID
+		
+		ORDER BY d.DS_NOME;
+		
+		";		
+	
+		$listaDados = $this->executarQueryLista($query);
+		
+		return $listaDados;
+	
+	}
+	
+	public function getQuantidadeProcessosSetorSituacao($situacao){
+		
+		$query = "SELECT
+		
+		COUNT(*) QUANTIDADE
+		
+		FROM tb_processos a
+		
+		LEFT JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
+		LEFT JOIN tb_setores d ON c.ID_SETOR = d.ID
+		
+		WHERE a.DS_STATUS NOT IN ('ARQUIVADO', 'SAIU')
+		
+		AND a.BL_ATRASADO = $situacao
+		
+		GROUP BY d.ID
+		
+		ORDER BY d.DS_NOME;
+		
+		";		
+	
+		$listaDados = $this->executarQueryLista($query);
+		
+		return $listaDados;
+	
+	}
+	
+	public function getQuantidadeProcessosStatusSetor($status){
+		
+		$query = "SELECT 
+		
+		COUNT(*) QUANTIDADE
+		
+		FROM tb_processos a
+		
+		LEFT JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
+		LEFT JOIN tb_setores d ON c.ID_SETOR = d.ID
+		
+		WHERE a.DS_STATUS = '$status'
+		
+		GROUP BY d.ID
+		
+		ORDER BY d.DS_NOME;
+		
+		";		
+	
+		$listaDados = $this->executarQueryLista($query);
+		
+		return $listaDados;
+	
+	}
+	
+	public function getTempoMedioProcessos(){
+		
+		$query = "SELECT 
+		
+		AVG(NR_DIAS) MEDIA
+		
+		FROM tb_processos 	
+		
+		WHERE DS_STATUS IN ('ARQUIVADO', 'SAIU')
+		";
+		
+		$quantidade = $this->executarQueryRegistro($query);
+		
+		return $quantidade;
+
+	}
+	
+	public function getTempoMedioAssunto(){
+		
+		$query = "SELECT 
+		
+		AVG(a.NR_DIAS),
+		
+		b.DS_NOME
+		
+		FROM tb_processos a
+		
+		LEFT JOIN tb_assuntos_processos b ON a.ID_ASSUNTO = b.ID
+		
+		GROUP BY a.ID_ASSUNTO
+		
+		ORDER BY b.DS_NOME 	
+		
+		";
+		
+		$listaDados = $this->executarQueryLista($query);
+		
+		return $listaDados;
+
+	}
 
 }	
 
