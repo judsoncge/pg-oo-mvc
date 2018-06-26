@@ -140,15 +140,15 @@ class ProcessosModel extends Model{
 			
 		$data = date('Y-m-d');
 		
-		$this->urgencia = ($this->assunto == 32) ? 1 : 0;
-		
 		$query = "SELECT NR_DIAS_PRAZO FROM tb_assuntos_processos WHERE ID='$this->assunto'";
 		
 		$qtdDiasPrazo = $this->executarQueryRegistro($query);
 		
 		$this->prazo = $this->somarData($data, $qtdDiasPrazo);
 		
-		$query = "INSERT INTO tb_processos (DS_NUMERO, BL_URGENCIA, ID_ASSUNTO, DS_DETALHES, ID_ORGAO_INTERESSADO, DS_INTERESSADO, DT_ENTRADA, DT_PRAZO, ID_SERVIDOR_LOCALIZACAO) VALUES ('".$this->numero."','".$this->urgencia."', '".$this->assunto."','".strtoupper($this->detalhes)."','".$this->orgao."','".strtoupper($this->interessado)."','".$data."','".$this->prazo."', '".$this->servidorLocalizacao."')";
+		$this->urgencia = ($this->assunto == 32) ? 1 : 0;
+		
+		$query = "INSERT INTO tb_processos (DS_NUMERO, BL_URGENCIA, ID_ASSUNTO, DS_DETALHES, ID_ORGAO_INTERESSADO, DS_INTERESSADO, DT_ENTRADA, DT_PRAZO, ID_SERVIDOR_LOCALIZACAO) VALUES ('$this->numero','$this->urgencia', $this->assunto,'".strtoupper($this->detalhes)."',$this->orgao,'".strtoupper($this->interessado)."','$data','$this->prazo', $this->servidorLocalizacao)";
 		
 		$id = $this->executarQueryID($query);
 		
@@ -160,6 +160,30 @@ class ProcessosModel extends Model{
 		
 		}
 		
+	}
+	
+	public function editar(){
+		
+		$existe = $this->verificaExisteRegistroId('DS_NUMERO', $this->numero);
+		
+		if($existe){
+		
+			$this->setMensagemResposta('Já existe um(a) processo com este número. Por favor, tente outro.');
+			
+			return 0;
+	
+		}
+		
+		$this->urgencia = ($this->assunto == 32) ? 1 : 0;
+		
+		$query = "UPDATE tb_processos SET DS_NUMERO = '$this->numero', BL_URGENCIA = '$this->numero', ID_ASSUNTO = $this->assunto, DS_DETALHES = '$this->detalhes', ID_ORGAO_INTERESSADO = $this->orgao, DS_INTERESSADO = '$this->interessado' WHERE ID = $this->id";
+		
+		$this->executarQuery($query);
+		
+		$resultado = $this->cadastrarHistorico('EDITOU O PROCESSO', 'EDIÇÃO');
+	
+		return $resultado;	
+	
 	}
 	
 	public function cadastrarDocumento(){

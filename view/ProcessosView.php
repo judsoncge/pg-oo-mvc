@@ -198,7 +198,7 @@ class ProcessosView extends View{
 										
 										<br> 
 												
-										<a href='/editar/processo/devolver/<?php echo $processo['ID'] ?>'>DEVOLVER</a>
+										<a href="/editar/processo/devolver/<?php echo $processo['ID'] ?>">DEVOLVER</a>
 								
 								<?php } else{ ?>
 									
@@ -325,28 +325,67 @@ class ProcessosView extends View{
 		
 	}
 	
-	public function cadastrar(){
+	public function cadastrar(){ 
+
+		$this->carregarFormulario();
+?>
+		
+	
+<?php	
+	
+	}
+	
+	
+	public function editar(){
+		
+		$this->carregarFormulario();	
+		
+	}
+	
+	public function carregarFormulario(){
 		
 		$listaAssuntos = $_REQUEST['LISTA_ASSUNTOS'];
 		
 		$listaOrgaos = $_REQUEST['LISTA_ORGAOS'];
-
-?>
-	
-		<form name="cadastro" method="POST" action="/cadastrar/processo/" enctype="multipart/form-data"> 
+		
+		$listaDados = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_PROCESSO'] : NULL;
+		
+		if($listaDados != NULL){
+			
+			$numeroProcesso = explode(' ', $listaDados['DS_NUMERO']);
+			
+			$numeroParte1 = $numeroProcesso[0];
+			
+			$numeroProcesso2 = explode('/', $numeroProcesso[1]);
+			
+			$numeroParte2 = $numeroProcesso2[0];
+			
+			$numeroParte3 = $numeroProcesso2[1];
+			
+		}
+			
+		$action = ($this->conteudo == 'edicao') 
+			? "/editar/processo/info/".$listaDados['ID']."/"
+			: '/cadastrar/servidor/';
+				
+		$nomeBotao = ($this->conteudo == 'edicao') ? 'Editar' : 'Cadastrar';
+		
+?>		
+		
+		<form name="cadastro" method="POST" action="<?php echo $action; ?>" enctype="multipart/form-data"> 
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
 						<label class="control-label" for="exampleInputEmail1">Número do processo</label>
 						<div class="row">
 							<div class="col-md-4">
-								<input class="form-control" id="numeroParte1" name="numeroParte1" placeholder="Órgão" type="text" maxlength="6" required />
+								<input class="form-control" id="numeroParte1" name="numeroParte1" placeholder="Órgão" type="text" maxlength="6" value="<?php if(isset($listaDados)){echo $numeroParte1;} ?>" required />
 							</div>
 							<div class="col-md-4">
-								<input class="form-control" id="numeroParte2" name="numeroParte2" placeholder="Número" type="text" maxlength="6" required />
+								<input class="form-control" id="numeroParte2" name="numeroParte2" placeholder="Número" type="text" maxlength="6" value="<?php if(isset($listaDados)){echo $numeroParte2;} ?>" required />
 							</div>
 							<div class="col-md-4">
-								<input class="form-control" id="numeroParte3" name="numeroParte3" placeholder="Ano" type="text" maxlength="4" required />
+								<input class="form-control" id="numeroParte3" name="numeroParte3" placeholder="Ano" type="text" maxlength="4" value="<?php if(isset($listaDados)){echo $numeroParte3;} ?>" required />
 							</div>
 						</div>
 					</div>  
@@ -355,7 +394,7 @@ class ProcessosView extends View{
 					<div class="form-group">
 						<label class="control-label" for="exampleInputEmail1">Assunto</label>
 						<select class="form-control" id="assunto" name="assunto" required />
-							<option value="">Selecione o assunto</option>
+							<option value="<?php if(isset($listaDados)){echo $listaDados['ID_ASSUNTO'];} ?>"><?php if(isset($listaDados)){echo $listaDados['NOME_ASSUNTO'];} ?></option>
 								<?php foreach($listaAssuntos as $assunto){ ?>
 									<option value="<?php echo $assunto['ID'] ?>"><?php echo $assunto['DS_NOME'] ?></option> 
 								<?php } ?>
@@ -368,7 +407,7 @@ class ProcessosView extends View{
 					<div class="form-group">
 						<label class="control-label" for="exampleInputEmail1">Órgão Interessado</label>
 						<select class="form-control" id="orgao" name="orgao" required />
-							<option value="">Selecione o Órgão Interessado</option>
+							<option value="<?php if(isset($listaDados)){echo $listaDados['ID_ORGAO_INTERESSADO'];} ?>"><?php if(isset($listaDados)){echo $listaDados['NOME_ORGAO'];} ?></option>
 								<?php foreach($listaOrgaos as $orgao){ ?>
 									<option value="<?php echo $orgao['ID'] ?>"><?php echo $orgao['DS_ABREVIACAO'] . " - " . $orgao['DS_NOME'] ?></option> 
 								<?php } ?>
@@ -380,25 +419,29 @@ class ProcessosView extends View{
 				<div class="col-md-6">
 					<div class="form-group">
 						<label class="control-label" for="exampleInputEmail1">Nome do Interessado</label>
-						<input class="form-control" id="interessado" name="interessado" placeholder="Digite o interessado" type="text" maxlength="255" required />
+						<input class="form-control" id="interessado" name="interessado" placeholder="Digite o interessado" type="text" maxlength="255" value="<?php if(isset($listaDados)){echo $listaDados['DS_INTERESSADO'];} ?>" required />
 					</div>  
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
 						<label class="control-label" for="exampleInputEmail1">Detalhes</label>
-						<input class="form-control" id="detalhes" name="detalhes" placeholder="Digite os detalhes do processo" type="text" maxlength="255" required />
+						<input class="form-control" id="detalhes" name="detalhes" placeholder="Digite os detalhes do processo" type="text" maxlength="255" value="<?php if(isset($listaDados)){echo $listaDados['DS_DETALHES'];} ?>" required />
 					</div>  
 				</div>
 			</div>
 			<div class="row" id="cad-button">
 				<div class="col-md-12">
-					<button type="submit" class="btn btn-default" name="submit" value="Send" id="submit">Cadastrar</button>
+					<button type="submit" class="btn btn-default" name="submit" value="Send" id="submit"><?php echo $nomeBotao; ?></button>
 				</div>
 			</div>
 		</form>
-	
+		
+		
+		
+		
+		
+		
 <?php	
-	
 	}
 	
 	public function visualizar(){
@@ -504,7 +547,7 @@ class ProcessosView extends View{
 							}
 ?>
 							
-								<a href="#"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Editar&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil" aria-hidden='true'></i></button></a>
+								<a href="/processo/editar/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Editar&nbsp;&nbsp;&nbsp;<i class='fa fa-pencil' aria-hidden='true'></i></button></a>
 						
 								
 								<a href="/excluir/processo/<?php echo $lista['ID'] ?>"><button type='submit' onclick="return confirm('Você tem certeza que deseja apagar este processo?');" class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Excluir&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden='true'></i></button></a>

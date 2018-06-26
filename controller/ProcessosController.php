@@ -29,6 +29,28 @@ class ProcessosController extends Controller{
 		
 	}
 	
+	public function carregarEdicao(){
+		
+		$id = $_GET['id'];
+		
+		$this->processosModel->setID($id);
+		
+		$_REQUEST['LISTA_ASSUNTOS'] = $this->processosModel->getListaAssuntos();
+		
+		$_REQUEST['LISTA_ORGAOS'] = $this->processosModel->getListaOrgaos();
+		
+		$listaDados = $this->processosModel->getDadosID();
+		
+		$this->processosView->setTitulo("PROCESSOS > ".$listaDados['DS_NUMERO']." > EDITAR");
+		
+		$_REQUEST['DADOS_PROCESSO'] = $listaDados;
+		
+		$this->processosView->setConteudo('edicao');
+	
+		$this->processosView->carregar();
+		
+	}
+	
 	public function cadastrar(){
 		
 		$numeroParte1 = (isset($_POST['numeroParte1'])) ? $_POST['numeroParte1'] : NULL;
@@ -77,6 +99,8 @@ class ProcessosController extends Controller{
 	
 	public function editar(){
 		
+		
+		
 		$id = (isset($_GET['id'])) ? $_GET['id'] : NULL;
 	
 		$this->processosModel->setId($id);
@@ -84,6 +108,42 @@ class ProcessosController extends Controller{
 		$this->processosModel->setServidorSessao($_SESSION['ID']);
 		
 		switch($_GET['operacao']){
+			
+			case 'info':
+			
+				
+			
+				$numeroParte1 = (isset($_POST['numeroParte1'])) ? $_POST['numeroParte1'] : NULL;
+		
+				$numeroParte2 = (isset($_POST['numeroParte2'])) ? $_POST['numeroParte2'] : NULL;
+				
+				$numeroParte3 = (isset($_POST['numeroParte3'])) ? $_POST['numeroParte3'] : NULL;
+				
+				$numero = $numeroParte1 . ' ' . $numeroParte2 . '/' . $numeroParte3;
+				
+				$assunto = (isset($_POST['assunto'])) ? $_POST['assunto'] : NULL;
+				
+				$orgao = (isset($_POST['orgao'])) ? $_POST['orgao'] : NULL;
+				
+				$interessado = (isset($_POST['interessado'])) ? $_POST['interessado'] : NULL;
+				
+				$detalhes = (isset($_POST['detalhes'])) ? $_POST['detalhes'] : NULL;
+				
+				$this->processosModel->setNumero($numero);
+				
+				$this->processosModel->setAssunto($assunto);
+				
+				$this->processosModel->setOrgao($orgao);
+				
+				$this->processosModel->setInteressado($interessado);
+				
+				$this->processosModel->setDetalhes($detalhes);
+				
+				$this->processosModel->setServidorSessao($_SESSION['ID']);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->editar();
+				
+				break;
 			
 			case 'receber':
 			

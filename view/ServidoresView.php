@@ -103,16 +103,15 @@ class ServidoresView extends View{
 	
 	public function carregarFormulario(){ 
 				
-			$listaDados = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_SERVIDOR'] : NULL;
+		$listaDados = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_SERVIDOR'] : NULL;
+		
+		$action = ($this->conteudo == 'edicao') 
+			? "/editar/servidor/info/".$listaDados['ID']."/"
+			: '/cadastrar/servidor/';
 			
-			$action = ($this->conteudo == 'edicao') 
-				? "/editar/servidor/info/".$listaDados['ID']."/"
-				: '/cadastrar/servidor/';
-				
-			$nomeBotao = ($this->conteudo == 'edicao') ? 'Editar' : 'Cadastrar';
+		$nomeBotao = ($this->conteudo == 'edicao') ? 'Editar' : 'Cadastrar';
 
 ?>
-		
 		<form name="cadastro" method="POST" action="<?php echo $action; ?>" enctype="multipart/form-data"> 
 			<div class="row">
 				<div class="col-md-6">

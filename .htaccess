@@ -42,8 +42,8 @@ RewriteRule ^editar/comunicacao/excluir-imagem/(.*)/(.*)/(.*) /index.php?acao=ed
 RewriteRule ^editar/comunicacao/(.*)/(.*)/(.*)           /index.php?acao=editar&modulo=Comunicacao&operacao=$1&id=$2&status=$3
 RewriteRule ^excluir/comunicacao/(.*)                    /index.php?acao=excluir&modulo=Comunicacao&id=$1
 
-
-RewriteRule ^editar/processo/(.*)/(.*)/(.*)    index.php?acao=editar&modulo=Processos&operacao=$1&id=$2&valor=$3
+RewriteRule ^processo/editar/(.*)                      /index.php?acao=edicao&tipo=info&modulo=Processos&id=$1
+RewriteRule ^editar/processo/(.*)/(.*)/(.*)            /index.php?acao=editar&modulo=Processos&operacao=$1&id=$2&valor=$3
 RewriteRule ^processos/ativos/1                        /index.php?acao=lista&modulo=Processos&status=ATIVO&filtro=1
 RewriteRule ^processos/ativos/0                        /index.php?acao=lista&modulo=Processos&status=ATIVO&filtro=0
 RewriteRule ^processos/inativos                        /index.php?acao=lista&modulo=Processos&status=INATIVO
