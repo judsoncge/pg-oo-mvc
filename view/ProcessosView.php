@@ -648,7 +648,7 @@ class ProcessosView extends View{
 						
 						Prazo: <?php echo $lista["DT_PRAZO"] ?><br>
 						
-						Data de saída: <?php echo $lista['DT_SAIDA'] ?>
+						Data de saída: <?php echo $lista["DT_SAIDA"] ?>
 						
 						<br><br>
 						
@@ -914,6 +914,129 @@ class ProcessosView extends View{
 <?php
 			}
 		}
-	}	
-	
+	}
+
+	public function consulta(){
+
+?>
+		<form name="cadastro" method="POST" action="/consultar/processo/" enctype="multipart/form-data"> 
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<input class="form-control" id="processoConsultar" name="processoConsultar" placeholder="Digite o número do processo que deseja consultar" type="text" maxlength="20" required />
+					</div>  
+				</div>
+			</div>
+			<div class="row" id="cad-button">
+				<div class="col-md-12">
+					<button type="submit" class="btn btn-default" name="submit" value="Send" id="submit">Consultar</button>
+				</div>
+			</div>
+		</form>
+
+<?php
+	}
+
+	public function consultar(){
+		
+		$lista = $_REQUEST['DADOS_PROCESSO'];
+		
+		$historico = $_REQUEST['HISTORICO_PROCESSO'];
+		
+		$listaDocumentos = $_REQUEST['DOCUMENTOS_PROCESSO'];
+		
+		if($lista['DS_STATUS'] == 'SAIU'){
+?>
+			<div class='row linha-modal-processo'>
+								
+				<a href="/editar/processo/voltar/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-success pull-left'name='submit' value='Send' id='botao-dar-saida'>Voltar processo&nbsp;&nbsp;<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>
+				
+			</div>
+<?php
+		
+		}elseif($lista['DS_STATUS'] == 'ARQUIVADO'){
+
+?>	
+			<div class='row linha-modal-processo'>
+								
+				<a href="/editar/processo/desarquivar/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-success pull-left' name='submit' value='Send' id='botao-dar-saida'>Desarquivar&nbsp;&nbsp;<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>
+
+			</div>
+		
+<?php
+		
+		}
+		
+?>		
+		<div class='row linha-modal-processo'>
+					
+			<div class='col-md-12'>
+				
+				STATUS: <?php echo $lista["DS_STATUS"] ?><br><br>
+				
+				Está com: <?php echo $lista["NOME_SERVIDOR"] ?><br>
+				
+				No Setor: <?php echo $lista["NOME_SETOR"] ?><br>
+
+				Assunto: <?php echo $lista["NOME_ASSUNTO"] ?><br>
+				
+				Detalhes: <?php echo $lista["DS_DETALHES"] ?><br><br>
+				
+				Órgão interessado: <?php echo $lista["NOME_ORGAO"] ?><br>
+				
+				Nome do interessado: <?php echo $lista["DS_INTERESSADO"] ?><br><br>
+				
+				Dias no órgão: <?php echo $lista["NR_DIAS"] ?><br>
+					
+				Dias em sobrestado: <?php echo $lista["NR_DIAS_SOBRESTADO"] ?><br>	
+										
+				Data de entrada: <?php echo $lista["DT_ENTRADA"] ?><br>
+				
+				Prazo: <?php echo $lista["DT_PRAZO"] ?><br>
+				
+				Data de saída: <?php echo $lista["DT_SAIDA"] ?>
+				
+			</div>
+		
+		</div>
+		
+		<div class='row linha-modal-processo'>
+					
+			<b>Documentos do processo</b>:<br>
+			
+			<table class="table table-hover tabela-dados">
+				<thead>
+					<tr>
+						<th>Tipo</th>
+						<th>Criador</th>
+						<th>Data de criação</th>
+						<th>Baixar</th>
+					</tr>	
+				</thead>
+				<tbody>
+<?php 
+					
+					foreach($listaDocumentos as $documento){
+						
+?>
+						<tr>
+							<td><?php echo $documento['DS_TIPO']; ?></td>
+							<td><?php echo $documento['NOME_CRIADOR']; ?></td>
+							<td><?php echo $documento['DT_CRIACAO']; ?></td>
+							<td>
+								<a href="/_registros/anexos/<?php echo $documento['DS_ANEXO'] ?>" title="<?php echo $documento['DS_ANEXO']; ?>" download><?php echo substr($documento['DS_ANEXO'], 0, 20) . "..." ; ?>
+								</a>
+							</td>							
+<?php								 
+								
+					}
+
+?>
+						</tr>
+				</tbody>
+			</table>
+		</div>
+<?php 
+		$this->carregarHistorico($historico);
+	}
 }

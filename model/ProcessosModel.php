@@ -557,6 +557,49 @@ class ProcessosModel extends Model{
 		return $lista;
 	}
 	
+	public function getDadosNumero(){
+		
+		$existe = $this->verificaExisteRegistro('DS_NUMERO', $this->numero);
+		
+		if(!$existe){
+			
+			$this->setMensagemResposta('Não foi encontrado processo com este número.');
+			
+			return 0;		
+			
+		}
+		
+		$query =
+		
+		"SELECT 
+		
+		a.*, 
+		DATE_FORMAT(a.DT_ENTRADA, '%d/%m/%Y') DT_ENTRADA,
+		DATE_FORMAT(a.DT_SAIDA, '%d/%m/%Y') DT_SAIDA,
+		DATE_FORMAT(a.DT_PRAZO, '%d/%m/%Y') DT_PRAZO,
+		b.DS_NOME NOME_SERVIDOR,
+		c.DS_NOME NOME_SETOR,
+		d.DS_NOME NOME_ASSUNTO,
+		e.DS_NOME NOME_ORGAO
+			
+		FROM tb_processos a
+		
+		LEFT JOIN tb_servidores b ON a.ID_SERVIDOR_LOCALIZACAO = b.ID 
+		LEFT JOIN tb_setores c ON b.ID_SETOR = c.ID 
+		LEFT JOIN tb_assuntos_processos d ON a.ID_ASSUNTO = d.ID 
+		LEFT JOIN tb_orgaos e ON a.ID_ORGAO_INTERESSADO = e.ID
+		
+		WHERE a.DS_NUMERO = '$this->numero'
+		
+		";
+		
+		$lista = $this->executarQueryListaID($query);
+		
+		$this->setMensagemResposta('O processo foi encontrado!');
+		
+		return $lista;
+	}
+	
 	public function getListaProcessosStatus(){
 		
 		$restricaoStatus = ($this->status == 'ATIVO') ? " NOT IN ('ARQUIVADO', 'SAIU') " : " IN ('ARQUIVADO', 'SAIU') ";

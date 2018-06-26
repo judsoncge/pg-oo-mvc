@@ -94,11 +94,11 @@ class View{
 								</div>
 								<div id='mensagem'>
 									<center>
-										<a href="/servidores/senha/" id='alterar-senha'>
+										<a href='/servidores/senha/' id='alterar-senha'>
 											<i class='fa fa-edit' aria-hidden='true'></i>  
 											Alterar senha
 										</a>
-										<a href="/servidores/foto/" id='alterar-foto'>
+										<a href='/servidores/foto/' id='alterar-foto'>
 											<i class='fa fa-edit' aria-hidden='true'></i> 
 											Alterar foto
 										</a>
@@ -157,7 +157,7 @@ class View{
 								<a href='/processos/ativos/0'><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Ativos</a>
 							</li>
 							<li class='processos-subitem'>
-								<a href='' ><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Consultar</a>
+								<a href='/processos/consulta' ><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Consultar</a>
 							</li>
 							<li class='processos-subitem'>
 								<a href='' ><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Relatório</a>
@@ -227,6 +227,16 @@ class View{
 									case 'visualizar':
 									
 										$this->visualizar();
+										break;
+										
+									case 'consulta':
+									
+										$this->consulta();
+										break;
+										
+									case 'consultar':
+									
+										$this->consultar();
 										break;
 								}
 								

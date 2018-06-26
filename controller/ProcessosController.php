@@ -51,6 +51,51 @@ class ProcessosController extends Controller{
 		
 	}
 	
+	public function carregarConsulta(){
+		
+		$this->processosView->setTitulo("PROCESSOS > CONSULTAR");
+		
+		$this->processosView->setConteudo('consulta');
+	
+		$this->processosView->carregar();
+		
+	}
+	
+	public function consultar(){
+		
+		$numero = $_POST['processoConsultar'];
+		
+		$this->processosModel->setNumero($numero);
+		
+		$listaDados = $this->processosModel->getDadosNumero();
+		
+		if(!$listaDados){
+			
+			$_SESSION['RESULTADO_OPERACAO'] = 0;
+			
+			$_SESSION['MENSAGEM'] = $this->processosModel->getMensagemResposta();
+			
+			Header('Location: /processos/consulta/');
+		
+		}else{
+			
+			$this->processosModel->setID($listaDados['ID']);
+			
+			$_REQUEST['DOCUMENTOS_PROCESSO'] = $this->processosModel->getListaDocumentos();
+		
+			$_REQUEST['HISTORICO_PROCESSO'] = $this->processosModel->getHistorico();
+			
+			$this->processosView->setTitulo("PROCESSOS > ".$listaDados['DS_NUMERO']." > CONSULTA");
+		
+			$this->processosView->setConteudo('consultar');
+		
+			$_REQUEST['DADOS_PROCESSO'] = $listaDados;
+			
+			$this->processosView->carregar();
+		}
+		
+	}
+	
 	public function cadastrar(){
 		
 		$numeroParte1 = (isset($_POST['numeroParte1'])) ? $_POST['numeroParte1'] : NULL;

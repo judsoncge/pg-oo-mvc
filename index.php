@@ -64,7 +64,18 @@ if(isset($_GET['acao'])){
 			$controller->visualizar();
 			
 			break;
+		
+		case 'consulta':
 			
+			$controller->carregarConsulta();
+			
+			break;
+			
+		case 'consultar':
+			
+			$controller->consultar();
+			
+			break;
 			
 		case 'cadastrar':
 			
