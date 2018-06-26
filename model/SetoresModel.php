@@ -13,8 +13,6 @@ class SetoresModel extends Model{
 		return $listaSetores;
 	
 	}
-	
-	
 
 }	
 

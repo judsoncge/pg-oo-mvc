@@ -875,39 +875,17 @@ class ProcessosModel extends Model{
 
 	}
 	
-	public function getNomesSetoresTemProcessos(){
-		
-		$query = 'SELECT 
-		
-		DISTINCT(c.DS_ABREVIACAO)
-		
-		FROM tb_processos a
-		
-		LEFT JOIN tb_servidores b ON a.ID_SERVIDOR_LOCALIZACAO = b.ID
-		LEFT JOIN tb_setores c ON b.ID_SETOR = c.ID
-        
-        WHERE c.DS_ABREVIACAO IS NOT NULL
-		
-		ORDER BY c.DS_NOME
-		
-		';
-		
-		$lista = $this->executarQueryLista($query);
-		
-		return $lista;
-		
-	}
-	
 	public function getQuantidadeProcessosSetor(){
 		
 		$query = "SELECT 
 		
+		d.DS_NOME NOME_SETOR,
 		COUNT(*) QUANTIDADE
-
+		
 		FROM tb_processos a
 		
-		LEFT JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
-		LEFT JOIN tb_setores d ON c.ID_SETOR = d.ID
+		INNER JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
+		INNER JOIN tb_setores d ON c.ID_SETOR = d.ID
 		
 		WHERE a.DS_STATUS NOT IN ('ARQUIVADO', 'SAIU')
 		
@@ -925,22 +903,22 @@ class ProcessosModel extends Model{
 	
 	public function getQuantidadeProcessosSetorSituacao($situacao){
 		
-		$query = "SELECT
+		$query = "SELECT 
 		
+		c.DS_NOME NOME_SETOR,
 		COUNT(*) QUANTIDADE
 		
+		
 		FROM tb_processos a
-		
-		LEFT JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
-		LEFT JOIN tb_setores d ON c.ID_SETOR = d.ID
-		
+
+		INNER JOIN tb_servidores b ON a.ID_SERVIDOR_LOCALIZACAO = b.ID
+		INNER JOIN tb_setores c ON b.ID_SETOR = c.ID
+
 		WHERE a.DS_STATUS NOT IN ('ARQUIVADO', 'SAIU')
-		
-		AND a.BL_ATRASADO = $situacao
-		
-		GROUP BY d.ID
-		
-		ORDER BY d.DS_NOME;
+
+		AND BL_ATRASADO = $situacao
+
+		GROUP BY c.ID
 		
 		";		
 	
@@ -954,12 +932,13 @@ class ProcessosModel extends Model{
 		
 		$query = "SELECT 
 		
+		d.DS_NOME NOME_SETOR,
 		COUNT(*) QUANTIDADE
 		
 		FROM tb_processos a
 		
-		LEFT JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
-		LEFT JOIN tb_setores d ON c.ID_SETOR = d.ID
+		INNER JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
+		INNER JOIN tb_setores d ON c.ID_SETOR = d.ID
 		
 		WHERE a.DS_STATUS = '$status'
 		
@@ -996,17 +975,21 @@ class ProcessosModel extends Model{
 		
 		$query = "SELECT 
 		
-		AVG(a.NR_DIAS),
+		AVG(a.NR_DIAS) MEDIA,
 		
-		b.DS_NOME
+		b.DS_NOME NOME_ASSUNTO
 		
 		FROM tb_processos a
 		
-		LEFT JOIN tb_assuntos_processos b ON a.ID_ASSUNTO = b.ID
+		INNER JOIN tb_assuntos_processos b ON a.ID_ASSUNTO = b.ID
+		
+		WHERE ID_ASSUNTO IS NOT NULL
 		
 		GROUP BY a.ID_ASSUNTO
 		
-		ORDER BY b.DS_NOME 	
+		ORDER BY AVG(a.NR_DIAS) DESC
+
+        		
 		
 		";
 		
