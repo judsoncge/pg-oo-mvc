@@ -8,7 +8,7 @@ class ComunicacaoView extends View{
 	
 		<script src='//cdn.tinymce.com/4/tinymce.min.js'></script>
 		
-		<script>tinymce.init({ selector:'textarea' });</script>
+		<script>tinymce.init({ selector:'textarea', language:'pt_BR' });</script>
 		
 		<script type='text/javascript'>
 		

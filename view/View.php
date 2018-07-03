@@ -469,7 +469,7 @@ class View{
 	public function editar(){
 	
 	}
-	]
+	
 	//cada módulo terá a sua página de visualização, sobrescrevendo esta função
 	public function visualizar(){
 	
