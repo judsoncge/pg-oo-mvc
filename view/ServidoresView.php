@@ -14,8 +14,8 @@ class ServidoresView extends View{
 	
 	public function listar(){ ?>
 		
-		<div class="col-md-12 table-responsive" style="overflow: auto; width: 100%; height: 300px;">
-			<table class="table table-hover tabela-dados">
+		<div class='col-md-12 table-responsive' style='overflow: auto; width: 100%; height: 300px;'>
+			<table class='table table-hover tabela-dados'>
 				<thead>
 					<tr>
 						<th>CPF</th>
@@ -41,7 +41,7 @@ class ServidoresView extends View{
 								<td>
 									<a href="/servidores/editar/<?php echo $servidor['ID'] ?>">
 										<button type='button' class='btn btn-secondary btn-sm' title='Editar'>
-											<i class="fa fa-pencil" aria-hidden='true'></i>
+											<i class='fa fa-pencil' aria-hidden='true'></i>
 										</button>
 									</a>
 									
@@ -59,7 +59,7 @@ class ServidoresView extends View{
 									
 									<a href='/editar/servidor/status/<?php echo $servidor['ID'] ?>/<?php echo $getStatus ?>'>
 										<button type='button' class='btn btn-secondary btn-sm' title='<?php echo $title ?>'>
-											<i class="fa fa-minus-square-o" aria-hidden='true'></i>
+											<i class='fa fa-minus-square-o' aria-hidden='true'></i>
 										</button>
 									</a>
 								</td>
@@ -112,31 +112,31 @@ class ServidoresView extends View{
 		$nomeBotao = ($this->conteudo == 'edicao') ? 'Editar' : 'Cadastrar';
 
 ?>
-		<form name="cadastro" method="POST" action="<?php echo $action; ?>" enctype="multipart/form-data"> 
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label class="control-label" for="exampleInputEmail1">Nome</label>
-						<input class="form-control" id="nome" name="nome" placeholder="Digite o nome (somente letras)" type="text" maxlength="255" minlength="4" pattern="[a*A*-z*Z*]*+" value="<?php if(isset($listaDados)){echo $listaDados['DS_NOME'];} ?>" required />
+		<form name='cadastro' method='POST' action='<?php echo $action; ?>' enctype='multipart/form-data'> 
+			<div class='row'>
+				<div class='col-md-6'>
+					<div class='form-group'>
+						<label class='control-label' for='exampleInputEmail1'>Nome</label>
+						<input class='form-control' id='nome' name='nome' placeholder='Digite o nome (somente letras)' type='text' maxlength='255' minlength='4' pattern='[a*A*-z*Z*]*+' value='<?php if(isset($listaDados)){echo $listaDados['DS_NOME'];} ?>' required />
 					</div> 
 				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label class="control-label" for="exampleInputEmail1">CPF</label>
-						<input class="form-control" id="CPF" name="CPF" placeholder="Digite o CPF" type="text" value="<?php if(isset($listaDados)){echo $listaDados['DS_CPF'];} ?>" required />				  
+				<div class='col-md-6'>
+					<div class='form-group'>
+						<label class='control-label' for='exampleInputEmail1'>CPF</label>
+						<input class='form-control' id='CPF' name='CPF' placeholder='Digite o CPF' type='text' value='<?php if(isset($listaDados)){echo $listaDados['DS_CPF'];} ?>' required />				  
 					</div>				
 				</div>
 			</div>
-			<div class="row"> 
+			<div class='row'> 
 				
 				<?php $this->carregarSelectSetores(); ?>
 				
 				<?php $this->carregarSelectFuncoes(); ?>
 				
 			</div>
-			<div class="row" id="cad-button">
-				<div class="col-md-12">
-					<button type="submit" class="btn btn-default" name="submit" value="Send" id="submit"><?php echo $nomeBotao; ?></button>
+			<div class='row' id='cad-button'>
+				<div class='col-md-12'>
+					<button type='submit' class='btn btn-default' name='submit' value='Send' id='submit'><?php echo $nomeBotao; ?></button>
 				</div>
 			</div>
 		</form>
@@ -150,23 +150,23 @@ class ServidoresView extends View{
 		
 ?>
 		
-	<form name="cadastro" method="POST" action="/editar/servidor/senha/<?php echo $_SESSION['ID'] ?>/" enctype="multipart/form-data"> 
-		<div class="row">
-			<div class="col-md-5">
-				<div class="form-group">
-					<label class="control-label" for="exampleInputEmail1">Nova senha</label>
-					<input class="form-control" type='password' id='nova_senha' name='senha'/>
+	<form name='cadastro' method='POST' action="/editar/servidor/senha/<?php echo $_SESSION['ID'] ?>/" enctype='multipart/form-data'> 
+		<div class='row'>
+			<div class='col-md-5'>
+				<div class='form-group'>
+					<label class='control-label' for='exampleInputEmail1'>Nova senha</label>
+					<input class='form-control' type='password' id='nova_senha' name='senha'/>
 				</div>	
 			</div>
-			<div class="col-md-5">
-				<div class="form-group">
-					<label class="control-label" for="exampleInputEmail1">Confirme a nova senha</label>
-					<input class="form-control" type='password' id='confirmaSenha' name='confirmaSenha'/>
+			<div class='col-md-5'>
+				<div class='form-group'>
+					<label class='control-label' for='exampleInputEmail1'>Confirme a nova senha</label>
+					<input class='form-control' type='password' id='confirmaSenha' name='confirmaSenha'/>
 				</div>	
 			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<button type="submit" class="btn btn-sm btn-success" name="submit" value="Send" style="margin-top:32px;">
+			<div class='col-md-2'>
+				<div class='form-group'>
+					<button type='submit' class='btn btn-sm btn-success' name='submit' value='Send' style='margin-top:32px;'>
 						Alterar senha
 					</button>
 				</div>	
@@ -183,17 +183,17 @@ class ServidoresView extends View{
 		
 ?>	
 
-	<form name="cadastro" method="POST" action="/editar/servidor/foto/<?php echo $_SESSION['ID'] ?>/" enctype="multipart/form-data"> 
-		<div class="row">
-			<div class="col-md-10">
-				<div class="form-group">
-					<label class="control-label" for="exampleInputEmail1">Selecione a nova foto</label>
-					<input class="form-control" type='file' id='arquivoFoto' name='arquivoFoto' enctype="multipart/form-data"/>
+	<form name='cadastro' method='POST' action="/editar/servidor/foto/<?php echo $_SESSION['ID'] ?>/" enctype='multipart/form-data'> 
+		<div class='row'>
+			<div class='col-md-10'>
+				<div class='form-group'>
+					<label class='control-label' for='exampleInputEmail1'>Selecione a nova foto</label>
+					<input class='form-control' type='file' id='arquivoFoto' name='arquivoFoto' enctype='multipart/form-data'/>
 				</div>	
 			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<button type="submit" class="btn btn-sm btn-success" name="submit" value="Send" style="margin-top:32px;">
+			<div class='col-md-2'>
+				<div class='form-group'>
+					<button type='submit' class='btn btn-sm btn-success' name='submit' value='Send' style='margin-top:32px;'>
 						Alterar foto
 					</button>
 				</div>	

@@ -187,17 +187,17 @@ class View{
 				});
 			</script>
 			
-			<div id="page-content-wrapper">
-				<div class="container titulo-pagina">
+			<div id='page-content-wrapper'>
+				<div class='container titulo-pagina'>
 					<p><?php echo $this->titulo ?></p>
 				</div>
 				
 				<?php $this->carregarMensagem(); ?>
 				
-				<div class="container caixa-conteudo">
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="container">
+				<div class='container caixa-conteudo'>
+					<div class='row'>
+						<div class='col-lg-12'>
+							<div class='container'>
 								<?php 
 								
 								switch($this->conteudo){
@@ -280,11 +280,11 @@ class View{
 	
 	public function carregarFiltro(){ ?>
 	
-		<div class="well">	
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="input-group margin-bottom-sm">
-						<span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span> <input type="text" class="input-search form-control" alt="tabela-dados" placeholder="Busque por qualquer termo da tabela" id="search" autofocus="autofocus" />
+		<div class='well'>	
+			<div class='row'>
+				<div class='col-sm-12'>
+					<div class='input-group margin-bottom-sm'>
+						<span class='input-group-addon'><i class='fa fa-search fa-fw'></i></span> <input type='text' class='input-search form-control' alt='tabela-dados' placeholder='Busque por qualquer termo da tabela' id='search' autofocus='autofocus' />
 					</div>
 				</div>
 			</div>
@@ -308,8 +308,8 @@ class View{
 		
 ?>
 	
-		<select class="form-control" id="servidor" name="servidor" required >
-			<option value="">Selecione o servidor para enviar</option>
+		<select class='form-control' id='servidor' name='servidor' required >
+			<option value=''>Selecione o servidor para enviar</option>
 			
 			<?php foreach($lista as $servidor){ ?>
 				
@@ -318,7 +318,6 @@ class View{
 					</option>
 				
 		  <?php } ?>
-		  
 		</select>
 	
 	
@@ -334,13 +333,13 @@ class View{
 		$nome = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_SERVIDOR']['NOME_SETOR'] : 'Selecione';
 ?>
 	
-		<div class="col-md-6">
-			<div class="form-group">
-				<label class="control-label" for="exampleInputEmail1">Setor</label>
-				<select class="form-control" id="setor" name="setor" required />
-					<option value="<?php echo $id ?>"><?php echo $nome ?></option>
+		<div class='col-md-6'>
+			<div class='form-group'>
+				<label class='control-label' for='exampleInputEmail1'>Setor</label>
+				<select class='form-control' id='setor' name='setor' required />
+					<option value='<?php echo $id ?>'><?php echo $nome ?></option>
 					<?php foreach($lista as $setor){ ?>
-						<option value="<?php echo $setor['ID'] ?>"><?php echo $setor['DS_NOME']; ?></option>
+						<option value='<?php echo $setor['ID'] ?>'><?php echo $setor['DS_NOME']; ?></option>
 					<?php } ?>
 				</select>
 			</div> 
@@ -351,26 +350,26 @@ class View{
 	
 	public function carregarSelectTiposDocumento(){ ?>
 		
-		<select class="form-control" id="tipo" name="tipo" required >
-			<option value="">Selecione o tipo</option>
-			<option value="ANEXOS AO LAUDO">ANEXOS AO LAUDO</option>
-			<option value="ANEXOS AO RELATÓRIO">ANEXOS AO RELATÓRIO</option>
-			<option value="APRESENTAÇÃO">APRESENTAÇÃO</option>
-			<option value="AQUISIÇÃO">AQUISIÇÃO</option>
-			<option value="CERTIFICADO">CERTIFICADO</option>
-			<option value="CHECKLIST">CHECKLIST</option>
-			<option value="COTAÇÃO DE PREÇO">COTAÇÃO DE PREÇO</option>
-			<option value="CERTIDÃO NEGATIVA">CERTIDÃO NEGATIVA</option>
-			<option value="DESPACHO">DESPACHO</option>
-			<option value="MEMORANDO">MEMORANDO</option>
-			<option value="OFÍCIO">OFÍCIO</option>
-			<option value="PARECER">PARECER</option>
-			<option value="PUBLICAÇÃO NO DIÁRIO">PUBLICAÇÃO NO DIÁRIO</option>
-			<option value="RAC">RAC</option>
-			<option value="RELATÓRIO">RELATÓRIO</option>
-			<option value="RESPOSTA AO INTERESSADO">RESPOSTA AO INTERESSADO</option>
-			<option value="TERMO DE REFERÊNCIA">TERMO DE REFERÊNCIA</option>
-			<option value="LAUDO PERICIAL">LAUDO PERICIAL</option>		
+		<select class='form-control' id='tipo' name='tipo' required >
+			<option value=''>Selecione o tipo</option>
+			<option value='ANEXOS AO LAUDO'>ANEXOS AO LAUDO</option>
+			<option value='ANEXOS AO RELATÓRIO'>ANEXOS AO RELATÓRIO</option>
+			<option value='APRESENTAÇÃO'>APRESENTAÇÃO</option>
+			<option value='AQUISIÇÃO'>AQUISIÇÃO</option>
+			<option value='CERTIFICADO'>CERTIFICADO</option>
+			<option value='CHECKLIST'>CHECKLIST</option>
+			<option value='COTAÇÃO DE PREÇO'>COTAÇÃO DE PREÇO</option>
+			<option value='CERTIDÃO NEGATIVA'>CERTIDÃO NEGATIVA</option>
+			<option value='DESPACHO'>DESPACHO</option>
+			<option value='MEMORANDO'>MEMORANDO</option>
+			<option value='OFÍCIO'>OFÍCIO</option>
+			<option value='PARECER'>PARECER</option>
+			<option value='PUBLICAÇÃO NO DIÁRIO'>PUBLICAÇÃO NO DIÁRIO</option>
+			<option value='RAC'>RAC</option>
+			<option value='RELATÓRIO'>RELATÓRIO</option>
+			<option value='RESPOSTA AO INTERESSADO'>RESPOSTA AO INTERESSADO</option>
+			<option value='TERMO DE REFERÊNCIA'>TERMO DE REFERÊNCIA</option>
+			<option value='LAUDO PERICIAL'>LAUDO PERICIAL</option>		
 		</select>
 		
 <?php
@@ -384,20 +383,20 @@ class View{
 	
 
 ?>
-		<div class="col-md-6">
-			<div class="form-group">
-				<label class="control-label" for="exampleInputEmail1">Função no sistema</label>
-				<select class="form-control" id="funcao" name="funcao" required />
-					<option value="<?php echo $value ?>"><?php echo $exibicao ?></option>
-					<option value="PROTOCOLO">PROTOCOLO	</option>
-					<option value="SUPERINTENDENTE">SUPERINTENDENTE</option>
-					<option value="ASSESSOR TÉCNICO">ASSESSOR TÉCNICO</option>
-					<option value="TÉCNICO ANALISTA">TÉCNICO ANALISTA</option>
-					<option value="GABINETE">GABINETE</option>
-					<option value="CONTROLADOR">CONTROLADOR</option>
-					<option value="TI">TI</option>
-					<option value="COMUNICAÇÃO">COMUNICAÇÃO</option>
-					<option value="CHEFE DE GABINETE">CHEFE DE GABINETE</option>
+		<div class='col-md-6'>
+			<div class='form-group'>
+				<label class='control-label' for='exampleInputEmail1'>Função no sistema</label>
+				<select class='form-control' id='funcao' name='funcao' required />
+					<option value='<?php echo $value ?>'><?php echo $exibicao ?></option>
+					<option value='PROTOCOLO'>PROTOCOLO	</option>
+					<option value='SUPERINTENDENTE'>SUPERINTENDENTE</option>
+					<option value='ASSESSOR TÉCNICO'>ASSESSOR TÉCNICO</option>
+					<option value='TÉCNICO ANALISTA'>TÉCNICO ANALISTA</option>
+					<option value='GABINETE'>GABINETE</option>
+					<option value='CONTROLADOR'>CONTROLADOR</option>
+					<option value='TI'>TI</option>
+					<option value='COMUNICAÇÃO'>COMUNICAÇÃO</option>
+					<option value='CHEFE DE GABINETE'>CHEFE DE GABINETE</option>
 				</select>
 			</div> 
 		</div>
@@ -426,7 +425,7 @@ class View{
 ?>
 		
 	<div class='row linha-modal-processo' style='max-height: 200px; overflow: auto;'>
-		<div class="col-md-12">
+		<div class='col-md-12'>
 			<label><b>Histórico</b>:</label>
 			<br>	
 			<?php
@@ -449,9 +448,11 @@ class View{
 						case 'REMOÇÃO DE APENSO':
 							$rgb = 'rgba(46, 204, 113,0.3)';
 							break;
+							
 						case 'MENSAGEM':
 							$rgb = 'rgba(243, 156, 18,0.4)';
 							break;
+							
 						case 'FECHAMENTO':
 						case 'ENCERRAMENTO':
 						case 'CONCLUSÃO':
@@ -462,13 +463,16 @@ class View{
 						case 'SAÍDA':
 							$rgb = 'rgba(52,152,219 ,1)';
 							break;
+							
 						case 'URGENTE':
 						case 'SOBRESTADO':
 							$rgb = 'rgba(231,76,60 ,1)';
 							break;
+							
 						case 'CONFIRMAR PROCESSO':
 							$rgb = 'rgba(39,174,96 ,1)';
 							break;
+							
 						case 'RETORNAR PROCESSO':
 							$rgb = 'rgba(127,140,141 ,1)';
 							break;
@@ -478,7 +482,7 @@ class View{
 			
 					<div style=' border: solid 1px rgba(0,0,0,0.1); box-shadow: 1px 1px 1px rgba(0,0,0,0.3); padding: 5px 0 5px 10px; border-radius: 5px; width:auto; background-color: <?php echo $rgb ?>; margin: 5px 0 5px 5px;'> 
 						<img class='foto-mensagem' src="/_registros/fotos/<?php echo $hist['DS_FOTO'] ?>" title='<?php echo $hist['DS_NOME'] ?>'>
-							<?php echo '(' . date_format(new DateTime($hist['DT_MENSAGEM']), 'd/m/Y H:i:s') . '): ' . $hist['TX_MENSAGEM'] ?>
+						<?php echo '(' . $hist['DT_ACAO'] . '): ' . $hist['TX_MENSAGEM'] ?>
 					</div>	
 
 			<?php

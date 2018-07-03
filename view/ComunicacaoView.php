@@ -257,7 +257,7 @@ class ComunicacaoView extends View{
 								</select>
 							</div>
 							<div class='col-md-2'>
-								<button type="submit" class="btn btn-sm btn-success" name="submit" value="Send" style="margin-top:32px;">Editar</button>
+								<button type='submit' class='btn btn-sm btn-success' name='submit' value='Send' style='margin-top:32px;'>Editar</button>
 							</div>
 						</div>	
 					</form>
@@ -278,13 +278,13 @@ class ComunicacaoView extends View{
 		$listaImagensPequenas = $_REQUEST['IMAGENS_PEQUENAS'];
 		
 ?>		
-		<div class="container caixa-conteudo">
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="container">
-						<div class="row" style="margin-top: 10px;">
+		<div class='container caixa-conteudo'>
+			<div class='row'>
+				<div class='col-lg-12'>
+					<div class='container'>
+						<div class='row' style='margin-top: 10px;'>
 							<?php if($lista['DS_STATUS'] != 'INATIVA'){ ?>
-								<div class="col-md-12">
+								<div class='col-md-12'>
 									<div class='row linha-modal-processo'>
 										
 											<?php if($lista['DS_STATUS'] == 'OCULTADA'){ ?>

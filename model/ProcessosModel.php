@@ -725,7 +725,7 @@ class ProcessosModel extends Model{
 	
 	public function devolver(){
 		
-		$query = "UPDATE tb_processos SET BL_RECEBIDO = 1, ID_SERVIDOR_LOCALIZACAO = (SELECT ID_SERVIDOR FROM tb_historico_processos WHERE DS_ACAO = 'TRAMITAÇÃO' AND ID_REFERENTE = $this->id ORDER BY DT_MENSAGEM DESC LIMIT 1) WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id) OR ID IN (SELECT ID_PROCESSO FROM tb_processos_apensados WHERE ID_PROCESSO_APENSADO = $this->id)";
+		$query = "UPDATE tb_processos SET BL_RECEBIDO = 1, ID_SERVIDOR_LOCALIZACAO = (SELECT ID_SERVIDOR FROM tb_historico_processos WHERE DS_ACAO = 'TRAMITAÇÃO' AND ID_REFERENTE = $this->id ORDER BY DT_ACAO DESC LIMIT 1) WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id) OR ID IN (SELECT ID_PROCESSO FROM tb_processos_apensados WHERE ID_PROCESSO_APENSADO = $this->id)";
 		
 		$this->executarQuery($query);
 		

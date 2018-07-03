@@ -6,8 +6,8 @@ class ArquivosView extends View{
 	
 	public function listar(){ ?>
 		
-		<div class="col-md-12 table-responsive" style="overflow: auto; width: 100%; height: 300px;">
-			<table class="table table-hover tabela-dados">
+		<div class='col-md-12 table-responsive' style='overflow: auto; width: 100%; height: 300px;'>
+			<table class='table table-hover tabela-dados'>
 				<thead>
 					<tr>
 						<th>Tipo</th>
@@ -43,7 +43,7 @@ class ArquivosView extends View{
 								?>
 											<a href='/editar/arquivo/status/<?php echo $arquivo['ID'] ?>/APROVADO'>
 												<button type='button' class='btn btn-secondary btn-sm' title='Aprovar'>
-													<i class="fa fa-check" aria-hidden='true'></i>
+													<i class='fa fa-check' aria-hidden='true'></i>
 												</button>
 											</a>
 								
@@ -55,7 +55,7 @@ class ArquivosView extends View{
 								?>
 											<a href='/editar/arquivo/status/<?php echo $arquivo['ID'] ?>/INATIVO'>
 												<button type='button' class='btn btn-secondary btn-sm' title='Inativar'>
-													<i class="fa fa-minus-square-o" aria-hidden='true'></i>
+													<i class='fa fa-minus-square-o' aria-hidden='true'></i>
 												</button>
 											</a>
 										
@@ -65,7 +65,7 @@ class ArquivosView extends View{
 								?>		
 										<a href='/excluir/arquivo/<?php echo $arquivo['ID'] ?>/<?php echo $arquivo['DS_ANEXO'] ?>'>
 											<button type='button' class='btn btn-secondary btn-sm' onclick="return confirm('Você tem certeza que deseja apagar este arquivo?');" title='Excluir'>
-												<i class="fa fa-trash" aria-hidden='true'></i>
+												<i class='fa fa-trash' aria-hidden='true'></i>
 											</button>
 										</a>
 							</td>									
@@ -85,31 +85,31 @@ class ArquivosView extends View{
 	public function cadastrar(){ ?>
 	
 		<form method='POST' action='/cadastrar/arquivo/' enctype='multipart/form-data'>	
-			<div class="row">
-				<div class="col-md-4">
-					<div class="form-group">
-						<label class="control-label" for="exampleInputEmail1">Selecione o tipo</label>
+			<div class='row'>
+				<div class='col-md-4'>
+					<div class='form-group'>
+						<label class='control-label' for='exampleInputEmail1'>Selecione o tipo</label>
 						
 						<?php $this->carregarSelectTiposDocumento(); ?>
 									
 					</div>  
 				</div>
-				<div class="col-md-4">
-					<label class="control-label" for="exampleInputEmail1">Escolha o servidor para enviar</label><br>
+				<div class='col-md-4'>
+					<label class='control-label' for='exampleInputEmail1'>Escolha o servidor para enviar</label><br>
 					
 						<?php $this->carregarSelectServidores(); ?>
 
 				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<label class="control-label" for="exampleInputEmail1">Escolher anexo</label><br>
-						<input type="file" class="" name="arquivoAnexo" id="arquivoAnexo"/>
+				<div class='col-md-4'>
+					<div class='form-group'>
+						<label class='control-label' for='exampleInputEmail1'>Escolher anexo</label><br>
+						<input type='file' name='arquivoAnexo' id='arquivoAnexo'/>
 					</div>
 				</div>	
 			</div>
-			<div class="row" id="cad-button">
-				<div class="col-md-12">
-					<button type="submit" class="btn btn-default" name="submit" value="Send" id="submit">Cadastrar e enviar</button>
+			<div class='row' id='cad-button'>
+				<div class='col-md-12'>
+					<button type='submit' class='btn btn-default' name='submit' value='Send' id='submit'>Cadastrar e enviar</button>
 				</div>
 			</div>
 		</form>	

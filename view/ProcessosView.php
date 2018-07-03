@@ -122,30 +122,30 @@ class ProcessosView extends View{
 		$listaProcessos = $_REQUEST['LISTA_PROCESSOS'];
 		
 ?>		
-		<div id="resultado" class="col-md-12 table-responsive" style="overflow: auto; width: 100%; height: 300px;">
+		<div id='resultado' class='col-md-12 table-responsive' style='overflow: auto; width: 100%; height: 300px;'>
 			
-		<div id="carregando" class="carregando"><i class="fa fa-refresh spin" aria-hidden='true'></i> <span>Carregando dados...</span></div>	
+		<div id='carregando' class='carregando'><i class='fa fa-refresh spin' aria-hidden='true'></i> <span>Carregando dados...</span></div>
 		
 		
 			<h5>
 				<div id='qtde'>Total: <?php echo sizeof($listaProcessos) . " " ?>
-					<button onclick="javascript: exportar();" class='btn btn-sm btn-success' name='submit' value='Send'>Exportar</button>
+					<button onclick='javascript: exportar();' class='btn btn-sm btn-success' name='submit' value='Send'>Exportar</button>
 				</div>
 			</h5>
 		
 		
-			<table class="table table-hover tabela-dados">
+			<table class='table table-hover tabela-dados'>
 				<thead>
 					<tr>
-						<th>Número  </th>
+						<th>Número</th>
 						<th>Servidor</th>
-						<th>Setor   </th>
-						<th>Prazo   </th>
-						<th>Status  </th>
+						<th>Setor</th>
+						<th>Prazo</th>
+						<th>Status</th>
 						<th>Situação</th>
-						<th>Dias    </th>
+						<th>Dias</th>
 						<th>Recebido</th>
-						<th>Ação    </th>
+						<th>Ação</th>
 					</tr>	
 				</thead>
 				<tbody>
@@ -157,7 +157,7 @@ class ProcessosView extends View{
 						//se o processo for urgente, a linha fica amarela
 						if($processo['BL_URGENCIA']){ ?>
 				
-						<tr style="background-color:#f1c40f;">
+						<tr style='background-color:#f1c40f;'>
 					
 						<?php }else{ ?>
 					
@@ -265,9 +265,9 @@ class ProcessosView extends View{
 			
 		foreach($listaProcessos as $processo){
 			
-			$atrasado = ($processo['BL_ATRASADO']) ? "ATRASADO" : "DENTRO DO PRAZO";
+			$atrasado = ($processo['BL_ATRASADO']) ? 'ATRASADO' : 'DENTRO DO PRAZO';
 
-			$recebido = ($processo['BL_RECEBIDO']) ? "SIM" : "NÃO";
+			$recebido = ($processo['BL_RECEBIDO']) ? 'SIM' : 'NÃO';
 			
 			$html .= 
 		 "<tr> 
@@ -315,7 +315,8 @@ class ProcessosView extends View{
 
 		}
 		
-		$html .= "  </tbody>	
+		$html .= 
+		"  </tbody>	
 		</table>";
 				
 		$mpdf=new mPDF();
@@ -328,10 +329,6 @@ class ProcessosView extends View{
 	public function cadastrar(){ 
 
 		$this->carregarFormulario();
-?>
-		
-	
-<?php	
 	
 	}
 	
@@ -372,28 +369,28 @@ class ProcessosView extends View{
 		
 ?>		
 		
-		<form name="cadastro" method="POST" action="<?php echo $action; ?>" enctype="multipart/form-data"> 
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label class="control-label" for="exampleInputEmail1">Número do processo</label>
-						<div class="row">
-							<div class="col-md-4">
-								<input class="form-control" id="numeroParte1" name="numeroParte1" placeholder="Órgão" type="text" maxlength="6" value="<?php if(isset($listaDados)){echo $numeroParte1;} ?>" required />
+		<form name='cadastro' method='POST' action='<?php echo $action; ?>' enctype='multipart/form-data'> 
+			<div class='row'>
+				<div class='col-md-6'>
+					<div class='form-group'>
+						<label class='control-label' for='exampleInputEmail1'>Número do processo</label>
+						<div class='row'>
+							<div class='col-md-4'>
+								<input class='form-control' id='numeroParte1' name='numeroParte1' placeholder='Órgão' type='text' maxlength='6' value="<?php if(isset($listaDados)){echo $numeroParte1;} ?>" required />
 							</div>
-							<div class="col-md-4">
-								<input class="form-control" id="numeroParte2" name="numeroParte2" placeholder="Número" type="text" maxlength="6" value="<?php if(isset($listaDados)){echo $numeroParte2;} ?>" required />
+							<div class='col-md-4'>
+								<input class='form-control' id='numeroParte2' name='numeroParte2' placeholder='Número' type='text' maxlength='6' value="<?php if(isset($listaDados)){echo $numeroParte2;} ?>" required />
 							</div>
-							<div class="col-md-4">
-								<input class="form-control" id="numeroParte3" name="numeroParte3" placeholder="Ano" type="text" maxlength="4" value="<?php if(isset($listaDados)){echo $numeroParte3;} ?>" required />
+							<div class='col-md-4'>
+								<input class='form-control' id='numeroParte3' name='numeroParte3' placeholder='Ano' type='text' maxlength='4' value="<?php if(isset($listaDados)){echo $numeroParte3;} ?>" required />
 							</div>
 						</div>
 					</div>  
 				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label class="control-label" for="exampleInputEmail1">Assunto</label>
-						<select class="form-control" id="assunto" name="assunto" required />
+				<div class='col-md-6'>
+					<div class='form-group'>
+						<label class='control-label' for='exampleInputEmail1'>Assunto</label>
+						<select class='form-control' id='assunto' name='assunto' required />
 							<option value="<?php if(isset($listaDados)){echo $listaDados['ID_ASSUNTO'];} ?>"><?php if(isset($listaDados)){echo $listaDados['NOME_ASSUNTO'];} ?></option>
 								<?php foreach($listaAssuntos as $assunto){ ?>
 									<option value="<?php echo $assunto['ID'] ?>"><?php echo $assunto['DS_NOME'] ?></option> 
@@ -402,11 +399,11 @@ class ProcessosView extends View{
 					</div>  
 				</div>
 			</div>
-			<div class="row">						
-				<div class="col-md-12">
-					<div class="form-group">
-						<label class="control-label" for="exampleInputEmail1">Órgão Interessado</label>
-						<select class="form-control" id="orgao" name="orgao" required />
+			<div class='row'>						
+				<div class='col-md-12'>
+					<div class='form-group'>
+						<label class='control-label' for='exampleInputEmail1'>Órgão Interessado</label>
+						<select class='form-control' id='orgao' name='orgao' required />
 							<option value="<?php if(isset($listaDados)){echo $listaDados['ID_ORGAO_INTERESSADO'];} ?>"><?php if(isset($listaDados)){echo $listaDados['NOME_ORGAO'];} ?></option>
 								<?php foreach($listaOrgaos as $orgao){ ?>
 									<option value="<?php echo $orgao['ID'] ?>"><?php echo $orgao['DS_ABREVIACAO'] . " - " . $orgao['DS_NOME'] ?></option> 
@@ -415,31 +412,26 @@ class ProcessosView extends View{
 					</div>  
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label class="control-label" for="exampleInputEmail1">Nome do Interessado</label>
-						<input class="form-control" id="interessado" name="interessado" placeholder="Digite o interessado" type="text" maxlength="255" value="<?php if(isset($listaDados)){echo $listaDados['DS_INTERESSADO'];} ?>" required />
+			<div class='row'>
+				<div class='col-md-6'>
+					<div class='form-group'>
+						<label class='control-label' for='exampleInputEmail1'>Nome do Interessado</label>
+						<input class='form-control' id='interessado' name='interessado' placeholder='Digite o interessado' type='text' maxlength='255' value="<?php if(isset($listaDados)){echo $listaDados['DS_INTERESSADO'];} ?>" required />
 					</div>  
 				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label class="control-label" for="exampleInputEmail1">Detalhes</label>
-						<input class="form-control" id="detalhes" name="detalhes" placeholder="Digite os detalhes do processo" type="text" maxlength="255" value="<?php if(isset($listaDados)){echo $listaDados['DS_DETALHES'];} ?>" required />
+				<div class='col-md-6'>
+					<div class='form-group'>
+						<label class='control-label' for='exampleInputEmail1'>Detalhes</label>
+						<input class='form-control' id='detalhes' name='detalhes' placeholder='Digite os detalhes do processo' type='text' maxlength='255' value="<?php if(isset($listaDados)){echo $listaDados['DS_DETALHES'];} ?>" required />
 					</div>  
 				</div>
 			</div>
-			<div class="row" id="cad-button">
-				<div class="col-md-12">
-					<button type="submit" class="btn btn-default" name="submit" value="Send" id="submit"><?php echo $nomeBotao; ?></button>
+			<div class='row' id='cad-button'>
+				<div class='col-md-12'>
+					<button type='submit' class='btn btn-default' name='submit' value='Send' id='submit'><?php echo $nomeBotao; ?></button>
 				</div>
 			</div>
 		</form>
-		
-		
-		
-		
-		
 		
 <?php	
 	}
@@ -496,52 +488,52 @@ class ProcessosView extends View{
 		
 				if($ativo){
 					
-					if($lista["BL_URGENCIA"]){							
+					if($lista['BL_URGENCIA']){							
 ?>
-						<div class="alert alert-warning">&#9888; ESTE PROCESSO É URGENTE!</div>
+						<div class='alert alert-warning'>&#9888; ESTE PROCESSO É URGENTE!</div>
 <?php 
 					} 
 					
-					if($lista["BL_SOBRESTADO"]){ 
+					if($lista['BL_SOBRESTADO']){ 
 					
 ?>
 
-						<div class="alert alert-warning">&#9888; ESTE PROCESSO ESTÁ EM SOBRESTADO!: <?php echo $lista['DS_JUSTIFICATIVA'] ?></div>
+						<div class='alert alert-warning'>&#9888; ESTE PROCESSO ESTÁ EM SOBRESTADO!: <?php echo $lista['DS_JUSTIFICATIVA'] ?></div>
 					
 <?php   
 			
 					} 
 					
-					if(($lista["BL_RECEBIDO"] and !$apensado)){
+					if(($lista['BL_RECEBIDO'] and !$apensado)){
 						
 ?>						
 						<div class='row linha-modal-processo'>
 
 <?php	
-							if(!$lista["BL_SOBRESTADO"]){
+							if(!$lista['BL_SOBRESTADO']){
 ?>
 							
-								<a href="/editar/processo/sobrestado/<?php echo $lista['ID'] ?>/1"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Marcar sobrestado&nbsp;&nbsp;&nbsp;<i class="fa fa-warning" aria-hidden='true'></i></button></a>
+								<a href="/editar/processo/sobrestado/<?php echo $lista['ID'] ?>/1"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Marcar sobrestado&nbsp;&nbsp;&nbsp;<i class='fa fa-warning' aria-hidden='true'></i></button></a>
 							
 <?php	
 							}else{
 ?>
 							
-								<a href="/editar/processo/sobrestado/<?php echo $lista['ID'] ?>/0"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Desmarcar sobrestado&nbsp;&nbsp;&nbsp;<i class="fa fa-warning" aria-hidden='true'></i></button></a>
+								<a href="/editar/processo/sobrestado/<?php echo $lista['ID'] ?>/0"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Desmarcar sobrestado&nbsp;&nbsp;&nbsp;<i class='fa fa-warning' aria-hidden='true'></i></button></a>
 							
 <?php	
 							}
 							
-							if(!$lista["BL_URGENCIA"]){
+							if(!$lista['BL_URGENCIA']){
 ?>
 							
-								<a href="/editar/processo/urgencia/<?php echo $lista['ID'] ?>/1"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-urgencia'>Marcar como urgente&nbsp;&nbsp;&nbsp;<i class="fa fa-warning" aria-hidden='true'></i></button></a>
+								<a href="/editar/processo/urgencia/<?php echo $lista['ID'] ?>/1"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-urgencia'>Marcar como urgente&nbsp;&nbsp;&nbsp;<i class='fa fa-warning' aria-hidden='true'></i></button></a>
 							
 <?php	
 							}else{
 ?>
 							
-								<a href="/editar/processo/urgencia/<?php echo $lista['ID'] ?>/0"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-urgencia'>Desmarcar urgência&nbsp;&nbsp;&nbsp;<i class="fa fa-warning" aria-hidden='true'></i></button></a>
+								<a href="/editar/processo/urgencia/<?php echo $lista['ID'] ?>/0"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-urgencia'>Desmarcar urgência&nbsp;&nbsp;&nbsp;<i class='fa fa-warning' aria-hidden='true'></i></button></a>
 							
 <?php	
 							}
@@ -550,7 +542,7 @@ class ProcessosView extends View{
 								<a href="/processo/editar/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Editar&nbsp;&nbsp;&nbsp;<i class='fa fa-pencil' aria-hidden='true'></i></button></a>
 						
 								
-								<a href="/excluir/processo/<?php echo $lista['ID'] ?>"><button type='submit' onclick="return confirm('Você tem certeza que deseja apagar este processo?');" class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Excluir&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden='true'></i></button></a>
+								<a href="/excluir/processo/<?php echo $lista['ID'] ?>"><button type='submit' onclick="return confirm('Você tem certeza que deseja apagar este processo?');" class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Excluir&nbsp;&nbsp;&nbsp;<i class='fa fa-trash' aria-hidden='true'></i></button></a>
 							
 						</div>
 
@@ -561,16 +553,16 @@ class ProcessosView extends View{
 								
 								
 ?>
-								<a href="/editar/processo/status/<?php echo $lista['ID'] ?>/FINALIZADO PELO SETOR"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Finalizar em nome do setor&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden='true'></i></button></a>	
+								<a href="/editar/processo/status/<?php echo $lista['ID'] ?>/FINALIZADO PELO SETOR"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Finalizar em nome do setor&nbsp;&nbsp;&nbsp;<i class='fa fa-calendar-check-o' aria-hidden='true'></i></button></a>	
 <?php	
 							}
 							
 							if($lista['DS_STATUS']=='FINALIZADO PELO SETOR'){
 ?>
 									
-								<a href="/editar/processo/status/<?php echo $lista['ID'] ?>/FINALIZADO PELO GABINETE"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Finalizar em nome do gabinete&nbsp;&nbsp;&nbsp;<i class="fa fa-calendar-check-o" aria-hidden='true'></i></button></a>
+								<a href="/editar/processo/status/<?php echo $lista['ID'] ?>/FINALIZADO PELO GABINETE"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Finalizar em nome do gabinete&nbsp;&nbsp;&nbsp;<i class='fa fa-calendar-check-o' aria-hidden='true'></i></button></a>
 								
-								<a href="/editar/processo/desfazerstatus/<?php echo $lista['ID'] ?>/EM ANDAMENTO"><button type='submit' class='btn btn-sm btn-success pull-left' name='submit' value='Send' id='botao-dar-saida'>Desfazer finalização do setor&nbsp;&nbsp;<i class="fa fa-external-link-square" aria-hidden='true'></i></button></a>	
+								<a href="/editar/processo/desfazerstatus/<?php echo $lista['ID'] ?>/EM ANDAMENTO"><button type='submit' class='btn btn-sm btn-success pull-left' name='submit' value='Send' id='botao-dar-saida'>Desfazer finalização do setor&nbsp;&nbsp;<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>	
 								
 <?php	
 							}
@@ -584,7 +576,7 @@ class ProcessosView extends View{
 <?php	
 							}if($lista['DS_STATUS']=='FINALIZADO PELO GABINETE' || $lista['DS_STATUS']=='FINALIZADO PELO SETOR'){
 ?>
-								<a href="/editar/processo/status/<?php echo $lista['ID'] ?>/ARQUIVADO"><button type='submit' class='btn btn-sm btn-warning pull-left' name='submit' value='Send' id='botao-arquivar'>Arquivar&nbsp;&nbsp;<i class="fa fa-folder" aria-hidden='true'></i></button></a>	
+								<a href="/editar/processo/status/<?php echo $lista['ID'] ?>/ARQUIVADO"><button type='submit' class='btn btn-sm btn-warning pull-left' name='submit' value='Send' id='botao-arquivar'>Arquivar&nbsp;&nbsp;<i class='fa fa-folder' aria-hidden='true'></i></button></a>	
 <?php
 							}
 
@@ -626,29 +618,29 @@ class ProcessosView extends View{
 					
 					<div class='col-md-12'>
 						
-						STATUS: <?php echo $lista["DS_STATUS"] ?><br><br>
+						STATUS: <?php echo $lista['DS_STATUS'] ?><br><br>
 						
-						Está com: <?php echo $lista["NOME_SERVIDOR"] ?><br>
+						Está com: <?php echo $lista['NOME_SERVIDOR'] ?><br>
 						
-						No Setor: <?php echo $lista["NOME_SETOR"] ?><br>
+						No Setor: <?php echo $lista['NOME_SETOR'] ?><br>
 
-						Assunto: <?php echo $lista["NOME_ASSUNTO"] ?><br>
+						Assunto: <?php echo $lista['NOME_ASSUNTO'] ?><br>
 						
-						Detalhes: <?php echo $lista["DS_DETALHES"] ?><br><br>
+						Detalhes: <?php echo $lista['DS_DETALHES'] ?><br><br>
 						
-						Órgão interessado: <?php echo $lista["NOME_ORGAO"] ?><br>
+						Órgão interessado: <?php echo $lista['NOME_ORGAO'] ?><br>
 						
-						Nome do interessado: <?php echo $lista["DS_INTERESSADO"] ?><br><br>
+						Nome do interessado: <?php echo $lista['DS_INTERESSADO'] ?><br><br>
 						
-						Dias no órgão: <?php echo $lista["NR_DIAS"] ?><br>
+						Dias no órgão: <?php echo $lista['NR_DIAS'] ?><br>
 							
-						Dias em sobrestado: <?php echo $lista["NR_DIAS_SOBRESTADO"] ?><br>	
+						Dias em sobrestado: <?php echo $lista['NR_DIAS_SOBRESTADO'] ?><br>	
 												
-						Data de entrada: <?php echo $lista["DT_ENTRADA"] ?><br>
+						Data de entrada: <?php echo $lista['DT_ENTRADA'] ?><br>
 						
-						Prazo: <?php echo $lista["DT_PRAZO"] ?><br>
+						Prazo: <?php echo $lista['DT_PRAZO'] ?><br>
 						
-						Data de saída: <?php echo $lista["DT_SAIDA"] ?>
+						Data de saída: <?php echo $lista['DT_SAIDA'] ?>	
 						
 						<br><br>
 						
@@ -723,7 +715,7 @@ class ProcessosView extends View{
 					
 					<b>Documentos do processo</b>:<br>
 					
-					<table class="table table-hover tabela-dados">
+					<table class='table table-hover tabela-dados'>
 						<thead>
 							<tr>
 								<th>Tipo</th>
@@ -919,17 +911,17 @@ class ProcessosView extends View{
 	public function consulta(){
 
 ?>
-		<form name="cadastro" method="POST" action="/consultar/processo/" enctype="multipart/form-data"> 
-			<div class="row">
-				<div class="col-md-12">
-					<div class="form-group">
-						<input class="form-control" id="processoConsultar" name="processoConsultar" placeholder="Digite o número do processo que deseja consultar" type="text" maxlength="20" required />
+		<form name='cadastro' method='POST' action='/consultar/processo/' enctype='multipart/form-data'> 
+			<div class='row'>
+				<div class='col-md-12'>
+					<div class='form-group'>
+						<input class='form-control' id='processoConsultar' name='processoConsultar' placeholder='Digite o número do processo que deseja consultar' type='text' maxlength='20' required />
 					</div>  
 				</div>
 			</div>
-			<div class="row" id="cad-button">
-				<div class="col-md-12">
-					<button type="submit" class="btn btn-default" name="submit" value="Send" id="submit">Consultar</button>
+			<div class='row' id='cad-button'>
+				<div class='col-md-12'>
+					<button type='submit' class='btn btn-default' name='submit' value='Send' id='submit'>Consultar</button>
 				</div>
 			</div>
 		</form>
@@ -972,29 +964,29 @@ class ProcessosView extends View{
 					
 			<div class='col-md-12'>
 				
-				STATUS: <?php echo $lista["DS_STATUS"] ?><br><br>
+				STATUS: <?php echo $lista['DS_STATUS'] ?><br><br>
 				
-				Está com: <?php echo $lista["NOME_SERVIDOR"] ?><br>
+				Está com: <?php echo $lista['NOME_SERVIDOR'] ?><br>
 				
-				No Setor: <?php echo $lista["NOME_SETOR"] ?><br>
+				No Setor: <?php echo $lista['NOME_SETOR'] ?><br>
 
-				Assunto: <?php echo $lista["NOME_ASSUNTO"] ?><br>
+				Assunto: <?php echo $lista['NOME_ASSUNTO'] ?><br>
 				
-				Detalhes: <?php echo $lista["DS_DETALHES"] ?><br><br>
+				Detalhes: <?php echo $lista['DS_DETALHES'] ?><br><br>
 				
-				Órgão interessado: <?php echo $lista["NOME_ORGAO"] ?><br>
+				Órgão interessado: <?php echo $lista['NOME_ORGAO'] ?><br>
 				
-				Nome do interessado: <?php echo $lista["DS_INTERESSADO"] ?><br><br>
+				Nome do interessado: <?php echo $lista['DS_INTERESSADO'] ?><br><br>
 				
-				Dias no órgão: <?php echo $lista["NR_DIAS"] ?><br>
+				Dias no órgão: <?php echo $lista['NR_DIAS'] ?><br>
 					
-				Dias em sobrestado: <?php echo $lista["NR_DIAS_SOBRESTADO"] ?><br>	
+				Dias em sobrestado: <?php echo $lista['NR_DIAS_SOBRESTADO'] ?><br>	
 										
-				Data de entrada: <?php echo $lista["DT_ENTRADA"] ?><br>
+				Data de entrada: <?php echo $lista['DT_ENTRADA'] ?><br>
 				
-				Prazo: <?php echo $lista["DT_PRAZO"] ?><br>
+				Prazo: <?php echo $lista['DT_PRAZO'] ?><br>
 				
-				Data de saída: <?php echo $lista["DT_SAIDA"] ?>
+				Data de saída: <?php echo $lista['DT_SAIDA'] ?>
 				
 			</div>
 		
@@ -1004,7 +996,7 @@ class ProcessosView extends View{
 					
 			<b>Documentos do processo</b>:<br>
 			
-			<table class="table table-hover tabela-dados">
+			<table class='table table-hover tabela-dados'>
 				<thead>
 					<tr>
 						<th>Tipo</th>
@@ -1043,8 +1035,8 @@ class ProcessosView extends View{
 	public function carregarRelatorio(){
 		
 ?>	
-		<div class="row linha-grafico">
-			<div class="col-md-12" style="height: 40px;">
+		<div class='row linha-grafico'>
+			<div class='col-md-12' style='height: 40px;'>
 				<center>
 					<b>
 						Total de processos: (ativos, arquivados e saíram): 
@@ -1054,9 +1046,9 @@ class ProcessosView extends View{
 			</div>
 		</div>	
 		
-		<div class="row linha-grafico">		
-			<div class="col-md-12">
-				<div class="grafico" id="processos-ativos" >
+		<div class='row linha-grafico'>		
+			<div class='col-md-12'>
+				<div class='grafico' id='processos-ativos' >
 					<center>
 						<b>
 							<?php 
@@ -1071,7 +1063,7 @@ class ProcessosView extends View{
 						<br>
 						<br>
 						
-						<table class="table table-bordered">
+						<table class='table table-bordered'>
 							<thead>
 								<tr>
 									<th>Setor</th>
@@ -1096,11 +1088,11 @@ class ProcessosView extends View{
 			</div>
 		</div>
 		
-		<div class="row linha-grafico">		
-			<div class="col-md-12">
-				<div class="grafico" id="processos-ativos" >
+		<div class='row linha-grafico'>		
+			<div class='col-md-12'>
+				<div class='grafico' id='processos-ativos' >
 					<center>
-						<table class="table table-bordered">
+						<table class='table table-bordered'>
 							<thead>
 								<tr>
 									<th>Setor</th>
@@ -1125,11 +1117,11 @@ class ProcessosView extends View{
 			</div>
 		</div>
 		
-		<div class="row linha-grafico">		
-			<div class="col-md-12">
-				<div class="grafico" id="processos-ativos" >
+		<div class='row linha-grafico'>		
+			<div class='col-md-12'>
+				<div class='grafico' id='processos-ativos' >
 					<center>
-						<table class="table table-bordered">
+						<table class='table table-bordered'>
 							<thead>
 								<tr>
 									<th>Setor</th>
@@ -1154,11 +1146,11 @@ class ProcessosView extends View{
 			</div>
 		</div>
 		
-		<div class="row linha-grafico">		
-			<div class="col-md-12">
-				<div class="grafico" id="processos-ativos" >
+		<div class='row linha-grafico'>		
+			<div class='col-md-12'>
+				<div class='grafico' id='processos-ativos' >
 					<center>
-						<table class="table table-bordered">
+						<table class='table table-bordered'>
 							<thead>
 								<tr>
 									<th>Setor</th>
@@ -1183,11 +1175,11 @@ class ProcessosView extends View{
 			</div>
 		</div>
 		
-		<div class="row linha-grafico">		
-			<div class="col-md-12">
-				<div class="grafico" id="processos-ativos" >
+		<div class='row linha-grafico'>		
+			<div class='col-md-12'>
+				<div class='grafico' id='processos-ativos' >
 					<center>
-						<table class="table table-bordered">
+						<table class='table table-bordered'>
 							<thead>
 								<tr>
 									<th>Setor</th>
@@ -1212,11 +1204,11 @@ class ProcessosView extends View{
 			</div>
 		</div>
 		
-		<div class="row linha-grafico">		
-			<div class="col-md-12">
-				<div class="grafico" id="processos-ativos" >
+		<div class='row linha-grafico'>		
+			<div class='col-md-12'>
+				<div class='grafico' id='processos-ativos' >
 					<center>
-						<table class="table table-bordered">
+						<table class='table table-bordered'>
 							<thead>
 								<tr>
 									<th>Setor</th>
@@ -1242,9 +1234,9 @@ class ProcessosView extends View{
 		</div>
 		
 		
-		<div class="row linha-grafico">		
-			<div class="col-md-12">
-				<div class="grafico" id="processos-ativos" >
+		<div class='row linha-grafico'>		
+			<div class='col-md-12'>
+				<div class='grafico' id='processos-ativos'>
 					<center>
 						<b>
 							<?php 
@@ -1252,39 +1244,36 @@ class ProcessosView extends View{
 							?>
 						</b>
 					</center>
-						
-							<table class="table table-bordered">
-								<thead>
-									
-										<tr>
-											<th><center>Assunto</center></th>
-											<th><center>Média</center></th>
-										</tr>
-						
-								</thead>
-								<tbody>
-						
+						<table class='table table-bordered'>
+							<thead>
+								
+									<tr>
+										<th><center>Assunto</center></th>
+										<th><center>Média</center></th>
+									</tr>
+					
+							</thead>
+							<tbody>
+					
 <?php
-										$lista = $_REQUEST['TEMPO_MEDIO_ASSUNTO'];
-										
-										foreach($lista as $assunto){ 
-?>
-											<tr>
-												<td><center><?php echo $assunto['NOME_ASSUNTO'] ?></center></td>
-												<td><center><?php echo number_format($assunto['MEDIA'],0) . " dias" ?></center></td>
-											</tr>
-<?php									}
-?>
+									$lista = $_REQUEST['TEMPO_MEDIO_ASSUNTO'];
 									
-								</tbody>	
-							</table>
+									foreach($lista as $assunto){ 
+?>
+										<tr>
+											<td><center><?php echo $assunto['NOME_ASSUNTO'] ?></center></td>
+											<td><center><?php echo number_format($assunto['MEDIA'],0) . " dias" ?></center></td>
+										</tr>
+<?php								}
+?>
+								
+							</tbody>	
+						</table>
 					</center>
 				</div>
 			</div>
 		</div>
-		
-		
-		
+
 <?php	
 	
 	}

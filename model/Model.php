@@ -44,9 +44,9 @@ class Model{
 	public function conectar(){
 		
 		//conecta
-		//$this->conexao = mysqli_connect('10.50.119.149', 'desenvolvedor', 'cgeagt', 'pg-oo-mvc') or die(mysqli_error($nome_banco));
+		$this->conexao = mysqli_connect('10.50.119.149', 'desenvolvedor', 'cgeagt', 'pg-oo-mvc') or die(mysqli_error($nome_banco));
 		
-		$this->conexao = mysqli_connect('localhost', 'root', '', 'pg-oo-mvc') or die(mysqli_error($nome_banco));
+		//$this->conexao = mysqli_connect('localhost', 'root', '', 'pg-oo-mvc') or die(mysqli_error($nome_banco));
 		
 		//informando que todo tipo de variavel que vai ou vem do banco sera UFT8
 		mysqli_query($this->conexao, "SET NAMES 'utf8'");
@@ -175,7 +175,7 @@ class Model{
 		
 		$data = date('Y-m-d H:i:s');
 		
-		$query = "INSERT INTO $this->tabelaHistorico (ID_REFERENTE, TX_MENSAGEM, ID_SERVIDOR, DT_MENSAGEM, DS_ACAO) VALUES ($this->id, '$mensagem', $this->servidorSessao, '$data', '$acao')";
+		$query = "INSERT INTO $this->tabelaHistorico (ID_REFERENTE, TX_MENSAGEM, ID_SERVIDOR, DT_ACAO, DS_ACAO) VALUES ($this->id, '$mensagem', $this->servidorSessao, '$data', '$acao')";
 		
 		$resultado = $this->executarQuery($query);
 		
@@ -197,6 +197,8 @@ class Model{
 		
 		SELECT a.*,
 		
+		DATE_FORMAT(a.DT_ACAO, '%d/%m/%Y às %H:%i:%s') DT_ACAO,
+		
 		s.DS_NOME, s.DS_FOTO
 		
 		FROM $this->tabelaHistorico a
@@ -205,7 +207,7 @@ class Model{
 		
 		WHERE a.ID_REFERENTE = $this->id
 		
-		ORDER BY DT_MENSAGEM DESC
+		ORDER BY DT_ACAO DESC
 		
 		";
 
