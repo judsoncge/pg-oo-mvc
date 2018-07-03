@@ -56,7 +56,7 @@ class ServidoresModel extends Model{
 		
 		INNER JOIN tb_setores s2 ON s1.ID_SETOR = s2.ID 
 		
-		WHERE DS_STATUS='".$this->status."' 
+		WHERE DS_STATUS= '$this->status' 
 		
 		ORDER BY DS_NOME";
 		
@@ -88,7 +88,7 @@ class ServidoresModel extends Model{
 		
 		INNER JOIN tb_setores s2 ON s1.ID_SETOR = s2.ID 
 
-		WHERE s1.ID=".$this->id."
+		WHERE s1.ID = $this->id
 		
 		";
 		
@@ -111,7 +111,7 @@ class ServidoresModel extends Model{
 		
 		}else{
 			
-			$query = "INSERT INTO tb_servidores (DS_FUNCAO, ID_SETOR, DS_NOME, DS_CPF) VALUES ('".$this->funcao."','".$this->setor."','".$this->nome."','".$this->cpf."')";
+			$query = "INSERT INTO tb_servidores (DS_FUNCAO, ID_SETOR, DS_NOME, DS_CPF) VALUES ('$this->funcao', $this->setor, '$this->nome','$this->cpf')";
 			
 			$resultado = $this->executarQuery($query);
 			
@@ -169,7 +169,7 @@ class ServidoresModel extends Model{
 		
 		$this->excluirFoto($_SESSION['FOTO']);
 		
-		$nomeAnexo = $this->registrarAnexo($this->foto, 'fotos/');		
+		$nomeAnexo = $this->registrarAnexo($this->foto, 'fotos');		
 		
 		$query = "UPDATE tb_servidores SET DS_FOTO = '$nomeAnexo' WHERE ID = $this->id";
 		

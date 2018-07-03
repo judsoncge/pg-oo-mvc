@@ -8,6 +8,7 @@ class ChamadosController extends Controller{
 		
 		$this->chamadosView    = new ChamadosView();
 		$this->chamadosModel   = new ChamadosModel();
+		
 		$this->chamadosModel->setTabela('tb_chamados');
 		$this->chamadosModel->setTabelaHistorico('tb_historico_chamados');
 		

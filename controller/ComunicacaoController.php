@@ -8,6 +8,7 @@ class ComunicacaoController extends Controller{
 		
 		$this->comunicacaoView = new ComunicacaoView();
 		$this->comunicacaoModel = new ComunicacaoModel();
+		
 		$this->comunicacaoModel->setTabela('tb_comunicacao');
 		
 	}

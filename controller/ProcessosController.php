@@ -8,11 +8,11 @@ class ProcessosController extends Controller{
 		
 		$this->processosView    = new ProcessosView();
 		$this->processosModel   = new ProcessosModel();
-		$this->processosModel->setTabela('tb_processos');
-		$this->processosModel->setTabelaHistorico('tb_historico_processos');
 		$this->servidoresModel  = new ServidoresModel();
 		$this->setoresModel     = new SetoresModel();
 		
+		$this->processosModel->setTabela('tb_processos');
+		$this->processosModel->setTabelaHistorico('tb_historico_processos');
 	}
 	
 	public function carregarCadastro(){
@@ -187,8 +187,6 @@ class ProcessosController extends Controller{
 		switch($_GET['operacao']){
 			
 			case 'info':
-			
-				
 			
 				$numeroParte1 = (isset($_POST['numeroParte1'])) ? $_POST['numeroParte1'] : NULL;
 		
@@ -542,7 +540,7 @@ class ProcessosController extends Controller{
 		
 		$this->processosModel->setTabela('tb_processos');	
 	
-		$situacao = ($listaDados['BL_ATRASADO']) ? "<font color='red'> (ATRASADO)</font>" : "<font color='green'> (DENTRO DO PRAZO)</font>";
+		$situacao = ($listaDados['BL_ATRASADO']) ? '<font color='red'> (ATRASADO)</font>' : '<font color='green'> (DENTRO DO PRAZO)</font>';
 		
 		$this->processosView->setTitulo("PROCESSOS > ".$listaDados['DS_NUMERO']." > VISUALIZAR <br> $situacao");
 		

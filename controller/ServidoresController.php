@@ -6,10 +6,11 @@ class ServidoresController extends Controller{
 
 	function __construct(){
 		
-		$this->servidoresModel = new ServidoresModel();
-		$this->servidoresModel->setTabela('tb_servidores');
+		$this->servidoresModel = new ServidoresModel();		
 		$this->servidoresView  = new ServidoresView();
 		$this->setoresModel    = new SetoresModel();
+		
+		$this->servidoresModel->setTabela('tb_servidores');
 		
 	}
 	
@@ -180,11 +181,11 @@ class ServidoresController extends Controller{
 				break;
 			
 			case 'senha':
-				$this->servidoresView->setTitulo("EDITAR SENHA");
+				$this->servidoresView->setTitulo('EDITAR SENHA');
 				break;
 			
 			case 'foto':
-				$this->servidoresView->setTitulo("EDITAR FOTO");
+				$this->servidoresView->setTitulo('EDITAR FOTO');
 				break;
 			
 			

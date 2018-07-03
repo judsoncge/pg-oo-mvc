@@ -40,7 +40,7 @@ class LoginController extends Controller{
 		
 		}else{
 			
-			header("Location: /index.php");
+			header('Location: /index.php');
 			
 		}
 		
@@ -52,7 +52,7 @@ class LoginController extends Controller{
 		
 		session_destroy();
 
-		header("Location: /index.php");
+		header('Location: /index.php');
 
 	}
 	

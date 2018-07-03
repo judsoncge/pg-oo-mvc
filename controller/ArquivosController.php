@@ -7,9 +7,10 @@ class ArquivosController extends Controller{
 	function __construct(){
 		
 		$this->arquivosModel   = new ArquivosModel();
-		$this->arquivosModel->setTabela('tb_arquivos');
 		$this->arquivosView    = new ArquivosView();
 		$this->servidoresModel = new ServidoresModel();
+		
+		$this->arquivosModel->setTabela('tb_arquivos');
 		
 	}
 	
@@ -59,6 +60,8 @@ class ArquivosController extends Controller{
 		$this->arquivosModel->setServidorDestino($servidorDestino);
 		
 		$this->arquivosModel->setAnexo($anexo);
+		
+		$this->arquivosModel->setServidorSessao($_SESSION['ID']);
 		
 		$_SESSION['RESULTADO_OPERACAO'] = $this->arquivosModel->cadastrar();
 		
