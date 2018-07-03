@@ -33,6 +33,8 @@ class ComunicacaoController extends Controller{
 		
 		$_REQUEST['DADOS_IMAGENS'] = $this->comunicacaoModel->getDadosImagensID();
 		
+		$this->comunicacaoView->setTitulo('COMUNICAÇÃO > EDITAR COMUNICAÇÃO');
+		
 		$this->comunicacaoView->setConteudo('edicao');
 		
 		$this->comunicacaoView->carregar();

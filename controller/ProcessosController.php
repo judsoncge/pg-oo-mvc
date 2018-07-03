@@ -540,7 +540,7 @@ class ProcessosController extends Controller{
 		
 		$this->processosModel->setTabela('tb_processos');	
 	
-		$situacao = ($listaDados['BL_ATRASADO']) ? '<font color='red'> (ATRASADO)</font>' : '<font color='green'> (DENTRO DO PRAZO)</font>';
+		$situacao = ($listaDados['BL_ATRASADO']) ? "<font color='red'> (ATRASADO)</font>" : "<font color='green'> (DENTRO DO PRAZO)</font>";
 		
 		$this->processosView->setTitulo("PROCESSOS > ".$listaDados['DS_NUMERO']." > VISUALIZAR <br> $situacao");
 		
