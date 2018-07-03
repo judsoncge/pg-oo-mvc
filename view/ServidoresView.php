@@ -204,6 +204,32 @@ class ServidoresView extends View{
 <?php 
 
 	}
+	
+	public function carregarSelectFuncoes(){ 
+	
+		$value      = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_SERVIDOR']['DS_FUNCAO'] : '';
+		$exibicao   = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_SERVIDOR']['DS_FUNCAO'] : 'Selecione';
+?>
+		<div class='col-md-6'>
+			<div class='form-group'>
+				<label class='control-label' for='exampleInputEmail1'>Função no sistema</label>
+				<select class='form-control' id='funcao' name='funcao' required />
+					<option value='<?php echo $value ?>'><?php echo $exibicao ?></option>
+					<option value='PROTOCOLO'>PROTOCOLO	</option>
+					<option value='SUPERINTENDENTE'>SUPERINTENDENTE</option>
+					<option value='ASSESSOR TÉCNICO'>ASSESSOR TÉCNICO</option>
+					<option value='TÉCNICO ANALISTA'>TÉCNICO ANALISTA</option>
+					<option value='GABINETE'>GABINETE</option>
+					<option value='CONTROLADOR'>CONTROLADOR</option>
+					<option value='TI'>TI</option>
+					<option value='COMUNICAÇÃO'>COMUNICAÇÃO</option>
+					<option value='CHEFE DE GABINETE'>CHEFE DE GABINETE</option>
+				</select>
+			</div> 
+		</div>
+<?php
+
+	}
 
 }
 
