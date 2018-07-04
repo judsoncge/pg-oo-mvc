@@ -28,7 +28,7 @@ class View{
 	
 	}
 	
-	//este é o head padrão do sistema, todas as páginas terão este head
+	//este é o head padrão do sistema, todas as páginas terão este head, carregado no construtor
 	public function carregarHead(){ ?>
 	
 		<html>
@@ -76,7 +76,7 @@ class View{
 		
 	}
 	
-	//este é o body padrão do sistema, todas as páginas terão este body
+	//este é o body padrão do sistema, todas as páginas terão este body, carregado no construtor
 	public function carregarBody(){ ?>
 		
 		<body>
@@ -385,45 +385,15 @@ class View{
 		
 		<select class='form-control' id='servidor' name='servidor' required >
 			<option value=''>Selecione o servidor para enviar</option>
-			
 			<?php foreach($lista as $servidor){ ?>
-				
-					<option value="<?php echo $servidor['ID'] ?>">
-						<?php echo $servidor['DS_NOME']; ?>
-					</option>
-				
-		  <?php } ?>
+				<option value="<?php echo $servidor['ID'] ?>">
+					<?php echo $servidor['DS_NOME']; ?>
+				</option>
+		    <?php } ?>
 		</select>
 	
 	
 <?php	
-	}
-	
-	//algumas páginas utilizam valores de select box em comum, por exemplo, o select de setores, é utilizado em mais de uma página.
-	public function carregarSelectSetores(){ 
-		
-		//pega a lista de setores
-		$lista = $_REQUEST['LISTA_SETORES'];
-		
-		//caso o conteudo seja de edição, o valor do registro aparece como primeiro da lista. caso seja cadastro, não tem nenhum valor
-		$id   = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_SERVIDOR']['ID_SETOR'] : '';
-		
-		$nome = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_SERVIDOR']['NOME_SETOR'] : 'Selecione';
-?>
-	
-		<div class='col-md-6'>
-			<div class='form-group'>
-				<label class='control-label' for='exampleInputEmail1'>Setor</label>
-				<select class='form-control' id='setor' name='setor' required />
-					<option value='<?php echo $id ?>'><?php echo $nome ?></option>
-					<?php foreach($lista as $setor){ ?>
-						<option value='<?php echo $setor['ID'] ?>'><?php echo $setor['DS_NOME']; ?></option>
-					<?php } ?>
-				</select>
-			</div> 
-		</div>
-		
-<?php 
 	}
 	
 	//algumas páginas utilizam valores de select box em comum, por exemplo, o select de tipos de documento, é utilizado em mais de uma página.
@@ -475,6 +445,7 @@ class View{
 	
 	}
 	
+	//cada módulo poderá ter seu histórico de ações. dependendo da ação executada pelo usuário, a cor de fundo da caixa da mensagem é diferente. a view do módulo pega com o controller o array de registros de histórico e usa nessa função
 	public function carregarHistorico($historico){
 
 ?>
@@ -551,6 +522,7 @@ class View{
 	
 	}
 	
+	//esta função carrega um input para envio de mensagens que ficam registradas no histórico do módulo em questão
 	public function carregarEnviarmensagem($modulo, $id){
 		
 ?>
@@ -568,7 +540,8 @@ class View{
 <?php		
 		
 	}
-
+	
+	//este é o footer padrão do sistema, todas as páginas terão este footer, carregado no construtor
 	public function carregarFooter(){ ?>
 
 		<footer style='display: none;'>		

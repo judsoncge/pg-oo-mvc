@@ -207,7 +207,7 @@ class Model{
 		
 		WHERE a.ID_REFERENTE = $this->id
 		
-		ORDER BY DT_ACAO DESC
+		ORDER BY ID DESC
 		
 		";
 

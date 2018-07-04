@@ -4,18 +4,19 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
 class ProcessosView extends View{
 	
+	//a lista de processos carrega alguns scripts adicionais dependendo de seu conteúdo
 	public function adicionarScripts(){
 	
-		if($this->conteudo == 'lista'){
-	
-?>			<script src='/view/_libs/js/receber.js'></script>
+		//se o conteúdo for lista, carrega três scripts. o primeiro é o de receber/recusar processo (quando ele é tramitado). o segundo é o que carrega a busca quando os filtros são alterados e o terceiro é o que exporta em pdf a tabela atual de processos.
+		if($this->conteudo == 'lista'){ ?>
+			<script src='/view/_libs/js/receber.js'></script>
 			<script src='/view/_libs/js/filtros.js'></script>
 			<script src='/view/_libs/js/exportar.js'></script>
 
-<?php	
-		}elseif($this->conteudo == 'visualizar'){
+	
+		<?php //se o conteúdo for de visualizar, carrega o scripts de multiselect, usados em definir responsáveis de processos e apensar processos (estilo diferente de select multiple)
+		}elseif($this->conteudo == 'visualizar'){ ?>
 			
-?>			
 			<link rel='stylesheet' type='text/css' href='/view/_libs/css/multiple-select.css'>
 			<script type='text/javascript' src='/view/_libs/js/multiple-select.js'></script>
 			<script type='text/javascript'>
@@ -30,8 +31,10 @@ class ProcessosView extends View{
 		}
 	}
 	
+	//esta função carrega todos os campos de filtro de processo
 	public function carregarFiltro(){
 		
+		//pegando com o controller a lista de servidores e a lista de setores com o processos controller
 		$listaServidores = $_REQUEST['LISTA_SERVIDORES']; 
 		
 		$listaSetores = $_REQUEST['LISTA_SETORES']; 
@@ -40,7 +43,8 @@ class ProcessosView extends View{
 
 		<div class='well'>
 			<form>
-				<div class='row'>						
+				<div class='row'>	
+					<!-- filtro de servidor (com quem o processo está) -->
 					<div class='col-md-4'>
 						<div class='form-group'>
 							<label class='control-label' for='exampleInputEmail1'>Filtro de servidor</label><br>
@@ -55,6 +59,7 @@ class ProcessosView extends View{
 							</select>
 						</div>
 					</div>
+					<!-- filtro de setor (em que setor o processo está) -->
 					<div class='col-md-2'>
 						<div class='form-group'>
 							<label class='control-label' for='exampleInputEmail1'>Filtro de setor</label><br>
@@ -69,6 +74,7 @@ class ProcessosView extends View{
 								</select>
 						</div>
 					</div>
+					<!-- filtro de situação (no prazo ou atrasado) -->
 					<div class='col-md-2'>
 						<div class='form-group'>
 							<label class='control-label' for='exampleInputEmail1'>Filtro de situação</label><br>
@@ -79,6 +85,7 @@ class ProcessosView extends View{
 								</select>
 						</div>
 					</div>
+					<!-- filtro de sobrestado (se o processo está com alguma dependencia no momento) -->
 					<div class='col-md-2'>
 						<div class='form-group'>
 							<label class='control-label' for='exampleInputEmail1'>Sobrestado</label><br>
@@ -89,6 +96,7 @@ class ProcessosView extends View{
 							</select>
 						</div>
 					</div>
+					<!-- filtro de recebido (se o processo foi recebido por alguém após ser tramitado -->
 					<div class='col-md-2'>
 						<div class='form-group'>
 							<label class='control-label' for='exampleInputEmail1'>Recebido</label><br>
@@ -101,6 +109,7 @@ class ProcessosView extends View{
 					</div>
 				</div>
 				<div class='row'>
+					<!-- filtro de processo. o usuário digita o número do um determinado processo -->
 					<div class='col-md-12'>
 						<div class='form-group'>
 							<div class='input-group margin-bottom-sm'>
@@ -117,22 +126,25 @@ class ProcessosView extends View{
 <?php
 	}
 	
+	//carrega a tabela com os registros de processos
 	public function listar(){
 		
+		//pegando a lista de processos com o processos controller
 		$listaProcessos = $_REQUEST['LISTA_PROCESSOS'];
 		
 ?>		
+		<!-- tabela que traz os processos. de acordo com o filtro, ela se altera. o script usa esse id resultado para atualizá-la -->
 		<div id='resultado' class='col-md-12 table-responsive' style='overflow: auto; width: 100%; height: 300px;'>
 			
-		<div id='carregando' class='carregando'><i class='fa fa-refresh spin' aria-hidden='true'></i> <span>Carregando dados...</span></div>
-		
-		
+			<!--gif de carregando que aparece enquanto a tabela não é atualizada após o filtro ser alterado -->
+			<div id='carregando' class='carregando'><i class='fa fa-refresh spin' aria-hidden='true'></i> <span>Carregando dados...</span></div>
+			
+			<!-- mostra a quantidade de processos da tabela atual -->
 			<h5>
 				<div id='qtde'>Total: <?php echo sizeof($listaProcessos) . " " ?>
 					<button onclick='javascript: exportar();' class='btn btn-sm btn-success' name='submit' value='Send'>Exportar</button>
 				</div>
 			</h5>
-		
 		
 			<table class='table table-hover tabela-dados'>
 				<thead>
@@ -165,6 +177,7 @@ class ProcessosView extends View{
 					
 					    <?php } ?>
 							<td><?php echo $processo['DS_NUMERO'] ?></td>
+							<!-- este id foi criado para quando o servidor clicar em receber o processo atualizar a linha servidor para 'Agora está com você'-->
 							<td id="servidorLocalizacao<?php echo $processo['ID'] ?>"><?php echo $processo['NOME_SERVIDOR'] ?></td>
 							<td><?php echo $processo['NOME_SETOR']  ?></td>
 							<td><?php echo $processo['DT_PRAZO'] ?></td>
@@ -177,9 +190,7 @@ class ProcessosView extends View{
 									} 
 								?>
 							</td>
-							
 							<td><?php echo $processo['NR_DIAS'] ?></td>
-							
 							<td id="statusRecebido<?php echo $processo['ID'] ?>">
 								<?php 
 									if($processo['BL_RECEBIDO']){
@@ -190,6 +201,7 @@ class ProcessosView extends View{
 								?>
 							</td>				
 							
+							<!-- aqui é onde funciona o script receber. quando o processo ainda não está recebido, aparecerão as palavras RECEBER/DEVOLVER. caso o servidor clique em receber, o status de recebido do processo se atualiza (funcionalidade do script) e o botão de visualizar aparece os dados do processo aparece. caso clique em devolver, o processo é tramitado de volta para o servidor que tramitou -->
 							<td id="recebido<?php echo $processo['ID'] ?>">
 								
 								<?php if(!$processo['BL_RECEBIDO']){ ?>
@@ -200,7 +212,9 @@ class ProcessosView extends View{
 												
 										<a href="/editar/processo/devolver/<?php echo $processo['ID'] ?>">DEVOLVER</a>
 								
-								<?php } else{ ?>
+								
+								<?php //caso o processo esteja recebido já, o botão de visualizar aparece
+									} else{ ?>
 									
 										<a href="/processos/visualizar/<?php echo $processo['ID'] ?>">
 											<button type='button' class='btn btn-secondary btn-sm' title='Visualizar'>
@@ -219,6 +233,7 @@ class ProcessosView extends View{
 		
 	}
 	
+	//função que exporta a tabela de processos atual para PDF
 	public function exportar(){
 		
 		include($_SERVER['DOCUMENT_ROOT'].'/view/_libs/mpdf60/mpdf.php');
@@ -252,13 +267,13 @@ class ProcessosView extends View{
 		<table id='customers'>
 			<thead>
 				<tr>
-					<th>Número  </th>
+					<th>Número</th>
 					<th>Servidor</th>
 					<th>Setor</th>
-					<th>Prazo   </th>
-					<th>Status  </th>
+					<th>Prazo</th>
+					<th>Status</th>
 					<th>Situação</th>
-					<th>Dias    </th>
+					<th>Dias</th>
 					<th>Recebido</th>
 				</tr>	
 			</thead>";
@@ -319,56 +334,71 @@ class ProcessosView extends View{
 		"  </tbody>	
 		</table>";
 				
-		$mpdf=new mPDF();
-		$mpdf->WriteHTML($html);   
-		$mpdf->Output();
+		$mpdf = new mPDF();
+		
+		$mpdf -> WriteHTML($html);   
+		
+		$mpdf -> Output();
+		
 		exit();
 		
 	}
 	
+	//tanto cadastrar quanto editar informações utilizam o mesmo formulário. para que o mesmo formulario nao seja implementado duas vezes, a função cadastrar chama o método carregarFormulario que lá verifica se o conteudo da pagina é de cadastro ou edição.
 	public function cadastrar(){ 
 
 		$this->carregarFormulario();
 	
 	}
 	
-	
+	//tanto cadastrar quanto editar informações utilizam o mesmo formulário. para que o mesmo formulario nao seja implementado duas vezes, a função editar chama o método carregarFormulario que lá verifica se o conteudo da pagina é de cadastro ou edição.
 	public function editar(){
 		
 		$this->carregarFormulario();	
 		
 	}
 	
+	//função que carrega o formulario para cadastro/edição de processos
 	public function carregarFormulario(){
 		
+		//pegando as listas de assuntos, orgaos 
 		$listaAssuntos = $_REQUEST['LISTA_ASSUNTOS'];
 		
 		$listaOrgaos = $_REQUEST['LISTA_ORGAOS'];
 		
-		$listaDados = ($this->conteudo == 'edicao') ? $_REQUEST['DADOS_PROCESSO'] : NULL;
+		//pegando a lista de dados do processo (caso o conteudo seja de edição) com o processos controller. o action do formulario e nome do botao de submit também mudam dependendo do conteudo da página
+		if($this->conteudo == 'edicao'){
+			
+			$listaDados = $_REQUEST['DADOS_PROCESSO'];
+			$action = "/editar/processo/info/".$listaDados['ID']."/";
+			$nomeBotao = 'Editar';
+	
+		}else{
+			
+			$listaDados = NULL;
+			$action = '/cadastrar/servidor/';
+			$nomeBotao = 'Cadastrar';
+			
+		}
 		
 		if($listaDados != NULL){
 			
+			//o numero do processo é formado assim: 9999 1111/2222. o primeiro explode é utilizado para pegar a primeira parte do numero, para ser colocado no primeiro campo de numero de processo (tirando pelo espaço). Após o primeiro explode, o array resultado fica [0] -> 9999 [1] -> 1111/2222
 			$numeroProcesso = explode(' ', $listaDados['DS_NUMERO']);
 			
+			//pegando a posicao zero, ou seja, a primeira parte do numero
 			$numeroParte1 = $numeroProcesso[0];
 			
+			//segundo explode (tirando pela /) para pegar a segunda parte do número. ele pega a partir da posição 1 do primeiro array resultado, que é 9999/9999. assim, o array resultado fica [0] -> 1111 [1] -> 2222
 			$numeroProcesso2 = explode('/', $numeroProcesso[1]);
 			
 			$numeroParte2 = $numeroProcesso2[0];
 			
 			$numeroParte3 = $numeroProcesso2[1];
 			
-		}
-			
-		$action = ($this->conteudo == 'edicao') 
-			? "/editar/processo/info/".$listaDados['ID']."/"
-			: '/cadastrar/servidor/';
-				
-		$nomeBotao = ($this->conteudo == 'edicao') ? 'Editar' : 'Cadastrar';
-		
+		}		
 ?>		
-		
+		<!-- formulario. no value de cada campo é verificado se o tipo de conteúdo da página é de edição. se sim, carrega o valor do campo do servidor correspondente, que está na lista de dados solicitada acima. caso não, não imprime nada (pois é de cadastro). -->
 		<form name='cadastro' method='POST' action='<?php echo $action; ?>' enctype='multipart/form-data'> 
 			<div class='row'>
 				<div class='col-md-6'>
@@ -376,13 +406,13 @@ class ProcessosView extends View{
 						<label class='control-label' for='exampleInputEmail1'>Número do processo</label>
 						<div class='row'>
 							<div class='col-md-4'>
-								<input class='form-control' id='numeroParte1' name='numeroParte1' placeholder='Órgão' type='text' maxlength='6' value="<?php if(isset($listaDados)){echo $numeroParte1;} ?>" required />
+								<input class='form-control' id='numeroParte1' name='numeroParte1' placeholder='Órgão' type='text' maxlength='6' value="<?php if($this->conteudo=='edicao'){echo $numeroParte1;} ?>" required />
 							</div>
 							<div class='col-md-4'>
-								<input class='form-control' id='numeroParte2' name='numeroParte2' placeholder='Número' type='text' maxlength='6' value="<?php if(isset($listaDados)){echo $numeroParte2;} ?>" required />
+								<input class='form-control' id='numeroParte2' name='numeroParte2' placeholder='Número' type='text' maxlength='6' value="<?php if($this->conteudo=='edicao'){echo $numeroParte2;} ?>" required />
 							</div>
 							<div class='col-md-4'>
-								<input class='form-control' id='numeroParte3' name='numeroParte3' placeholder='Ano' type='text' maxlength='4' value="<?php if(isset($listaDados)){echo $numeroParte3;} ?>" required />
+								<input class='form-control' id='numeroParte3' name='numeroParte3' placeholder='Ano' type='text' maxlength='4' value="<?php if($this->conteudo=='edicao'){echo $numeroParte3;} ?>" required />
 							</div>
 						</div>
 					</div>  
@@ -391,7 +421,7 @@ class ProcessosView extends View{
 					<div class='form-group'>
 						<label class='control-label' for='exampleInputEmail1'>Assunto</label>
 						<select class='form-control' id='assunto' name='assunto' required />
-							<option value="<?php if(isset($listaDados)){echo $listaDados['ID_ASSUNTO'];} ?>"><?php if(isset($listaDados)){echo $listaDados['NOME_ASSUNTO'];} ?></option>
+							<option value="<?php if($this->conteudo=='edicao'){echo $listaDados['ID_ASSUNTO'];} ?>"><?php if($this->conteudo=='edicao'){echo $listaDados['NOME_ASSUNTO'];} ?></option>
 								<?php foreach($listaAssuntos as $assunto){ ?>
 									<option value="<?php echo $assunto['ID'] ?>"><?php echo $assunto['DS_NOME'] ?></option> 
 								<?php } ?>
@@ -404,7 +434,7 @@ class ProcessosView extends View{
 					<div class='form-group'>
 						<label class='control-label' for='exampleInputEmail1'>Órgão Interessado</label>
 						<select class='form-control' id='orgao' name='orgao' required />
-							<option value="<?php if(isset($listaDados)){echo $listaDados['ID_ORGAO_INTERESSADO'];} ?>"><?php if(isset($listaDados)){echo $listaDados['NOME_ORGAO'];} ?></option>
+							<option value="<?php if($this->conteudo=='edicao'){echo $listaDados['ID_ORGAO_INTERESSADO'];} ?>"><?php if($this->conteudo=='edicao'){echo $listaDados['NOME_ORGAO'];} ?></option>
 								<?php foreach($listaOrgaos as $orgao){ ?>
 									<option value="<?php echo $orgao['ID'] ?>"><?php echo $orgao['DS_ABREVIACAO'] . " - " . $orgao['DS_NOME'] ?></option> 
 								<?php } ?>
@@ -416,13 +446,13 @@ class ProcessosView extends View{
 				<div class='col-md-6'>
 					<div class='form-group'>
 						<label class='control-label' for='exampleInputEmail1'>Nome do Interessado</label>
-						<input class='form-control' id='interessado' name='interessado' placeholder='Digite o interessado' type='text' maxlength='255' value="<?php if(isset($listaDados)){echo $listaDados['DS_INTERESSADO'];} ?>" required />
+						<input class='form-control' id='interessado' name='interessado' placeholder='Digite o interessado' type='text' maxlength='255' value="<?php if($this->conteudo=='edicao'){echo $listaDados['DS_INTERESSADO'];} ?>" required />
 					</div>  
 				</div>
 				<div class='col-md-6'>
 					<div class='form-group'>
 						<label class='control-label' for='exampleInputEmail1'>Detalhes</label>
-						<input class='form-control' id='detalhes' name='detalhes' placeholder='Digite os detalhes do processo' type='text' maxlength='255' value="<?php if(isset($listaDados)){echo $listaDados['DS_DETALHES'];} ?>" required />
+						<input class='form-control' id='detalhes' name='detalhes' placeholder='Digite os detalhes do processo' type='text' maxlength='255' value="<?php if($this->conteudo=='edicao'){echo $listaDados['DS_DETALHES'];} ?>" required />
 					</div>  
 				</div>
 			</div>
@@ -436,8 +466,10 @@ class ProcessosView extends View{
 <?php	
 	}
 	
+	//carrega a visualizaçao do processo. aqui, além das informações gerais de um processo, são carregadas também várias outras funcionalidades.
 	public function visualizar(){
 		
+		//pegando dados do processo com o processos controller
 		$lista = $_REQUEST['DADOS_PROCESSO'];
 		
 		$listaDocumentos = $_REQUEST['DOCUMENTOS_PROCESSO'];
@@ -448,63 +480,56 @@ class ProcessosView extends View{
 		
 		$historico = $_REQUEST['HISTORICO_PROCESSO'];
 		
+		//recebe do processos controller a informação de que o processo está ativo ou inativo (arquivado ou saiu)
 		$ativo = $_REQUEST['ATIVO'];
 		
+		//recebe do processos controller a informação de que o processo é apenso a outro processo
 		$apensado = $_REQUEST['APENSADO'];
 		
 		$listaServidores = $_REQUEST['LISTA_SERVIDORES'];
 		
 		$listaPodemSerResponsaveis = $_REQUEST['LISTA_PODEM_SER_RESPONSAVEIS'];
 		
-		$listaProcessosApensar = $_REQUEST['LISTA_APENSAR'];
-		
-?>		
+		$listaProcessosApensar = $_REQUEST['LISTA_APENSAR']; ?>	
 	
+		<!-- se o processo nao for recebido e mesmo assim o servidor conseguir entrar na página de visualizar, é perguntado se o processo foi recebido e logo após o carregamento da página é interrompido. -->
 		<div class='container'>
-
-<?php 
-				if($ativo and !$lista['BL_RECEBIDO']){
-?>
+			
+			<?php if($ativo and !$lista['BL_RECEBIDO']){ ?>
+			
 					<div class='row linha-modal-processo'>
-						
 						<div class='alert alert-warning'>O processo físico foi recebido?
-						
 							<a href='/editar/processo/receber/<?php echo $lista['ID'] ?>/'>Sim</a>
 							/
 							<a href='/editar/processo/devolver/<?php echo $lista['ID'] ?>/'>Não</a>
-					
 						</div>
-						
 					</div>
-<?php 
+ 
+		<?php		// carregamento da página é interrompido		
 					exit();
-				} 
-			
-?>
+				} ?>
 		</div>
 		
 				
-<?php 
-		
-				if($ativo){
-					
-					if($lista['BL_URGENCIA']){							
-?>
-						<div class='alert alert-warning'>&#9888; ESTE PROCESSO É URGENTE!</div>
-<?php 
-					} 
-					
-					if($lista['BL_SOBRESTADO']){ 
-					
-?>
+<?php 	//caso o processo esteja ativo e ele seja urgente, aparece um aviso na página.
 
-						<div class='alert alert-warning'>&#9888; ESTE PROCESSO ESTÁ EM SOBRESTADO!: <?php echo $lista['DS_JUSTIFICATIVA'] ?></div>
-					
-<?php   
+		if($ativo){
 			
-					} 
+			if($lista['BL_URGENCIA']){	?>						
+
+				<div class='alert alert-warning'>&#9888; ESTE PROCESSO É URGENTE!</div>
+ 
+<?php		} 
+			//caso o processo esteja em ativo e ele esteja em sobrestado, aparece um aviso na página.
+			
+			if($lista['BL_SOBRESTADO']){ ?>
+
+				<div class='alert alert-warning'>&#9888; ESTE PROCESSO ESTÁ EM SOBRESTADO!: <?php echo $lista['DS_JUSTIFICATIVA'] ?></div>
 					
-					if(($lista['BL_RECEBIDO'] and !$apensado)){
+<?php   	} 
+			
+			//so se pode fazer qualquer ação em um processo se ele não estiver apensado ou for o processo-mãe de outros processo
+			if((!$apensado)){
 						
 ?>						
 						<div class='row linha-modal-processo'>
@@ -512,13 +537,13 @@ class ProcessosView extends View{
 <?php	
 							if(!$lista['BL_SOBRESTADO']){
 ?>
-							
+								<!-- botão para marcar o processo como sobrestado -->
 								<a href="/editar/processo/sobrestado/<?php echo $lista['ID'] ?>/1"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Marcar sobrestado&nbsp;&nbsp;&nbsp;<i class='fa fa-warning' aria-hidden='true'></i></button></a>
 							
 <?php	
 							}else{
 ?>
-							
+								<!-- botão para desmarcar o processo como sobrestado -->
 								<a href="/editar/processo/sobrestado/<?php echo $lista['ID'] ?>/0"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Desmarcar sobrestado&nbsp;&nbsp;&nbsp;<i class='fa fa-warning' aria-hidden='true'></i></button></a>
 							
 <?php	
@@ -526,42 +551,43 @@ class ProcessosView extends View{
 							
 							if(!$lista['BL_URGENCIA']){
 ?>
-							
+								<!-- botão para marcar o processo como urgente -->
 								<a href="/editar/processo/urgencia/<?php echo $lista['ID'] ?>/1"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-urgencia'>Marcar como urgente&nbsp;&nbsp;&nbsp;<i class='fa fa-warning' aria-hidden='true'></i></button></a>
 							
 <?php	
 							}else{
 ?>
-							
+								<!-- botão para desmarcar a urgencia do processo -->
 								<a href="/editar/processo/urgencia/<?php echo $lista['ID'] ?>/0"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-urgencia'>Desmarcar urgência&nbsp;&nbsp;&nbsp;<i class='fa fa-warning' aria-hidden='true'></i></button></a>
 							
 <?php	
 							}
 ?>
-							
+								<!-- botão para ir a página de editar -->
 								<a href="/processo/editar/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Editar&nbsp;&nbsp;&nbsp;<i class='fa fa-pencil' aria-hidden='true'></i></button></a>
 						
-								
+								<!-- botão para excluir o processo -->
 								<a href="/excluir/processo/<?php echo $lista['ID'] ?>"><button type='submit' onclick="return confirm('Você tem certeza que deseja apagar este processo?');" class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Excluir&nbsp;&nbsp;&nbsp;<i class='fa fa-trash' aria-hidden='true'></i></button></a>
 							
 						</div>
 
 						<div class='row linha-modal-processo'>
 
-<?php 
+<?php 						
 							if($lista['DS_STATUS']=='EM ANDAMENTO'){
 								
 								
-?>
+?>								<!-- botão para finalizar o processo em nome do setor -->
 								<a href="/editar/processo/status/<?php echo $lista['ID'] ?>/FINALIZADO PELO SETOR"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Finalizar em nome do setor&nbsp;&nbsp;&nbsp;<i class='fa fa-calendar-check-o' aria-hidden='true'></i></button></a>	
 <?php	
 							}
 							
 							if($lista['DS_STATUS']=='FINALIZADO PELO SETOR'){
 ?>
-									
+								<!-- botão para finalizar o processo em nome do gabinete -->	
 								<a href="/editar/processo/status/<?php echo $lista['ID'] ?>/FINALIZADO PELO GABINETE"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Finalizar em nome do gabinete&nbsp;&nbsp;&nbsp;<i class='fa fa-calendar-check-o' aria-hidden='true'></i></button></a>
 								
+								<!-- botão para desfazer a finalização do setor -->
 								<a href="/editar/processo/desfazerstatus/<?php echo $lista['ID'] ?>/EM ANDAMENTO"><button type='submit' class='btn btn-sm btn-success pull-left' name='submit' value='Send' id='botao-dar-saida'>Desfazer finalização do setor&nbsp;&nbsp;<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>	
 								
 <?php	
@@ -569,51 +595,51 @@ class ProcessosView extends View{
 					
 							if($lista['DS_STATUS']=='FINALIZADO PELO GABINETE'){
 ?>
-								
+								<!-- botão para desfazer a finalização do gabinete -->
 								<a href="/editar/processo/desfazerstatus/<?php echo $lista['ID'] ?>/FINALIZADO PELO SETOR"><button type='submit' class='btn btn-sm btn-success pull-left'name='submit' value='Send' id='botao-dar-saida'>Desfazer finalização do gabinete&nbsp;&nbsp;<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>
-
+								
+								<!-- botão para dar saída no processo. o processo so pode sair quando for finalizado pelo gabinete -->
 								<a href="/editar/processo/status/<?php echo $lista['ID'] ?>/SAIU"><button type='submit' class='btn btn-sm btn-success pull-left' name='submit' value='Send' id='botao-dar-saida'>Dar saída&nbsp;&nbsp;<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>						
 <?php	
 							}if($lista['DS_STATUS']=='FINALIZADO PELO GABINETE' || $lista['DS_STATUS']=='FINALIZADO PELO SETOR'){
-?>
+?>								
+								<!-- botão para arquivar o processo. o processo so pode ser arquivado se for finalizado pelo setor -->
 								<a href="/editar/processo/status/<?php echo $lista['ID'] ?>/ARQUIVADO"><button type='submit' class='btn btn-sm btn-warning pull-left' name='submit' value='Send' id='botao-arquivar'>Arquivar&nbsp;&nbsp;<i class='fa fa-folder' aria-hidden='true'></i></button></a>	
 <?php
 							}
 
-?>					
-						</div>
+?>					</div>
 								
 <?php			
-					}
+			}
+		
+		//se o processo estiver inativo e também não for apensado a outro processo...
+		}elseif(!$apensado){
 					
-				}elseif(!$apensado){
 					
+			if($lista['DS_STATUS'] == 'SAIU'){ 
+			
+?>				<!-- botão para voltar o processo para o órgão (caso tenha saído) -->
+				<div class='row linha-modal-processo'>
 					
-					if($lista['DS_STATUS'] == 'SAIU'){ 
+					<a href="/editar/processo/voltar/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-success pull-left'name='submit' value='Send' id='botao-dar-saida'>Voltar processo&nbsp;&nbsp;<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>
 					
-?>		
-						<div class='row linha-modal-processo'>
-							
-							<a href="/editar/processo/voltar/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-success pull-left'name='submit' value='Send' id='botao-dar-saida'>Voltar processo&nbsp;&nbsp;<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>
-							
-						</div>
-								
+				</div>
+						
 <?php
 
-					}elseif($lista['DS_STATUS'] == 'ARQUIVADO'){
+			}elseif($lista['DS_STATUS'] == 'ARQUIVADO'){
 
-?>
-						<div class='row linha-modal-processo'>
-							
-							<a href="/editar/processo/desarquivar/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-success pull-left' name='submit' value='Send' id='botao-dar-saida'>Desarquivar&nbsp;&nbsp;<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>
+?>				<!-- botão para desarquivar o processo -->
+				<div class='row linha-modal-processo'>
+					
+					<a href="/editar/processo/desarquivar/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-success pull-left' name='submit' value='Send' id='botao-dar-saida'>Desarquivar&nbsp;&nbsp;<i class='fa fa-external-link-square' aria-hidden='true'></i></button></a>
 
-						</div>
+				</div>
 	
-<?php		
-				
-					} 
-				}
-?>
+<?php		} 
+		}
+?>				<!-- informações do processo -->
 				<div class='row linha-modal-processo'>
 					
 					<div class='col-md-12'>
@@ -644,27 +670,23 @@ class ProcessosView extends View{
 						
 						<br><br>
 						
+						<!-- lista de responsáveis do processo. a lista de responsáveis (que foi recebida acima) é iterada mostrando o nome dos responsáveis do processo em questão -->
 						Responsáveis: 
 							
-<?php 
-							foreach($listaResponsaveis as $responsavel){
-																			
-								echo $responsavel['NOME_SERVIDOR'];
-								
-								if($ativo){
-									
-?>												
-									<a href="/editar/processo/removerresponsavel/<?php echo $lista['ID'] ?>/<?php echo $responsavel['ID_SERVIDOR'] ?>" title='remover responsável'><i class='fa fa-remove' aria-hidden='true'></i></a>,
-									
-<?php												
-								}
-								
-							} 
-
-?>
+<?php 					foreach($listaResponsaveis as $responsavel){
+																		
+							echo $responsavel['NOME_SERVIDOR'];
 							
+							//so pode remover um responsavel do processo se ele estiver ativo
+							if($ativo){ ?>										
+								<a href="/editar/processo/removerresponsavel/<?php echo $lista['ID'] ?>/<?php echo $responsavel['ID_SERVIDOR'] ?>" title='remover responsável'><i class='fa fa-remove' aria-hidden='true'></i></a>,
+								
+<?php							}
+								
+						} ?>							
 						<br>
 						
+						<!-- mostra o responsavel lider do processo -->
 						Responsável líder:      
 <?php                                 
 							
@@ -681,36 +703,28 @@ class ProcessosView extends View{
 ?>
 						<br><br>
 						
+						<!-- lista de processos apensados. mesma lógica dos responsaveis de processo -->
 						Processos apensados:
-<?php 
-															
-							foreach($listaApensados as $processoApensado){
-?>											
+<?php 						foreach($listaApensados as $processoApensado){ ?>
 							
 								<a href='/processos/visualizar/<?php echo $processoApensado['ID_PROCESSO_APENSADO'] ?>'><?php echo $processoApensado['DS_NUMERO'] ?></a>
 							
-<?php
-								if($ativo){
-?>			
+<?php							if($ativo){ ?>
+
 									<a href="/editar/processo/removerapenso/<?php echo $lista['ID'] ?>/<?php echo $processoApensado['ID_PROCESSO_APENSADO'] ?>" title='remover apenso'><i class='fa fa-remove' aria-hidden='true'></i></a>,
 								
-<?php							
-								}
-								
-									
-							} 
-								
-?>
+<?php							}
+							} ?>
 							<br>
 						
+						<!-- mostra o processo mae do processo em questão, caso haja. -->
 						Processo mãe:
-							
 							<a href='/processos/visualizar/<?php echo $lista['ID_PROCESSO_MAE'] ?>'><?php echo $lista['NUMERO_PROCESSO_MAE'] ?></a><br><br>
-						
 					</div>
+				
 				</div>
 				
-				
+				<!-- tabela que mostra os documentos do processo em questão -->
 				<div class='row linha-modal-processo'>
 					
 					<b>Documentos do processo</b>:<br>
@@ -727,7 +741,7 @@ class ProcessosView extends View{
 						</thead>
 						<tbody>
 <?php 
-							
+							//iterando a lista de documentos que foi recebida la em cima
 							foreach($listaDocumentos as $documento){
 								
 ?>
@@ -740,36 +754,35 @@ class ProcessosView extends View{
 										</a>
 									</td>
 									<td>
-<?php 								
+<?php 									//so pode deletar um documento do processo caso ele esteja ativo
 										if($ativo){
 ?> 							
 											<a href="/editar/processo/excluirdocumento/<?php echo $lista['ID'] ?>/<?php echo $documento['ID'] ?>">Excluir</a>
 											
-<?php								 
-										}
-							}
-
-?>
+<?php									}
+							} ?>
 									</td>
 								</tr>
 						</tbody>
 					</table>
 				</div>
 				
-<?php 			$this->carregarHistorico($historico);
+<?php 			
+				//carrega o historico do processo passando o array recebido la em cima. o metodo esta definido na classe mae
+				$this->carregarHistorico($historico);
 				
 		if($ativo){
-					
-			$this->carregarEnviarMensagem('processo', $lista['ID']);
+											
+				//carrega o input para enviar mensagem, passando os parametros necessarios. o metodo esta definido na classe mae
+				$this->carregarEnviarMensagem('processo', $lista['ID']); ?>
 				
-				
-?>
-				
+				<!-- formulario para anexar um documento ao processo -->
 				<div class='row linha-modal-processo'>
 					<form method='POST' action="/editar/processo/anexardocumento/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	
 						<div class='col-md-6'>
 							<div class='form-group'>
 								<label class='control-label' for='exampleInputEmail1'><b>Anexar documento:</b></label>
+									<!-- carrega o select dos tipos de documento. o metodo esta definido na classe mae -->
 									<?php $this->carregarSelectTiposDocumento(); ?>
 							</div>  
 						</div>
@@ -786,11 +799,13 @@ class ProcessosView extends View{
 					</form>	
 				</div>
 				
-<?php 		if($ativo && !$apensado){ 
-
+<?php 		//muitas funcionalidades nao sao permitidas serem executadas quando o processo é apensado a outro
+			if(!$apensado){ 
+				
+				//se o processo nao estiver em sobrestado...
 				if(!$lista['BL_SOBRESTADO']){
 			
-?>
+?>					<!-- formulario para solicitar sobrestado -->
 					<div class='row linha-modal-processo'>
 						<label class='control-label' for='exampleInputEmail1'><b>Solicitar Sobrestado:</b></label>
 						<form method='POST' action="/editar/processo/solicitarsobrestado/<?php echo $lista['ID']?>" enctype='multipart/form-data'>	
@@ -806,13 +821,13 @@ class ProcessosView extends View{
 				}
 	
 ?>
-				
+				<!-- formulario para definir responsaveis -->
 				<div class='row linha-modal-processo'>
 					<form method='POST' action="/editar/processo/definirresponsaveis/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	
 						<div class='col-md-10'>
 							<label class='control-label' for='exampleInputEmail1'><b>Defina os responsáveis</b>:</label><br>
 							<select multiple id='responsaveis' name='responsaveis[]' style='width: 96%;' required>
-<?php 
+<?php 								//lista de pessoas que podem ser responsaveis que foi recebida la em cima para montagem do select box
 									foreach($listaPodemSerResponsaveis as $podeSerResponsavel){			
 ?>
 										<option value="<?php echo $podeSerResponsavel['ID'] ?>">
