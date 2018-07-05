@@ -4,6 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
 class ChamadosView extends View{
 	
+	//a função lista os chamados ativos ou inativos, dependendo do que o usuario escolheu no menu a esquerda
 	public function listar(){ ?>
 		
 		<div class='col-md-12 table-responsive' style='overflow: auto; width: 100%; height: 300px;'>
@@ -20,11 +21,12 @@ class ChamadosView extends View{
 				</thead>
 				<tbody>
 					<?php 
-										
+						//a lista de chamados é solicitada ao chamados controller			
 						$lista = $_REQUEST['LISTA_CHAMADOS'];
 						
 						foreach($lista as $chamado){ 
 							
+							//se o chamado estiver fechado e sem avaliação, a linha fica amarela
 							$styleTR = ($chamado['DS_STATUS'] == 'FECHADO' && $chamado['DS_AVALIACAO'] != 'SEM AVALIAÇÃO') 
 								? "style='background-color:#f1c40f'" 
 								: '';
@@ -54,6 +56,7 @@ class ChamadosView extends View{
 	
 	}
 	
+	//formulário de abertura de chamado
 	public function cadastrar(){
 
 ?>
@@ -98,26 +101,33 @@ class ChamadosView extends View{
 	
 	}
 	
+	//pagina de visualizacao de um determinado chamado
 	public function visualizar(){
 		
+		//as listas sao solicitadas ao chamado controller
 		$lista = $_REQUEST['DADOS_CHAMADO'];
 		
 		$historico = $_REQUEST['HISTORICO_CHAMADO'];
 		
 ?>		
+		
 		<div class='row linha-modal-processo'>
 			<div class='col-md-12'>
+				
+				<!-- botao que fecha o chamado -->
 				<?php if($lista['DS_STATUS'] =='ABERTO'){ ?>
 				
 						<a href="/editar/chamado/status/<?php echo $lista['ID'] ?>/FECHADO"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Fechar chamado&nbsp;&nbsp;&nbsp;<i class='fa fa-calendar-check-o' aria-hidden='true'></i></button></a>
 				
 				<?php } 	
 				
+				//botao que encerra o chamado. ele so pode ser encerrado se o solicitante ja tiver avaliado
 				if($lista['DS_STATUS']=='FECHADO' and $lista['DS_AVALIACAO'] != 'SEM AVALIAÇÃO'){ ?>
 				
 						<a href="/editar/chamado/status/<?php echo $lista['ID'] ?>/ENCERRADO"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Encerrar chamado&nbsp;&nbsp;&nbsp;<i class='fa fa-calendar-check-o' aria-hidden='true'></i></button></a>
 				<?php } 
 				
+				//o chamado so pode ser excluido se ele ainda estiver aberto
 				if($lista['DS_STATUS']=='ABERTO'){ ?>
 						
 						<a href="/excluir/chamado/<?php echo $lista['ID'] ?>"><button type='submit' onclick="return confirm('Você tem certeza que deseja apagar este chamado?');" class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Excluir&nbsp;&nbsp;&nbsp;<i class='fa fa-trash' aria-hidden='true'></i></button></a>
@@ -125,6 +135,8 @@ class ChamadosView extends View{
 				<?php } ?>
 			</div> 
 		</div>
+		
+		<!-- caixa que mostra as informações gerais do chamado -->
 		<div class='row linha-modal-processo'>
 			<div class='col-md-12'>
 				<b>Status</b>: <?php echo $lista['DS_STATUS'] ?><br><br>	
@@ -157,15 +169,18 @@ class ChamadosView extends View{
 			</div>
 		</div>
 <?php 
-		
+			//carrega o historico do chamado. a funcao esta definida na classe mae. a lista passada foi recebida la em cima
 			$this->carregarHistorico($historico); 
 			
-			if($lista['DS_AVALIACAO'] == 'SEM AVALIAÇÃO' and $lista['DS_STATUS'] != 'ENCERRADO'){
+			//so pode enviar mensagem enquanto o chamado ainda nao for encerrado
+			if($lista['DS_STATUS'] != 'ENCERRADO'){
 			
+				//a funcao esta definida na classe mae
 				$this->carregarEnviarMensagem('chamado', $lista['ID']);
 			
 			}
 			
+			//abre o select de avaliação. ele abre quando o chamado é fechado pelo profissional de ti. para que possa ser encerrado, o solicitante precisa avaliar o atendimento antes
 			if($lista['DS_AVALIACAO'] == 'SEM AVALIAÇÃO' and $lista['DS_STATUS'] == 'FECHADO'){
 				
 ?>
