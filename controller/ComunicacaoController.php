@@ -221,9 +221,7 @@ class ComunicacaoController extends Controller{
 		
 		$this->comunicacaoModel->setStatus($_GET['status']);
 		
-		$lista = $this->comunicacaoModel->getListaComunicacaoStatus();
-		
-		$_REQUEST['LISTA_COMUNICACAO'] = $lista;
+		$_REQUEST['LISTA_COMUNICACAO'] = $this->comunicacaoModel->getListaComunicacaoStatus();
 		
 		$titulo = ($_GET['status']=='ATIVO') ? 'COMUNICAÇÃO > ATIVOS' : 'COMUNICAÇÃO > INATIVOS';
 		

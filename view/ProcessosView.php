@@ -845,26 +845,21 @@ class ProcessosView extends View{
 					</form>	
 				</div>
 				
-<?php 
+<?php 			//aqui o usuário define o responsável líder do processo. o formulário só aparece quando o processo tem mais de um responsavel (a lista é recebida do processos controller lá em cima)
 				if(count($listaResponsaveis) > 1){
 ?>				
 					<form name='teste' method='POST' action="/editar/processo/definirlider/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>
 						<div class='row linha-modal-processo'>
 							<div class='col-md-10'>
 								<label class='control-label' for='exampleInputEmail1'><b>Defina o responsável líder</b>:</label><br>
-								<select class='form-control' id='lider' name='lider' required />
+								<select class='form-control' id='lider' name='lider' required >
 									<option value=''>Selecione</option>
-									
-<?php 
-									foreach($listaResponsaveis as $responsavel){
-									
-?>	
-										<option value="<?php echo $responsavel['ID_SERVIDOR'] ?>"><?php echo $responsavel['NOME_SERVIDOR']; ?></option>
+<?php									foreach($listaResponsaveis as $responsavel){ ?>	
 										
-<?php 							
-									} 
-?>
-								</select>
+											<option value="<?php echo $responsavel['ID_SERVIDOR'] ?>"><?php echo $responsavel['NOME_SERVIDOR']; ?></option>
+										
+<?php 									} 
+?>								</select>
 							</div>
 							<div class='col-md-2'>
 								<br>
@@ -876,7 +871,7 @@ class ProcessosView extends View{
 <?php 							
 				} 
 ?>
-				
+				<!-- select multiple box para o usuário definir apensos ao processo em questão. a lista de processos para apensar é recebida pelo processos controller lá em cima -->
 				<div class='row linha-modal-processo'>
 					<form method='POST' action="/editar/processo/apensar/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	
 						<div class='col-md-10'>
@@ -898,6 +893,7 @@ class ProcessosView extends View{
 					</form>	
 				</div>
 				
+				<!-- select para o usuário escolher um outro usuário para enviar o processo. a lista de servidores é recebida do processos controller lá em cima -->
 				<form name='teste' method='POST' action='/editar/processo/tramitar/<?php echo $lista['ID']?>/' enctype='multipart/form-data'>	
 					<div class='row linha-modal-processo'>
 						<div class='col-md-10'>
@@ -922,7 +918,8 @@ class ProcessosView extends View{
 			}
 		}
 	}
-
+	
+	//esta função carrega o formulario que so contem um input text relativo ao numero do processo que se quer saber as informações. o usuario digita o numero do processo e clica em consultar para que o sistema busque se existe ou nao o processo digitado.
 	public function consulta(){
 
 ?>
@@ -944,6 +941,7 @@ class ProcessosView extends View{
 <?php
 	}
 
+	//esta funcao imprime os dados do processo buscado (caso encontrado). somente alguns botões, as informações, documentos e o histórico são carregados.
 	public function consultar(){
 		
 		$lista = $_REQUEST['DADOS_PROCESSO'];
@@ -1047,6 +1045,8 @@ class ProcessosView extends View{
 		$this->carregarHistorico($historico);
 	}
 	
+	
+	//esta função carrega a pagina de relatorio de processos
 	public function carregarRelatorio(){
 		
 ?>	
@@ -1055,6 +1055,8 @@ class ProcessosView extends View{
 				<center>
 					<b>
 						Total de processos: (ativos, arquivados e saíram): 
+						
+						<!-- todas essas variáveis são recebidas do processos controller. a seguinte é mostrado o número total de processos total do órgão -->
 						<?php echo $_REQUEST['QTD_PROCESSOS_TOTAL']; ?>
 					</b>
 				</center>
@@ -1067,6 +1069,7 @@ class ProcessosView extends View{
 					<center>
 						<b>
 							<?php 
+								//primeiro é mostrada a quantidade de processos ativos (que não estão arquivados e não saiu) e depois, desses, os que estão no prazo e atrasados
 								echo $_REQUEST['QTD_PROCESSOS_ATIVOS'];
 							
 								echo " (" . $_REQUEST['QTD_PROCESSOS_PRAZO'] . " dentro do prazo e "
@@ -1086,7 +1089,7 @@ class ProcessosView extends View{
 								</tr>
 							</thead>
 							<tbody>
-<?php									
+<?php								//aqui é impressa uma tabela com o número de processos ativos por setor	
 									foreach($_REQUEST['QTD_PROCESSOS_ATIVOS_SETOR'] as $setor){ ?>
 										
 										<tr>
@@ -1115,7 +1118,7 @@ class ProcessosView extends View{
 								</tr>
 							</thead>
 							<tbody>
-<?php									
+<?php								//agora, dos ativos, os que estão dentro do prazo	
 									foreach($_REQUEST['QTD_PROCESSOS_PRAZO_SETOR'] as $setor){ ?>
 										
 										<tr>
@@ -1144,7 +1147,7 @@ class ProcessosView extends View{
 								</tr>
 							</thead>
 							<tbody>
-<?php									
+<?php								//agora, dos ativos, os que estão atrasados	
 									foreach($_REQUEST['QTD_PROCESSOS_ATRASADOS_SETOR'] as $setor){ ?>
 										
 										<tr>
@@ -1173,7 +1176,7 @@ class ProcessosView extends View{
 								</tr>
 							</thead>
 							<tbody>
-<?php									
+<?php								//agora, dos ativos, os que estão com o status de andamento, ou seja, que ainda não foram finalizados por algum setor		
 									foreach($_REQUEST['QTD_PROCESSOS_ANDAMENTO_SETOR'] as $setor){ ?>
 										
 										<tr>
@@ -1202,7 +1205,7 @@ class ProcessosView extends View{
 								</tr>
 							</thead>
 							<tbody>
-<?php									
+<?php								//agora, dos ativos, os que estão com o status de finalizados pelo setor, ou seja, prontos para serem finalizados pelo gabinete ou arquivados
 									foreach($_REQUEST['QTD_PROCESSOS_FINALIZADOS_S_SETOR'] as $setor){ ?>
 										
 										<tr>
@@ -1231,7 +1234,7 @@ class ProcessosView extends View{
 								</tr>
 							</thead>
 							<tbody>
-<?php									
+<?php								//agora, dos ativos, os que estão com o status de finalizados pelo gabinete, que estão preparados para serem arquivados ou sair do órgão
 									foreach($_REQUEST['QTD_PROCESSOS_FINALIZADOS_G_SETOR'] as $setor){ ?>
 										
 										<tr>
@@ -1254,7 +1257,7 @@ class ProcessosView extends View{
 				<div class='grafico' id='processos-ativos'>
 					<center>
 						<b>
-							<?php 
+							<?php //aqui é mostrado o tempo médio dos processos no órgão
 								echo 'Tempo médio dos processos: ' . number_format($_REQUEST['TEMPO_MEDIO_PROCESSO'],0) . ' dias';
 							?>
 						</b>
@@ -1273,6 +1276,7 @@ class ProcessosView extends View{
 <?php
 									$lista = $_REQUEST['TEMPO_MEDIO_ASSUNTO'];
 									
+									//nesta tabela é mostrada a quantidade de dias em média que leva para um processo, de determinado assunto, sair ou ser aquivado no órgão
 									foreach($lista as $assunto){ 
 ?>
 										<tr>
