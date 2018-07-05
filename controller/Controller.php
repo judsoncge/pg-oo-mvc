@@ -16,6 +16,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/model/ComunicacaoModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/model/ProcessosModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/view/ProcessosView.php';
 
+//a classe controller é a classe mae dos controllers dos modulos do sistema. ela carrega todos os models caso algum controller especifico precise de informacoes que vem de outro controller
 class Controller{
 	
 	

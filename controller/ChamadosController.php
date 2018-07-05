@@ -4,16 +4,28 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/controller/Controller.php';
 
 class ChamadosController extends Controller{
 
+	/*
+	.inicia o model e o view do modulo chamados
+	.
+	.definindo a tabela como tb_chamados pois o modulo é de chamados
+	.
+	.há também a definição da tabela de historico, pois muitas operacoes gravam registros la
+	.
+	*/
 	function __construct(){
 		
-		$this->chamadosView    = new ChamadosView();
-		$this->chamadosModel   = new ChamadosModel();
-		
+		$this->chamadosView = new ChamadosView();
+		$this->chamadosModel = new ChamadosModel();
 		$this->chamadosModel->setTabela('tb_chamados');
 		$this->chamadosModel->setTabelaHistorico('tb_historico_chamados');
 		
 	}
 	
+	/*
+	.esta funcao solicita que a view carregue a pagina de cadastrar
+	.
+	.a funcao também define o titulo e o conteudo da pagina e pede para que a view carregue a pagina
+	*/
 	public function carregarCadastro(){
 		
 		$this->chamadosView->setTitulo('CHAMADOS > ABRIR CHAMADO');
@@ -24,6 +36,45 @@ class ChamadosController extends Controller{
 		
 	}
 	
+	
+	/*
+	.esta funcao solicita que a view carregue a pagina de listagem
+	.
+	.para isso, necessita da lista de chamados para que a view imprima a tabela de registros e solicita ao model
+	.
+	.o status é passado via get pelo menu selecionado pelo usuario (o link com mais detalhes se vê no .htaccess)
+	.
+	.a funcao também define o titulo (de acordo com o status) e o conteudo da pagina e pede para que a view carregue a pagina
+	*/
+	public function listar(){
+		
+		$this->chamadosModel->setStatus($_GET['status']);
+		
+		$servidorSessao = ($_SESSION['FUNCAO'] == 'TI') ? NULL : $_SESSION['ID'];
+		
+		$this->chamadosModel->setServidorSessao($servidorSessao);
+		
+		$_REQUEST['LISTA_CHAMADOS'] = $this->chamadosModel->getListaChamadosStatus();
+		
+		$titulo = ($_GET['status']=='ATIVO') ? 'CHAMADOS > ATIVOS' : 'CHAMADOS > INATIVOS';
+		
+		$this->chamadosView->setTitulo($titulo);
+		
+		$this->chamadosView->setConteudo('lista');
+		
+		$this->chamadosView->carregar();
+		
+	}
+	
+	/*
+	.esta funcao executa a ação de cadastrar um chamado
+	.
+	.ela recebe os dados via POST do formulario de cadastro gerado pela view
+	.
+	.para que os dados sejam cadastrados no banco, o controller seta os dados para o model e pede que ele cadastre
+	.
+	.a mensagem de sucesso/falha é recebida do model e o resultado de operacao também. se for 1, é porque ocorreu sucesso, se for 0, falha.
+	*/
 	public function cadastrar(){
 		
 		$natureza = (isset($_POST['natureza'])) ? $_POST['natureza'] : NULL;
@@ -50,6 +101,18 @@ class ChamadosController extends Controller{
 		
 	}	
 	
+
+	/*
+	.esta funcao executa a ação de editar um chamado
+	.
+	.os dados podem vir de um POST (quando há formulario) ou GET quando vem de uma ação de botão. o id do registro a ser editado é passado via GET
+	.
+	.a variavel operacao diz o que vai ser editado (o link com mais detalhes se vê no .htaccess)
+	.
+	.dependendo da operacao, o controller seta no model os dados a serem editados e pede que ele edite
+	.
+	.a mensagem de sucesso/falha é recebida do model e o resultado de operacao também. se for 1, é porque ocorreu sucesso, se for 0, falha.
+	*/
 	public function editar(){
 		
 		$id = (isset($_GET['id'])) ? $_GET['id'] : NULL;
@@ -96,6 +159,16 @@ class ChamadosController extends Controller{
 		
 	}
 	
+	
+	/*
+	.esta funcao executa a ação de excluir um chamado
+	.
+	.a funcao recebe da view o id do chamado a ser excluido
+	.
+	.o controller seta as informacoes no model e pede que ele exclua
+	.
+	.a mensagem de sucesso/falha é recebida do model e o resultado de operacao também. se for 1, é porque ocorreu sucesso, se for 0, falha.
+	*/
 	public function excluir(){
 		
 		$this->chamadosModel->setID($_GET['id']);
@@ -108,28 +181,14 @@ class ChamadosController extends Controller{
 		
 	}
 	
-	public function listar(){
-		
-		$this->chamadosModel->setStatus($_GET['status']);
-		
-		$servidorSessao = ($_SESSION['FUNCAO'] == 'TI') ? NULL : $_SESSION['ID'];
-		
-		$this->chamadosModel->setServidorSessao($servidorSessao);
-		
-		$listaChamados = $this->chamadosModel->getListaChamadosStatus();
-		
-		$titulo = ($_GET['status']=='ATIVO') ? 'CHAMADOS > ATIVOS' : 'CHAMADOS > INATIVOS';
-		
-		$this->chamadosView->setTitulo($titulo);
-		
-		$this->chamadosView->setConteudo('lista');
-		
-		$_REQUEST['LISTA_CHAMADOS'] = $listaChamados;
-		
-		$this->chamadosView->carregar();
-		
-	}
 	
+	/*
+	.esta funcao solicita que a view carregue a pagina de visualizar
+	.
+	.para isso ela recebe da view o id do chamado e solicita todas as informacoes daquele chamado ao model
+	.
+	.a funcao também define o titulo e o conteudo da pagina e pede para que a view carregue a pagina
+	*/
 	public function visualizar(){
 		
 		$id = $_GET['id'];

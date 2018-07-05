@@ -4,15 +4,25 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/controller/Controller.php';
 
 class ComunicacaoController extends Controller{
 
+	/*
+	.inicia o model e o view do modulo comunicacao
+	.
+	.definindo a tabela como tb_comunicacao pois o modulo é de comunicacao
+	.
+	*/
 	function __construct(){
 		
 		$this->comunicacaoView = new ComunicacaoView();
 		$this->comunicacaoModel = new ComunicacaoModel();
-		
 		$this->comunicacaoModel->setTabela('tb_comunicacao');
 		
 	}
 	
+	/*
+	.esta funcao solicita que a view carregue a pagina de cadastrar
+	.
+	.a funcao também define o titulo e o conteudo da pagina e pede para que a view carregue a pagina
+	*/
 	public function carregarCadastro(){
 		
 		$this->comunicacaoView->setTitulo('COMUNICAÇÃO > CADASTRAR COMUNICAÇÃO');
@@ -23,6 +33,40 @@ class ComunicacaoController extends Controller{
 		
 	}
 	
+	/*
+	.esta funcao solicita que a view carregue a pagina de listagem
+	.
+	.para isso, necessita da lista de comunicacoes para que a view imprima a tabela de registros e solicita ao model
+	.
+	.o status é passado via get pelo menu selecionado pelo usuario (o link com mais detalhes se vê no .htaccess)
+	.
+	.a funcao também define o titulo (de acordo com o status) e o conteudo da pagina e pede para que a view carregue a pagina
+	*/
+	public function listar(){
+		
+		$this->comunicacaoModel->setStatus($_GET['status']);
+		
+		$_REQUEST['LISTA_COMUNICACAO'] = $this->comunicacaoModel->getListaComunicacaoStatus();
+		
+		$titulo = ($_GET['status']=='ATIVO') ? 'COMUNICAÇÃO > ATIVOS' : 'COMUNICAÇÃO > INATIVOS';
+		
+		$this->comunicacaoView->setTitulo($titulo);
+		
+		$this->comunicacaoView->setConteudo('lista');
+		
+		$this->comunicacaoView->carregar();
+		
+	}
+	
+	/*
+	.esta funcao solicita que a view carregue a pagina de edicao
+	.
+	.para isso ela recebe da view o id do registro a ser editado
+	.
+	.solicita ao model todas as informacoes daquele registro
+	.
+	.a funcao também define o titulo e o conteudo da pagina e pede para que a view carregue a pagina
+	*/
 	public function carregarEdicao(){
 		
 		$id = $_GET['id'];
@@ -41,6 +85,16 @@ class ComunicacaoController extends Controller{
 		
 	}
 	
+	
+	/*
+	.esta funcao executa a ação de cadastrar uma comunicacao
+	.
+	.ela recebe os dados via POST do formulario de cadastro gerado pela view
+	.
+	.para que os dados sejam cadastrados no banco, o controller seta os dados para o model e pede que ele cadastre
+	.
+	.a mensagem de sucesso/falha é recebida do model e o resultado de operacao também. se for 1, é porque ocorreu sucesso, se for 0, falha.
+	*/
 	public function cadastrar(){
 		
 		$chapeu = (isset($_POST['chapeu'])) ? $_POST['chapeu'] : NULL;
@@ -95,6 +149,42 @@ class ComunicacaoController extends Controller{
 		
 	}	
 	
+	/*
+	.esta funcao solicita que a view carregue a pagina de visualizar
+	.
+	.para isso ela recebe da view o id do chamado e solicita todas as informacoes daquele chamado ao model
+	.
+	.a funcao também define o titulo e o conteudo da pagina e pede para que a view carregue a pagina
+	*/
+	public function visualizar(){
+		
+		$id = $_GET['id'];
+		
+		$this->comunicacaoModel->setID($id);
+		
+		$_REQUEST['DADOS_COMUNICACAO'] = $this->comunicacaoModel->getDadosID();
+
+		$_REQUEST['IMAGENS_GRANDES'] = $this->comunicacaoModel->getImagens(0);
+
+		$_REQUEST['IMAGENS_PEQUENAS'] = $this->comunicacaoModel->getImagens(1);
+		
+		$this->comunicacaoView->setConteudo('visualizar');
+		
+		$this->comunicacaoView->carregar();
+		
+	}
+	
+	/*
+	.esta funcao executa a ação de editar uma comunicacao
+	.
+	.os dados podem vir de um POST (quando há formulario) ou GET quando vem de uma ação de botão. o id do registro a ser editado é passado via GET
+	.
+	.a variavel operacao diz o que vai ser editado (o link com mais detalhes se vê no .htaccess)
+	.
+	.dependendo da operacao, o controller seta no model os dados a serem editados e pede que ele edite
+	.
+	.a mensagem de sucesso/falha é recebida do model e o resultado de operacao também. se for 1, é porque ocorreu sucesso, se for 0, falha.
+	*/
 	public function editar(){
 		
 		$id = (isset($_GET['id'])) ? $_GET['id'] : NULL;
@@ -205,6 +295,15 @@ class ComunicacaoController extends Controller{
 		
 	}
 	
+	/*
+	.esta funcao executa a ação de excluir uma comunicacao
+	.
+	.a funcao recebe da view o id da comunicacao a ser excluida
+	.
+	.o controller seta as informacoes no model e pede que ele exclua
+	.
+	.a mensagem de sucesso/falha é recebida do model e o resultado de operacao também. se for 1, é porque ocorreu sucesso, se for 0, falha.
+	*/
 	public function excluir(){
 		
 		$this->comunicacaoModel->setID($_GET['id']);
@@ -215,42 +314,7 @@ class ComunicacaoController extends Controller{
 		
 		Header('Location: /comunicacao/ativos/');
 		
-	}
-	
-	public function listar(){
-		
-		$this->comunicacaoModel->setStatus($_GET['status']);
-		
-		$_REQUEST['LISTA_COMUNICACAO'] = $this->comunicacaoModel->getListaComunicacaoStatus();
-		
-		$titulo = ($_GET['status']=='ATIVO') ? 'COMUNICAÇÃO > ATIVOS' : 'COMUNICAÇÃO > INATIVOS';
-		
-		$this->comunicacaoView->setTitulo($titulo);
-		
-		$this->comunicacaoView->setConteudo('lista');
-		
-		$this->comunicacaoView->carregar();
-		
-	}
-	
-	public function visualizar(){
-		
-		$id = $_GET['id'];
-		
-		$this->comunicacaoModel->setID($id);
-		
-		$_REQUEST['DADOS_COMUNICACAO'] = $this->comunicacaoModel->getDadosID();
-
-		$_REQUEST['IMAGENS_GRANDES'] = $this->comunicacaoModel->getImagens(0);
-
-		$_REQUEST['IMAGENS_PEQUENAS'] = $this->comunicacaoModel->getImagens(1);
-		
-		$this->comunicacaoView->setConteudo('visualizar');
-		
-		$this->comunicacaoView->carregar();
-		
-	}
-	
+	}	
 
 }
 
