@@ -3,7 +3,17 @@
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/Controller.php';
 
 class ServidoresController extends Controller{
-
+	
+	/*
+	.inicia o model e o view do modulo servidores
+	.
+	.tambem inicia o model de setores pois precisa da lista de setores para imprimir no cadastro
+	.
+	.definindo a tabela como tb_servidores pois o modulo é de processos
+	.
+	.há também a definição da tabela de historico, pois muitas operacoes gravam registros la
+	.
+	*/
 	function __construct(){
 		
 		$this->servidoresModel = new ServidoresModel();		
@@ -14,6 +24,13 @@ class ServidoresController extends Controller{
 		
 	}
 	
+	/*
+	.esta funcao solicita que a view carregue a pagina de cadastrar
+	.
+	.para isso ela precisa da lista de setores para que a view monte os selects. as informacoes sao solicitadas ao model
+	.
+	.a funcao também define o titulo e o conteudo da pagina e pede para que a view carregue a pagina
+	*/
 	public function carregarCadastro(){
 		
 		$_REQUEST['LISTA_SETORES'] = $this->setoresModel->getSetores();
@@ -26,6 +43,13 @@ class ServidoresController extends Controller{
 		
 	}
 	
+	/*
+	.esta funcao solicita que a view carregue a pagina de listagem
+	.
+	.o status é passado via get pelo menu selecionado pelo usuario (o link com mais detalhes se vê no .htaccess)
+	.
+	.a funcao também define o titulo (de acordo com o status) e o conteudo da pagina e pede para que a view carregue a pagina
+	*/
 	public function listar(){
 		
 		$this->servidoresModel->setStatus($_GET['status']);
@@ -44,6 +68,15 @@ class ServidoresController extends Controller{
 		
 	}
 	
+	/*
+	.esta funcao executa a ação de cadastrar um servidor
+	.
+	.ela recebe os dados via POST do formulario de cadastro gerado pela view
+	.
+	.para que os dados sejam cadastrados no banco, o controller seta os dados para o model e pede que ele cadastre
+	.
+	.a mensagem de sucesso/falha é recebida do model e o resultado de operacao também. se for 1, é porque ocorreu sucesso, se for 0, falha.
+	*/
 	public function cadastrar(){
 		
 		$nome = $_POST['nome'];
@@ -74,6 +107,17 @@ class ServidoresController extends Controller{
 		
 	}	
 	
+	/*
+	.esta funcao executa a ação de editar um servidor
+	.
+	.os dados podem vir de um POST (quando há formulario) ou GET quando vem de uma ação de botão. o id do registro a ser editado é passado via GET
+	.
+	.a variavel operacao diz o que vai ser editado (o link com mais detalhes se vê no .htaccess)
+	.
+	.dependendo da operacao, o controller seta no model os dados a serem editados e pede que ele edite
+	.
+	.a mensagem de sucesso/falha é recebida do model e o resultado de operacao também. se for 1, é porque ocorreu sucesso, se for 0, falha.
+	*/
 	public function editar(){
 		
 		$id = (isset($_GET['id'])) ? $_GET['id'] : NULL;
@@ -164,6 +208,19 @@ class ServidoresController extends Controller{
 
 	}
 	
+	/*
+	.esta funcao solicita que a view carregue a pagina de edicao
+	.
+	.para isso ela recebe da view o id do registro a ser editado
+	.
+	.solicita ao model todas as informacoes daquele registro
+	.
+	.existe tambem uma variavel tipo recebida via GET informando que tipo de formulario é para ser carregado, se é de informacoes, senha ou foto 
+	.
+	.se for informacoes, solicita ao model a lista de setores para que a view monte os selects
+	.
+	.a funcao também define o titulo e o conteudo da pagina e pede para que a view carregue a pagina
+	*/
 	public function carregarEdicao(){
 		
 		switch($_GET['tipo']){

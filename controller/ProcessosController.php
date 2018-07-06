@@ -180,6 +180,17 @@ class ProcessosController extends Controller{
 		
 	}
 	
+	/*
+	.esta funcao executa a ação de cadastrar um processo
+	.
+	.ela recebe os dados via POST do formulario de cadastro gerado pela view
+	.
+	.o numero do processo é recebido em três partes e juntado em uma só no formato 9999 1111/2222
+	.
+	.para que os dados sejam cadastrados no banco, o controller seta os dados para o model e pede que ele cadastre
+	.
+	.a mensagem de sucesso/falha é recebida do model e o resultado de operacao também. se for 1, é porque ocorreu sucesso, se for 0, falha.
+	*/
 	public function cadastrar(){
 		
 		$numeroParte1 = (isset($_POST['numeroParte1'])) ? $_POST['numeroParte1'] : NULL;
@@ -226,6 +237,17 @@ class ProcessosController extends Controller{
 		
 	}	
 	
+	/*
+	.esta funcao executa a ação de editar um processo
+	.
+	.os dados podem vir de um POST (quando há formulario) ou GET quando vem de uma ação de botão. o id do registro a ser editado é passado via GET
+	.
+	.a variavel operacao diz o que vai ser editado (o link com mais detalhes se vê no .htaccess)
+	.
+	.dependendo da operacao, o controller seta no model os dados a serem editados e pede que ele edite
+	.
+	.a mensagem de sucesso/falha é recebida do model e o resultado de operacao também. se for 1, é porque ocorreu sucesso, se for 0, falha.
+	*/
 	public function editar(){
 		
 		$id = (isset($_GET['id'])) ? $_GET['id'] : NULL;
@@ -446,6 +468,15 @@ class ProcessosController extends Controller{
 		
 	}
 	
+	/*
+	.esta funcao executa a ação de excluir um processo
+	.
+	.a funcao recebe da view o id do processo a ser excluido
+	.
+	.o controller seta as informacoes no model e pede que ele exclua
+	.
+	.a mensagem de sucesso/falha é recebida do model e o resultado de operacao também. se for 1, é porque ocorreu sucesso, se for 0, falha.
+	*/
 	public function excluir(){
 		
 		$this->processosModel->setID($_GET['id']);
@@ -458,6 +489,17 @@ class ProcessosController extends Controller{
 		
 	}
 	
+	/*
+	.esta funcao solicita que a view carregue a pagina de listagem
+	.
+	.para isso, necessita da lista de servidores e setores para que a view imprima os campos de filtro
+	.
+	.o status é passado via get pelo menu selecionado pelo usuario (o link com mais detalhes se vê no .htaccess)
+	.
+	.tambem é passada a variável filtro que verifica se foi alterado algum campo de filtro. se vier 0, é porque não houve alteração. se vier 1, teve.
+	.
+	.a funcao também define o titulo (de acordo com o status) e o conteudo da pagina e pede para que a view carregue a pagina
+	*/
 	public function listar(){
 		
 		if(!$_GET['filtro']){
@@ -524,6 +566,15 @@ class ProcessosController extends Controller{
 
 	}
 	
+	/*
+	.esta funcao solicita que a view exporte em pdf a tabela de processos atual 
+	.
+	.para isso, pega os valores de todos os campos do filtro para fazer a busca
+	.
+	.os dados sao setados no model e solicita que ele retorne a lista dos processos
+	.
+	.a funcao pede que a view execute a exportação
+	*/
 	public function exportar(){
 		
 		$filtroServidor = $_GET['filtroservidor'];
@@ -558,6 +609,15 @@ class ProcessosController extends Controller{
 
 	}
 	
+	/*
+	.esta funcao solicita que a view carregue a pagina de visualizar
+	.
+	.para isso ela recebe da view o id do chamado e solicita todas as informacoes daquele chamado ao model
+	.
+	.é solicitado ao model várias listas: de servidores, documentos, responsaveis, historico, processos a apensar para que a view imprima na tela
+	.
+	.a funcao também define o titulo e o conteudo da pagina e pede para que a view carregue a pagina
+	*/
 	public function visualizar(){
 		
 		$id = $_GET['id'];
