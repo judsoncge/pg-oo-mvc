@@ -77,10 +77,10 @@ class View{
 	}
 	
 	//este é o body padrão do sistema, todas as páginas terão este body, carregado no construtor
-	public function carregarBody(){ ?>
+	public function carregarBody(){ 
+	?>
 		
 		<body>
-			
 			<!-- Menu em azul da parte de cima da página -->
 			<div class='menu-superior'>
 				
