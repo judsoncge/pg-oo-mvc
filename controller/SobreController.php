@@ -3,7 +3,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/Controller.php';
 require_once $_SESSION['PATH_VIEW'].'SobreView.php';
 
-class ComunicacaoController extends Controller{
+class SobreController extends Controller{
 
 	/*
 	.inicia o model e o view do modulo Sobre
@@ -23,9 +23,11 @@ class ComunicacaoController extends Controller{
 	*/
 	public function visualizar(){
 		
-		$this->comunicacaoView->setConteudo('visualizar');
+		$this->sobreView->setConteudo('visualizar');
 		
-		$this->comunicacaoView->carregar();
+		$this->sobreView->setTitulo('Sobre o Painel de Controle da Transparência CGE');
+		
+		$this->sobreView->carregar();
 		
 	}
 

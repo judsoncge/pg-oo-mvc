@@ -9,10 +9,6 @@ class SobreView extends View{
 
 ?>	
 		
-		<div id="page-content-wrapper">
-	<div class="container titulo-pagina">
-		<p>Sobre o Painel de Controle da Transparência CGE</p>
-	</div>
 	<div class="container caixa-conteudo">
 		<div class="col-lg-12">
 			<div class="row">
@@ -60,7 +56,6 @@ class SobreView extends View{
 			</center>				
 		</div>
 	</div>
-</div>
 		
 <?php		
 		
