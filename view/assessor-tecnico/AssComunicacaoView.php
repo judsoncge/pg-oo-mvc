@@ -2,7 +2,7 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/view/ComunicacaoView.php';
 
-class SupComunicacaoView extends ComunicacaoView{
+class AssComunicacaoView extends ComunicacaoView{
 
 	
 	//esta função mostra a noticia em si. ela é utilizada em dois momentos. uma é mostrada ao usuario que acessa com o botao visualizar na tabela de registros, e a outra é quando o usuário clica na noticia na pagina de home

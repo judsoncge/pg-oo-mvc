@@ -2,7 +2,7 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/view/ProcessosView.php';
 
-class SupProcessosView extends ProcessosView{
+class AssProcessosView extends ProcessosView{
 	
 	//carrega a visualizaçao do processo. aqui, além das informações gerais de um processo, são carregadas também várias outras funcionalidades.
 	public function visualizar(){

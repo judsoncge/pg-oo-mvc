@@ -514,11 +514,13 @@ class ProcessosController extends Controller{
 			
 			$this->servidoresModel->setStatus($_GET['status']);
 			
-			$_REQUEST['LISTA_SERVIDORES'] = $this->servidoresModel->getListaServidoresStatus();
+			$_REQUEST['LISTA_SERVIDORES'] = $this->processosModel->getListaServidoresFiltro();
 			
-			$_REQUEST['LISTA_SETORES'] = $this->setoresModel->getSetores();
+			$_REQUEST['LISTA_SETORES'] = $this->processosModel->getListaSetoresFiltro();
 			
 			$_REQUEST['LISTA_PROCESSOS'] = $this->processosModel->getListaProcessosStatus();
+			
+			$_REQUEST['FRASE'] = $this->processosModel->getFraseTabelaProcessosSemFiltro();
 			
 			$titulo = ($_GET['status']=='ATIVO') ? 'PROCESSOS > ATIVOS' : 'PROCESSOS > INATIVOS';
 			
@@ -563,6 +565,8 @@ class ProcessosController extends Controller{
 			$this->processosModel->setNumero($filtroProcesso);
 			
 			$_REQUEST['LISTA_PROCESSOS'] = $this->processosModel->getListaProcessosStatusComFiltro();
+			
+			$_REQUEST['FRASE'] = $this->processosModel->getFraseTabelaProcessosComFiltro();
 		
 			$this->processosView->listar();
 
@@ -632,7 +636,7 @@ class ProcessosController extends Controller{
 		
 		$listaDados = $this->processosModel->getDadosID();
 		
-		$_REQUEST['LISTA_SERVIDORES'] = $this->servidoresModel->getListaServidoresTramitar();
+		$_REQUEST['LISTA_SERVIDORES'] = $this->processosModel->getListaServidoresTramitar();
 		
 		$_REQUEST['DOCUMENTOS_PROCESSO'] = $this->processosModel->getListaDocumentos();
 		

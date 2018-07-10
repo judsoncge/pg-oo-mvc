@@ -4,6 +4,81 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/ProcessosView.php';
 
 class GabProcessosView extends ProcessosView{
 	
+	//esta função carrega todos os campos de filtro de processo
+	public function carregarFiltro(){
+		
+		//pegando com o controller a lista de servidores e a lista de setores com o processos controller
+		$listaServidores = $_REQUEST['LISTA_SERVIDORES']; 
+
+?>	
+
+		<div class='well'>
+			<form>
+				<div class='row'>	
+					<!-- filtro de servidor (com quem o processo está) -->
+					<div class='col-md-4'>
+						<div class='form-group'>
+							<label class='control-label' for='exampleInputEmail1'>Filtro de servidor</label><br>
+							<select id='filtroservidor' name='filtroservidor' >
+								<option value='%'>Todos</option>
+								<?php foreach($listaServidores as $servidor){ ?>
+										<option value='<?php echo $servidor['ID'] ?>'>
+											<?php echo $servidor['DS_NOME']; ?>
+										</option>
+								<?php } ?>
+							</select>
+						</div>
+					</div>
+					<!-- filtro de situação (no prazo ou atrasado) -->
+					<div class='col-md-2'>
+						<div class='form-group'>
+							<label class='control-label' for='exampleInputEmail1'>Filtro de situação</label><br>
+								<select id='filtrosituacao' name='filtrosituacao' >
+									<option value='%'>Todos</option>
+									<option value='0'>NO PRAZO</option>
+									<option value='1'>ATRASADO</option>
+								</select>
+						</div>
+					</div>
+					<!-- filtro de sobrestado (se o processo está com alguma dependencia no momento) -->
+					<div class='col-md-2'>
+						<div class='form-group'>
+							<label class='control-label' for='exampleInputEmail1'>Sobrestado</label><br>
+							<select id='filtrosobrestado' name='filtrosobrestado' >
+								<option value='%'>Todos</option>
+								<option value='0'>NÃO</option>
+								<option value='1'>SIM</option>
+							</select>
+						</div>
+					</div>
+					<!-- filtro de recebido (se o processo foi recebido por alguém após ser tramitado -->
+					<div class='col-md-2'>
+						<div class='form-group'>
+							<label class='control-label' for='exampleInputEmail1'>Recebido</label><br>
+							<select id='filtrorecebido' name='filtrorecebido' >
+								<option value='%'>Todos</option>
+								<option value='0'>NÃO</option>
+								<option value='1'>SIM</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class='row'>
+					<!-- filtro de processo. o usuário digita o número do um determinado processo -->
+					<div class='col-md-12'>
+						<div class='form-group'>
+							<div class='input-group margin-bottom-sm'>
+								<span class='input-group-addon'><i class='fa fa-search fa-fw'></i></span> <input type='text' class='input-search form-control' alt='tabela-dados' placeholder='Busque pelo numero do processo' id='filtroprocesso' name='filtroprocesso' autofocus='autofocus' />
+							</div>
+						</div>	
+					</div>
+				</div>
+			</form>
+		</div>
+		
+<?php
+	}
+	
 	//carrega a visualizaçao do processo. aqui, além das informações gerais de um processo, são carregadas também várias outras funcionalidades.
 	public function visualizar(){
 		

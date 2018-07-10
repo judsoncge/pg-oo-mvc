@@ -18,7 +18,6 @@ class ServidoresController extends Controller{
 	function __construct(){
 
 		$this->servidoresModel = new ServidoresModel();		
-		$this->homeController = new HomeController();
 		$this->setoresModel = new SetoresModel();
 		$this->servidoresModel->setTabela('tb_servidores');
 		

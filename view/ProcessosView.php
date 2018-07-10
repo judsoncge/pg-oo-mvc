@@ -49,7 +49,6 @@ class ProcessosView extends View{
 						<div class='form-group'>
 							<label class='control-label' for='exampleInputEmail1'>Filtro de servidor</label><br>
 							<select id='filtroservidor' name='filtroservidor' >
-								<option value='<?php echo $_SESSION['ID'] ?>'><?php echo $_SESSION['NOME'] ?></option>
 								<option value='%'>Todos</option>
 								<?php foreach($listaServidores as $servidor){ ?>
 										<option value='<?php echo $servidor['ID'] ?>'>
@@ -64,7 +63,6 @@ class ProcessosView extends View{
 						<div class='form-group'>
 							<label class='control-label' for='exampleInputEmail1'>Filtro de setor</label><br>
 								<select id='filtrosetor' name='filtrosetor' >
-									<option value='<?php echo $_SESSION['SETOR'] ?>'><?php echo $_SESSION['NOME_SETOR'] ?></option>
 									<option value='%'>Todos</option>
 									<?php foreach($listaSetores as $setor){ ?>
 										<option value='<?php echo $setor['ID'] ?>'>
@@ -139,12 +137,16 @@ class ProcessosView extends View{
 			<!--gif de carregando que aparece enquanto a tabela não é atualizada após o filtro ser alterado -->
 			<div id='carregando' class='carregando'><i class='fa fa-refresh spin' aria-hidden='true'></i> <span>Carregando dados...</span></div>
 			
-			<!-- mostra a quantidade de processos da tabela atual -->
-			<h5>
-				<div id='qtde'>Total: <?php echo sizeof($listaProcessos) . " " ?>
-					<button onclick='javascript: exportar();' class='btn btn-sm btn-success' name='submit' value='Send'>Exportar</button>
-				</div>
-			</h5>
+			<center>
+				<font color='green'><?php echo $_REQUEST['FRASE']; ?></font><br><br>
+				<!-- mostra a quantidade de processos da tabela atual -->
+				<h5>
+					<div id='qtde'>Total: <?php echo sizeof($listaProcessos) . " " ?>
+						<button onclick='javascript: exportar();' class='btn btn-sm btn-success' name='submit' value='Send'>Exportar</button>
+					</div>
+					
+				</h5>
+			</center>
 		
 			<table class='table table-hover tabela-dados'>
 				<thead>
@@ -376,7 +378,7 @@ class ProcessosView extends View{
 		}else{
 			
 			$listaDados = NULL;
-			$action = '/cadastrar/servidor/';
+			$action = '/cadastrar/processo/';
 			$nomeBotao = 'Cadastrar';
 			
 		}
@@ -421,7 +423,7 @@ class ProcessosView extends View{
 					<div class='form-group'>
 						<label class='control-label' for='exampleInputEmail1'>Assunto</label>
 						<select class='form-control' id='assunto' name='assunto' required />
-							<option value="<?php if($this->conteudo=='edicao'){echo $listaDados['ID_ASSUNTO'];} ?>"><?php if($this->conteudo=='edicao'){echo $listaDados['NOME_ASSUNTO'];} ?></option>
+							<option value="<?php if($this->conteudo=='edicao'){echo $listaDados['ID_ASSUNTO'];} ?>"><?php if($this->conteudo=='edicao'){echo $listaDados['NOME_ASSUNTO'];}else{echo 'Selecione';} ?></option>
 								<?php foreach($listaAssuntos as $assunto){ ?>
 									<option value="<?php echo $assunto['ID'] ?>"><?php echo $assunto['DS_NOME'] ?></option> 
 								<?php } ?>
@@ -434,7 +436,7 @@ class ProcessosView extends View{
 					<div class='form-group'>
 						<label class='control-label' for='exampleInputEmail1'>Órgão Interessado</label>
 						<select class='form-control' id='orgao' name='orgao' required />
-							<option value="<?php if($this->conteudo=='edicao'){echo $listaDados['ID_ORGAO_INTERESSADO'];} ?>"><?php if($this->conteudo=='edicao'){echo $listaDados['NOME_ORGAO'];} ?></option>
+							<option value="<?php if($this->conteudo=='edicao'){echo $listaDados['ID_ORGAO_INTERESSADO'];} ?>"><?php if($this->conteudo=='edicao'){echo $listaDados['NOME_ORGAO'];}else{echo 'Selecione';} ?></option>
 								<?php foreach($listaOrgaos as $orgao){ ?>
 									<option value="<?php echo $orgao['ID'] ?>"><?php echo $orgao['DS_ABREVIACAO'] . " - " . $orgao['DS_NOME'] ?></option> 
 								<?php } ?>

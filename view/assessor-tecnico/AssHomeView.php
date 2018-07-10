@@ -2,7 +2,7 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/view/HomeView.php';
 
-class SupHomeView extends HomeView{
+class AssHomeView extends HomeView{
 
 }
 
