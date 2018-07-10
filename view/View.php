@@ -240,7 +240,7 @@ class View{
 						
 						<!-- Página sobre -->
 						<li>
-							<a href=''><i class='fa fa-info-circle icone-menu' aria-hidden='true'></i>Sobre</a>
+							<a href='/sobre/'><i class='fa fa-info-circle icone-menu' aria-hidden='true'></i>Sobre</a>
 						</li>
 					</ul>
 				</div>

@@ -120,7 +120,7 @@ if(isset($_GET['acao'])){
 			
 	}
 		
-//caso não exista ação, é porque o usuário ainda não fez login no sistema e ele mostra a página de login
+//caso não exista ação, é porque o usuário ainda não fez login no sistema e ele mostra a página de login. o usuario também pode estar tentando acessar a página sobre, que não envolve nenhuma ação
 }else{
 	
 	require_once $_SERVER['DOCUMENT_ROOT'].'/view/LoginView.php';
