@@ -1,6 +1,7 @@
 <?php 
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/Controller.php';
+require_once $_SESSION['PATH_VIEW'].'ComunicacaoView.php';
 
 class ComunicacaoController extends Controller{
 
@@ -11,10 +12,13 @@ class ComunicacaoController extends Controller{
 	.
 	*/
 	function __construct(){
-		
-		$this->comunicacaoView = new ComunicacaoView();
+
 		$this->comunicacaoModel = new ComunicacaoModel();
 		$this->comunicacaoModel->setTabela('tb_comunicacao');
+		
+		$tipoView = $_SESSION['TYPE_VIEW'];
+		$tipoView .= 'ComunicacaoView';
+		$this->comunicacaoView = new $tipoView();
 		
 	}
 	

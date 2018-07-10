@@ -1,6 +1,7 @@
 <?php 
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/Controller.php';
+require_once $_SESSION['PATH_VIEW'].'ArquivosView.php';
 
 class ArquivosController extends Controller{
 	
@@ -14,13 +15,13 @@ class ArquivosController extends Controller{
 	*/
 	function __construct(){
 		
-		
 		$this->arquivosModel   = new ArquivosModel();
-		$this->arquivosView    = new ArquivosView();
-		
 		$this->servidoresModel = new ServidoresModel();
-		
 		$this->arquivosModel->setTabela('tb_arquivos');
+		
+		$tipoView = $_SESSION['TYPE_VIEW'];
+		$tipoView .= 'ArquivosView';
+		$this->arquivosView = new $tipoView();
 		
 	}
 	

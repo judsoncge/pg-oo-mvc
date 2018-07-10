@@ -1,27 +1,15 @@
 <?php 
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/model/LoginModel.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/view/LoginView.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/view/HomeView.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/model/ArquivosModel.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/view/ArquivosView.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/model/ServidoresModel.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/view/ServidoresView.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/model/SetoresModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/model/ComunicacaoModel.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/view/ChamadosView.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/model/ChamadosModel.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/view/ComunicacaoView.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/model/ComunicacaoModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/model/ProcessosModel.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/view/ProcessosView.php';
 
-//a classe controller é a classe mae dos controllers dos modulos do sistema. ela carrega todos os models caso algum controller especifico precise de informacoes que vem de outro controller
 class Controller{
 	
-	
-	
 }
-
 
 ?>

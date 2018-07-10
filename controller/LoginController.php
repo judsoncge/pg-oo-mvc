@@ -1,58 +1,100 @@
 <?php 
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/Controller.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/controller/HomeController.php';
 
 class LoginController extends Controller{
 	
-	/*
-	.inicia o model de login
-	.
-	.inicia o controller de home para fazer um redirecionamento
-	*/
 	function __construct(){
 		
-		$this->loginModel = new LoginModel();
-		$this->homeController = new HomeController();
-		
+		$this->servidoresModel = new servidoresModel();
+	
 	}
 	
-	/*
-	.esta funcao verifica se as credenciais digitadas pelo usuario existem no banco de dados
-	.
-	.primeiramente verifica se ja existe sessao. se sim, ja leva o usuario ativo para a pagina de home
-	.
-	.a funcao pega as credenciais, seta no model e pede que ele faça a verificacao
-	.
-	.se retornar uma lista de informacoes, é porque encontrou um registro e grava todas as informacoes na variavel de sessao
-	.
-	.se nao, leva de volta para a pagina de login
-	*/
 	public function login(){
-		
+
 		if(isset($_SESSION['ID'])){
 			
-			$this->homeController->listar();
-			exit();
+			Header('Location: /home');
 			
 		}
 		
-		$CPF = (isset($_POST['CPF'])) ? $_POST['CPF'] : NULL ;
+		$CPF = (isset($_POST['CPF'])) ? $_POST['CPF'] : NULL;
 		
-		$senha = (isset($_POST['senha'])) ? $_POST['senha'] : NULL ;
+		$senha = (isset($_POST['senha'])) ? $_POST['senha'] : NULL;
 		
-		$dadosUsuario = $this->loginModel->login($CPF, $senha);
+		$this->servidoresModel->setCPF($CPF);
+		
+		$this->servidoresModel->setSenha($senha);
+		
+		$dadosUsuario = $this->servidoresModel->login();
 		
 		if($dadosUsuario != NULL){
 			
-			$_SESSION['ID']     =     $dadosUsuario['ID'];
-			$_SESSION['FUNCAO'] =     $dadosUsuario['DS_FUNCAO'];
-			$_SESSION['SETOR']  =     $dadosUsuario['ID_SETOR'];
-			$_SESSION['NOME']   =     $dadosUsuario['DS_NOME'];
-			$_SESSION['FOTO']   =     $dadosUsuario['DS_FOTO'];
-			$_SESSION['NOME_SETOR'] = $dadosUsuario['NOME_SETOR'];
-		
-			$this->homeController->listar();
+			$_SESSION['ID'] = $dadosUsuario[0]['ID'];
+			$_SESSION['FUNCAO'] = $dadosUsuario[0]['DS_FUNCAO'];
+			$_SESSION['SETOR'] = $dadosUsuario[0]['ID_SETOR'];
+			$_SESSION['NOME'] = $dadosUsuario[0]['DS_NOME'];
+			$_SESSION['FOTO'] = $dadosUsuario[0]['DS_FOTO'];
+			$_SESSION['NOME_SETOR'] = $dadosUsuario[0]['NOME_SETOR'];
+			
+			switch($_SESSION['FUNCAO']){
+				
+				case 'PROTOCOLO':
+					$pasta = 'protocolo';
+					$_SESSION['TYPE_VIEW'] = 'Pro';
+					break;
+				
+				case 'SUPERINTENDENTE':
+					$pasta = 'superintendente';
+					$_SESSION['TYPE_VIEW'] = 'Sup';
+					break;
+				
+				case 'ASSESSOR TÉCNICO':
+					$pasta = 'assessor-tecnico';
+					$_SESSION['TYPE_VIEW'] = 'Ass';
+					break;
+				
+				case 'TÉCNICO ANALISTA':
+					$pasta = 'tecnico-analista';
+					$_SESSION['TYPE_VIEW'] = 'Ta';
+					break;
+					
+				case 'GABINETE':
+					$pasta = 'gabinete';
+					$_SESSION['TYPE_VIEW'] = 'Gab';
+					break;
+					
+				case 'CONTROLADOR':
+					$pasta = 'controlador';
+					$_SESSION['TYPE_VIEW'] = 'Con';
+					break;
+					
+				case 'TI':
+					$pasta = 'ti';
+					$_SESSION['TYPE_VIEW'] = 'Ti';
+					break;
+				
+				case 'COMUNICAÇÃO':
+					$pasta = 'comunicacao';
+					$_SESSION['TYPE_VIEW'] = 'Com';
+					break;
+					
+				case 'CHEFE DE GABINETE':
+					$pasta = 'chefe-gabinete';
+					$_SESSION['TYPE_VIEW'] = 'CGab';
+					break;
+					
+				
+				case 'TÉCNICO ANALISTA CORREÇÃO':
+					$pasta = 'tecnico-analista-correcao';
+					$_SESSION['TYPE_VIEW'] = 'Tac';
+					break;
+				
+			}
+			
+			$_SESSION['PATH_VIEW'] = $_SERVER['DOCUMENT_ROOT']."/view/$pasta/".$_SESSION['TYPE_VIEW']."";
+				
+			Header('Location: /home');
 		
 		}else{
 			
@@ -72,6 +114,7 @@ class LoginController extends Controller{
 		header('Location: /index.php');
 
 	}
+	
 	
 }
 

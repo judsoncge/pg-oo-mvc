@@ -1,18 +1,10 @@
 <?php 
 
-//carregando todos os controllers para poder iniciá-los quando necessário
-require_once $_SERVER['DOCUMENT_ROOT'].'/controller/LoginController.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/controller/ArquivosController.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/controller/ServidoresController.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/controller/ChamadosController.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/controller/ComunicacaoController.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/controller/ProcessosController.php';
+//iniciando a sessão do usuário
+session_start();
 
 //setando a data/hora em Bahia pois o sistema roda no Nordeste. Funções que registram data/hora precisam pegar a hora local
 date_default_timezone_set('America/Bahia');
-
-//iniciando a sessão do usuário
-session_start();
 
 //a variável ação vem do link. Ela geralmente informa o que o sistema tem que executar. Todas as informações encontram-se no arquivo .htaccess
 //aqui o sistema verifica se há uma ação. Se houver, é porque já foi feito o login e o usuário está tentando executar alguma coisa.
@@ -23,6 +15,8 @@ if(isset($_GET['acao'])){
 		
 		//montando o nome da classe do controller com o valor do módulo que vem no link. exemplo: se for chamados, ficará ChamadosController; se for processos, ficará ProcessosController e assim por diante.
 		$classe = $_GET['modulo'];
+		
+		require_once $_SERVER['DOCUMENT_ROOT']."/controller/".$classe."Controller.php";
 		
 		$classe .= 'Controller';
 			
@@ -128,6 +122,8 @@ if(isset($_GET['acao'])){
 		
 //caso não exista ação, é porque o usuário ainda não fez login no sistema e ele mostra a página de login
 }else{
+	
+	require_once $_SERVER['DOCUMENT_ROOT'].'/view/LoginView.php';
 	
 	$view = new loginView();
 	

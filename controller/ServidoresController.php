@@ -1,6 +1,7 @@
 <?php 
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/Controller.php';
+require_once $_SESSION['PATH_VIEW'].'ServidoresView.php';
 
 class ServidoresController extends Controller{
 	
@@ -15,14 +16,18 @@ class ServidoresController extends Controller{
 	.
 	*/
 	function __construct(){
-		
+
 		$this->servidoresModel = new ServidoresModel();		
-		$this->servidoresView  = new ServidoresView();
-		$this->setoresModel    = new SetoresModel();
-		
+		$this->homeController = new HomeController();
+		$this->setoresModel = new SetoresModel();
 		$this->servidoresModel->setTabela('tb_servidores');
 		
+		$tipoView = $_SESSION['TYPE_VIEW'];
+		$tipoView .= 'ServidoresView';
+		$this->servidoresView = new $tipoView();
+		
 	}
+
 	
 	/*
 	.esta funcao solicita que a view carregue a pagina de cadastrar

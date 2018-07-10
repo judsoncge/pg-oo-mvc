@@ -1,6 +1,7 @@
 <?php 
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/Controller.php';
+require_once $_SESSION['PATH_VIEW'].'ProcessosView.php';
 
 class ProcessosController extends Controller{
 	
@@ -16,12 +17,15 @@ class ProcessosController extends Controller{
 	*/
 	function __construct(){
 		
-		$this->processosView    = new ProcessosView();
 		$this->processosModel   = new ProcessosModel();
 		$this->servidoresModel  = new ServidoresModel();
 		$this->setoresModel     = new SetoresModel();
 		$this->processosModel->setTabela('tb_processos');
 		$this->processosModel->setTabelaHistorico('tb_historico_processos');
+		
+		$tipoView = $_SESSION['TYPE_VIEW'];
+		$tipoView .= 'ProcessosView';
+		$this->processosView = new $tipoView();
 	}
 	
 	/*

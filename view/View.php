@@ -168,7 +168,9 @@ class View{
 							<li class='chamados-subitem'>
 								<a href='/chamados/inativos/' ><i class='fa fa-headphones icone-menu' aria-hidden='true'></i>Inativos</a>
 							</li>
-							
+						
+						<?php if($_SESSION['FUNCAO'] == 'TI' OR $_SESSION['FUNCAO'] == 'COMUNICAÇÃO'){ ?>	
+						
 						<!-- Menu Comunicação -->
 						<li id='comunicacao'>
 							<a href='#'><i class='fa fa-volume-up icone-menu' aria-hidden='true'></i>Comunicação</a>
@@ -185,14 +187,19 @@ class View{
 							<li class='comunicacao-subitem'>
 								<a href='/comunicacao/inativos/' ><i class='fa fa-volume-up icone-menu' aria-hidden='true'></i>Inativos</a>
 							</li>
+							
+						<?php } ?>
+						
 						<!-- Menu Processos -->
 						<li id='processos'>
 							<a href='#'><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Processos</a>
 						</li>
 							<!-- Botão cadastrar -->
-							<li class='processos-subitem'>
-								<a href='/processos/cadastrar/'><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Cadastrar</a>
-							</li>
+							<?php if($_SESSION['FUNCAO'] == 'TI' OR $_SESSION['FUNCAO'] == 'PROTOCOLO'){ ?>	
+								<li class='processos-subitem'>
+									<a href='/processos/cadastrar/'><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Cadastrar</a>
+								</li>
+							<?php } ?>	
 							<!-- Botão para listar os processos ativos -->
 							<li class='processos-subitem'>
 								<a href='/processos/ativos/0'><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Ativos</a>
@@ -201,10 +208,18 @@ class View{
 							<li class='processos-subitem'>
 								<a href='/processos/consulta' ><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Consultar</a>
 							</li>
+							
 							<!-- Botão para ir a página de relatório de processos -->
+							<?php if($_SESSION['FUNCAO'] == 'TI' OR $_SESSION['FUNCAO'] == 'CONTROLADOR' OR $_SESSION['FUNCAO'] == 'CHEFE DE GABINETE'){ ?>
+							
 							<li class='processos-subitem'>
 								<a href='/processos/relatorio/' ><i class='fa fa-exchange icone-menu' aria-hidden='true'></i>Relatório</a>
 							</li>
+							
+							<?php } 
+							
+						if($_SESSION['FUNCAO'] == 'TI'){ ?>
+						
 						<!-- Menu servidores -->
 						<li id='servidores'>
 							<a href='#'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Servidores</a>
@@ -221,6 +236,8 @@ class View{
 							<li class='servidores-subitem'>
 								<a href='/servidores/inativos/'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Inativos</a>
 							</li>
+						<?php } ?> 
+						
 						<!-- Página sobre -->
 						<li>
 							<a href=''><i class='fa fa-info-circle icone-menu' aria-hidden='true'></i>Sobre</a>

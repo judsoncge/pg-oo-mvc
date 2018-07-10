@@ -29,7 +29,7 @@ class ServidoresModel extends Model{
 	}
 	
 	public function setSenha($senha){
-		$this->senha = $senha;
+		$this->senha = md5($senha);
 	}
 	
 	public function setConfirmaSenha($confirmaSenha){
@@ -42,6 +42,41 @@ class ServidoresModel extends Model{
 	
 	public function getFoto(){
 		return $this->foto;
+	}
+	
+	public function login(){
+		
+		$query = "
+		
+		SELECT 
+		
+		a.ID, a.DS_FUNCAO, a.ID_SETOR, a.DS_NOME, a.DS_FOTO, 
+		
+		b.DS_ABREVIACAO NOME_SETOR 
+		
+		FROM tb_servidores a, tb_setores b
+		
+		WHERE a.ID_SETOR = b.ID
+		
+		AND a.DS_CPF = '$this->cpf' 
+		
+		AND a.SENHA = '$this->senha'";
+		
+		$dadosUsuario = $this->executarQueryLista($query);
+		
+		return $dadosUsuario;
+	
+	}
+	
+	//efetua logoff no sistema
+	public function logoff(){
+		
+		$_SESSION = array();
+		
+		session_destroy();
+
+		header('Location: /index.php');
+
 	}
 	
 	public function getListaServidoresStatus(){

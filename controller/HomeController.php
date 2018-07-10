@@ -1,6 +1,8 @@
 <?php
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/Controller.php';
+require_once $_SESSION['PATH_VIEW'].'HomeView.php';
+
 
 class HomeController extends Controller{
 
@@ -12,7 +14,10 @@ class HomeController extends Controller{
 	function __construct(){
 		
 		$this->comunicacaoModel = new comunicacaoModel();
-		$this->homeView = new homeView();
+		
+		$tipoView = $_SESSION['TYPE_VIEW'];
+		$tipoView .= 'HomeView';
+		$this->homeView = new $tipoView();
 		
 	}
 	
@@ -24,10 +29,10 @@ class HomeController extends Controller{
 	.a funcao também define o titulo (de acordo com o status) e o conteudo da pagina e pede para que a view carregue a pagina
 	*/
 	public function listar(){
-		
+				
 		$_REQUEST['LISTA_NOTICIAS'] = $this->comunicacaoModel->getCincoNoticiasMaisAtuais();
 		
-		$this->homeView->setTitulo("Bem vindo(a) ao Painel de Gestão, " . $_SESSION['NOME']);
+		$this->homeView->setTitulo("<center>Bem vindo(a) ao Painel de Gestão, <br>" . $_SESSION['NOME'] . "</center>");
 
 		$this->homeView->setConteudo('home');
 		

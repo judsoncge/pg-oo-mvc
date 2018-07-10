@@ -1,6 +1,8 @@
 <?php 
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/controller/Controller.php';
+require_once $_SESSION['PATH_VIEW'].'ChamadosView.php';
+
 
 class ChamadosController extends Controller{
 
@@ -13,11 +15,14 @@ class ChamadosController extends Controller{
 	.
 	*/
 	function __construct(){
-		
-		$this->chamadosView = new ChamadosView();
+	
 		$this->chamadosModel = new ChamadosModel();
 		$this->chamadosModel->setTabela('tb_chamados');
 		$this->chamadosModel->setTabelaHistorico('tb_historico_chamados');
+		
+		$tipoView = $_SESSION['TYPE_VIEW'];
+		$tipoView .= 'ChamadosView';
+		$this->chamadosView = new $tipoView();
 		
 	}
 	
