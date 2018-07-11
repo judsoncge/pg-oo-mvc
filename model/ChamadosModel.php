@@ -28,7 +28,7 @@ class ChamadosModel extends Model{
 		
 		$data = date('Y-m-d H:i:s');
 		
-		$query = "INSERT INTO tb_chamados (DS_PROBLEMA, DS_NATUREZA, ID_SERVIDOR_REQUISITANTE, DT_ABERTURA) VALUES ('$this->problema','$this->natureza', $this->servidorSessao,'$data')";
+		$query = "INSERT INTO tb_chamados (DS_PROBLEMA, DS_NATUREZA, ID_SERVIDOR_REQUISITANTE, DT_ABERTURA) VALUES ('$this->problema','$this->natureza', ".$_SESSION['ID'].",'$data')";
 		
 		$this->setID($this->executarQueryID($query));
 		
@@ -42,7 +42,7 @@ class ChamadosModel extends Model{
 		
 		$restricao_status = ($this->status == 'ATIVO') ? " IN ('ABERTO', 'FECHADO') " : " = 'ENCERRADO' ";
 		
-		$restricao_servidor = ($this->servidorSessao != NULL) ? $this->servidorSessao : '%' ;
+		$restricao_servidor = ($_SESSION['FUNCAO'] != 'TI') ? $_SESSION['ID'] : '%' ;
 		
 		$query =
 		

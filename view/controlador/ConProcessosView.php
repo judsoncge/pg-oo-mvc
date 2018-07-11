@@ -18,11 +18,16 @@ class ConProcessosView extends ProcessosView{
 			<div id='carregando' class='carregando'><i class='fa fa-refresh spin' aria-hidden='true'></i> <span>Carregando dados...</span></div>
 			
 			<!-- mostra a quantidade de processos da tabela atual -->
-			<h5>
-				<div id='qtde'>Total: <?php echo sizeof($listaProcessos) . " " ?>
-					<button onclick='javascript: exportar();' class='btn btn-sm btn-success' name='submit' value='Send'>Exportar</button>
-				</div>
-			</h5>
+			<center>
+				<font color='green'><?php echo $_REQUEST['FRASE']; ?></font><br><br>
+				<!-- mostra a quantidade de processos da tabela atual -->
+				<h5>
+					<div id='qtde'>Total: <?php echo sizeof($listaProcessos) . " " ?>
+						<button onclick='javascript: exportar();' class='btn btn-sm btn-success' name='submit' value='Send'>Exportar</button>
+					</div>
+					
+				</h5>				
+			</center>
 		
 			<table class='table table-hover tabela-dados'>
 				<thead>

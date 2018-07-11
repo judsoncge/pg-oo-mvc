@@ -226,8 +226,6 @@ class ProcessosController extends Controller{
 		$this->processosModel->setDetalhes($detalhes);
 		
 		$this->processosModel->setServidorLocalizacao($servidorLocalizacao);
-		
-		$this->processosModel->setServidorSessao($_SESSION['ID']);
 
 		$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->cadastrar();
 		
@@ -258,8 +256,6 @@ class ProcessosController extends Controller{
 	
 		$this->processosModel->setId($id);
 		
-		$this->processosModel->setServidorSessao($_SESSION['ID']);
-		
 		switch($_GET['operacao']){
 			
 			case 'info':
@@ -289,8 +285,6 @@ class ProcessosController extends Controller{
 				$this->processosModel->setInteressado($interessado);
 				
 				$this->processosModel->setDetalhes($detalhes);
-				
-				$this->processosModel->setServidorSessao($_SESSION['ID']);
 				
 				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->editar();
 				
@@ -407,8 +401,6 @@ class ProcessosController extends Controller{
 				$justificativa = (isset($_POST['justificativa'])) ? $_POST['justificativa'] : NULL;
 				
 				$this->processosModel->setJustificativaSobrestado($justificativa);
-			
-				$this->processosModel->setServidorSessao($_SESSION['ID']);
 				
 				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->solicitarSobrestado();
 				
@@ -423,8 +415,6 @@ class ProcessosController extends Controller{
 				$this->processosModel->setTipoDocumento($tipo);
 				
 				$this->processosModel->setAnexoDocumento($anexo);
-				
-				$this->processosModel->setServidorSessao($_SESSION['ID']);
 				
 				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->cadastrarDocumento();
 				
@@ -631,8 +621,6 @@ class ProcessosController extends Controller{
 		$id = $_GET['id'];
 		
 		$this->processosModel->setID($id);
-		
-		$this->processosModel->setServidorSessao($_SESSION['ID']);
 		
 		$listaDados = $this->processosModel->getDadosID();
 		

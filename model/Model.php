@@ -6,7 +6,6 @@ class Model{
 	protected $mensagemResposta;
 	protected $id;
 	protected $status;
-	protected $servidorSessao;
 	protected $tabela;
 	protected $tabelaHistorico;
 	protected $coluna;
@@ -33,10 +32,6 @@ class Model{
 	
 	public function getMensagemResposta(){
 		return $this->mensagemResposta;
-	}
-	
-	public function setServidorSessao($servidorSessao){
-		$this->servidorSessao = $servidorSessao;
 	}
 	
 	
@@ -175,7 +170,7 @@ class Model{
 		
 		$data = date('Y-m-d H:i:s');
 		
-		$query = "INSERT INTO $this->tabelaHistorico (ID_REFERENTE, TX_MENSAGEM, ID_SERVIDOR, DT_ACAO, DS_ACAO) VALUES ($this->id, '$mensagem', $this->servidorSessao, '$data', '$acao')";
+		$query = "INSERT INTO $this->tabelaHistorico (ID_REFERENTE, TX_MENSAGEM, ID_SERVIDOR, DT_ACAO, DS_ACAO) VALUES ($this->id, '$mensagem', ".$_SESSION['ID'].", '$data', '$acao')";
 		
 		$resultado = $this->executarQuery($query);
 		

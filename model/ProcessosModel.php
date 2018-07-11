@@ -192,7 +192,7 @@ class ProcessosModel extends Model{
 		
 		$nomeAnexo = $this->registrarAnexo($this->anexoDocumento, 'anexos');
 		
-		$query = "INSERT INTO tb_documentos (ID_PROCESSO, DS_TIPO, DT_CRIACAO, ID_SERVIDOR_CRIACAO, DS_ANEXO) VALUES ($this->id, '$this->tipoDocumento', '$data', $this->servidorSessao, '$nomeAnexo')";
+		$query = "INSERT INTO tb_documentos (ID_PROCESSO, DS_TIPO, DT_CRIACAO, ID_SERVIDOR_CRIACAO, DS_ANEXO) VALUES ($this->id, '$this->tipoDocumento', '$data', ".$_SESSION['ID'].", '$nomeAnexo')";
 		
 		$this->executarQuery($query);
 		
@@ -214,7 +214,7 @@ class ProcessosModel extends Model{
 	
 	public function getListaProcessosApensar(){
 		
-		$query = "SELECT ID, DS_NUMERO FROM tb_processos WHERE ID != $this->id AND ID_SERVIDOR_LOCALIZACAO = $this->servidorSessao AND BL_RECEBIDO = 1";
+		$query = "SELECT ID, DS_NUMERO FROM tb_processos WHERE ID != $this->id AND ID_SERVIDOR_LOCALIZACAO = ".$_SESSION['ID']." AND BL_RECEBIDO = 1 AND ID NOT IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados)";
 		
 		$lista = $this->executarQueryLista($query);
 		
@@ -607,20 +607,24 @@ class ProcessosModel extends Model{
 			case 'PROTOCOLO':
 			case 'GABINETE':
 			case 'TÉCNICO ANALISTA CORREÇÃO':
+			case 'COMUNICAÇÃO':
 				$frase .= ' no meu setor';
+				break;
 			
 			case 'SUPERINTENDENTE':
 			case 'ASSESSOR TÉCNICO':
-			case 'COMUNICAÇÃO':
-				$frase .= ' no meu setor e no setor subordinado';
+				$frase .= ' na minha superintendência';
+				break;
 				
 			case 'TÉCNICO ANALISTA':
 				$frase .= ' comigo';
+				break;
 				
 			case 'CONTROLADOR':
 			case 'CHEFE DE GABINETE':
 			case 'TI':
-				$frase .= ' no órgão';
+				$frase = 'Todos os processos';
+				break;
 
 		}
 		
@@ -638,6 +642,11 @@ class ProcessosModel extends Model{
 			case 'GABINETE':
 			case 'TÉCNICO ANALISTA CORREÇÃO':
 				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID_SETOR = $setor";
+				break;
+				
+			case 'TÉCNICO ANALISTA':
+				$servidor = $_SESSION['ID'];
+				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID = $servidor";
 				break;
 				
 			case 'SUPERINTENDENTE':
@@ -670,6 +679,14 @@ class ProcessosModel extends Model{
 				$query = "SELECT ID, DS_ABREVIACAO FROM tb_setores WHERE ID = $setor OR ID IN (SELECT ID_SETOR_SUBORDINADO FROM tb_setores WHERE ID = $setor)";
 				break;
 				
+			case 'TÉCNICO ANALISTA':
+			case 'TÉCNICO ANALISTA CORREÇÃO':
+			case 'PROTOCOLO':
+			case 'GABINETE':
+				$servidor = $_SESSION['ID'];
+				$query = "SELECT ID, DS_ABREVIACAO FROM tb_setores WHERE ID = $setor";
+				break;
+				
 			case 'CONTROLADOR':
 			case 'CHEFE DE GABINETE':
 			case 'TI':
@@ -681,6 +698,7 @@ class ProcessosModel extends Model{
 		
 		return $listaSetores;
 	}
+	
 	
 	public function getListaProcessosStatus(){
 		
@@ -758,7 +776,7 @@ class ProcessosModel extends Model{
 					
 					WHERE a.DS_STATUS $restricaoStatus 
 					
-					AND a.ID_SERVIDOR_LOCALIZACAO = $servidor;
+					AND a.ID_SERVIDOR_LOCALIZACAO = $servidor
 					
 					ORDER BY BL_URGENCIA DESC, NR_DIAS DESC";
 					
@@ -789,6 +807,8 @@ class ProcessosModel extends Model{
 			
 		}
 		
+		//echo $query; exit();
+		
 		$lista = $this->executarQueryLista($query);
 		
 		return $lista;
@@ -816,37 +836,132 @@ class ProcessosModel extends Model{
 			$restricaoServidorSetor = "ID_SERVIDOR_LOCALIZACAO like '%'";
 		}
 		
-		$query = "
+		switch($_SESSION['FUNCAO']){
+			
+			case 'PROTOCOLO':
+			case 'GABINETE':
+			case 'TÉCNICO ANALISTA CORREÇÃO':
+			case 'COMUNICAÇÃO':
+			case 'SUPERINTENDENTE':
+			case 'ASSESSOR TÉCNICO':
+			
+				$setor = $_SESSION['SETOR'];
+				
+				$restricaoSetor = ($this->setorLocalizacao == '%') 
+				
+				? 
+				
+				"(SELECT ID FROM tb_servidores WHERE ID_SETOR = $setor OR ID_SETOR IN (SELECT ID_SETOR_SUBORDINADO FROM tb_setores WHERE ID = $setor))" 
+				
+				: "(SELECT ID FROM tb_servidores WHERE ID_SETOR = $this->setorLocalizacao)";
+				
+				$restricaoServidor = ($this->servidorLocalizacao == '%') ? '' : "OR ID_SERVIDOR_LOCALIZACAO = '$this->servidorLocalizacao'";
+			
+				$query = "
 		
-		SELECT 
+					SELECT 
+					
+					a.*,
+					DATE_FORMAT(a.DT_PRAZO, '%d/%m/%Y') DT_PRAZO,
+					c.DS_NOME NOME_SERVIDOR,
+					c.ID_SETOR,
+					d.DS_ABREVIACAO NOME_SETOR
+					
+					FROM tb_processos a
+					
+					INNER JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
+					INNER JOIN tb_setores d ON c.ID_SETOR = d.ID
+					
+					WHERE a.DS_STATUS $restricaoStatus 
+					
+					AND ID_SERVIDOR_LOCALIZACAO IN $restricaoSetor
+					
+					$restricaoServidor
+					
+					AND BL_ATRASADO like '$this->atrasado' 
+					
+					AND BL_SOBRESTADO like '$this->sobrestado'
+					
+					AND BL_RECEBIDO like '$this->recebido'
+					
+					AND DS_NUMERO LIKE '%$this->numero%'
+					
+					ORDER BY BL_URGENCIA DESC, NR_DIAS DESC
+					
+				";
+				break;
+				
+			case 'TÉCNICO ANALISTA':
+				$query = "
 		
-		a.*,
-		DATE_FORMAT(a.DT_PRAZO, '%d/%m/%Y') DT_PRAZO,
-		c.DS_NOME NOME_SERVIDOR,
-		c.ID_SETOR,
-		d.DS_ABREVIACAO NOME_SETOR
+					SELECT 
+					
+					a.*,
+					DATE_FORMAT(a.DT_PRAZO, '%d/%m/%Y') DT_PRAZO,
+					c.DS_NOME NOME_SERVIDOR,
+					c.ID_SETOR,
+					d.DS_ABREVIACAO NOME_SETOR
+					
+					FROM tb_processos a
+					
+					INNER JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
+					INNER JOIN tb_setores d ON c.ID_SETOR = d.ID
+					
+					WHERE a.DS_STATUS $restricaoStatus 
+					
+					AND ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao
+					
+					AND BL_ATRASADO like '$this->atrasado' 
+					
+					AND BL_SOBRESTADO like '$this->sobrestado'
+					
+					AND BL_RECEBIDO like '$this->recebido'
+					
+					AND DS_NUMERO LIKE '%$this->numero%'
+					
+					ORDER BY BL_URGENCIA DESC, NR_DIAS DESC
+					
+				";
+				break;
+				
+			case 'CONTROLADOR':
+			case 'CHEFE DE GABINETE':
+			case 'TI':
+				$query = "
 		
-		FROM tb_processos a
-		
-		INNER JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
-		INNER JOIN tb_setores d ON c.ID_SETOR = d.ID
-		
-		WHERE a.DS_STATUS ".$restricaoStatus." 
-		
-		AND ".$restricaoServidorSetor."
-		
-		AND BL_ATRASADO like '$this->atrasado' 
-		
-		AND BL_SOBRESTADO like '$this->sobrestado'
-		
-		AND BL_RECEBIDO like '$this->recebido'
-		
-		AND DS_NUMERO LIKE '%$this->numero%'
-		
-		ORDER BY BL_URGENCIA DESC, NR_DIAS DESC
-		
-		";
-		
+					SELECT 
+					
+					a.*,
+					DATE_FORMAT(a.DT_PRAZO, '%d/%m/%Y') DT_PRAZO,
+					c.DS_NOME NOME_SERVIDOR,
+					c.ID_SETOR,
+					d.DS_ABREVIACAO NOME_SETOR
+					
+					FROM tb_processos a
+					
+					INNER JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
+					INNER JOIN tb_setores d ON c.ID_SETOR = d.ID
+					
+					WHERE a.DS_STATUS ".$restricaoStatus." 
+					
+					AND ".$restricaoServidorSetor."
+					
+					AND BL_ATRASADO like '$this->atrasado' 
+					
+					AND BL_SOBRESTADO like '$this->sobrestado'
+					
+					AND BL_RECEBIDO like '$this->recebido'
+					
+					AND DS_NUMERO LIKE '%$this->numero%'
+					
+					ORDER BY BL_URGENCIA DESC, NR_DIAS DESC
+					
+					";
+					break;
+					
+
+		}
+				
 		$lista = $this->executarQueryLista($query);
 		
 		return $lista;
@@ -859,17 +974,32 @@ class ProcessosModel extends Model{
 			
 		$nomeSetor = $this->getNomeSetorLocalizacao();
 		
-		$frase = 'Todos os processos';
+		$funcao = $_SESSION['FUNCAO'];
 		
-		if($this->servidorLocalizacao == '%'){
+		$frase = $this->getFraseTabelaProcessosSemFiltro();
+		
+		if($funcao != 'TÉCNICO ANALISTA'){
 			
-			$frase .= ($this->setorLocalizacao != '%') ? " que estão no setor $nomeSetor; " : '';
-		
-		}else{
+			if($this->servidorLocalizacao == '%'){
 			
-			$frase .= ($this->setorLocalizacao != '%') ? " que estão com $nomeServidor ou também no setor $nomeSetor; " : " que estão com $nomeServidor; ";
+				$frase .= ($this->setorLocalizacao != '%') ? " que estão no setor $nomeSetor; " : '';
 		
+			}else{
+				
+				if($funcao == 'TÉCNICO ANALISTA CORREÇÃO' or $funcao == 'PROTOCOLO' or $funcao == 'GABINETE'){
+					
+					$frase .= " que estão com $nomeServidor;";
+					
+				}else{
+					
+					$frase .= ($this->setorLocalizacao != '%') ? " que estão com $nomeServidor e também no setor $nomeSetor; " : " que estão com $nomeServidor;";
+					
+				}
+
+			}
+			
 		}
+		
 		
 		if($this->atrasado != '%'){
 			
@@ -986,7 +1116,7 @@ class ProcessosModel extends Model{
 		
 		$data = date('Y-m-d H:i:s');
 		
-		$query = "INSERT INTO tb_processos_sobrestados (ID_PROCESSO, ID_SERVIDOR_SOLICITANTE, DS_JUSTIFICATIVA, ID_SERVIDOR_RESPOSTA, DT_SOLICITACAO, DT_RESPOSTA, DS_STATUS) VALUES ($this->id, $this->servidorSessao, '$this->justificativaSobrestado', $this->servidorSessao, '$data', '$data', 'ACEITO')";
+		$query = "INSERT INTO tb_processos_sobrestados (ID_PROCESSO, ID_SERVIDOR_SOLICITANTE, DS_JUSTIFICATIVA, ID_SERVIDOR_RESPOSTA, DT_SOLICITACAO, DT_RESPOSTA, DS_STATUS) VALUES ($this->id, ".$_SESSION['ID'].", '$this->justificativaSobrestado', ".$_SESSION['ID'].", '$data', '$data', 'ACEITO')";
 		
 		$this->executarQuery($query);
 		

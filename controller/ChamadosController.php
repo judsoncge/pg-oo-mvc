@@ -55,10 +55,6 @@ class ChamadosController extends Controller{
 		
 		$this->chamadosModel->setStatus($_GET['status']);
 		
-		$servidorSessao = ($_SESSION['FUNCAO'] == 'TI') ? NULL : $_SESSION['ID'];
-		
-		$this->chamadosModel->setServidorSessao($servidorSessao);
-		
 		$_REQUEST['LISTA_CHAMADOS'] = $this->chamadosModel->getListaChamadosStatus();
 		
 		$titulo = ($_GET['status']=='ATIVO') ? 'CHAMADOS > ATIVOS' : 'CHAMADOS > INATIVOS';
@@ -86,13 +82,9 @@ class ChamadosController extends Controller{
 		
 		$problema = (isset($_POST['problema'])) ? $_POST['problema'] : NULL;
 		
-		$servidorSessao = $_SESSION['ID'];
-		
 		$this->chamadosModel->setNatureza($natureza);
 		
 		$this->chamadosModel->setProblema($problema);
-		
-		$this->chamadosModel->setServidorSessao($servidorSessao);
 		
 		$_SESSION['RESULTADO_OPERACAO'] = $this->chamadosModel->cadastrar();
 		
@@ -123,8 +115,6 @@ class ChamadosController extends Controller{
 		$id = (isset($_GET['id'])) ? $_GET['id'] : NULL;
 		
 		$this->chamadosModel->setId($id);
-		
-		$this->chamadosModel->setServidorSessao($_SESSION['ID']);
 		
 		switch($_GET['operacao']){
 			

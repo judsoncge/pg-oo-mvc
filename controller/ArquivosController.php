@@ -97,8 +97,6 @@ class ArquivosController extends Controller{
 		
 		$this->arquivosModel->setAnexo($anexo);
 		
-		$this->arquivosModel->setServidorSessao($_SESSION['ID']);
-		
 		$_SESSION['RESULTADO_OPERACAO'] = $this->arquivosModel->cadastrar();
 		
 		$_SESSION['MENSAGEM'] = $this->arquivosModel->getMensagemResposta();

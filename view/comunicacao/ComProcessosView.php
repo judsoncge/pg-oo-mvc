@@ -179,82 +179,84 @@ class ComProcessosView extends ProcessosView{
 				//carrega o historico do processo passando o array recebido la em cima. o metodo esta definido na classe mae
 				$this->carregarHistorico($historico);
 				
-		if($ativo){
+			if($ativo){
 											
-				//carrega o input para enviar mensagem, passando os parametros necessarios. o metodo esta definido na classe mae
-				$this->carregarEnviarMensagem('processo', $lista['ID']); ?>
-				
-				<!-- formulario para anexar um documento ao processo -->
-				<div class='row linha-modal-processo'>
-					<form method='POST' action="/editar/processo/anexardocumento/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	
-						<div class='col-md-6'>
-							<div class='form-group'>
-								<label class='control-label' for='exampleInputEmail1'><b>Anexar documento:</b></label>
-									<!-- carrega o select dos tipos de documento. o metodo esta definido na classe mae -->
-									<?php $this->carregarSelectTiposDocumento(); ?>
-							</div>  
-						</div>
-						<div class='col-md-4'>
-							<div class='form-group'>
-								<label class='control-label' for='exampleInputEmail1'>Enviar anexo</label><br>
-								<input type='file' class='' name='arquivoAnexo' id='arquivoAnexo'/>
-							</div>
-						</div>	
-						<div class='col-md-2'>
-							<br>
-							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Anexar &nbsp;&nbsp;<i class='fa fa-arrow-circle-right'  aria-hidden='true'></i></button>
-						</div>
-					</form>	
-				</div>
-				
-<?php 		//muitas funcionalidades nao sao permitidas serem executadas quando o processo é apensado a outro
-			if(!$apensado){
-?>
-				<!-- select multiple box para o usuário definir apensos ao processo em questão. a lista de processos para apensar é recebida pelo processos controller lá em cima -->
-				<div class='row linha-modal-processo'>
-					<form method='POST' action="/editar/processo/apensar/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	
-						<div class='col-md-10'>
-							<label class='control-label' for='exampleInputEmail1'><b>Defina os Apensos</b>:</label><br>
-							<select multiple id='apensos' name='apensos[]' style='width: 96%;' required>
-<?php 							
-								foreach($listaProcessosApensar as $processo){
-?>
-									<option value="<?php echo $processo['ID'] ?>"><?php echo $processo['DS_NUMERO'] ?></option>
-								
-<?php 							} 
-?>
-							</select>
-						</div>
-						<div class='col-md-2'>
-							<br>
-							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Apensar &nbsp;&nbsp;<i class='fa fa-arrow-circle-right'  aria-hidden='true'></i></button>
-						</div>
-					</form>	
-				</div>
-				
-				<!-- select para o usuário escolher um outro usuário para enviar o processo. a lista de servidores é recebida do processos controller lá em cima -->
-				<form name='teste' method='POST' action='/editar/processo/tramitar/<?php echo $lista['ID']?>/' enctype='multipart/form-data'>	
+					//carrega o input para enviar mensagem, passando os parametros necessarios. o metodo esta definido na classe mae
+					$this->carregarEnviarMensagem('processo', $lista['ID']); ?>
+					
+					<!-- formulario para anexar um documento ao processo -->
 					<div class='row linha-modal-processo'>
-						<div class='col-md-10'>
-							<select class='form-control' id='tramitar' name='tramitar' required />
-								<option value=''>Selecione o servidor para tramitar</option>
-<?php 
-									foreach($listaServidores as $servidor){
-?>	
-										<option value='<?php echo $servidor['ID'] ?>'><?php echo $servidor['DS_NOME'] ?></option>		
-										
-<?php									
-									}
-?>
-							</select>
-						</div>
-						<div class='col-md-2'>
-							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Tramitar &nbsp;&nbsp;<i class='fa fa-arrow-circle-right' aria-hidden='true'></i></button>
-						</div>
+						<form method='POST' action="/editar/processo/anexardocumento/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	
+							<div class='col-md-6'>
+								<div class='form-group'>
+									<label class='control-label' for='exampleInputEmail1'><b>Anexar documento:</b></label>
+										<!-- carrega o select dos tipos de documento. o metodo esta definido na classe mae -->
+										<?php $this->carregarSelectTiposDocumento(); ?>
+								</div>  
+							</div>
+							<div class='col-md-4'>
+								<div class='form-group'>
+									<label class='control-label' for='exampleInputEmail1'>Enviar anexo</label><br>
+									<input type='file' class='' name='arquivoAnexo' id='arquivoAnexo'/>
+								</div>
+							</div>	
+							<div class='col-md-2'>
+								<br>
+								<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Anexar &nbsp;&nbsp;<i class='fa fa-arrow-circle-right'  aria-hidden='true'></i></button>
+							</div>
+						</form>	
 					</div>
-				</form>
-<?php
+					
+	<?php 		//muitas funcionalidades nao sao permitidas serem executadas quando o processo é apensado a outro
+				if(!$apensado){
+	?>
+					<!-- select multiple box para o usuário definir apensos ao processo em questão. a lista de processos para apensar é recebida pelo processos controller lá em cima -->
+					<div class='row linha-modal-processo'>
+						<form method='POST' action="/editar/processo/apensar/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	
+							<div class='col-md-10'>
+								<label class='control-label' for='exampleInputEmail1'><b>Defina os Apensos</b>:</label><br>
+								<select multiple id='apensos' name='apensos[]' style='width: 96%;' required>
+	<?php 							
+									foreach($listaProcessosApensar as $processo){
+	?>
+										<option value="<?php echo $processo['ID'] ?>"><?php echo $processo['DS_NUMERO'] ?></option>
+									
+	<?php 							} 
+	?>
+								</select>
+							</div>
+							<div class='col-md-2'>
+								<br>
+								<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Apensar &nbsp;&nbsp;<i class='fa fa-arrow-circle-right'  aria-hidden='true'></i></button>
+							</div>
+						</form>	
+					</div>
+					
+					<!-- select para o usuário escolher um outro usuário para enviar o processo. a lista de servidores é recebida do processos controller lá em cima -->
+					<form name='teste' method='POST' action='/editar/processo/tramitar/<?php echo $lista['ID']?>/' enctype='multipart/form-data'>	
+						<div class='row linha-modal-processo'>
+							<div class='col-md-10'>
+								<select class='form-control' id='tramitar' name='tramitar' required />
+									<option value=''>Selecione o servidor para tramitar</option>
+	<?php 
+										foreach($listaServidores as $servidor){
+	?>	
+											<option value='<?php echo $servidor['ID'] ?>'><?php echo $servidor['DS_NOME'] ?></option>		
+											
+	<?php									
+										}
+	?>
+								</select>
+							</div>
+							<div class='col-md-2'>
+								<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Tramitar &nbsp;&nbsp;<i class='fa fa-arrow-circle-right' aria-hidden='true'></i></button>
+							</div>
+						</div>
+					</form>
+	<?php
+				}
 			}
 		}
+	}
 	}
 }

@@ -9,6 +9,8 @@ class ProProcessosView extends ProcessosView{
 		
 		//pegando com o controller a lista de servidores e a lista de setores com o processos controller
 		$listaServidores = $_REQUEST['LISTA_SERVIDORES']; 
+		
+		$listaSetores = $_REQUEST['LISTA_SETORES']; 
 
 ?>	
 
@@ -27,6 +29,19 @@ class ProProcessosView extends ProcessosView{
 										</option>
 								<?php } ?>
 							</select>
+						</div>
+					</div>
+					<!-- filtro de setor (em que setor o processo está) -->
+					<div class='col-md-2'>
+						<div class='form-group'>
+							<label class='control-label' for='exampleInputEmail1'>Filtro de setor</label><br>
+								<select id='filtrosetor' name='filtrosetor' >
+									<?php foreach($listaSetores as $setor){ ?>
+										<option value='<?php echo $setor['ID'] ?>'>
+											<?php echo $setor['DS_ABREVIACAO']; ?>
+										</option>
+									<?php } ?>
+								</select>
 						</div>
 					</div>
 					<!-- filtro de situação (no prazo ou atrasado) -->
