@@ -166,7 +166,7 @@ class ComunicacaoModel extends Model{
 	
 	public function getCincoNoticiasMaisAtuais(){
 		
-		$query = "SELECT ID, DS_TITULO, DS_INTERTITULO, DATE_FORMAT(DT_PUBLICACAO, '%d/%m/%Y às %H:%i') DT_PUBLICACAO FROM tb_comunicacao WHERE DS_STATUS = 'PUBLICADA' ORDER BY DT_PUBLICACAO DESC LIMIT 5";
+		$query = "SELECT ID, DS_TITULO, DS_INTERTITULO, DATE_FORMAT(DT_PUBLICACAO, '%d/%m/%Y às %H:%i') DT_NOTICIA FROM tb_comunicacao WHERE DS_STATUS = 'PUBLICADA' ORDER BY DT_PUBLICACAO DESC LIMIT 5";
 		
 		$lista = $this->executarQueryLista($query);
 		

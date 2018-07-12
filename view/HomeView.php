@@ -16,7 +16,7 @@ class HomeView extends View{
 				
 				foreach($lista as $noticia){ ?>
 
-					<font size='2px'><?php echo $noticia['DT_PUBLICACAO']?></font>
+					<font size='2px'><?php echo $noticia['DT_NOTICIA']?></font>
 					
 					<!-- quando o usuário clica no título, leva para a página da notícia completa -->
 					<a href='/comunicacao/visualizar/<?php echo $noticia['ID'] ?>'><h3><?php echo $noticia['DS_TITULO'] ?></h3></a>
