@@ -209,7 +209,32 @@ class ComProcessosView extends ProcessosView{
 					
 	<?php 		//muitas funcionalidades nao sao permitidas serem executadas quando o processo é apensado a outro
 				if(!$apensado){
-	?>
+	?>				
+	
+					<!-- formulario para definir responsaveis -->
+				<div class='row linha-modal-processo'>
+					<form method='POST' action="/editar/processo/definirresponsaveis/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	
+						<div class='col-md-10'>
+							<label class='control-label' for='exampleInputEmail1'><b>Defina os responsáveis</b>:</label><br>
+							<select multiple id='responsaveis' name='responsaveis[]' style='width: 96%;' required>
+<?php 								//lista de pessoas que podem ser responsaveis que foi recebida la em cima para montagem do select box
+									foreach($listaPodemSerResponsaveis as $podeSerResponsavel){			
+?>
+										<option value="<?php echo $podeSerResponsavel['ID'] ?>">
+											<?php echo "  " .$podeSerResponsavel['DS_NOME']; ?>
+										</option>	
+<?php 
+									} 
+?>
+							</select>
+						</div>
+						<div class='col-md-2'>
+							<br>
+							<button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-tramitar'>Definir &nbsp;&nbsp;<i class='fa fa-arrow-circle-right' aria-hidden='true'></i></button>
+						</div>
+					</form>	
+				</div>
+				
 					<!-- select multiple box para o usuário definir apensos ao processo em questão. a lista de processos para apensar é recebida pelo processos controller lá em cima -->
 					<div class='row linha-modal-processo'>
 						<form method='POST' action="/editar/processo/apensar/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	

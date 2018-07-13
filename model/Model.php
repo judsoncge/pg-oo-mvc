@@ -14,6 +14,10 @@ class Model{
 		$this->id = $id;
 	}
 	
+	public function getID(){
+		return $this->id;
+	}
+	
 	public function setTabela($tabela){
 		$this->tabela = $tabela;
 	}

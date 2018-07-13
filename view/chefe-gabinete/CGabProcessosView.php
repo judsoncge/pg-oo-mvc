@@ -28,7 +28,9 @@ class CGabProcessosView extends ProcessosView{
 		
 		$listaPodemSerResponsaveis = $_REQUEST['LISTA_PODEM_SER_RESPONSAVEIS'];
 		
-		$listaProcessosApensar = $_REQUEST['LISTA_APENSAR']; ?>	
+		$listaProcessosApensar = $_REQUEST['LISTA_APENSAR'];
+		
+		?>	
 	
 		<!-- se o processo nao for recebido e mesmo assim o servidor conseguir entrar na página de visualizar, é perguntado se o processo foi recebido e logo após o carregamento da página é interrompido. -->
 		<div class='container'>

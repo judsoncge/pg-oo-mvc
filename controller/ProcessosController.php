@@ -229,10 +229,12 @@ class ProcessosController extends Controller{
 
 		$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->cadastrar();
 		
+		$id = $this->processosModel->getID();
+		
 		$_SESSION['MENSAGEM'] = $this->processosModel->getMensagemResposta();
 		
 		if($_SESSION['RESULTADO_OPERACAO']){
-			Header('Location: /processos/ativos/0');
+			Header("Location: /processos/visualizar/$id");
 		}else{
 			Header('Location: /processos/cadastrar/');
 		}
@@ -634,9 +636,13 @@ class ProcessosController extends Controller{
 	
 		$_REQUEST['HISTORICO_PROCESSO'] = $this->processosModel->getHistorico();
 		
-		$_REQUEST['LISTA_PODEM_SER_RESPONSAVEIS'] = $this->processosModel->getListaPodemSerResponsaveis();
-		
 		$_REQUEST['LISTA_APENSAR'] = $this->processosModel->getListaProcessosApensar();
+		
+		if($_SESSION['FUNCAO'] != 'PROTOCOLO' AND $_SESSION['FUNCAO'] != 'TÉCNICO ANALISTA' AND $_SESSION['FUNCAO'] != 'TÉCNICO ANALISTA CORREÇÃO'){
+		
+			$_REQUEST['LISTA_PODEM_SER_RESPONSAVEIS'] = $this->processosModel->getListaPodemSerResponsaveis();	
+			
+		}
 		
 		$_REQUEST['ATIVO'] = ($listaDados['DS_STATUS'] != 'ARQUIVADO' && $listaDados['DS_STATUS'] != 'SAIU') ? 1 : 0;
 	

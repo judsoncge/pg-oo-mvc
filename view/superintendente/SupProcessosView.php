@@ -26,9 +26,11 @@ class SupProcessosView extends ProcessosView{
 		
 		$listaServidores = $_REQUEST['LISTA_SERVIDORES'];
 		
+		$listaProcessosApensar = $_REQUEST['LISTA_APENSAR'];
+		
 		$listaPodemSerResponsaveis = $_REQUEST['LISTA_PODEM_SER_RESPONSAVEIS'];
 		
-		$listaProcessosApensar = $_REQUEST['LISTA_APENSAR']; ?>	
+		?>	
 	
 		<!-- se o processo nao for recebido e mesmo assim o servidor conseguir entrar na página de visualizar, é perguntado se o processo foi recebido e logo após o carregamento da página é interrompido. -->
 		<div class='container'>

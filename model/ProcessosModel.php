@@ -204,7 +204,22 @@ class ProcessosModel extends Model{
 	
 	public function getListaPodemSerResponsaveis(){
 		
-		$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE DS_FUNCAO = 'TÉCNICO ANALISTA' AND DS_STATUS = 'ATIVO' AND ID NOT IN (SELECT ID_SERVIDOR FROM tb_responsaveis_processos WHERE ID_PROCESSO='$this->id') ORDER BY DS_NOME";
+		
+		
+		switch($_SESSION['FUNCAO']){
+			
+			case 'SUPERINTENDENTE':
+			case 'ASSESSOR TÉCNICO':
+				$setor = $_SESSION['SETOR'];
+				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE DS_FUNCAO IN ('TÉCNICO ANALISTA', 'TÉCNICO ANALISTA CORREÇÃO') AND (DS_STATUS = 'ATIVO') AND (ID_SETOR = (SELECT ID_SETOR_SUBORDINADO FROM tb_setores WHERE ID = $setor)) AND ID NOT IN (SELECT ID_SERVIDOR FROM tb_responsaveis_processos WHERE ID_PROCESSO='$this->id') ORDER BY DS_NOME";
+				break;
+			
+			case 'TI':
+				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE DS_FUNCAO = 'TÉCNICO ANALISTA' AND DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
+				break;
+				
+			
+		}
 		
 		$lista = $this->executarQueryLista($query);
 		
@@ -1047,7 +1062,7 @@ class ProcessosModel extends Model{
 	
 	public function getListaAssuntos(){
 		
-		$query = "SELECT * FROM tb_assuntos_processos";
+		$query = "SELECT * FROM tb_assuntos_processos ORDER BY DS_NOME";
 		
 		$lista = $this->executarQueryLista($query);
 		
@@ -1103,7 +1118,7 @@ class ProcessosModel extends Model{
 		
 		WHERE ID_PROCESSO = $this->id
 
-		";
+		ORDER BY b.DS_NOME";
 		
 		$lista = $this->executarQueryLista($query);
 		
@@ -1185,32 +1200,32 @@ class ProcessosModel extends Model{
 				
 			case 'PROTOCOLO':
 			
-				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID_SETOR = 5 ORDER BY DS_NOME";
+				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID_SETOR = 5 AND DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
 				
 				break;
 			
 			case 'SUPERINTENDENTE':
 			case 'ASSESSOR TÉCNICO':
 			
-				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID_SETOR = 5 OR ID_SETOR = $setor OR ID_SETOR IN (SELECT ID_SETOR_SUBORDINADO FROM tb_setores WHERE ID = $setor) ORDER BY DS_NOME";
+				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID_SETOR = 5 OR ID_SETOR = $setor OR ID_SETOR IN (SELECT ID_SETOR_SUBORDINADO FROM tb_setores WHERE ID = $setor) OR DS_FUNCAO = 'SUPERINTENDENTE' AND DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
 				
 				break;
 			
 			case 'TÉCNICO ANALISTA':
 
-				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID_SETOR IN (SELECT ID FROM tb_setores WHERE ID_SETOR_SUBORDINADO = $setor) ORDER BY DS_NOME";
+				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID_SETOR IN (SELECT ID FROM tb_setores WHERE ID_SETOR_SUBORDINADO = $setor) OR (DS_FUNCAO = 'TÉCNICO ANALISTA CORREÇÃO' AND ID_SETOR = $setor) AND DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
 				
 				break;
 				
 			case 'TÉCNICO ANALISTA CORREÇÃO':
 				
-				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID_SETOR = $setor OR ID_SETOR IN (SELECT ID FROM tb_setores WHERE ID_SETOR_SUBORDINADO = $setor) ORDER BY DS_NOME";
+				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID_SETOR = $setor OR ID_SETOR IN (SELECT ID FROM tb_setores WHERE ID_SETOR_SUBORDINADO = $setor) AND DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
 				
 				break;
 				
 			case 'GABINETE':
 				
-				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE DS_FUNCAO IN ('SUPERINTENDENTE', 'ASSESSOR TÉCNICO') ORDER BY DS_NOME";
+				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE DS_FUNCAO IN ('SUPERINTENDENTE', 'ASSESSOR TÉCNICO', 'PROTOCOLO') AND DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
 				
 				break;
 				
@@ -1218,7 +1233,7 @@ class ProcessosModel extends Model{
 			case 'CHEFE DE GABINETE':
 			case 'TI':
 				
-				$query = "SELECT ID, DS_NOME FROM tb_servidores";
+				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
 				
 				break;	
 
