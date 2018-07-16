@@ -11,12 +11,6 @@ class LoginController extends Controller{
 	}
 	
 	public function login(){
-
-		if(isset($_SESSION['ID'])){
-			
-			Header('Location: /home');
-			
-		}
 		
 		$CPF = (isset($_POST['CPF'])) ? $_POST['CPF'] : NULL;
 		

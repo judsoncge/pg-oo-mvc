@@ -435,7 +435,8 @@ class View{
 			<option value='RELATÓRIO'>RELATÓRIO</option>
 			<option value='RESPOSTA AO INTERESSADO'>RESPOSTA AO INTERESSADO</option>
 			<option value='TERMO DE REFERÊNCIA'>TERMO DE REFERÊNCIA</option>
-			<option value='LAUDO PERICIAL'>LAUDO PERICIAL</option>		
+			<option value='LAUDO PERICIAL'>LAUDO PERICIAL</option>	
+			<option value='OUTROS'>OUTROS</option>	
 		</select>
 		
 <?php

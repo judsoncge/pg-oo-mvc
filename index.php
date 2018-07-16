@@ -10,20 +10,26 @@ date_default_timezone_set('America/Bahia');
 //aqui o sistema verifica se há uma ação. Se houver, é porque já foi feito o login e o usuário está tentando executar alguma coisa.
 if(isset($_GET['acao'])){
 	
-	//a variável modulo também vem do link. O módulo pode ser arquivos, chamados, comunicação, processos, servidores.
-	if(isset($_GET['modulo'])){
+	//verifica antes se existe a sessão. essa verificacao é importante para quando o tempo de sessao do servidor acaba  (por inutilização do usuario) e ai as variaveis de sessao sao destruidas. assim, leva o usuario novamente para a pagina de login, MENOS quando a acao é de login, pq ainda serão criadas as variáveis de sessão (primeiro acesso)
+	if(!isset($_SESSION['PATH_VIEW']) and $_GET['acao'] != 'login'){
 		
-		//montando o nome da classe do controller com o valor do módulo que vem no link. exemplo: se for chamados, ficará ChamadosController; se for processos, ficará ProcessosController e assim por diante.
-		$classe = $_GET['modulo'];
-		
-		require_once $_SERVER['DOCUMENT_ROOT']."/controller/".$classe."Controller.php";
-		
-		$classe .= 'Controller';
-			
-		$controller = new $classe();
+		require_once $_SERVER['DOCUMENT_ROOT'].'/view/LoginView.php';
+	
+		$view = new loginView();
+	
+		$view->carregar(); 
 		
 	}
 	
+	//montando o nome da classe do controller com o valor do módulo que vem no link. exemplo: se for chamados, ficará ChamadosController; se for processos, ficará ProcessosController e assim por diante.
+	$classe = $_GET['modulo'];
+		
+	require_once $_SERVER['DOCUMENT_ROOT']."/controller/".$classe."Controller.php";		
+	
+	$classe .= 'Controller';
+			
+	$controller = new $classe();
+		
 	//aqui o sistema verifica que tipo de ação o usuário está tentando fazer
 	switch($_GET['acao']){
 		
@@ -119,9 +125,18 @@ if(isset($_GET['acao'])){
 			break;
 			
 	}
+	
+	
 		
 //caso não exista ação, é porque o usuário ainda não fez login no sistema e ele mostra a página de login. o usuario também pode estar tentando acessar a página sobre, que não envolve nenhuma ação
 }else{
+	
+	//se ja existe uma sessão aberta, leve para a página de home.
+	if(isset($_SESSION['ID'])){
+	
+		Header('Location: /home');
+	
+	}
 	
 	require_once $_SERVER['DOCUMENT_ROOT'].'/view/LoginView.php';
 	

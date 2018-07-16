@@ -391,7 +391,7 @@ class ComunicacaoView extends View{
 ?>
 			<li class='modal-card-foto3'>	
 				<img src="/_registros/fotos-noticias/<?php echo $imagem['DS_ARQUIVO'] ?>" ></img>
-				<p style='text-align:center;'><?php echo $imagem['DS_LEGENDA'] . " (" . $imagem['DS_CREDITOS'] . ") " ?></p>
+				<p style='text-align:center;'><small><?php echo $imagem['DS_LEGENDA'] . " (" . $imagem['DS_CREDITOS'] . ") " ?></small></p>
 			</li>
 					
 <?php  	}
