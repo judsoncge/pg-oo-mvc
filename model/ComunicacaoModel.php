@@ -182,7 +182,7 @@ class ComunicacaoModel extends Model{
 		
 		"SELECT 
 		
-		ID, DS_CHAPEU, DS_TITULO, DATE_FORMAT(DT_PUBLICACAO, '%d/%m/%Y às %H:%i') DT_PUBLICACAO, DS_STATUS
+		ID, DS_CHAPEU, DS_TITULO, DT_PUBLICACAO, DS_STATUS
 		
 		FROM tb_comunicacao
 		

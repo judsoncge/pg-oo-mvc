@@ -110,7 +110,7 @@ class ComunicacaoView extends View{
 					<tr>
 						<td><?php echo $comunicacao['DS_CHAPEU'] ?></td>
 						<td><?php echo $comunicacao['DS_TITULO'] ?></td>
-						<td><?php echo $comunicacao['DT_PUBLICACAO'] ?></td>
+						<td><?php echo date_format(new DateTime($comunicacao['DT_PUBLICACAO']), 'd/m/Y H:i'); ?></td>
 						<td><?php echo $comunicacao['DS_STATUS'] ?></td>
 						<td>	
 							<center>
