@@ -18,6 +18,7 @@ class ProcessosModel extends Model{
 	private $atrasado;
 	private $sobrestado;
 	private $recebido;
+	private $dias;
 	private $responsavel;
 	private $documento;
 	private $justificativaSobrestado;
@@ -27,6 +28,12 @@ class ProcessosModel extends Model{
 	private $listaApensos;
 	private $responsavelLider;
 	private $apenso;
+	
+	public function setDias($dias){
+		
+		$this->dias = $dias;
+		
+	}
 	
 	public function setListaResponsaveis($listaResponsaveis){
 		
@@ -854,7 +861,20 @@ class ProcessosModel extends Model{
 			
 			$restricaoServidorSetor = "ID_SERVIDOR_LOCALIZACAO like '%'";
 		}
-		
+
+		if($this->dias != '%'){
+			
+			$quantidadeDias = explode('-', $this->dias);
+			$intervalo1 = $quantidadeDias[0];
+			$intervalo2 = $quantidadeDias[1];
+			$restricaoDias = "AND NR_DIAS BETWEEN $intervalo1 AND $intervalo2";
+			
+		}else{
+			
+			$restricaoDias = '';
+			
+		}
+
 		switch($_SESSION['FUNCAO']){
 			
 			case 'PROTOCOLO':
@@ -905,6 +925,8 @@ class ProcessosModel extends Model{
 					
 					AND DS_NUMERO LIKE '%$this->numero%'
 					
+					$restricaoDias
+					
 					ORDER BY BL_URGENCIA DESC, NR_DIAS DESC
 					
 				";
@@ -939,6 +961,8 @@ class ProcessosModel extends Model{
 					
 					AND DS_NUMERO LIKE '%$this->numero%'
 					
+					$restricaoDias
+					
 					ORDER BY BL_URGENCIA DESC, NR_DIAS DESC
 					
 				";
@@ -962,9 +986,9 @@ class ProcessosModel extends Model{
 					INNER JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
 					INNER JOIN tb_setores d ON c.ID_SETOR = d.ID
 					
-					WHERE a.DS_STATUS ".$restricaoStatus." 
+					WHERE a.DS_STATUS $restricaoStatus 
 					
-					AND ".$restricaoServidorSetor."
+					AND $restricaoServidorSetor
 					
 					AND BL_ATRASADO like '$this->atrasado' 
 					
@@ -973,6 +997,8 @@ class ProcessosModel extends Model{
 					AND BL_RECEBIDO like '$this->recebido'
 					
 					AND DS_NUMERO LIKE '%$this->numero%'
+					
+					$restricaoDias
 					
 					ORDER BY BL_URGENCIA DESC, NR_DIAS DESC
 					

@@ -55,7 +55,7 @@ class TaProcessosView extends ProcessosView{
 						</div>
 					</div>
 					<!-- filtro de sobrestado (se o processo está com alguma dependencia no momento) -->
-					<div class='col-md-2'>
+					<div class='col-md-1'>
 						<div class='form-group'>
 							<label class='control-label' for='exampleInputEmail1'>Sobrestado</label><br>
 							<select id='filtrosobrestado' name='filtrosobrestado' >
@@ -66,13 +66,27 @@ class TaProcessosView extends ProcessosView{
 						</div>
 					</div>
 					<!-- filtro de recebido (se o processo foi recebido por alguém após ser tramitado -->
-					<div class='col-md-2'>
+					<div class='col-md-1'>
 						<div class='form-group'>
 							<label class='control-label' for='exampleInputEmail1'>Recebido</label><br>
 							<select id='filtrorecebido' name='filtrorecebido' >
 								<option value='%'>Todos</option>
 								<option value='0'>NÃO</option>
 								<option value='1'>SIM</option>
+							</select>
+						</div>
+					</div>
+					<!-- filtro de dias (quantidade de dias) -->
+					<div class='col-md-2'>
+						<div class='form-group'>
+							<label class='control-label' for='exampleInputEmail1'>Dias</label><br>
+							<select id='filtrodias' name='filtrodias'>
+								<option value='%'>Todos</option>
+								<option value='0-15'>0-15</option>
+								<option value='15-30'>15-30</option>
+								<option value='30-45'>30-45</option>
+								<option value='45-60'>45-60</option>
+								<option value='55-60'>55-60</option>
 							</select>
 						</div>
 					</div>

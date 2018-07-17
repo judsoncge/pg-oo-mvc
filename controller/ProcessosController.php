@@ -542,6 +542,8 @@ class ProcessosController extends Controller{
 			
 			$filtroRecebido = $_POST['filtrorecebido'];
 
+			$filtroDias = $_POST['filtrodias'];
+			
 			$filtroProcesso = $_POST['filtroprocesso'];
 			
 			$this->processosModel->setServidorLocalizacao($filtroServidor);
@@ -553,6 +555,8 @@ class ProcessosController extends Controller{
 			$this->processosModel->setSobrestado($filtroSobrestado);
 			
 			$this->processosModel->setRecebido($filtroRecebido);
+			
+			$this->processosModel->setDias($filtroDias);
 			
 			$this->processosModel->setNumero($filtroProcesso);
 			
