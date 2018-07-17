@@ -20,23 +20,31 @@ $resultado = mysqli_query($conexao, "SELECT ID, CD_PROCESSO FROM tb_historico_pr
 
 while($r = mysqli_fetch_array($resultado)){
 	
-	$numerosProcesso = explode(" ", $r['CD_PROCESSO']);
-	
-	$primeiraParte = (int)$numerosProcesso[0];
-	
-	$sp = explode("/", $numerosProcesso[1]);
-	
-	$segundaParte = (int)$sp[0];
-	
-	$terceiraParte = $sp[1];
-	
-	$numeroFinal = $primeiraParte . " " . $segundaParte . "/" . $terceiraParte;
+	//echo "Antes:   " . $r['CD_PROCESSO'] . "<br>"; 
 	
 	$id = $r['ID'];
 	
-	//echo "UPDATE tb_historico_processos_antigo SET CD_PROCESSO = $numeroFinal WHERE ID=$id"; exit();
+	$numerosProcesso = explode(" ", $r['CD_PROCESSO']);
+	$numerosProcesso2 = explode("/", $r['CD_PROCESSO']);
 	
-	mysqli_query($conexao, "UPDATE tb_historico_processos_antigo SET CD_PROCESSO = $numeroFinal WHERE ID='$id'");
+	$primeiraParte = (int)$numerosProcesso[0];
+	
+	$segundaParte = (int)$numerosProcesso[1];
+	
+	$terceiraParte = $numerosProcesso2[1];
+	
+	$numeroProcessoNovo = $primeiraParte . " " . $segundaParte . "/" . $terceiraParte;
+	
+	//echo "Segunda parte (parte 1): " . $segundaParte1 . " ;  "; 
+	//echo "Segunda parte (parte 1) Consertada: " . $segundaParte1Consertada . " ;  "; 
+	//echo "Número do processo final: " . $numeroProcessoNovo . " ;  <br>";
+	
+	//echo "Depois: " .$numeroProcessoNovo . "<br><br><br>"; 
+	
+	
+	
+	mysqli_query($conexao, "UPDATE tb_historico_processos_antigo SET CD_PROCESSO = '$numeroProcessoNovo' WHERE ID='$id'");
+	
 	
 } 
 

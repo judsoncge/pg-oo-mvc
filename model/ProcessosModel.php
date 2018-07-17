@@ -874,7 +874,7 @@ class ProcessosModel extends Model{
 				
 				: "(SELECT ID FROM tb_servidores WHERE ID_SETOR = $this->setorLocalizacao)";
 				
-				$restricaoServidor = ($this->servidorLocalizacao == '%') ? '' : "OR ID_SERVIDOR_LOCALIZACAO = '$this->servidorLocalizacao'";
+				$restricaoServidor = ($this->servidorLocalizacao == '%') ? '' : "AND ID_SERVIDOR_LOCALIZACAO = '$this->servidorLocalizacao'";
 			
 				$query = "
 		
@@ -908,6 +908,7 @@ class ProcessosModel extends Model{
 					ORDER BY BL_URGENCIA DESC, NR_DIAS DESC
 					
 				";
+				
 				break;
 				
 			case 'TÉCNICO ANALISTA':
