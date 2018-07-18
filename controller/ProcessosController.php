@@ -348,7 +348,11 @@ class ProcessosController extends Controller{
 			
 				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->voltar();
 				
-				break;
+				$_SESSION['MENSAGEM'] = $this->processosModel->getMensagemResposta();
+	
+				Header('Location: /processos/ativos/0');
+				
+				die();
 				
 			case 'desarquivar':
 			

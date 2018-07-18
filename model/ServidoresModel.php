@@ -68,17 +68,6 @@ class ServidoresModel extends Model{
 	
 	}
 	
-	//efetua logoff no sistema
-	public function logoff(){
-		
-		$_SESSION = array();
-		
-		session_destroy();
-
-		header('Location: /index.php');
-
-	}
-	
 	public function getListaServidoresStatus(){
 		
 		$query = "
