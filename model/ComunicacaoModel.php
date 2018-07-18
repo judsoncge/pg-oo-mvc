@@ -19,25 +19,25 @@ class ComunicacaoModel extends Model{
 	
 	public function setChapeu($chapeu){
 		
-		$this->chapeu = $chapeu;
+		$this->chapeu = addslashes($chapeu);
 		
 	}
 	
 	public function setTitulo($titulo){
 		
-		$this->titulo = $titulo;
+		$this->titulo = addslashes($titulo);
 		
 	}
 	
 	public function setIntertitulo($intertitulo){
 		
-		$this->intertitulo = $intertitulo;
+		$this->intertitulo = addslashes($intertitulo);
 		
 	}
 	
 	public function setCreditosTexto($creditosTexto){
 		
-		$this->creditosTexto = $creditosTexto;
+		$this->creditosTexto = addslashes($creditosTexto);
 		
 	}
 	
@@ -67,13 +67,13 @@ class ComunicacaoModel extends Model{
 	
 	public function setLegendas($legendas){
 		
-		$this->legendas = $legendas;
+		$this->legendas = addslashes($legendas);
 		
 	}
 	
 	public function setCreditos($creditos){
 		
-		$this->creditos = $creditos;
+		$this->creditos = addslashes($creditos);
 		
 	}
 	

@@ -344,11 +344,15 @@ class ProcessosController extends Controller{
 				
 			case 'voltar':
 			
+				$this->processosModel->setServidorLocalizacao($_SESSION['ID']);
+			
 				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->voltar();
 				
 				break;
 				
 			case 'desarquivar':
+			
+				$this->processosModel->setServidorLocalizacao($_SESSION['ID']);
 			
 				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->desarquivar();
 				
@@ -593,6 +597,8 @@ class ProcessosController extends Controller{
 
 		$filtroProcesso = $_GET['filtroprocesso'];
 		
+		$filtroDias = $_GET['filtrodias'];
+		
 		$this->processosModel->setServidorLocalizacao($filtroServidor);
 		
 		$this->processosModel->setSetorLocalizacao($filtroSetor);
@@ -604,6 +610,8 @@ class ProcessosController extends Controller{
 		$this->processosModel->setRecebido($filtroRecebido);
 		
 		$this->processosModel->setNumero($filtroProcesso);
+		
+		$this->processosModel->setDias($filtroDias);
 		
 		$this->processosModel->setStatus('ATIVO');
 	

@@ -62,7 +62,7 @@ class ProcessosModel extends Model{
 	
 	public function setJustificativaSobrestado($justificativaSobrestado){
 		
-		$this->justificativaSobrestado = $justificativaSobrestado;
+		$this->justificativaSobrestado = addslashes($justificativaSobrestado);
 	}
 	
 	public function setDocumento($documento){
@@ -94,11 +94,11 @@ class ProcessosModel extends Model{
 	}
 	
 	public function setInteressado($interessado){
-		$this->interessado = $interessado;
+		$this->interessado = addslashes($interessado);
 	}
 	
 	public function setDetalhes($detalhes){
-		$this->detalhes = $detalhes;
+		$this->detalhes = addslashes($detalhes);
 	}
 	
 	public function setPrazo($prazo){
@@ -155,7 +155,7 @@ class ProcessosModel extends Model{
 		
 		$this->urgencia = ($this->assunto == 32) ? 1 : 0;
 		
-		$query = "INSERT INTO tb_processos (DS_NUMERO, BL_URGENCIA, ID_ASSUNTO, DS_DETALHES, ID_ORGAO_INTERESSADO, DS_INTERESSADO, DT_ENTRADA, DT_PRAZO, ID_SERVIDOR_LOCALIZACAO) VALUES ('$this->numero','$this->urgencia', $this->assunto,'".strtoupper($this->detalhes)."',$this->orgao,'".strtoupper($this->interessado)."','$data','$this->prazo', $this->servidorLocalizacao)";
+		$query = "INSERT INTO tb_processos (DS_NUMERO, BL_URGENCIA, ID_ASSUNTO, DS_DETALHES, ID_ORGAO_INTERESSADO, DS_INTERESSADO, DT_ENTRADA, DT_PRAZO, ID_SERVIDOR_LOCALIZACAO) VALUES ('$this->numero',$this->urgencia, $this->assunto,'".strtoupper($this->detalhes)."',$this->orgao,'".strtoupper($this->interessado)."','$data','$this->prazo', $this->servidorLocalizacao)";
 		
 		$id = $this->executarQueryID($query);
 		
@@ -513,13 +513,22 @@ class ProcessosModel extends Model{
 		
 		$this->assunto = $this->executarQueryRegistro($query);
 		
-		$query = "SELECT NR_DIAS_PRAZO FROM tb_assuntos_processos WHERE ID = $this->assunto";
+		if($this->assunto == NULL){
+			
+			$qtdDiasPrazo = 60;
 		
-		$qtdDiasPrazo = $this->executarQueryRegistro($query);
+		}else{
+			
+			$query = "SELECT NR_DIAS_PRAZO FROM tb_assuntos_processos WHERE ID = $this->assunto";
+		
+			$qtdDiasPrazo = $this->executarQueryRegistro($query);
+			
+		}
 		
 		$this->prazo = $this->somarData($this->dataEntrada, $qtdDiasPrazo);
 		
-		$query = "UPDATE tb_processos SET DT_ENTRADA = '$this->dataEntrada', DT_PRAZO = '$this->prazo', DT_SAIDA = NULL, NR_DIAS = 0, DS_STATUS = 'EM ANDAMENTO' WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		$query = "UPDATE tb_processos SET DT_ENTRADA = '$this->dataEntrada', DT_PRAZO = '$this->prazo', DT_SAIDA = NULL, ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao, NR_DIAS = 0, DS_STATUS = 'EM ANDAMENTO' WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		
 		
 		$this->executarQuery($query);
 		
@@ -533,7 +542,7 @@ class ProcessosModel extends Model{
 		
 		$status = ($_SESSION['FUNCAO']=='CHEFE DE GABINETE' || $_SESSION['FUNCAO']=='GABINETE') ? 'FINALIZADO PELO GABINETE' : 'FINALIZADO PELO SETOR';
 		
-		$query = "UPDATE tb_processos SET DS_STATUS = '$status', DT_SAIDA = NULL WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		$query = "UPDATE tb_processos SET DS_STATUS = '$status', ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao, DT_SAIDA = NULL WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
 		
 		$this->executarQuery($query);
 		

@@ -21,7 +21,7 @@ class ServidoresModel extends Model{
 	}
 	
 	public function setNome($nome){
-		$this->nome = $nome;
+		$this->nome = addslashes($nome);
 	}
 	
 	public function setCPF($cpf){

@@ -10,8 +10,10 @@ function exportar(){
 	
 	var filtrorecebido = $('#filtrorecebido').val();
 	
+	var filtrodias = $('#filtrodias').val();
+	
 	var filtroprocesso = $('#filtroprocesso').val();
 	
-	window.open("/index.php?acao=exportar&modulo=Processos&filtroservidor="+filtroservidor+"&filtrosetor="+filtrosetor+"&filtrosituacao="+filtrosituacao+"&filtrosobrestado="+filtrosobrestado+"&filtrorecebido="+filtrorecebido+"&filtroprocesso="+filtroprocesso+"",'_blank');
+	window.open("/index.php?acao=exportar&modulo=Processos&filtroservidor="+filtroservidor+"&filtrosetor="+filtrosetor+"&filtrosituacao="+filtrosituacao+"&filtrosobrestado="+filtrosobrestado+"&filtrorecebido="+filtrorecebido+"&filtrodias="+filtrodias+"&filtroprocesso="+filtroprocesso+"",'_blank');
 	
 }

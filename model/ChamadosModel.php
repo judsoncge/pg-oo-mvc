@@ -9,7 +9,7 @@ class ChamadosModel extends Model{
 	private $avaliacao;	
 	
 	public function setProblema($problema){
-		$this->problema = $problema;
+		$this->problema = addslashes($problema);
 	}
 	
 	public function setNatureza($natureza){
@@ -18,10 +18,6 @@ class ChamadosModel extends Model{
 
 	public function setAvaliacao($avaliacao){
 		$this->avaliacao = $avaliacao;
-	}
-	
-	public function setMensagem($mensagem){
-		$this->mensagem = $mensagem;
 	}
 	
 	public function cadastrar(){

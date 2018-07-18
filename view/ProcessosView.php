@@ -280,6 +280,9 @@ class ProcessosView extends View{
 			color: white;
 		}
 		</style>
+		
+		*os processos são ordenados pela urgência (linha amarela) e depois pela quantidade de dias
+		
 		<table id='customers'>
 			<thead>
 				<tr>
@@ -296,12 +299,16 @@ class ProcessosView extends View{
 			
 		foreach($listaProcessos as $processo){
 			
+			$linhaTabela = ($processo['BL_URGENCIA']) ? "<tr style='background-color:#f1c40f;'>" : '<tr>';
+			
 			$atrasado = ($processo['BL_ATRASADO']) ? 'ATRASADO' : 'DENTRO DO PRAZO';
 
 			$recebido = ($processo['BL_RECEBIDO']) ? 'SIM' : 'NÃO';
 			
 			$html .= 
-		 "<tr> 
+		
+		"
+		$linhaTabela 
 			<td>
 				
 					".$processo['DS_NUMERO']."
