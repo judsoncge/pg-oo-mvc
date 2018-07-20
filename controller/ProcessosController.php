@@ -332,6 +332,16 @@ class ProcessosController extends Controller{
 				
 				$_SESSION['RESULTADO_OPERACAO'] = $this->processosModel->editarStatus();
 				
+				if($_GET['valor'] == 'SAIU' or $_GET['valor'] == 'ARQUIVADO'){
+					
+					$_SESSION['MENSAGEM'] = $this->processosModel->getMensagemResposta();
+					
+					Header('Location: /processos/ativos/0');
+		
+					die();
+				
+				}
+				
 				break;
 				
 			case 'desfazerstatus':
