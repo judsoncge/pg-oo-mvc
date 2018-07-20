@@ -67,7 +67,7 @@ class ComunicacaoModel extends Model{
 	
 	public function setLegendas($legendas){
 		
-		$this->legendas = addslashes($legendas);
+		$this->legendas = $legendas;
 		
 	}
 	
@@ -92,6 +92,8 @@ class ComunicacaoModel extends Model{
 	public function cadastrar(){
 		
 		$query = "INSERT INTO tb_comunicacao (DS_CHAPEU, DS_TITULO, DS_INTERTITULO, DS_CREDITOS, TX_NOTICIA, DT_PUBLICACAO) VALUES ('$this->chapeu','$this->titulo','$this->intertitulo','$this->creditosTexto','$this->texto','$this->dataPublicacao')";
+		
+		//echo $query; exit();
 		
 		$this->setID($this->executarQueryID($query));
 		
@@ -153,11 +155,20 @@ class ComunicacaoModel extends Model{
 				
 				$resultado = $this->executarQuery($query);
 				
+				$mensagemResposta = ($resultado) 
+					? 'Operação realizada com sucesso!' 
+					: 'Ocorreu alguma falha na operação. Por favor, procure o suporte';
+					
+				$this->setMensagemResposta($mensagemResposta);
+				
 			}
 			
 			return $resultado;
 			
 		}else{
+			$mensagemResposta = 'Operação realizada com sucesso!';
+			
+			$this->setMensagemResposta($mensagemResposta);
 			
 			return 1;
 			
