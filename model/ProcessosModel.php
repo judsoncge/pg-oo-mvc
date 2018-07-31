@@ -542,7 +542,9 @@ class ProcessosModel extends Model{
 		
 		$status = ($_SESSION['FUNCAO']=='CHEFE DE GABINETE' || $_SESSION['FUNCAO']=='GABINETE') ? 'FINALIZADO PELO GABINETE' : 'FINALIZADO PELO SETOR';
 		
-		$query = "UPDATE tb_processos SET DS_STATUS = '$status', ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao, DT_SAIDA = NULL WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		$data = date('Y-m-d');
+		
+		$query = "UPDATE tb_processos SET DS_STATUS = '$status', ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao, DT_ENTRADA = '$data', DT_SAIDA = NULL, NR_DIAS = 0 WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
 		
 		$this->executarQuery($query);
 		
