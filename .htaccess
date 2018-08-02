@@ -13,38 +13,38 @@ RewriteRule logoff               	 		      /index.php?acao=logoff&modulo=Login
 
 #o (.*) indica que pode vir qualquer coisa. nas variáveis GET (no link que tem acao e modulo) indica a posição do valor passado. Exemplo operacao=$1 indica que o valor da variável operacao é o primeiro (.*) do link, id=$2 indica que o valor da variável id é o segundo (.*) do link
 
-RewriteRule ^home             	                  /index.php?acao=lista&modulo=Home
+RewriteRule ^home             	                  /index.php?acao=listar&modulo=Home
 
 RewriteRule ^sobre             	                  /index.php?&acao=visualizar&modulo=Sobre
 
-RewriteRule ^arquivos/cadastrar       	 	      /index.php?acao=cadastro&modulo=Arquivos
+RewriteRule ^arquivos/cadastrar       	 	      /index.php?acao=carregarCadastro&modulo=Arquivos
 RewriteRule ^cadastrar/arquivo        	 	      /index.php?acao=cadastrar&modulo=Arquivos
-RewriteRule ^arquivos/ativos          		      /index.php?acao=lista&modulo=Arquivos&status=ATIVO
-RewriteRule ^arquivos/inativos        	          /index.php?acao=lista&modulo=Arquivos&status=INATIVO
+RewriteRule ^arquivos/ativos          		      /index.php?acao=listar&modulo=Arquivos&status=ATIVO
+RewriteRule ^arquivos/inativos        	          /index.php?acao=listar&modulo=Arquivos&status=INATIVO
 RewriteRule ^editar/arquivo/(.*)/(.*)/(.*)        /index.php?acao=editar&modulo=Arquivos&operacao=$1&id=$2&status=$3
 RewriteRule ^excluir/arquivo/(.*)/(.*)            /index.php?acao=excluir&modulo=Arquivos&id=$1&anexo=$2
  
-RewriteRule ^servidores/cadastrar                 /index.php?acao=cadastro&modulo=Servidores
+RewriteRule ^servidores/cadastrar                 /index.php?acao=carregarCadastro&modulo=Servidores
 RewriteRule ^cadastrar/servidor               	  /index.php?acao=cadastrar&modulo=Servidores
-RewriteRule ^servidores/editar/(.*)               /index.php?acao=edicao&tipo=info&modulo=Servidores&id=$1
-RewriteRule ^servidores/senha/                    /index.php?acao=edicao&tipo=senha&modulo=Servidores&id=$1
-RewriteRule ^servidores/foto/                     /index.php?acao=edicao&tipo=foto&modulo=Servidores&id=$1
+RewriteRule ^servidores/editar/(.*)               /index.php?acao=carregarEdicao&tipo=info&modulo=Servidores&id=$1
+RewriteRule ^servidores/senha/                    /index.php?acao=carregarEdicao&tipo=senha&modulo=Servidores&id=$1
+RewriteRule ^servidores/foto/                     /index.php?acao=carregarEdicao&tipo=foto&modulo=Servidores&id=$1
 RewriteRule ^editar/servidor/(.*)/(.*)/(.*)       /index.php?acao=editar&modulo=Servidores&operacao=$1&id=$2&status=$3
-RewriteRule ^servidores/ativos                    /index.php?acao=lista&modulo=Servidores&status=ATIVO
-RewriteRule ^servidores/inativos                  /index.php?acao=lista&modulo=Servidores&status=INATIVO
+RewriteRule ^servidores/ativos                    /index.php?acao=listar&modulo=Servidores&status=ATIVO
+RewriteRule ^servidores/inativos                  /index.php?acao=listar&modulo=Servidores&status=INATIVO
 
 RewriteRule ^chamados/visualizar/(.*)             /index.php?acao=visualizar&modulo=Chamados&id=$1
-RewriteRule ^chamados/cadastrar                   /index.php?acao=cadastro&modulo=Chamados
+RewriteRule ^chamados/cadastrar                   /index.php?acao=carregarCadastro&modulo=Chamados
 RewriteRule ^cadastrar/chamado            	      /index.php?acao=cadastrar&modulo=Chamados
 RewriteRule ^editar/chamado/(.*)/(.*)/(.*)  	  /index.php?acao=editar&modulo=Chamados&operacao=$1&id=$2&status=$3
-RewriteRule ^chamados/ativos                      /index.php?acao=lista&modulo=Chamados&status=ATIVO
-RewriteRule ^chamados/inativos                    /index.php?acao=lista&modulo=Chamados&status=INATIVO
+RewriteRule ^chamados/ativos                      /index.php?acao=listar&modulo=Chamados&status=ATIVO
+RewriteRule ^chamados/inativos                    /index.php?acao=listar&modulo=Chamados&status=INATIVO
 RewriteRule ^excluir/chamado/(.*)                 /index.php?acao=excluir&modulo=Chamados&id=$1
 
-RewriteRule ^comunicacao/ativos                          /index.php?acao=lista&modulo=Comunicacao&status=ATIVO
-RewriteRule ^comunicacao/inativos                        /index.php?acao=lista&modulo=Comunicacao&status=INATIVO
-RewriteRule ^comunicacao/cadastrar                       /index.php?acao=cadastro&modulo=Comunicacao
-RewriteRule ^comunicacao/editar/(.*)                     /index.php?acao=edicao&modulo=Comunicacao&id=$1
+RewriteRule ^comunicacao/ativos                          /index.php?acao=listar&modulo=Comunicacao&status=ATIVO
+RewriteRule ^comunicacao/inativos                        /index.php?acao=listar&modulo=Comunicacao&status=INATIVO
+RewriteRule ^comunicacao/cadastrar                       /index.php?acao=carregarCadastro&modulo=Comunicacao
+RewriteRule ^comunicacao/editar/(.*)                     /index.php?acao=carregarEdicao&modulo=Comunicacao&id=$1
 RewriteRule ^cadastrar/comunicacao                       /index.php?acao=cadastrar&modulo=Comunicacao
 RewriteRule ^comunicacao/visualizar/(.*)                 /index.php?acao=visualizar&modulo=Comunicacao&id=$1
 RewriteRule ^editar/comunicacao/imagem/(.*)/(.*)         /index.php?acao=editar&modulo=Comunicacao&operacao=imagem&id=$1&img=$2
@@ -52,18 +52,18 @@ RewriteRule ^editar/comunicacao/excluir-imagem/(.*)/(.*)/(.*) /index.php?acao=ed
 RewriteRule ^editar/comunicacao/(.*)/(.*)/(.*)           /index.php?acao=editar&modulo=Comunicacao&operacao=$1&id=$2&status=$3
 RewriteRule ^excluir/comunicacao/(.*)                    /index.php?acao=excluir&modulo=Comunicacao&id=$1
 
-RewriteRule ^processos/consulta                         /index.php?acao=consulta&modulo=Processos
-RewriteRule ^consultar/processo/(.*)                       /index.php?acao=consultar&modulo=Processos&numero=$1
-RewriteRule ^processo/editar/(.*)                      /index.php?acao=edicao&tipo=info&modulo=Processos&id=$1
+RewriteRule ^processos/carregarConsulta                         /index.php?acao=carregarConsulta&modulo=Processos
+RewriteRule ^carregarConsultar/processo/(.*)                       /index.php?acao=carregarConsultar&modulo=Processos&numero=$1
+RewriteRule ^processo/editar/(.*)                      /index.php?acao=carregarEdicao&tipo=info&modulo=Processos&id=$1
 RewriteRule ^editar/processo/(.*)/(.*)/(.*)            /index.php?acao=editar&modulo=Processos&operacao=$1&id=$2&valor=$3
-RewriteRule ^processos/ativos/1                        /index.php?acao=lista&modulo=Processos&status=ATIVO&filtro=1
-RewriteRule ^processos/ativos/0                        /index.php?acao=lista&modulo=Processos&status=ATIVO&filtro=0
-RewriteRule ^processos/inativos                        /index.php?acao=lista&modulo=Processos&status=INATIVO
-RewriteRule ^processos/cadastrar                       /index.php?acao=cadastro&modulo=Processos
+RewriteRule ^processos/ativos/1                        /index.php?acao=listar&modulo=Processos&status=ATIVO&filtro=1
+RewriteRule ^processos/ativos/0                        /index.php?acao=listar&modulo=Processos&status=ATIVO&filtro=0
+RewriteRule ^processos/inativos                        /index.php?acao=listar&modulo=Processos&status=INATIVO
+RewriteRule ^processos/cadastrar                       /index.php?acao=carregarCadastro&modulo=Processos
 RewriteRule ^cadastrar/processo            	           /index.php?acao=cadastrar&modulo=Processos
 RewriteRule ^processos/visualizar/(.*)                 /index.php?acao=visualizar&modulo=Processos&id=$1
 RewriteRule ^editar/processo/(.*)/(.*)                 /index.php?acao=editar&modulo=Processos&operacao=$1&id=$2
-RewriteRule ^processos/editar/(.*)                     /index.php?acao=edicao&modulo=Processos&id=$1
+RewriteRule ^processos/editar/(.*)                     /index.php?acao=carregarEdicao&modulo=Processos&id=$1
 RewriteRule ^processos/exportar/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)                  /index.php?acao=exportar&modulo=Processos&filtroservidor=$1&filtrosetor=$2&filtrosituacao=$3&filtrosobrestado=$4&filtrorecebido=$5&filtrodias=$6&filtroprocesso=$7
 RewriteRule ^excluir/processo/(.*)                     /index.php?acao=excluir&modulo=Processos&id=$1
-RewriteRule ^processos/relatorio                       /index.php?acao=relatorio&modulo=Processos
+RewriteRule ^processos/carregarRelatorio                       /index.php?acao=carregarRelatorio&modulo=Processos

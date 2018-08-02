@@ -4,7 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
 class SobreView extends View{
 	
-	//visualiza a página de sobre
+	
 	public function visualizar(){
 
 ?>	
@@ -45,7 +45,7 @@ class SobreView extends View{
 						<div class='equipe_servidor'><b>Vilker Tenório</b><br>Analista de TI</div>
 					</div>	
 				</div>
-				<div class="row">
+				<div class='row'>
 					<div class='col-md-3'>
 						<div class='equipe_servidor'><b>Anterior: Denys Rocha</b><br>Analista de TI</div>
 					</div>

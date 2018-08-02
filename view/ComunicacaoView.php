@@ -4,22 +4,22 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
 class ComunicacaoView extends View{
 
-	//o módulo de comunicação precisa de uns scripts adicionais em suas páginas
+	
 	public function adicionarScripts(){ ?>
 		
-		<!-- script de editor de texto, utilizado no cadastro de edição de noticia -->
-		<script src='//cdn.tinymce.com/4/tinymce.min.js'></script>
 		
-		<!-- iniciando o script -->
+		<script src='
+		
+		
 		<script>tinymce.init({ selector:'textarea' });</script>
 		
-		<!-- este script é o de adição de fotos, utilizado em cadastro e edição de imagens, quando o usuario deseja adicionar mais de uma imagem na notícia -->
+		
 		<script type='text/javascript'>
 		
 			var id_row = 1;
 			var id = 1;
 			
-			//quando o usuario clica no botaozinho de +, executa esta função, que imprime uma linha com um formulario de selecao de foto, legenda, creditos e se a imagem é grande ou pequena na noticia
+			
 			function adicionarImagem(){
 				
 				var newdiv = document.createElement('div');
@@ -62,7 +62,7 @@ class ComunicacaoView extends View{
 				id++;
 			}
 			
-			//tambem tem uma funcao que remove a linha
+			
 			function removerImagem(id){
 				
 				document.getElementById(id).innerHTML=""; 
@@ -71,7 +71,7 @@ class ComunicacaoView extends View{
 			
 		</script>
 
-		<!-- este script é o que faz o efeito de ficar mudando as fotos ao visualizar notícia, caso ela tenha mais de uma imagem -->
+		
 		<script type='text/javascript' src='/view/_libs/js/js_responsiveslides.js'></script>
 		<link rel='stylesheet' href='/view/_libs/css/responsiveslides.css'>
 		<script>
@@ -85,7 +85,7 @@ class ComunicacaoView extends View{
 	}
 		
 
-	//esta função monta a tabela de noticias quando o usuario seleciona noticias ativas ou inativas no menu a esquerda 
+	
 	public function listar(){ ?>
 		
 		<div class='col-md-12 table-responsive' style='overflow: auto; width: 100%; height: 320px;'>
@@ -101,7 +101,7 @@ class ComunicacaoView extends View{
 				</thead>
 				<tbody>
 					<?php 
-					//a lista de noticias é solicitada ao comunicacao controller
+					
 					$lista = $_REQUEST['LISTA_COMUNICACAO'];
 						
 					foreach($lista as $comunicacao){ 	
@@ -130,25 +130,25 @@ class ComunicacaoView extends View{
 	
 	}
 	
-	//tanto cadastrar quanto editar informações utilizam o mesmo formulário. para que o mesmo formulario nao seja implementado duas vezes, a função cadastrar chama o método carregarFormulario que lá verifica se o conteudo da pagina é de cadastro ou edição.
+	
 	public function cadastrar(){
 		
 		$this->carregarFormulario();
 	
 	}
 	
-	//tanto cadastrar quanto editar informações utilizam o mesmo formulário. para que o mesmo formulario nao seja implementado duas vezes, a função editar chama o método carregarFormulario que lá verifica se o conteudo da pagina é de cadastro ou edição.
+	
 	public function editar(){
 		
 		$this->carregarFormulario();
 		
 	}
 	
-	//função que carrega o formulario para cadastro/edição de comunicaçao
+	
 	public function carregarFormulario(){
 		
-		//pegando a lista de dados da comunicacao (caso o conteudo seja de edição) com o comunicacao controller. o action do formulario e nome do botao de submit também mudam dependendo do conteudo da página
-		if($this->conteudo == 'edicao'){
+		
+		if($this->conteudo == 'editar'){
 			
 			$listaDados = $_REQUEST['DADOS_COMUNICACAO'];
 			$listaDadosImagens = $_REQUEST['DADOS_IMAGENS'];
@@ -164,7 +164,7 @@ class ComunicacaoView extends View{
 
 ?>
 		
-		<!-- formulario. no value de cada campo é verificado se o tipo de conteúdo da página é de edição. se sim, carrega o valor do campo do servidor correspondente, que está na lista de dados solicitada acima. caso não, não imprime nada (pois é de cadastro). -->
+		
 		<form name='cadastro' id='cadastro' method='POST' action="<?php echo $action; ?>" enctype='multipart/form-data'>
 			<div class='row'>
 				<div class='col-md-12'>
@@ -224,7 +224,7 @@ class ComunicacaoView extends View{
 					</a>
 				</div>
 			</div>
-			<!-- é aqui onde o script de adicionar imagem insere o formulário quando o usuário clica no botão + -->
+			
 			<div id='adicionarImagem'>
 			
 			
@@ -237,28 +237,28 @@ class ComunicacaoView extends View{
 			</div>	
 		</form>
 
-<!-- caso o conteúdo seja de edição, são mostradas as imagens existentes da noticia para serem editadas, da mesma forma que o script mostra -->		
-<?php if($this->conteudo == 'edicao'){ ?>
+		
+<?php if($this->conteudo == 'editar'){ ?>
 		
 		
 		<div class='row linha-modal-processo'>
 		<h3>Edição de Imagens</h3><br>
 			<div>
-				<!-- a lista é recebida do comunicacao controller la em cima -->	
+					
 				<?php foreach($listaDadosImagens as $imagem){
 				
 					$caminho = $_SERVER['DOCUMENT_ROOT'] . "/_registros/fotos-noticias/".$imagem['DS_ARQUIVO']; ?>
 					
 					<form name='cadastro' id='cadastro' method='POST' action="/editar/comunicacao/imagem/<?php echo $listaDados['ID'] ?>/<?php echo $imagem['ID'] ?>" enctype='multipart/form-data'>
 						
-						<!-- mostra o nome da imagem com a opção de apagar -->
+						
 						<div class='row'>
 							<div class='col-md-12'>
 								<strong>Nome: <?php echo $imagem['DS_ARQUIVO'] ?> (<a onclick="return confirm('Tem certeza que deseja apagar este registro?')" href="/editar/comunicacao/excluir-imagem/<?php echo $listaDados['ID'] ?>/<?php echo $imagem['ID'] ?>/<?php echo $imagem['DS_ARQUIVO'] ?>" >Excluir</a>)</strong>
 							</div>
 						</div>
 						
-						<!-- formulario identico ao do script, com as informacoes da noticia em questao preenchidas -->
+						
 						<div class='row'>
 							<div class='col-md-4'>
 								Legenda:<br>
@@ -291,10 +291,10 @@ class ComunicacaoView extends View{
 
 	}
 	
-	//esta função mostra a noticia em si. ela é utilizada em dois momentos. uma é mostrada ao usuario que acessa com o botao visualizar na tabela de registros, e a outra é quando o usuário clica na noticia na pagina de home
+	
 	public function visualizar(){ 
 		
-		//as variaveis sao solicitadas ao comunicacao controller
+		
 		$lista = $_REQUEST['DADOS_COMUNICACAO'];		
 		$listaImagensGrandes = $_REQUEST['IMAGENS_GRANDES'];
 		$listaImagensPequenas = $_REQUEST['IMAGENS_PEQUENAS'];
@@ -316,17 +316,17 @@ class ComunicacaoView extends View{
 											
 										<?php } 
 										
-										//o botao publica a noticia
+										
 										if($lista['DS_STATUS'] == 'PUBLICADA'){ ?>
 
 											<a href="/editar/comunicacao/status/<?php echo $lista['ID'] ?>/OCULTADA"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Ocultar</button></a>
 										
 										<?php } ?>
 										
-										<!-- o botao inativa a noticia, levando para a pagina de inativos -->
+										
 										<a href="/editar/comunicacao/status/<?php echo $lista['ID'] ?>/INATIVA"><button type='submit' class='btn btn-sm btn-info pull-left' name='submit' value='Send' id='botao-dar-saida'>Inativar</button></a>
 																	
-										<!-- o botao exclui a noticia -->												
+																						
 										<a onclick="return confirm('Tem certeza que deseja apagar esta comunicação?')" href="/excluir/comunicacao/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-dar-saida'>Excluir</button></a>
 											
 										<a href="/comunicacao/editar/<?php echo $lista['ID'] ?>"><button type='submit' class='btn btn-sm btn-info pull-right' name='submit' value='Send' id='botao-dar-saida'>Editar</button></a>					
@@ -345,7 +345,7 @@ class ComunicacaoView extends View{
 									
 									<h5><?php echo $lista['DS_INTERTITULO'] ?></h5><br>
 									
-									<!-- mostra as imagens grandes da noticia -->
+									
 									<?php if(count($listaImagensGrandes) > 0) { ?>
 										
 												<ul id='imagensgrandes' class='rslides'>
@@ -361,7 +361,7 @@ class ComunicacaoView extends View{
 									</h6><br><br>				
 									
 									<div>
-										<!-- mostra as imagens pequenas da noticia -->
+										
 										<?php if(count($listaImagensPequenas) > 0) { ?>
 											
 												<ul id='imagenspequenas' class='rslides'>
@@ -383,7 +383,7 @@ class ComunicacaoView extends View{
 <?php		
 	}
 	
-	//a funcao pega a lista de imagens e as carrega com a ajuda do script de slides de imagem
+	
 	public function carregarImagens($lista){
 		
 		foreach($lista as $imagem){

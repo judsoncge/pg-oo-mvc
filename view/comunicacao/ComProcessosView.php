@@ -4,10 +4,10 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/ProcessosView.php';
 
 class ComProcessosView extends ProcessosView{
 	
-	//carrega a visualizaçao do processo. aqui, além das informações gerais de um processo, são carregadas também várias outras funcionalidades.
+	
 	public function visualizar(){
 		
-		//pegando dados do processo com o processos controller
+		
 		$lista = $_REQUEST['DADOS_PROCESSO'];
 		
 		$listaDocumentos = $_REQUEST['DOCUMENTOS_PROCESSO'];
@@ -18,10 +18,10 @@ class ComProcessosView extends ProcessosView{
 		
 		$historico = $_REQUEST['HISTORICO_PROCESSO'];
 		
-		//recebe do processos controller a informação de que o processo está ativo ou inativo (arquivado ou saiu)
+		
 		$ativo = $_REQUEST['ATIVO'];
 		
-		//recebe do processos controller a informação de que o processo é apenso a outro processo
+		
 		$apensado = $_REQUEST['APENSADO'];
 		
 		$listaServidores = $_REQUEST['LISTA_SERVIDORES'];
@@ -30,7 +30,7 @@ class ComProcessosView extends ProcessosView{
 		
 		$listaProcessosApensar = $_REQUEST['LISTA_APENSAR']; ?>	
 	
-		<!-- se o processo nao for recebido e mesmo assim o servidor conseguir entrar na página de visualizar, é perguntado se o processo foi recebido e logo após o carregamento da página é interrompido. -->
+		
 		<div class='container'>
 			
 			<?php if($ativo and !$lista['BL_RECEBIDO']){ ?>
@@ -43,13 +43,13 @@ class ComProcessosView extends ProcessosView{
 						</div>
 					</div>
  
-		<?php		// carregamento da página é interrompido		
+		<?php		
 					exit();
 				} ?>
 		</div>
 		
 				
-<?php 	//caso o processo esteja ativo e ele seja urgente, aparece um aviso na página.
+<?php 	
 
 		if($ativo){
 			
@@ -58,7 +58,7 @@ class ComProcessosView extends ProcessosView{
 				<div class='alert alert-warning'>&#9888; ESTE PROCESSO É URGENTE!</div>
  
 <?php		} 
-			//caso o processo esteja em ativo e ele esteja em sobrestado, aparece um aviso na página.
+			
 			
 			if($lista['BL_SOBRESTADO']){ ?>
 
@@ -66,7 +66,7 @@ class ComProcessosView extends ProcessosView{
 					
 <?php   	} ?>
 			
-				<!-- informações do processo -->
+				
 				<div class='row linha-modal-processo'>
 					
 					<div class='col-md-12'>
@@ -97,7 +97,7 @@ class ComProcessosView extends ProcessosView{
 						
 						<br><br>
 						
-						<!-- lista de responsáveis do processo. a lista de responsáveis (que foi recebida acima) é iterada mostrando o nome dos responsáveis do processo em questão -->
+						
 						Responsáveis: 
 							
 <?php 					foreach($listaResponsaveis as $responsavel){
@@ -108,7 +108,7 @@ class ComProcessosView extends ProcessosView{
 ?>							
 						<br>
 						
-						<!-- mostra o responsavel lider do processo -->
+						
 						Responsável líder:      
 <?php                                 
 							foreach($listaResponsaveis as $responsavel){
@@ -124,7 +124,7 @@ class ComProcessosView extends ProcessosView{
 ?>
 						<br><br>
 						
-						<!-- lista de processos apensados. mesma lógica dos responsaveis de processo -->
+						
 						Processos apensados:
 <?php 						foreach($listaApensados as $processoApensado){ 
 ?>
@@ -135,14 +135,14 @@ class ComProcessosView extends ProcessosView{
 ?>
 							<br>
 						
-						<!-- mostra o processo mae do processo em questão, caso haja. -->
+						
 						Processo mãe:
 							<a href='/processos/visualizar/<?php echo $lista['ID_PROCESSO_MAE'] ?>'><?php echo $lista['NUMERO_PROCESSO_MAE'] ?></a><br><br>
 					</div>
 				
 				</div>
 				
-				<!-- tabela que mostra os documentos do processo em questão -->
+				
 				<div class='row linha-modal-processo'>
 					
 					<b>Documentos do processo</b>:<br>
@@ -158,7 +158,7 @@ class ComProcessosView extends ProcessosView{
 						</thead>
 						<tbody>
 <?php 
-							//iterando a lista de documentos que foi recebida la em cima
+							
 							foreach($listaDocumentos as $documento){
 								
 ?>
@@ -176,21 +176,21 @@ class ComProcessosView extends ProcessosView{
 				</div>
 				
 <?php 			
-				//carrega o historico do processo passando o array recebido la em cima. o metodo esta definido na classe mae
+				
 				$this->carregarHistorico($historico);
 				
 			if($ativo){
 											
-					//carrega o input para enviar mensagem, passando os parametros necessarios. o metodo esta definido na classe mae
+					
 					$this->carregarEnviarMensagem('processo', $lista['ID']); ?>
 					
-					<!-- formulario para anexar um documento ao processo -->
+					
 					<div class='row linha-modal-processo'>
 						<form method='POST' action="/editar/processo/anexardocumento/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	
 							<div class='col-md-6'>
 								<div class='form-group'>
 									<label class='control-label' for='exampleInputEmail1'><b>Anexar documento:</b></label>
-										<!-- carrega o select dos tipos de documento. o metodo esta definido na classe mae -->
+										
 										<?php $this->carregarSelectTiposDocumento(); ?>
 								</div>  
 							</div>
@@ -207,17 +207,17 @@ class ComProcessosView extends ProcessosView{
 						</form>	
 					</div>
 					
-	<?php 		//muitas funcionalidades nao sao permitidas serem executadas quando o processo é apensado a outro
+	<?php 		
 				if(!$apensado){
 	?>				
 	
-					<!-- formulario para definir responsaveis -->
+					
 				<div class='row linha-modal-processo'>
 					<form method='POST' action="/editar/processo/definirresponsaveis/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	
 						<div class='col-md-10'>
 							<label class='control-label' for='exampleInputEmail1'><b>Defina os responsáveis</b>:</label><br>
 							<select multiple id='responsaveis' name='responsaveis[]' style='width: 96%;' required>
-<?php 								//lista de pessoas que podem ser responsaveis que foi recebida la em cima para montagem do select box
+<?php 								
 									foreach($listaPodemSerResponsaveis as $podeSerResponsavel){			
 ?>
 										<option value="<?php echo $podeSerResponsavel['ID'] ?>">
@@ -235,7 +235,7 @@ class ComProcessosView extends ProcessosView{
 					</form>	
 				</div>
 				
-					<!-- select multiple box para o usuário definir apensos ao processo em questão. a lista de processos para apensar é recebida pelo processos controller lá em cima -->
+					
 					<div class='row linha-modal-processo'>
 						<form method='POST' action="/editar/processo/apensar/<?php echo $lista['ID'] ?>" enctype='multipart/form-data'>	
 							<div class='col-md-10'>
@@ -257,7 +257,7 @@ class ComProcessosView extends ProcessosView{
 						</form>	
 					</div>
 					
-					<!-- select para o usuário escolher um outro usuário para enviar o processo. a lista de servidores é recebida do processos controller lá em cima -->
+					
 					<form name='teste' method='POST' action='/editar/processo/tramitar/<?php echo $lista['ID']?>/' enctype='multipart/form-data'>	
 						<div class='row linha-modal-processo'>
 							<div class='col-md-10'>

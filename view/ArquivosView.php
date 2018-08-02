@@ -4,7 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
 class ArquivosView extends View{
 	
-	//a função lista os arquivos ativos ou inativos, dependendo do que o usuario escolheu no menu a esquerda
+	
 	public function listar(){ ?>
 		
 		<div class='col-md-12 table-responsive' style='overflow: auto; width: 100%; height: 300px;'>
@@ -23,7 +23,7 @@ class ArquivosView extends View{
 				<tbody>
 					<?php 
 					
-					//a lista de arquivos é solicitada ao arquivos controller			
+					
 					$lista = $_REQUEST['LISTA_ARQUIVOS'];
 						
 					foreach($lista as $arquivo){ 
@@ -36,11 +36,11 @@ class ArquivosView extends View{
 							<td><?php echo $arquivo['NOME_SERVIDOR_DESTINO'] ?></td>
 							<td><?php echo date_format(new DateTime($arquivo['DT_CRIACAO']), 'd/m/Y'); ?></td>
 							<td><?php echo $arquivo['DS_STATUS'] ?></td>
-							<!-- nome do arquivo disponivel para download -->
+							
 							<td><a href='<?php echo "/_registros/anexos/". $arquivo['DS_ANEXO'] ?>' title='<?php echo $arquivo['DS_ANEXO'] ?>' download><?php echo substr($arquivo['DS_ANEXO'], 0, 20) . "..." ?></a></td>
 							<td>
 								<?php 
-										//se o arquivo estiver ativo, ele pode ser aprovado por outro usuario, para que possa ser inativado
+										
 										if($arquivo['DS_STATUS'] == 'ATIVO'){
 										
 								?>
@@ -53,7 +53,7 @@ class ArquivosView extends View{
 								<?php
 										}
 										
-										//se o arquivo estiver aprovado, ele ja pode ser inativado
+										
 										if($arquivo['DS_STATUS'] == 'APROVADO'){
 								?>
 											<a href='/editar/arquivo/status/<?php echo $arquivo['ID'] ?>/INATIVO'>
@@ -65,7 +65,7 @@ class ArquivosView extends View{
 								<?php
 										}	
 										
-								?>		<!-- botao para excluir o arquivo -->
+								?>		
 										<a href='/excluir/arquivo/<?php echo $arquivo['ID'] ?>/<?php echo $arquivo['DS_ANEXO'] ?>'>
 											<button type='button' class='btn btn-secondary btn-sm' onclick="return confirm('Você tem certeza que deseja apagar este arquivo?');" title='Excluir'>
 												<i class='fa fa-trash' aria-hidden='true'></i>
@@ -85,7 +85,7 @@ class ArquivosView extends View{
 	
 	}
 	
-	//formulário de cadastro de arquivo de chamado
+	
 	public function cadastrar(){ ?>
 	
 		<form method='POST' action='/cadastrar/arquivo/' enctype='multipart/form-data'>	
@@ -93,18 +93,18 @@ class ArquivosView extends View{
 				<div class='col-md-4'>
 					<div class='form-group'>
 						<label class='control-label' for='exampleInputEmail1'>Selecione o tipo</label>
-						<!-- a função mostra o select de tipos de documento. função que é definida na classe mae -->
+						
 						<?php $this->carregarSelectTiposDocumento(); ?>
 									
 					</div>  
 				</div>
 				<div class='col-md-4'>
 					<label class='control-label' for='exampleInputEmail1'>Escolha o servidor para enviar</label><br>
-						<!-- a função mostra o select de servidores. função que é definida na classe mae -->
+						
 						<?php $this->carregarSelectServidores(); ?>
 
 				</div>
-				<!-- upload de arquivo -->
+				
 				<div class='col-md-4'>
 					<div class='form-group'>
 						<label class='control-label' for='exampleInputEmail1'>Escolher anexo</label><br>

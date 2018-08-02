@@ -544,7 +544,7 @@ class ProcessosModel extends Model{
 		
 		$data = date('Y-m-d');
 		
-		$query = "UPDATE tb_processos SET DS_STATUS = '$status', ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao, DT_ENTRADA = '$data', DT_SAIDA = NULL, NR_DIAS = 0 WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		$query = "UPDATE tb_processos SET BL_ATRASADO = 0, DS_STATUS = '$status', ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao, DT_ENTRADA = '$data', DT_SAIDA = NULL, NR_DIAS = 0 WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
 		
 		$this->executarQuery($query);
 		
@@ -678,24 +678,24 @@ class ProcessosModel extends Model{
 			case 'PROTOCOLO':
 			case 'GABINETE':
 			case 'TÉCNICO ANALISTA CORREÇÃO':
-				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID_SETOR = $setor";
+				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID_SETOR = $setor AND DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
 				break;
 				
 			case 'TÉCNICO ANALISTA':
 				$servidor = $_SESSION['ID'];
-				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID = $servidor";
+				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID = $servidor AND DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
 				break;
 				
 			case 'SUPERINTENDENTE':
 			case 'ASSESSOR TÉCNICO':
 			case 'COMUNICAÇÃO':
-				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID_SETOR = $setor OR ID_SETOR IN (SELECT ID_SETOR_SUBORDINADO FROM tb_setores WHERE ID = $setor)";
+				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID_SETOR = $setor OR ID_SETOR IN (SELECT ID_SETOR_SUBORDINADO FROM tb_setores WHERE ID = $setor) AND DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
 				break;
 				
 			case 'CONTROLADOR':
 			case 'CHEFE DE GABINETE':
 			case 'TI':
-				$query = "SELECT ID, DS_NOME FROM tb_servidores";
+				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
 				break;
 		}
 		
@@ -744,6 +744,9 @@ class ProcessosModel extends Model{
 		
 		$restricaoStatus = ($this->status == 'ATIVO') ? " NOT IN ('ARQUIVADO', 'SAIU') " : " IN ('ARQUIVADO', 'SAIU') ";
 		
+		//$order = "ORDER BY BL_URGENCIA DESC, NR_DIAS DESC";
+		$order = "ORDER BY BL_URGENCIA DESC, NR_DIAS";
+		
 		switch($_SESSION['FUNCAO']){
 			
 			case 'PROTOCOLO':
@@ -767,7 +770,7 @@ class ProcessosModel extends Model{
 					
 					AND d.ID = $setor
 					
-					ORDER BY BL_URGENCIA DESC, NR_DIAS DESC";
+					$order";
 					
 					break;
 			
@@ -792,7 +795,7 @@ class ProcessosModel extends Model{
 					
 					AND (d.ID = $setor OR d.ID IN (SELECT ID_SETOR_SUBORDINADO FROM tb_setores WHERE ID = $setor))
 					
-					ORDER BY BL_URGENCIA DESC, NR_DIAS DESC";
+					$order";
 					
 					break;
 				
@@ -815,7 +818,7 @@ class ProcessosModel extends Model{
 					
 					AND a.ID_SERVIDOR_LOCALIZACAO = $servidor
 					
-					ORDER BY BL_URGENCIA DESC, NR_DIAS DESC";
+					$order";
 					
 					break;
 				
@@ -838,7 +841,7 @@ class ProcessosModel extends Model{
 					
 					WHERE a.DS_STATUS $restricaoStatus 
 					
-					ORDER BY BL_URGENCIA DESC, NR_DIAS DESC";
+					$order";
 					
 					break;
 			
@@ -855,6 +858,9 @@ class ProcessosModel extends Model{
 	public function getListaProcessosStatusComFiltro(){
 		
 		$restricaoStatus = ($this->status == 'ATIVO') ? " NOT IN ('ARQUIVADO', 'SAIU') " : " IN ('ARQUIVADO', 'SAIU') ";
+		
+		//$order = "ORDER BY BL_URGENCIA DESC, NR_DIAS DESC";
+		$order = "ORDER BY BL_URGENCIA DESC, NR_DIAS";
 		
 		if($this->servidorLocalizacao == '%' and $this->setorLocalizacao != '%'){
 			
@@ -938,7 +944,7 @@ class ProcessosModel extends Model{
 					
 					$restricaoDias
 					
-					ORDER BY BL_URGENCIA DESC, NR_DIAS DESC
+					$order
 					
 				";
 				
@@ -974,7 +980,7 @@ class ProcessosModel extends Model{
 					
 					$restricaoDias
 					
-					ORDER BY BL_URGENCIA DESC, NR_DIAS DESC
+					$order
 					
 				";
 				break;
@@ -1011,7 +1017,7 @@ class ProcessosModel extends Model{
 					
 					$restricaoDias
 					
-					ORDER BY BL_URGENCIA DESC, NR_DIAS DESC
+					$order
 					
 					";
 					break;
@@ -1255,7 +1261,7 @@ class ProcessosModel extends Model{
 			
 			case 'TÉCNICO ANALISTA':
 
-				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID_SETOR IN (SELECT ID FROM tb_setores WHERE ID_SETOR_SUBORDINADO = $setor) OR (DS_FUNCAO = 'TÉCNICO ANALISTA CORREÇÃO' AND ID_SETOR = $setor) AND DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
+				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE (ID_SETOR IN (SELECT ID FROM tb_setores WHERE ID_SETOR_SUBORDINADO = $setor) OR (DS_FUNCAO = 'TÉCNICO ANALISTA CORREÇÃO' AND ID_SETOR = $setor)) AND DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
 				
 				break;
 				

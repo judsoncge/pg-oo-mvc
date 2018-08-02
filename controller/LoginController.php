@@ -97,8 +97,7 @@ class LoginController extends Controller{
 		}
 		
 	}
-	
-	//efetua logoff no sistema
+
 	public function logoff(){
 		
 		$_SESSION = array();

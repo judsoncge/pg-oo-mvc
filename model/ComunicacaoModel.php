@@ -37,7 +37,7 @@ class ComunicacaoModel extends Model{
 	
 	public function setCreditosTexto($creditosTexto){
 		
-		$this->creditosTexto = addslashes($creditosTexto);
+		$this->creditosTexto = $creditosTexto;
 		
 	}
 	
@@ -73,7 +73,7 @@ class ComunicacaoModel extends Model{
 	
 	public function setCreditos($creditos){
 		
-		$this->creditos = addslashes($creditos);
+		$this->creditos = $creditos;
 		
 	}
 	

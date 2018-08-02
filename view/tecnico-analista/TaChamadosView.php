@@ -4,16 +4,16 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/view/ChamadosView.php';
 
 class TaChamadosView extends ChamadosView{
 	
-	//pagina de visualizacao de um determinado chamado
+	
 	public function visualizar(){
 		
-		//as listas sao solicitadas ao chamado controller
+		
 		$lista = $_REQUEST['DADOS_CHAMADO'];
 		
 		$historico = $_REQUEST['HISTORICO_CHAMADO'];
 		
 ?>		
-		<!-- caixa que mostra as informações gerais do chamado -->
+		
 		<div class='row linha-modal-processo'>
 			<div class='col-md-12'>
 				<b>Status</b>: <?php echo $lista['DS_STATUS'] ?><br><br>	
@@ -46,18 +46,18 @@ class TaChamadosView extends ChamadosView{
 			</div>
 		</div>
 <?php 
-			//carrega o historico do chamado. a funcao esta definida na classe mae. a lista passada foi recebida la em cima
+			
 			$this->carregarHistorico($historico); 
 			
-			//so pode enviar mensagem enquanto o chamado ainda nao for encerrado
+			
 			if($lista['DS_STATUS'] != 'ENCERRADO'){
 			
-				//a funcao esta definida na classe mae
+				
 				$this->carregarEnviarMensagem('chamado', $lista['ID']);
 			
 			}
 			
-			//abre o select de avaliação. ele abre quando o chamado é fechado pelo profissional de ti. para que possa ser encerrado, o solicitante precisa avaliar o atendimento antes
+			
 			if($lista['DS_AVALIACAO'] == 'SEM AVALIAÇÃO' and $lista['DS_STATUS'] == 'FECHADO'){
 				
 ?>
