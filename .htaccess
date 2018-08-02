@@ -52,8 +52,8 @@ RewriteRule ^editar/comunicacao/excluir-imagem/(.*)/(.*)/(.*) /index.php?acao=ed
 RewriteRule ^editar/comunicacao/(.*)/(.*)/(.*)           /index.php?acao=editar&modulo=Comunicacao&operacao=$1&id=$2&status=$3
 RewriteRule ^excluir/comunicacao/(.*)                    /index.php?acao=excluir&modulo=Comunicacao&id=$1
 
-RewriteRule ^processos/carregarConsulta                         /index.php?acao=carregarConsulta&modulo=Processos
-RewriteRule ^carregarConsultar/processo/(.*)                       /index.php?acao=carregarConsultar&modulo=Processos&numero=$1
+RewriteRule ^processos/consulta                        /index.php?acao=carregarConsulta&modulo=Processos
+RewriteRule ^consultar/processo/(.*)                   /index.php?acao=consultar&modulo=Processos&numero=$1
 RewriteRule ^processo/editar/(.*)                      /index.php?acao=carregarEdicao&tipo=info&modulo=Processos&id=$1
 RewriteRule ^editar/processo/(.*)/(.*)/(.*)            /index.php?acao=editar&modulo=Processos&operacao=$1&id=$2&valor=$3
 RewriteRule ^processos/ativos/1                        /index.php?acao=listar&modulo=Processos&status=ATIVO&filtro=1
@@ -66,4 +66,4 @@ RewriteRule ^editar/processo/(.*)/(.*)                 /index.php?acao=editar&mo
 RewriteRule ^processos/editar/(.*)                     /index.php?acao=carregarEdicao&modulo=Processos&id=$1
 RewriteRule ^processos/exportar/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)                  /index.php?acao=exportar&modulo=Processos&filtroservidor=$1&filtrosetor=$2&filtrosituacao=$3&filtrosobrestado=$4&filtrorecebido=$5&filtrodias=$6&filtroprocesso=$7
 RewriteRule ^excluir/processo/(.*)                     /index.php?acao=excluir&modulo=Processos&id=$1
-RewriteRule ^processos/carregarRelatorio                       /index.php?acao=carregarRelatorio&modulo=Processos
+RewriteRule ^processos/carregarRelatorio               /index.php?acao=carregarRelatorio&modulo=Processos
