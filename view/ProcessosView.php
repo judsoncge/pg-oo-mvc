@@ -170,7 +170,7 @@ class ProcessosView extends View{
 						<th>Setor</th>
 						<th>Prazo</th>
 						<th>Status</th>
-						<th>Situação</th>
+						<!--<th>Situação</th>-->
 						<th>Dias</th>
 						<th>Recebido</th>
 						<th>Ação</th>
@@ -198,7 +198,7 @@ class ProcessosView extends View{
 							<td><?php echo $processo['NOME_SETOR']  ?></td>
 							<td><?php echo $processo['DT_PRAZO'] ?></td>
 							<td><?php echo $processo['DS_STATUS'] ?></td>
-							<td><?php 
+							<?php 
 									if($processo['BL_ATRASADO']){
 										echo "<font color='red'>ATRASADO</font>";
 									}else{
