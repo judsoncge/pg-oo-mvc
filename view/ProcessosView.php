@@ -198,14 +198,14 @@ class ProcessosView extends View{
 							<td><?php echo $processo['NOME_SETOR']  ?></td>
 							<td><?php echo $processo['DT_PRAZO'] ?></td>
 							<td><?php echo $processo['DS_STATUS'] ?></td>
-							<?php 
+							<!--<?php 
 									if($processo['BL_ATRASADO']){
 										echo "<font color='red'>ATRASADO</font>";
 									}else{
 										echo "<font color='green'>DENTRO DO PRAZO</font>";
 									} 
 								?>
-							</td>
+							</td>-->
 							<td><?php echo $processo['NR_DIAS'] ?></td>
 							<td id="statusRecebido<?php echo $processo['ID'] ?>">
 								<?php 
