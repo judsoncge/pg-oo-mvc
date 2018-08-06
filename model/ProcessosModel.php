@@ -583,7 +583,7 @@ class ProcessosModel extends Model{
 		LEFT JOIN tb_processos g ON f.ID_PROCESSO = g.ID
 		LEFT JOIN tb_processos_sobrestados h ON h.ID_PROCESSO = a.ID
 		
-		WHERE a.ID = $this->id
+		WHERE a.ID = '$this->id'
 		
 		";
 		

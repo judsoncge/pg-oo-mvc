@@ -138,7 +138,7 @@ class ChamadosModel extends Model{
 		
 		INNER JOIN tb_servidores s ON a.ID_SERVIDOR_REQUISITANTE = s.ID 
 		
-		WHERE a.ID = ".$this->id."
+		WHERE a.ID = '$this->id'
 		
 		";
 		

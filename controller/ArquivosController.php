@@ -17,7 +17,6 @@ class ArquivosController extends Controller{
 		
 	}
 	
-
 	public function carregarCadastro(){
 		
 		$this->servidoresModel->setStatus('ATIVO');
@@ -31,26 +30,6 @@ class ArquivosController extends Controller{
 		$this->arquivosView->carregar();
 	}
 	
-
-	public function listar(){
-		
-		$this->arquivosModel->setStatus($_GET['status']);
-		
-		$this->arquivosModel->setServidorCriacao($_SESSION['ID']);
-		
-		$_REQUEST['LISTA_ARQUIVOS'] = $this->arquivosModel->getListaArquivosStatus();
-		
-		$titulo = ($_GET['status']=='ATIVO') ? 'ARQUIVOS > ATIVOS' : 'ARQUIVOS > INATIVOS';
-		
-		$this->arquivosView->setTitulo($titulo);
-		
-		$this->arquivosView->setConteudo('listar');
-		
-		$this->arquivosView->carregar();
-		
-	}
-	
-
 	public function cadastrar(){
 		
 		$tipo = $_POST['tipo'];
@@ -76,52 +55,24 @@ class ArquivosController extends Controller{
 		}
 		
 	}	
-	
 
-	public function editar(){
+	public function listar(){
 		
-		$id = (isset($_GET['id'])) ? $_GET['id'] : NULL;
+		$this->arquivosModel->setStatus($_GET['status']);
 		
-		$this->arquivosModel->setID($id);
+		$this->arquivosModel->setServidorCriacao($_SESSION['ID']);
 		
-		switch($_GET['operacao']){
-			
-			case 'status':
-				
-				$status = (isset($_GET['status'])) ? $_GET['status'] : NULL;
-				
-				$this->arquivosModel->setStatus($status);
-				
-				$_SESSION['RESULTADO_OPERACAO'] = $this->arquivosModel->editarStatus();
-				
-				break;
-				
-			case 'info': 
-			
-				$tipo = (isset($_POST['tipo'])) ? $_POST['tipo'] : NULL;
+		$_REQUEST['LISTA_ARQUIVOS'] = $this->arquivosModel->getListaArquivosStatus();
 		
-				$servidorDestino = (isset($_POST['servidor'])) ? $_POST['servidor'] : NULL;
+		$titulo = ($_GET['status']=='ATIVO') ? 'ARQUIVOS > ATIVOS' : 'ARQUIVOS > INATIVOS';
 		
-				$anexo = (isset($_FILES['arquivo_anexo'])) ? $_FILES['arquivo_anexo'] : NULL;
-				
-				$this->arquivosModel->setTipo($tipo);
+		$this->arquivosView->setTitulo($titulo);
 		
-				$this->arquivosModel->setServidorDestino($servidorDestino);
+		$this->arquivosView->setConteudo('listar');
 		
-				$this->arquivosModel->setAnexo($anexo);
-				
-				$_SESSION['RESULTADO_OPERACAO'] = $this->arquivosModel->editar();
-				
-				break;
-			
-		}
-		
-		$_SESSION['MENSAGEM'] = $this->arquivosModel->getMensagemResposta();
-	
-		Header('Location: /arquivos/ativos/');
+		$this->arquivosView->carregar();
 		
 	}
-	
 
 	public function excluir(){
 		

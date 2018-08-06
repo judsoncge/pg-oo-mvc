@@ -174,14 +174,27 @@ class ServidoresController extends Controller{
 			case 'info':			
 		
 				$this->servidoresModel->setID($_GET['id']);
-				
-				$_REQUEST['LISTA_SETORES']  = $this->setoresModel->getSetores();
 		
 				$_REQUEST['DADOS_SERVIDOR'] = $listaDados = $this->servidoresModel->getDadosID();
 				
-				$this->servidoresView->setTitulo("SERVIDORES > ".strtoupper($listaDados['DS_NOME'])." > EDITAR");
+				if(!$_REQUEST['DADOS_SERVIDOR']){
+					
+					$_SESSION['RESULTADO_OPERACAO'] = 0;
+					
+					$_SESSION['MENSAGEM'] = 'Servidor não encontrado';
+					
+					Header('Location: /servidores/ativos/');
+					
+					die();
 				
-				break;
+				}else{
+					
+					$_REQUEST['LISTA_SETORES']  = $this->setoresModel->getSetores();
+				
+					$this->servidoresView->setTitulo("SERVIDORES > ".strtoupper($listaDados['DS_NOME'])." > EDITAR");
+					
+					break;
+				}
 			
 			case 'senha':
 				$this->servidoresView->setTitulo('EDITAR SENHA');

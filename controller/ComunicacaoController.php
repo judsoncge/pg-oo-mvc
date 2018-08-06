@@ -49,14 +49,26 @@ class ComunicacaoController extends Controller{
 		$this->comunicacaoModel->setID($id);
 		
 		$_REQUEST['DADOS_COMUNICACAO'] = $this->comunicacaoModel->getDadosID();
+	
+		if(!$_REQUEST['DADOS_COMUNICACAO']){
+			
+			$_SESSION['RESULTADO_OPERACAO'] = 0;
+			
+			$_SESSION['MENSAGEM'] = 'Comunicação não encontrada';
+			
+			Header('Location: /comunicacao/ativos/');
+			
+		}else{
+			
+			$_REQUEST['DADOS_IMAGENS'] = $this->comunicacaoModel->getDadosImagensID();
+			
+			$this->comunicacaoView->setTitulo('COMUNICAÇÃO > EDITAR COMUNICAÇÃO');
+			
+			$this->comunicacaoView->setConteudo('editar');
 		
-		$_REQUEST['DADOS_IMAGENS'] = $this->comunicacaoModel->getDadosImagensID();
-		
-		$this->comunicacaoView->setTitulo('COMUNICAÇÃO > EDITAR COMUNICAÇÃO');
-		
-		$this->comunicacaoView->setConteudo('editar');
-		
-		$this->comunicacaoView->carregar();
+			$this->comunicacaoView->carregar();
+			
+		}
 		
 	}
 	
@@ -121,14 +133,26 @@ class ComunicacaoController extends Controller{
 		$this->comunicacaoModel->setID($id);
 		
 		$_REQUEST['DADOS_COMUNICACAO'] = $this->comunicacaoModel->getDadosID();
-
-		$_REQUEST['IMAGENS_GRANDES'] = $this->comunicacaoModel->getImagens(0);
-
-		$_REQUEST['IMAGENS_PEQUENAS'] = $this->comunicacaoModel->getImagens(1);
 		
-		$this->comunicacaoView->setConteudo('visualizar');
+		if(!$_REQUEST['DADOS_COMUNICACAO']){
+			
+			$_SESSION['RESULTADO_OPERACAO'] = 0;
+			
+			$_SESSION['MENSAGEM'] = 'Comunicação não encontrada';
+			
+			Header('Location: /comunicacao/ativos/');
+			
+		}else{
+
+			$_REQUEST['IMAGENS_GRANDES'] = $this->comunicacaoModel->getImagens(0);
+
+			$_REQUEST['IMAGENS_PEQUENAS'] = $this->comunicacaoModel->getImagens(1);
+			
+			$this->comunicacaoView->setConteudo('visualizar');
+			
+			$this->comunicacaoView->carregar();	
 		
-		$this->comunicacaoView->carregar();
+		}
 		
 	}
 

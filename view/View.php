@@ -302,9 +302,7 @@ class View{
 	
 	public function carregarMensagem(){
 		
-		
 		if(isset($_SESSION['RESULTADO_OPERACAO'])){
-			
 			
 			if($_SESSION['RESULTADO_OPERACAO']){
 				
@@ -312,14 +310,13 @@ class View{
 			
 			
 			}else{
-				
+					
 				echo "<div class='alert alert-danger' role='alert' id='mensagem_erro'>".$_SESSION['MENSAGEM']."</div>";
 			
 			}
 		
 		}
-		
-		
+	
 		unset($_SESSION['RESULTADO_OPERACAO']);
 		unset($_SESSION['MENSAGEM']);
 

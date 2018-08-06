@@ -16,9 +16,16 @@ class HomeController extends Controller{
 		
 	}
 
-	public function listar(){
+	public function carregarHome(){
 				
 		$_REQUEST['LISTA_NOTICIAS'] = $this->comunicacaoModel->getCincoNoticiasMaisAtuais();
+		
+		if(isset($_GET['404'])){
+			
+			$_SESSION['RESULTADO_OPERACAO'] = 0;
+			$_SESSION['MENSAGEM'] = 'Página não encontrada';
+			
+		}
 		
 		$this->homeView->setTitulo("<center>Bem vindo(a) ao Painel de Gestão, <br>" . $_SESSION['NOME'] . "</center>");
 

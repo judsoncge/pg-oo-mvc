@@ -6,17 +6,6 @@ date_default_timezone_set('America/Bahia');
 
 if(isset($_GET['acao']) and isset($_GET['modulo'])){
 	
-	
-	if(!isset($_SESSION['PATH_VIEW']) and $_GET['acao'] != 'login'){
-		
-		require_once $_SERVER['DOCUMENT_ROOT'].'/view/LoginView.php';
-	
-		$view = new loginView();
-	
-		$view->carregar(); 
-		
-	}
-	
 	$classe = $_GET['modulo'];
 
 	$classe .= 'Controller';
@@ -31,19 +20,20 @@ if(isset($_GET['acao']) and isset($_GET['modulo'])){
 
 
 }else{
-	
-	
+
 	if(isset($_SESSION['ID'])){
 	
 		Header('Location: /home');
 	
+	}else{
+		
+		require_once $_SERVER['DOCUMENT_ROOT'].'/view/LoginView.php';
+	
+		$view = new loginView();
+	
+		$view->carregar(); 
+	
 	}
-	
-	require_once $_SERVER['DOCUMENT_ROOT'].'/view/LoginView.php';
-	
-	$view = new loginView();
-	
-	$view->carregar(); 
 	
 }
 

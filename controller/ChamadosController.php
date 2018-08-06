@@ -18,7 +18,6 @@ class ChamadosController extends Controller{
 		
 	}
 	
-	
 	public function carregarCadastro(){
 		
 		$this->chamadosView->setTitulo('CHAMADOS > ABRIR CHAMADO');
@@ -29,7 +28,6 @@ class ChamadosController extends Controller{
 		
 	}
 	
-
 	public function listar(){
 		
 		$this->chamadosModel->setStatus($_GET['status']);
@@ -46,7 +44,6 @@ class ChamadosController extends Controller{
 		
 	}
 	
-
 	public function cadastrar(){
 		
 		$natureza = (isset($_POST['natureza'])) ? $_POST['natureza'] : NULL;
@@ -133,15 +130,29 @@ class ChamadosController extends Controller{
 		
 		$listaDados = $this->chamadosModel->getDadosID();
 		
-		$_REQUEST['HISTORICO_CHAMADO']  = $this->chamadosModel->getHistorico();
+		if(!$listaDados){
+			
+			$_SESSION['RESULTADO_OPERACAO'] = 0;
+			
+			$_SESSION['MENSAGEM'] = 'Chamado não encontrado';
+			
+			Header('Location: /chamados/ativos/');
+			
+		}else{
+			
+			$_REQUEST['HISTORICO_CHAMADO']  = $this->chamadosModel->getHistorico();
 		
-		$this->chamadosView->setTitulo("CHAMADOS > ".$listaDados['ID']." > VISUALIZAR");
+			$this->chamadosView->setTitulo("CHAMADOS > ".$listaDados['ID']." > VISUALIZAR");
+			
+			$this->chamadosView->setConteudo('visualizar');
+			
+			$_REQUEST['DADOS_CHAMADO'] = $listaDados;
+			
+			$this->chamadosView->carregar();
+			
+		}
 		
-		$this->chamadosView->setConteudo('visualizar');
 		
-		$_REQUEST['DADOS_CHAMADO'] = $listaDados;
-		
-		$this->chamadosView->carregar();
 		
 	}
 	

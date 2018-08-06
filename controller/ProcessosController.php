@@ -38,19 +38,31 @@ class ProcessosController extends Controller{
 		
 		$this->processosModel->setID($id);
 		
-		$_REQUEST['LISTA_ASSUNTOS'] = $this->processosModel->getListaAssuntos();
-		
-		$_REQUEST['LISTA_ORGAOS'] = $this->processosModel->getListaOrgaos();
-		
 		$listaDados = $this->processosModel->getDadosID();
 		
-		$this->processosView->setTitulo("PROCESSOS > ".$listaDados['DS_NUMERO']." > EDITAR");
+		if(!$listaDados){
+			
+			$_SESSION['RESULTADO_OPERACAO'] = 0;
+			
+			$_SESSION['MENSAGEM'] = 'Processo não encontrado';
+			
+			Header('Location: /processos/ativos/0');
 		
-		$_REQUEST['DADOS_PROCESSO'] = $listaDados;
+		}else{
+			
+			$_REQUEST['LISTA_ASSUNTOS'] = $this->processosModel->getListaAssuntos();
 		
-		$this->processosView->setConteudo('editar');
-	
-		$this->processosView->carregar();
+			$_REQUEST['LISTA_ORGAOS'] = $this->processosModel->getListaOrgaos();
+		
+			$this->processosView->setTitulo("PROCESSOS > ".$listaDados['DS_NUMERO']." > EDITAR");
+			
+			$_REQUEST['DADOS_PROCESSO'] = $listaDados;
+			
+			$this->processosView->setConteudo('editar');
+		
+			$this->processosView->carregar();
+			
+		}
 		
 	}
 	
@@ -541,41 +553,53 @@ class ProcessosController extends Controller{
 		
 		$listaDados = $this->processosModel->getDadosID();
 		
-		$_REQUEST['LISTA_SERVIDORES'] = $this->processosModel->getListaServidoresTramitar();
-		
-		$_REQUEST['DOCUMENTOS_PROCESSO'] = $this->processosModel->getListaDocumentos();
-		
-		$_REQUEST['RESPONSAVEIS_PROCESSO'] = $this->processosModel->getListaResponsaveis();
-		
-		$_REQUEST['PROCESSOS_APENSADOS'] = $this->processosModel->getListaApensados();
-	
-		$_REQUEST['HISTORICO_PROCESSO'] = $this->processosModel->getHistorico();
-		
-		$_REQUEST['LISTA_APENSAR'] = $this->processosModel->getListaProcessosApensar();
-		
-		if($_SESSION['FUNCAO'] != 'PROTOCOLO' AND $_SESSION['FUNCAO'] != 'TÉCNICO ANALISTA' AND $_SESSION['FUNCAO'] != 'TÉCNICO ANALISTA CORREÇÃO'){
-		
-			$_REQUEST['LISTA_PODEM_SER_RESPONSAVEIS'] = $this->processosModel->getListaPodemSerResponsaveis();	
+		if(!$listaDados){
 			
+			$_SESSION['RESULTADO_OPERACAO'] = 0;
+			
+			$_SESSION['MENSAGEM'] = 'Processo não encontrado';
+			
+			Header('Location: /processos/ativos/0');
+			
+		}else{
+		
+			$_REQUEST['LISTA_SERVIDORES'] = $this->processosModel->getListaServidoresTramitar();
+			
+			$_REQUEST['DOCUMENTOS_PROCESSO'] = $this->processosModel->getListaDocumentos();
+			
+			$_REQUEST['RESPONSAVEIS_PROCESSO'] = $this->processosModel->getListaResponsaveis();
+			
+			$_REQUEST['PROCESSOS_APENSADOS'] = $this->processosModel->getListaApensados();
+		
+			$_REQUEST['HISTORICO_PROCESSO'] = $this->processosModel->getHistorico();
+			
+			$_REQUEST['LISTA_APENSAR'] = $this->processosModel->getListaProcessosApensar();
+			
+			if($_SESSION['FUNCAO'] != 'PROTOCOLO' AND $_SESSION['FUNCAO'] != 'TÉCNICO ANALISTA' AND $_SESSION['FUNCAO'] != 'TÉCNICO ANALISTA CORREÇÃO'){
+			
+				$_REQUEST['LISTA_PODEM_SER_RESPONSAVEIS'] = $this->processosModel->getListaPodemSerResponsaveis();	
+				
+			}
+			
+			$_REQUEST['ATIVO'] = ($listaDados['DS_STATUS'] != 'ARQUIVADO' && $listaDados['DS_STATUS'] != 'SAIU') ? 1 : 0;
+		
+			$this->processosModel->setTabela('tb_processos_apensados');	
+		
+			$_REQUEST['APENSADO'] = $this->processosModel->verificaExisteRegistro('ID_PROCESSO_APENSADO', $id);
+			
+			$this->processosModel->setTabela('tb_processos');	
+		
+			$situacao = ($listaDados['BL_ATRASADO']) ? "<font color='red'> (ATRASADO)</font>" : "<font color='green'> (DENTRO DO PRAZO)</font>";
+			
+			$this->processosView->setTitulo("PROCESSOS > ".$listaDados['DS_NUMERO']." > VISUALIZAR <br> $situacao");
+			
+			$this->processosView->setConteudo('visualizar');
+			
+			$_REQUEST['DADOS_PROCESSO'] = $listaDados;
+			
+			$this->processosView->carregar();
+		
 		}
-		
-		$_REQUEST['ATIVO'] = ($listaDados['DS_STATUS'] != 'ARQUIVADO' && $listaDados['DS_STATUS'] != 'SAIU') ? 1 : 0;
-	
-		$this->processosModel->setTabela('tb_processos_apensados');	
-	
-		$_REQUEST['APENSADO'] = $this->processosModel->verificaExisteRegistro('ID_PROCESSO_APENSADO', $id);
-		
-		$this->processosModel->setTabela('tb_processos');	
-	
-		$situacao = ($listaDados['BL_ATRASADO']) ? "<font color='red'> (ATRASADO)</font>" : "<font color='green'> (DENTRO DO PRAZO)</font>";
-		
-		$this->processosView->setTitulo("PROCESSOS > ".$listaDados['DS_NUMERO']." > VISUALIZAR <br> $situacao");
-		
-		$this->processosView->setConteudo('visualizar');
-		
-		$_REQUEST['DADOS_PROCESSO'] = $listaDados;
-		
-		$this->processosView->carregar();
 		
 	}
 	

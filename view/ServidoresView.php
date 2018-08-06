@@ -171,15 +171,18 @@ class ServidoresView extends View{
 						<label class='control-label' for='exampleInputEmail1'>Função no sistema</label>
 						<select class='form-control' id='funcao' name='funcao' required />
 							<option value='<?php echo $valueFuncao ?>'><?php echo $nomeFuncao ?></option>
+							<option value='ASSESSOR TÉCNICO'>ASSESSOR TÉCNICO</option>
+							<option value='CHEFE DE GABINETE'>CHEFE DE GABINETE</option>
+							<option value='COMUNICAÇÃO'>COMUNICAÇÃO</option>
+							<option value='CONTROLADOR'>CONTROLADOR</option>
+							<option value='GABINETE'>GABINETE</option>
 							<option value='PROTOCOLO'>PROTOCOLO	</option>
 							<option value='SUPERINTENDENTE'>SUPERINTENDENTE</option>
-							<option value='ASSESSOR TÉCNICO'>ASSESSOR TÉCNICO</option>
 							<option value='TÉCNICO ANALISTA'>TÉCNICO ANALISTA</option>
-							<option value='GABINETE'>GABINETE</option>
-							<option value='CONTROLADOR'>CONTROLADOR</option>
+							<option value='TÉCNICO ANALISTA CORREÇÃO'>TÉCNICO ANALISTA CORREÇÃO</option>
 							<option value='TI'>TI</option>
-							<option value='COMUNICAÇÃO'>COMUNICAÇÃO</option>
-							<option value='CHEFE DE GABINETE'>CHEFE DE GABINETE</option>
+							
+							
 						</select>
 					</div> 
 				</div>

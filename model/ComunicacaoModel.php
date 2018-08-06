@@ -93,8 +93,6 @@ class ComunicacaoModel extends Model{
 		
 		$query = "INSERT INTO tb_comunicacao (DS_CHAPEU, DS_TITULO, DS_INTERTITULO, DS_CREDITOS, TX_NOTICIA, DT_PUBLICACAO) VALUES ('$this->chapeu','$this->titulo','$this->intertitulo','$this->creditosTexto','$this->texto','$this->dataPublicacao')";
 		
-		//echo $query; exit();
-		
 		$this->setID($this->executarQueryID($query));
 		
 		$resultado = $this->cadastrarImagens($this->id);
@@ -239,7 +237,7 @@ class ComunicacaoModel extends Model{
 		
 		FROM tb_comunicacao
 		
-		WHERE ID = $this->id
+		WHERE ID = '$this->id'
 		
 		";
 		

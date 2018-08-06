@@ -102,7 +102,7 @@ class ServidoresModel extends Model{
 		
 		INNER JOIN tb_setores s2 ON s1.ID_SETOR = s2.ID 
 
-		WHERE s1.ID = $this->id
+		WHERE s1.ID = '$this->id'
 		
 		";
 		

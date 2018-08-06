@@ -1,19 +1,15 @@
+ErrorDocument 404 /index.php?acao=carregarHome&modulo=Home
+
 RewriteEngine on
 	
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-
-#a variável ação diz o que o sistema deve executar (toda a verificação fica no index.php). a variável módulo diz em que módulo essa ação deve ser executada
-
 RewriteRule ^/               	 	 	          /index.php [L]
 RewriteRule login               	 	 	      /index.php?acao=login&modulo=Login
 RewriteRule logoff               	 		      /index.php?acao=logoff&modulo=Login
 
-
-#o (.*) indica que pode vir qualquer coisa. nas variáveis GET (no link que tem acao e modulo) indica a posição do valor passado. Exemplo operacao=$1 indica que o valor da variável operacao é o primeiro (.*) do link, id=$2 indica que o valor da variável id é o segundo (.*) do link
-
-RewriteRule ^home             	                  /index.php?acao=listar&modulo=Home
+RewriteRule ^home             	                  /index.php?acao=carregarHome&modulo=Home
 
 RewriteRule ^sobre             	                  /index.php?&acao=visualizar&modulo=Sobre
 
@@ -41,16 +37,16 @@ RewriteRule ^chamados/ativos                      /index.php?acao=listar&modulo=
 RewriteRule ^chamados/inativos                    /index.php?acao=listar&modulo=Chamados&status=INATIVO
 RewriteRule ^excluir/chamado/(.*)                 /index.php?acao=excluir&modulo=Chamados&id=$1
 
-RewriteRule ^comunicacao/ativos                          /index.php?acao=listar&modulo=Comunicacao&status=ATIVO
-RewriteRule ^comunicacao/inativos                        /index.php?acao=listar&modulo=Comunicacao&status=INATIVO
-RewriteRule ^comunicacao/cadastrar                       /index.php?acao=carregarCadastro&modulo=Comunicacao
-RewriteRule ^comunicacao/editar/(.*)                     /index.php?acao=carregarEdicao&modulo=Comunicacao&id=$1
-RewriteRule ^cadastrar/comunicacao                       /index.php?acao=cadastrar&modulo=Comunicacao
-RewriteRule ^comunicacao/visualizar/(.*)                 /index.php?acao=visualizar&modulo=Comunicacao&id=$1
-RewriteRule ^editar/comunicacao/imagem/(.*)/(.*)         /index.php?acao=editar&modulo=Comunicacao&operacao=imagem&id=$1&img=$2
+RewriteRule ^comunicacao/ativos                               /index.php?acao=listar&modulo=Comunicacao&status=ATIVO
+RewriteRule ^comunicacao/inativos                             /index.php?acao=listar&modulo=Comunicacao&status=INATIVO
+RewriteRule ^comunicacao/cadastrar                            /index.php?acao=carregarCadastro&modulo=Comunicacao
+RewriteRule ^comunicacao/editar/(.*)                          /index.php?acao=carregarEdicao&modulo=Comunicacao&id=$1
+RewriteRule ^cadastrar/comunicacao                            /index.php?acao=cadastrar&modulo=Comunicacao
+RewriteRule ^comunicacao/visualizar/(.*)                      /index.php?acao=visualizar&modulo=Comunicacao&id=$1
+RewriteRule ^editar/comunicacao/imagem/(.*)/(.*)              /index.php?acao=editar&modulo=Comunicacao&operacao=imagem&id=$1&img=$2
 RewriteRule ^editar/comunicacao/excluir-imagem/(.*)/(.*)/(.*) /index.php?acao=editar&modulo=Comunicacao&operacao=excluir-imagem&id=$1&img=$2&nome=$3
-RewriteRule ^editar/comunicacao/(.*)/(.*)/(.*)           /index.php?acao=editar&modulo=Comunicacao&operacao=$1&id=$2&status=$3
-RewriteRule ^excluir/comunicacao/(.*)                    /index.php?acao=excluir&modulo=Comunicacao&id=$1
+RewriteRule ^editar/comunicacao/(.*)/(.*)/(.*)                /index.php?acao=editar&modulo=Comunicacao&operacao=$1&id=$2&status=$3
+RewriteRule ^excluir/comunicacao/(.*)                         /index.php?acao=excluir&modulo=Comunicacao&id=$1
 
 RewriteRule ^processos/consulta                        /index.php?acao=carregarConsulta&modulo=Processos
 RewriteRule ^consultar/processo/(.*)                   /index.php?acao=consultar&modulo=Processos&numero=$1
