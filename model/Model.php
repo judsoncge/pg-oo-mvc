@@ -159,6 +159,18 @@ class Model{
 		
 	}
 	
+	public function verificaExisteRegistroQuery($query){
+		
+		$this->conectar();
+		
+		$resultado = mysqli_query($this->conexao, $query) or die(mysqli_error($this->conexao));
+		
+		$this->desconectar();
+		
+		return mysqli_num_rows($resultado);
+		
+	}
+	
 	public function verificaExisteRegistroId($campo, $valor){
 		
 		$this->conectar();

@@ -250,7 +250,13 @@ class ProcessosModel extends Model{
 	
 	public function tramitar(){
 		
-		$query = "UPDATE tb_processos SET BL_RECEBIDO = 0, ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		$query = "SELECT ID_SETOR FROM tb_servidores WHERE ID = $this->servidorLocalizacao";
+		
+		$setor = $this->executarQueryRegistro($query);
+		
+		$recebido = ($setor == 14) ? 1 : 0;
+		
+		$query = "UPDATE tb_processos SET BL_RECEBIDO = $recebido, ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
 		
 		$this->executarQuery($query);
 		
@@ -1136,6 +1142,38 @@ class ProcessosModel extends Model{
 		
 		$resultado = $this->cadastrarHistorico('CONFIRMOU O RECEBIMENTO', 'CONFIRMAR PROCESSO');
 		
+		$servidor = $_SESSION['ID'];
+		
+		$setor = $_SESSION['SETOR'];
+		
+		$mes = date('m');
+		
+		$ano = date('Y');
+		
+		$query = "SELECT * FROM tb_processos_recebidos_setor WHERE ID_SETOR = $setor AND NR_MES = $mes AND NR_ANO = $ano";
+		
+		$existe = $this->verificaExisteRegistroQuery($query);
+		
+		if(!$existe){
+			
+			$query = "INSERT INTO tb_processos_recebidos_setor (ID_SETOR, NR_MES, NR_ANO) VALUES ($setor, $mes, $ano)";
+			
+			$resultado = $this->executarQuery($query);
+			
+		}
+		
+		$query = "SELECT * FROM tb_historico_processos a INNER JOIN tb_servidores b ON a.ID_SERVIDOR = b.ID WHERE a.ID_REFERENTE = $this->id AND a.DS_ACAO = 'CONFIRMAR PROCESSO' AND b.ID_SETOR = $setor AND a.ID_SERVIDOR != $servidor";
+		
+		$existe = $this->verificaExisteRegistroQuery($query);
+		
+		if(!$existe){
+			
+			$query = "UPDATE tb_processos_recebidos_setor SET NR_QUANTIDADE = NR_QUANTIDADE + 1 WHERE ID_SETOR = $setor AND NR_MES = $mes AND NR_ANO = $ano";
+			
+			$resultado = $this->executarQuery($query);
+			
+		}
+
 		return $resultado;
 		
 	}
