@@ -28,7 +28,10 @@ class ProcessosView extends View{
 			</script>	
 
 <?php			
-		}
+		}elseif($this->conteudo == 'relatorio'){ ?>
+		
+			<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>	
+<?php   }		
 	}
 	
 	
@@ -1072,7 +1075,42 @@ class ProcessosView extends View{
 	
 	public function relatorio(){
 		
-?>	
+?>		
+
+		<script type="text/javascript">
+			  google.charts.load('current', {'packages':['corechart']});
+			  google.charts.setOnLoadCallback(drawChart);
+
+			  function drawChart() {
+				  
+				var data = google.visualization.arrayToDataTable([ ['Setor', 'Quantidade'],
+				  
+				  <?php 
+				  
+				  $listaProcessosAtrasadosPorSetor = $_REQUEST['QTD_PROCESSOS_ATRASADOS_SETOR'];
+				  
+				  foreach($listaProcessosAtrasadosPorSetor as $setor){ ?>
+					 
+					 ['<?php echo $setor['NOME_SETOR'] ?>',<?php echo $setor['QUANTIDADE'] ?>]<?php if($setor != end($listaProcessosAtrasadosPorSetor)){ ?> , <?php } ?> 
+					 
+					
+				  
+				  <?php } ?>
+
+				]);
+
+				var options = {
+				  title: 'Processos atrasados por setor'
+				};
+
+				var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+				chart.draw(data, options);
+			  }
+		</script>
+  	
+		<center><div id="piechart" style="width: 900px; height: 500px;"></div></center>	
+
 		<div class='row linha-grafico'>
 			<div class='col-md-12' style='height: 40px;'>
 				<center>
