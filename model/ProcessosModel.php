@@ -1286,7 +1286,7 @@ class ProcessosModel extends Model{
 				
 			case 'PROTOCOLO':
 			
-				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID_SETOR = 5 AND DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
+				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE (ID_SETOR = 5 OR ID_SETOR = 10) AND DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
 				
 				break;
 			
