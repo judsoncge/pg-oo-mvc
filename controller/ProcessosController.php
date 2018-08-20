@@ -82,6 +82,8 @@ class ProcessosController extends Controller{
 		
 		$_REQUEST['QTD_PROCESSOS_ATIVOS'] = $this->processosModel->getQuantidadeProcessosAtivos();
 		
+		$_REQUEST['QTD_PROCESSOS_ATRASADOS_PRAZO_SETOR'] = $this->processosModel->getQuantidadeProcessosAtrasadosNoPrazoSetor();
+		
 		$_REQUEST['QTD_PROCESSOS_PRAZO'] = $this->processosModel->getQuantidadeProcessosSituacao(0);
 		
 		$_REQUEST['QTD_PROCESSOS_ATRASADOS'] = $this->processosModel->getQuantidadeProcessosSituacao(1);

@@ -1076,6 +1076,80 @@ class ProcessosView extends View{
 	public function relatorio(){
 		
 ?>		
+		<script type="text/javascript">
+	
+			google.charts.load('current', {packages: ['corechart', 'bar']});
+			google.charts.setOnLoadCallback(drawStacked);
+			
+			
+
+			function drawStacked() {
+				  var data = google.visualization.arrayToDataTable([
+					['Setor', 'Dentro do prazo', 'Atrasados'],
+					
+					
+					 <?php 
+				  
+						$listaProcessosAtrasadosPrazoPorSetor = $_REQUEST['QTD_PROCESSOS_ATRASADOS_PRAZO_SETOR'];
+				  
+						foreach($listaProcessosAtrasadosPrazoPorSetor as $setor){ ?>
+					 
+						['<?php echo $setor['NOME_SETOR'] ?>',<?php echo $setor['QUANTIDADE_NO_PRAZO'] ?>,<?php echo $setor['QUANTIDADE_ATRASADOS'] ?>]<?php if($setor != end($listaProcessosAtrasadosPrazoPorSetor)){ ?> , <?php } ?> 
+					 
+				  <?php } ?>
+				  
+				  
+				  ]);
+
+				  var options = {
+					title: 'Quantidade de processos por setor',
+					chartArea: {width: '50%'},
+					isStacked: true,
+					hAxis: {
+					  title: 'Total',
+					  minValue: 0,
+					},
+					vAxis: {
+					  title: 'Setor'
+					}
+				  };
+				  var chart = new google.visualization.BarChart(document.getElementById('processosAtrasadosNoPrazoPorSetor'));
+				  chart.draw(data, options);
+				}
+
+		</script>
+
+		<script type="text/javascript">
+			  google.charts.load('current', {'packages':['corechart']});
+			  google.charts.setOnLoadCallback(drawChart);
+
+			  function drawChart() {
+				  
+				var data = google.visualization.arrayToDataTable([ ['Setor', 'Quantidade'],
+				  
+				  <?php 
+				  
+				  $listaProcessosAtivosPorSetor = $_REQUEST['QTD_PROCESSOS_ATIVOS_SETOR'];
+				  
+				  foreach($listaProcessosAtivosPorSetor as $setor){ ?>
+					 
+					 ['<?php echo $setor['NOME_SETOR'] ?>',<?php echo $setor['QUANTIDADE'] ?>]<?php if($setor != end($listaProcessosAtivosPorSetor)){ ?> , <?php } ?> 
+					 
+					
+				  
+				  <?php } ?>
+
+				]);
+
+				var options = {
+				  title: 'Processos ativos por setor'
+				};
+
+				var chart = new google.visualization.PieChart(document.getElementById('processosAtivosSetor'));
+
+				chart.draw(data, options);
+			  }
+		</script>
 
 		<script type="text/javascript">
 			  google.charts.load('current', {'packages':['corechart']});
@@ -1103,13 +1177,15 @@ class ProcessosView extends View{
 				  title: 'Processos atrasados por setor'
 				};
 
-				var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+				var chart = new google.visualization.PieChart(document.getElementById('processosAtrasadosSetor'));
 
 				chart.draw(data, options);
 			  }
 		</script>
   	
-		<center><div id="piechart" style="width: 900px; height: 500px;"></div></center>	
+		<center><div id="processosAtrasadosNoPrazoPorSetor" style="width: 900px; height: 500px;"></div></center>	
+		<center><div id="processosAtivosSetor" style="width: 900px; height: 500px;"></div></center>	
+		<center><div id="processosAtrasadosSetor" style="width: 900px; height: 500px;"></div></center>	
 
 		<div class='row linha-grafico'>
 			<div class='col-md-12' style='height: 40px;'>

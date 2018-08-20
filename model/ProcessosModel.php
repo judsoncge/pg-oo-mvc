@@ -351,7 +351,7 @@ class ProcessosModel extends Model{
 			
 			$query = "UPDATE tb_responsaveis_processos SET BL_LIDER = 1 WHERE ID_PROCESSO = $this->id";
 			
-			$this->executarQuery($query);;
+			$this->executarQuery($query);
 			
 		}
 		
@@ -1394,14 +1394,46 @@ class ProcessosModel extends Model{
 		
 		FROM tb_processos a
 		
-		INNER JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
-		INNER JOIN tb_setores d ON c.ID_SETOR = d.ID
+		LEFT JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
+		LEFT JOIN tb_setores d ON c.ID_SETOR = d.ID
 		
 		WHERE a.DS_STATUS NOT IN ('ARQUIVADO', 'SAIU')
 		
 		GROUP BY d.ID
 		
 		ORDER BY d.DS_NOME;
+		
+		";		
+	
+		$listaDados = $this->executarQueryLista($query);
+		
+		return $listaDados;
+	
+	}
+	
+	public function getQuantidadeProcessosAtrasadosNoPrazoSetor(){
+		
+		$query = "
+		
+		SELECT 
+		
+		c.DS_NOME NOME_SETOR,
+		COUNT(*) QUANTIDADE_TOTAL,
+		COUNT(IF(a.BL_ATRASADO = 1,1,null)) QUANTIDADE_ATRASADOS,
+		COUNT(IF(a.BL_ATRASADO = 0,1,null)) QUANTIDADE_NO_PRAZO
+        
+
+		FROM tb_processos a
+
+		LEFT JOIN tb_servidores b ON a.ID_SERVIDOR_LOCALIZACAO = b.ID
+       
+        LEFT JOIN tb_setores c ON b.ID_SETOR = c.ID
+       
+		WHERE a.DS_STATUS NOT IN ('ARQUIVADO', 'SAIU')
+		
+		AND c.ID IS NOT NULL
+
+		GROUP BY c.ID
 		
 		";		
 	
@@ -1421,8 +1453,8 @@ class ProcessosModel extends Model{
 		
 		FROM tb_processos a
 
-		INNER JOIN tb_servidores b ON a.ID_SERVIDOR_LOCALIZACAO = b.ID
-		INNER JOIN tb_setores c ON b.ID_SETOR = c.ID
+		LEFT JOIN tb_servidores b ON a.ID_SERVIDOR_LOCALIZACAO = b.ID
+		LEFT JOIN tb_setores c ON b.ID_SETOR = c.ID
 
 		WHERE a.DS_STATUS NOT IN ('ARQUIVADO', 'SAIU')
 
@@ -1447,8 +1479,8 @@ class ProcessosModel extends Model{
 		
 		FROM tb_processos a
 		
-		INNER JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
-		INNER JOIN tb_setores d ON c.ID_SETOR = d.ID
+		LEFT JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
+		LEFT JOIN tb_setores d ON c.ID_SETOR = d.ID
 		
 		WHERE a.DS_STATUS = '$status'
 		
@@ -1491,7 +1523,7 @@ class ProcessosModel extends Model{
 		
 		FROM tb_processos a
 		
-		INNER JOIN tb_assuntos_processos b ON a.ID_ASSUNTO = b.ID
+		LEFT JOIN tb_assuntos_processos b ON a.ID_ASSUNTO = b.ID
 		
 		WHERE ID_ASSUNTO IS NOT NULL
 		
