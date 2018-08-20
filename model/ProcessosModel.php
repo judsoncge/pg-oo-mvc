@@ -533,7 +533,7 @@ class ProcessosModel extends Model{
 		
 		$this->prazo = $this->somarData($this->dataEntrada, $qtdDiasPrazo);
 		
-		$query = "UPDATE tb_processos SET DT_ENTRADA = '$this->dataEntrada', DT_PRAZO = '$this->prazo', DT_SAIDA = NULL, ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao, NR_DIAS = 0, DS_STATUS = 'EM ANDAMENTO' WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
+		$query = "UPDATE tb_processos SET DT_ENTRADA = '$this->dataEntrada', DT_PRAZO = '$this->prazo', DT_SAIDA = NULL, ID_SERVIDOR_LOCALIZACAO = $this->servidorLocalizacao, NR_DIAS = 0, DS_STATUS = 'EM ANDAMENTO', BL_ATRASADO = 0 WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
 		
 		
 		$this->executarQuery($query);
@@ -822,7 +822,7 @@ class ProcessosModel extends Model{
 					
 					WHERE a.DS_STATUS $restricaoStatus 
 					
-					AND a.ID_SERVIDOR_LOCALIZACAO = $servidor
+					AND a.ID_SERVIDOR_LOCALIZACAO = $servidor 
 					
 					$order";
 					
@@ -1389,6 +1389,7 @@ class ProcessosModel extends Model{
 		
 		$query = "SELECT 
 		
+		d.ID,
 		d.DS_NOME NOME_SETOR,
 		COUNT(*) QUANTIDADE
 		
@@ -1399,9 +1400,11 @@ class ProcessosModel extends Model{
 		
 		WHERE a.DS_STATUS NOT IN ('ARQUIVADO', 'SAIU')
 		
+		AND d.DS_NOME IS NOT NULL
+		
 		GROUP BY d.ID
 		
-		ORDER BY d.DS_NOME;
+		ORDER BY QUANTIDADE DESC;
 		
 		";		
 	
@@ -1417,6 +1420,7 @@ class ProcessosModel extends Model{
 		
 		SELECT 
 		
+		c.ID,
 		c.DS_NOME NOME_SETOR,
 		COUNT(*) QUANTIDADE_TOTAL,
 		COUNT(IF(a.BL_ATRASADO = 1,1,null)) QUANTIDADE_ATRASADOS,
@@ -1447,9 +1451,9 @@ class ProcessosModel extends Model{
 		
 		$query = "SELECT 
 		
+		c.ID,
 		c.DS_NOME NOME_SETOR,
 		COUNT(*) QUANTIDADE
-		
 		
 		FROM tb_processos a
 
@@ -1459,8 +1463,12 @@ class ProcessosModel extends Model{
 		WHERE a.DS_STATUS NOT IN ('ARQUIVADO', 'SAIU')
 
 		AND BL_ATRASADO = $situacao
+		
+		AND c.DS_NOME IS NOT NULL
 
 		GROUP BY c.ID
+		
+		ORDER BY QUANTIDADE DESC
 		
 		";		
 	
@@ -1474,6 +1482,7 @@ class ProcessosModel extends Model{
 		
 		$query = "SELECT 
 		
+		d.ID,
 		d.DS_NOME NOME_SETOR,
 		COUNT(*) QUANTIDADE
 		
@@ -1484,9 +1493,11 @@ class ProcessosModel extends Model{
 		
 		WHERE a.DS_STATUS = '$status'
 		
+		AND d.DS_NOME IS NOT NULL
+		
 		GROUP BY d.ID
 		
-		ORDER BY d.DS_NOME;
+		ORDER BY QUANTIDADE DESC
 		
 		";		
 	

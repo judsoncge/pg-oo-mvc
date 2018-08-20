@@ -1076,6 +1076,21 @@ class ProcessosView extends View{
 	public function relatorio(){
 		
 ?>		
+
+		<div class='row linha-grafico'>
+			<div class='col-md-12' style='height: 40px;'>
+				<center>
+					<b>
+						Total de processos: (ativos, arquivados e saíram): 
+						
+						<?php echo $_REQUEST['QTD_PROCESSOS_TOTAL']; ?>
+					</b>
+				</center>
+			</div>
+		</div>	
+		
+
+		
 		<script type="text/javascript">
 	
 			google.charts.load('current', {packages: ['corechart', 'bar']});
@@ -1129,11 +1144,11 @@ class ProcessosView extends View{
 				  
 				  <?php 
 				  
-				  $listaProcessosAtivosPorSetor = $_REQUEST['QTD_PROCESSOS_ATIVOS_SETOR'];
+				  $listaProcessosDentroDoPrazoSetor = $_REQUEST['QTD_PROCESSOS_PRAZO_SETOR'];
 				  
-				  foreach($listaProcessosAtivosPorSetor as $setor){ ?>
+				  foreach($listaProcessosDentroDoPrazoSetor as $setor){ ?>
 					 
-					 ['<?php echo $setor['NOME_SETOR'] ?>',<?php echo $setor['QUANTIDADE'] ?>]<?php if($setor != end($listaProcessosAtivosPorSetor)){ ?> , <?php } ?> 
+					 ['<?php echo $setor['NOME_SETOR'] ?>',<?php echo $setor['QUANTIDADE'] ?>]<?php if($setor != end($listaProcessosDentroDoPrazoSetor)){ ?> , <?php } ?> 
 					 
 					
 				  
@@ -1142,10 +1157,10 @@ class ProcessosView extends View{
 				]);
 
 				var options = {
-				  title: 'Processos ativos por setor'
+				  title: 'Processos dentro do prazo por setor'
 				};
 
-				var chart = new google.visualization.PieChart(document.getElementById('processosAtivosSetor'));
+				var chart = new google.visualization.PieChart(document.getElementById('processosDentroDoPrazoSetor'));
 
 				chart.draw(data, options);
 			  }
@@ -1182,22 +1197,13 @@ class ProcessosView extends View{
 				chart.draw(data, options);
 			  }
 		</script>
-  	
+		
 		<center><div id="processosAtrasadosNoPrazoPorSetor" style="width: 900px; height: 500px;"></div></center>	
-		<center><div id="processosAtivosSetor" style="width: 900px; height: 500px;"></div></center>	
+				
 		<center><div id="processosAtrasadosSetor" style="width: 900px; height: 500px;"></div></center>	
 
-		<div class='row linha-grafico'>
-			<div class='col-md-12' style='height: 40px;'>
-				<center>
-					<b>
-						Total de processos: (ativos, arquivados e saíram): 
-						
-						<?php echo $_REQUEST['QTD_PROCESSOS_TOTAL']; ?>
-					</b>
-				</center>
-			</div>
-		</div>	
+		<center><div id="processosDentroDoPrazoSetor" style="width: 900px; height: 500px;"></div></center>
+		
 		
 		<div class='row linha-grafico'>		
 			<div class='col-md-12'>
@@ -1251,6 +1257,7 @@ class ProcessosView extends View{
 								<tr>
 									<th>Setor</th>
 									<th>Total de processos dentro do prazo</th>
+									<th>Ação</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -1260,6 +1267,7 @@ class ProcessosView extends View{
 										<tr>
 											<td><?php echo $setor['NOME_SETOR'] ?></td>
 											<td><?php echo $setor['QUANTIDADE'] ?></td>
+											<td><a target='_blank' href="/index.php?acao=exportar&modulo=Processos&filtroservidor=%&filtrosetor=<?php echo $setor['ID'] ?>&filtrosituacao=0&filtrosobrestado=%&filtrorecebido=%&filtrodias=%&filtroprocesso=%">Ver</a></td>
 										</tr>
 <?php	
 									}
@@ -1280,6 +1288,7 @@ class ProcessosView extends View{
 								<tr>
 									<th>Setor</th>
 									<th>Total de processos atrasados</th>
+									<th>Ação</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -1289,6 +1298,7 @@ class ProcessosView extends View{
 										<tr>
 											<td><?php echo $setor['NOME_SETOR'] ?></td>
 											<td><?php echo $setor['QUANTIDADE'] ?></td>
+											<td><a target='_blank' href="/index.php?acao=exportar&modulo=Processos&filtroservidor=%&filtrosetor=<?php echo $setor['ID'] ?>&filtrosituacao=1&filtrosobrestado=%&filtrorecebido=%&filtrodias=%&filtroprocesso=%">Ver</a></td>
 										</tr>
 <?php	
 									}
