@@ -36,6 +36,7 @@ class TacProcessosView extends ProcessosView{
 						<div class='form-group'>
 							<label class='control-label' for='exampleInputEmail1'>Filtro de setor</label><br>
 								<select id='filtrosetor' name='filtrosetor' >
+									<option value='%'>Todos</option>
 									<?php foreach($listaSetores as $setor){ ?>
 										<option value='<?php echo $setor['ID'] ?>'>
 											<?php echo $setor['DS_ABREVIACAO']; ?>

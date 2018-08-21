@@ -371,14 +371,6 @@ class ProcessosModel extends Model{
 		
 		$this->executarQuery($query);
 		
-		$query = "SELECT ID_SETOR FROM tb_servidores WHERE ID = $this->responsavelLider";
-		
-		$setor = $this->executarQueryRegistro($query);
-		
-		$query = "UPDATE tb_processos SET ID_SETOR_RESPONSAVEL = $setor WHERE ID = $this->id OR ID IN (SELECT ID_PROCESSO_APENSADO FROM tb_processos_apensados WHERE ID_PROCESSO = $this->id)";
-		
-		$this->executarQuery($query);
-		
 		$resultado = $this->cadastrarHistorico('DEFINIU O RESPONSÁVEL LÍDER','LÍDER');
 		
 		return $resultado; 
@@ -417,6 +409,12 @@ class ProcessosModel extends Model{
 		switch($this->status){
 				
 			case 'FINALIZADO PELO SETOR':
+			
+				$setor = $_SESSION['SETOR'];
+				
+				$query = "UPDATE tb_processos SET ID_SETOR_RESPONSAVEL = $setor WHERE ID = $this->id";
+				
+				$this->executarQuery($query);
 				
 				$mensagem = 'FINALIZOU O PROCESSO EM NOME DO SETOR';
 				
@@ -683,13 +681,17 @@ class ProcessosModel extends Model{
 			
 			case 'PROTOCOLO':
 			case 'GABINETE':
-			case 'TÉCNICO ANALISTA CORREÇÃO':
 				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID_SETOR = $setor AND DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
 				break;
 				
 			case 'TÉCNICO ANALISTA':
 				$servidor = $_SESSION['ID'];
 				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID = $servidor AND DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
+				break;
+			
+			case 'TÉCNICO ANALISTA CORREÇÃO':
+
+				$query = "SELECT ID, DS_NOME FROM tb_servidores WHERE ID_SETOR = $setor OR ID_SETOR IN (SELECT ID FROM tb_setores WHERE ID_SETOR_SUBORDINADO = $setor) AND DS_STATUS = 'ATIVO' ORDER BY DS_NOME";
 				break;
 				
 			case 'SUPERINTENDENTE':
@@ -720,6 +722,10 @@ class ProcessosModel extends Model{
 			case 'ASSESSOR TÉCNICO':
 			case 'COMUNICAÇÃO':
 				$query = "SELECT ID, DS_ABREVIACAO FROM tb_setores WHERE ID = $setor OR ID IN (SELECT ID_SETOR_SUBORDINADO FROM tb_setores WHERE ID = $setor)";
+				break;
+				
+			case 'TÉCNICO ANALISTA CORREÇÃO':
+				$query = "SELECT ID, DS_ABREVIACAO FROM tb_setores WHERE ID = $setor OR ID IN (SELECT ID FROM tb_setores WHERE ID_SETOR_SUBORDINADO = $setor)";
 				break;
 				
 			case 'TÉCNICO ANALISTA':
@@ -757,7 +763,6 @@ class ProcessosModel extends Model{
 			
 			case 'PROTOCOLO':
 			case 'GABINETE':
-			case 'TÉCNICO ANALISTA CORREÇÃO':
 			
 				$query = "SELECT 
 		
@@ -779,6 +784,29 @@ class ProcessosModel extends Model{
 					$order";
 					
 					break;
+					
+			case 'TÉCNICO ANALISTA CORREÇÃO':
+			
+				$query = "SELECT 
+		
+					a.*,
+					DATE_FORMAT(a.DT_PRAZO, '%d/%m/%Y') DT_PRAZO,
+					c.DS_NOME NOME_SERVIDOR,
+					c.ID_SETOR,
+					d.DS_ABREVIACAO NOME_SETOR
+					
+					FROM tb_processos a
+					
+					INNER JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
+					INNER JOIN tb_setores d ON c.ID_SETOR = d.ID
+					
+					WHERE a.DS_STATUS $restricaoStatus 
+					
+					AND (d.ID = $setor OR d.ID IN (SELECT ID FROM tb_setores WHERE ID_SETOR_SUBORDINADO = $setor))
+					
+					$order";
+					
+					break;					
 			
 			case 'SUPERINTENDENTE':
 			case 'ASSESSOR TÉCNICO':
@@ -902,7 +930,6 @@ class ProcessosModel extends Model{
 			
 			case 'PROTOCOLO':
 			case 'GABINETE':
-			case 'TÉCNICO ANALISTA CORREÇÃO':
 			case 'COMUNICAÇÃO':
 			case 'SUPERINTENDENTE':
 			case 'ASSESSOR TÉCNICO':
@@ -914,6 +941,57 @@ class ProcessosModel extends Model{
 				? 
 				
 				"(SELECT ID FROM tb_servidores WHERE ID_SETOR = $setor OR ID_SETOR IN (SELECT ID_SETOR_SUBORDINADO FROM tb_setores WHERE ID = $setor))" 
+				
+				: "(SELECT ID FROM tb_servidores WHERE ID_SETOR = $this->setorLocalizacao)";
+				
+				$restricaoServidor = ($this->servidorLocalizacao == '%') ? '' : "AND ID_SERVIDOR_LOCALIZACAO = '$this->servidorLocalizacao'";
+			
+				$query = "
+		
+					SELECT 
+					
+					a.*,
+					DATE_FORMAT(a.DT_PRAZO, '%d/%m/%Y') DT_PRAZO,
+					c.DS_NOME NOME_SERVIDOR,
+					c.ID_SETOR,
+					d.DS_ABREVIACAO NOME_SETOR
+					
+					FROM tb_processos a
+					
+					INNER JOIN tb_servidores c ON a.ID_SERVIDOR_LOCALIZACAO = c.ID
+					INNER JOIN tb_setores d ON c.ID_SETOR = d.ID
+					
+					WHERE a.DS_STATUS $restricaoStatus 
+					
+					AND ID_SERVIDOR_LOCALIZACAO IN $restricaoSetor
+					
+					$restricaoServidor
+					
+					AND BL_ATRASADO like '$this->atrasado' 
+					
+					AND BL_SOBRESTADO like '$this->sobrestado'
+					
+					AND BL_RECEBIDO like '$this->recebido'
+					
+					AND DS_NUMERO LIKE '%$this->numero%'
+					
+					$restricaoDias
+					
+					$order
+					
+				";
+				
+				break;
+				
+			case 'TÉCNICO ANALISTA CORREÇÃO':
+			
+				$setor = $_SESSION['SETOR'];
+				
+				$restricaoSetor = ($this->setorLocalizacao == '%') 
+				
+				? 
+				
+				"(SELECT ID FROM tb_servidores WHERE ID_SETOR = $setor OR ID_SETOR IN (SELECT ID FROM tb_setores WHERE ID_SETOR_SUBORDINADO = $setor))" 
 				
 				: "(SELECT ID FROM tb_servidores WHERE ID_SETOR = $this->setorLocalizacao)";
 				
