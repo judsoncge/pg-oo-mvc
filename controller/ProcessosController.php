@@ -471,19 +471,19 @@ class ProcessosController extends Controller{
 			
 			$_REQUEST['LISTA_SETORES'] = $this->setoresModel->getSetores();
 			
-			$filtroServidor = $_POST['filtroservidor'];
+			$filtroServidor = isset($_POST['filtroservidor']) ? $_POST['filtroservidor'] : '%';
 
-			$filtroSetor = $_POST['filtrosetor'];
+			$filtroSetor = isset($_POST['filtrosetor']) ? $_POST['filtrosetor'] : '%';
 
-			$filtroSituacao = $_POST['filtrosituacao'];
+			$filtroSituacao = isset($_POST['filtrosituacao']) ? $_POST['filtrosituacao'] : '%';
 
-			$filtroSobrestado = $_POST['filtrosobrestado'];
+			$filtroSobrestado = isset($_POST['filtrosobrestado']) ? $_POST['filtrosobrestado'] : '%';
 			
-			$filtroRecebido = $_POST['filtrorecebido'];
+			$filtroRecebido = isset($_POST['filtrorecebido']) ? $_POST['filtrorecebido'] : '%';
 
-			$filtroDias = $_POST['filtrodias'];
+			$filtroDias = isset($_POST['filtrodias']) ? $_POST['filtrodias'] : '%';
 			
-			$filtroProcesso = $_POST['filtroprocesso'];
+			$filtroProcesso = isset($_POST['filtroprocesso']) ? $_POST['filtroprocesso'] : '%';
 			
 			$this->processosModel->setServidorLocalizacao($filtroServidor);
 			

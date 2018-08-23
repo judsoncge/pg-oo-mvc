@@ -44,7 +44,7 @@ class TaProcessosView extends ProcessosView{
 						</div>
 					</div>
 					
-					<div class='col-md-2'>
+					<!--<div class='col-md-2'>
 						<div class='form-group'>
 							<label class='control-label' for='exampleInputEmail1'>Filtro de situação</label><br>
 								<select id='filtrosituacao' name='filtrosituacao' >
@@ -53,7 +53,7 @@ class TaProcessosView extends ProcessosView{
 									<option value='1'>ATRASADO</option>
 								</select>
 						</div>
-					</div>
+					</div>-->
 					
 					<div class='col-md-1'>
 						<div class='form-group'>

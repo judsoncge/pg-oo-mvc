@@ -37,8 +37,8 @@ class ConProcessosView extends ProcessosView{
 						<th>Setor</th>
 						<th>Prazo</th>
 						<th>Status</th>
-						<!--<th>Situação</th>-->
-						<th>Dias</th>
+						<!--<th>Situação</th>
+						<th>Dias</th>-->
 						<th>Recebido</th>
 						<th>Ação</th>
 					</tr>	
@@ -72,8 +72,8 @@ class ConProcessosView extends ProcessosView{
 										echo "<font color='green'>DENTRO DO PRAZO</font>";
 									} 
 								?>
-							</td>-->
-							<td><?php echo $processo['NR_DIAS'] ?></td>
+							</td>
+							<td><?php echo $processo['NR_DIAS'] ?></td>-->
 							<td id="statusRecebido<?php echo $processo['ID'] ?>">
 								<?php 
 									if($processo['BL_RECEBIDO']){
