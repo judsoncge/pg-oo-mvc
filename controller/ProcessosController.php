@@ -511,19 +511,19 @@ class ProcessosController extends Controller{
 	
 	public function exportar(){
 		
-		$filtroServidor = isset($_POST['filtroservidor']) ? $_POST['filtroservidor'] : '%';
+		$filtroServidor = $_GET['filtroservidor'];
 
-		$filtroSetor = isset($_POST['filtrosetor']) ? $_POST['filtrosetor'] : '%';
+		$filtroSetor = $_GET['filtrosetor'];
 
-		$filtroSituacao = isset($_POST['filtrosituacao']) ? $_POST['filtrosituacao'] : '%';
+		$filtroSituacao = $_GET['filtrosituacao'];
 
-		$filtroSobrestado = isset($_POST['filtrosobrestado']) ? $_POST['filtrosobrestado'] : '%';
+		$filtroSobrestado = $_GET['filtrosobrestado'];
 		
-		$filtroRecebido = isset($_POST['filtrorecebido']) ? $_POST['filtrorecebido'] : '%';
+		$filtroRecebido = $_GET['filtrorecebido'];
 
-		$filtroDias = isset($_POST['filtrodias']) ? $_POST['filtrodias'] : '%';
+		$filtroDias = $_GET['filtrodias'];
 		
-		$filtroProcesso = isset($_POST['filtroprocesso']) ? $_POST['filtroprocesso'] : '%';
+		$filtroProcesso = $_GET['filtroprocesso'];
 		
 		$this->processosModel->setServidorLocalizacao($filtroServidor);
 		
@@ -535,9 +535,9 @@ class ProcessosController extends Controller{
 		
 		$this->processosModel->setRecebido($filtroRecebido);
 		
-		$this->processosModel->setNumero($filtroProcesso);
-		
 		$this->processosModel->setDias($filtroDias);
+		
+		$this->processosModel->setNumero($filtroProcesso);
 		
 		$this->processosModel->setStatus('ATIVO');
 	

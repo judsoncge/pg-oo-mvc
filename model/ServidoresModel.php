@@ -33,7 +33,7 @@ class ServidoresModel extends Model{
 	}
 	
 	public function setConfirmaSenha($confirmaSenha){
-		$this->confirmaSenha = $confirmaSenha;
+		$this->confirmaSenha = md5($confirmaSenha);
 	}
 	
 	public function setFoto($foto){
@@ -167,8 +167,6 @@ class ServidoresModel extends Model{
 			return 0;
 			
 		}else{
-			
-			$this->senha = md5($this->senha);
 			
 			$query = "UPDATE tb_servidores SET SENHA = '$this->senha' WHERE ID = $this->id";
 			

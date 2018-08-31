@@ -201,26 +201,15 @@ class ProcessosView extends View{
 							<td><?php echo $processo['NOME_SETOR']  ?></td>
 							<td><?php echo $processo['DT_PRAZO'] ?></td>
 							<td><?php echo $processo['DS_STATUS'] ?></td>
-							<?php 
+							<td><?php 
 									if($processo['BL_ATRASADO']){
 										echo "<font color='red'>ATRASADO</font>";
 									}else{
 										echo "<font color='green'>DENTRO DO PRAZO</font>";
-									} 
+									}
 								?>
 							</td>
 							<td><?php echo $processo['NR_DIAS'] ?></td>
-							<td id="statusRecebido<?php echo $processo['ID'] ?>">
-								<?php 
-									if($processo['BL_RECEBIDO']){
-										echo 'SIM';
-									}else{ 
-										echo 'NÃO';
-									} 
-								?>
-							</td>				
-							
-							
 							<td id="recebido<?php echo $processo['ID'] ?>">
 								
 								<?php if(!$processo['BL_RECEBIDO']){ ?>
@@ -242,6 +231,16 @@ class ProcessosView extends View{
 										</a>
 
 							  <?php } ?>
+							</td>				
+							
+							<td id="recebido<?php echo $processo['ID'] ?>">
+								
+								<a href="/processos/visualizar/<?php echo $processo['ID'] ?>">
+									<button type='button' class='btn btn-secondary btn-sm' title='Visualizar'>
+										<i class='fa fa-eye' aria-hidden='true'></i>
+									</button>
+								</a>
+								
 							</td>
 						</tr>
 				  <?php } ?>		
