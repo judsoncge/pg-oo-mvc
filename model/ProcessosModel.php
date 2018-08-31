@@ -756,8 +756,7 @@ class ProcessosModel extends Model{
 		
 		$restricaoStatus = ($this->status == 'ATIVO') ? " NOT IN ('ARQUIVADO', 'SAIU') " : " IN ('ARQUIVADO', 'SAIU') ";
 		
-		//$order = "ORDER BY BL_URGENCIA DESC, NR_DIAS DESC";
-		$order = "ORDER BY BL_URGENCIA DESC, NR_DIAS";
+		$order = "ORDER BY BL_URGENCIA DESC, BL_ATRASADO DESC, NR_DIAS DESC";
 		
 		switch($_SESSION['FUNCAO']){
 			
@@ -893,8 +892,7 @@ class ProcessosModel extends Model{
 		
 		$restricaoStatus = ($this->status == 'ATIVO') ? " NOT IN ('ARQUIVADO', 'SAIU') " : " IN ('ARQUIVADO', 'SAIU') ";
 		
-		//$order = "ORDER BY BL_URGENCIA DESC, NR_DIAS DESC";
-		$order = "ORDER BY BL_URGENCIA DESC, NR_DIAS";
+		$order = "ORDER BY BL_URGENCIA DESC, BL_ATRASADO DESC, NR_DIAS DESC";
 		
 		if($this->servidorLocalizacao == '%' and $this->setorLocalizacao != '%'){
 			

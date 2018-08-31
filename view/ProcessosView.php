@@ -76,7 +76,7 @@ class ProcessosView extends View{
 						</div>
 					</div>
 					
-					<!--<div class='col-md-2'>
+					<div class='col-md-2'>
 						<div class='form-group'>
 							<label class='control-label' for='exampleInputEmail1'>Filtro de situação</label><br>
 								<select id='filtrosituacao' name='filtrosituacao' >
@@ -85,7 +85,7 @@ class ProcessosView extends View{
 									<option value='1'>ATRASADO</option>
 								</select>
 						</div>
-					</div>-->
+					</div>
 					
 					<div class='col-md-1'>
 						<div class='form-group'>
@@ -173,8 +173,8 @@ class ProcessosView extends View{
 						<th>Setor</th>
 						<th>Prazo</th>
 						<th>Status</th>
-						<!--<th>Situação</th>
-						<th>Dias</th>-->
+						<th>Situação</th>
+						<th>Dias</th>
 						<th>Recebido</th>
 						<th>Ação</th>
 					</tr>	
@@ -201,7 +201,7 @@ class ProcessosView extends View{
 							<td><?php echo $processo['NOME_SETOR']  ?></td>
 							<td><?php echo $processo['DT_PRAZO'] ?></td>
 							<td><?php echo $processo['DS_STATUS'] ?></td>
-							<!--<?php 
+							<?php 
 									if($processo['BL_ATRASADO']){
 										echo "<font color='red'>ATRASADO</font>";
 									}else{
@@ -209,7 +209,7 @@ class ProcessosView extends View{
 									} 
 								?>
 							</td>
-							<td><?php echo $processo['NR_DIAS'] ?></td>-->
+							<td><?php echo $processo['NR_DIAS'] ?></td>
 							<td id="statusRecebido<?php echo $processo['ID'] ?>">
 								<?php 
 									if($processo['BL_RECEBIDO']){

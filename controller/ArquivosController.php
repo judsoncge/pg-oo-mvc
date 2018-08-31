@@ -55,6 +55,34 @@ class ArquivosController extends Controller{
 		}
 		
 	}	
+	
+	public function editar(){
+		
+		$id = $_GET['id'];
+		
+		$this->arquivosModel->setID($id);
+		
+		$operacao = $_GET['operacao'];
+		
+		switch($operacao){
+			
+			case 'status':
+				
+				$status = $_GET['status'];
+				
+				$this->arquivosModel->setStatus($status);
+				
+				$_SESSION['RESULTADO_OPERACAO'] = $this->arquivosModel->editarStatus();
+				
+				break;
+			
+		}
+		
+		$_SESSION['MENSAGEM'] = $this->arquivosModel->getMensagemResposta();
+
+		Header('Location: /arquivos/ativos/');
+		
+	}
 
 	public function listar(){
 		

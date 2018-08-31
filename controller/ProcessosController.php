@@ -511,19 +511,19 @@ class ProcessosController extends Controller{
 	
 	public function exportar(){
 		
-		$filtroServidor = $_GET['filtroservidor'];
+		$filtroServidor = isset($_POST['filtroservidor']) ? $_POST['filtroservidor'] : '%';
 
-		$filtroSetor = $_GET['filtrosetor'];
+		$filtroSetor = isset($_POST['filtrosetor']) ? $_POST['filtrosetor'] : '%';
 
-		$filtroSituacao = $_GET['filtrosituacao'];
+		$filtroSituacao = isset($_POST['filtrosituacao']) ? $_POST['filtrosituacao'] : '%';
 
-		$filtroSobrestado = $_GET['filtrosobrestado'];
+		$filtroSobrestado = isset($_POST['filtrosobrestado']) ? $_POST['filtrosobrestado'] : '%';
 		
-		$filtroRecebido = $_GET['filtrorecebido'];
+		$filtroRecebido = isset($_POST['filtrorecebido']) ? $_POST['filtrorecebido'] : '%';
 
-		$filtroProcesso = $_GET['filtroprocesso'];
+		$filtroDias = isset($_POST['filtrodias']) ? $_POST['filtrodias'] : '%';
 		
-		$filtroDias = $_GET['filtrodias'];
+		$filtroProcesso = isset($_POST['filtroprocesso']) ? $_POST['filtroprocesso'] : '%';
 		
 		$this->processosModel->setServidorLocalizacao($filtroServidor);
 		

@@ -18,10 +18,8 @@ class ComProcessosView extends ProcessosView{
 		
 		$historico = $_REQUEST['HISTORICO_PROCESSO'];
 		
-		
 		$ativo = $_REQUEST['ATIVO'];
-		
-		
+	
 		$apensado = $_REQUEST['APENSADO'];
 		
 		$listaServidores = $_REQUEST['LISTA_SERVIDORES'];

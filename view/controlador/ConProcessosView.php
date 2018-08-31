@@ -37,8 +37,8 @@ class ConProcessosView extends ProcessosView{
 						<th>Setor</th>
 						<th>Prazo</th>
 						<th>Status</th>
-						<!--<th>Situação</th>
-						<th>Dias</th>-->
+						<th>Situação</th>
+						<th>Dias</th>
 						<th>Recebido</th>
 						<th>Ação</th>
 					</tr>	
@@ -65,7 +65,7 @@ class ConProcessosView extends ProcessosView{
 							<td><?php echo $processo['NOME_SETOR']  ?></td>
 							<td><?php echo $processo['DT_PRAZO'] ?></td>
 							<td><?php echo $processo['DS_STATUS'] ?></td>
-							<!--<td><?php 
+							<td><?php 
 									if($processo['BL_ATRASADO']){
 										echo "<font color='red'>ATRASADO</font>";
 									}else{
@@ -73,7 +73,7 @@ class ConProcessosView extends ProcessosView{
 									} 
 								?>
 							</td>
-							<td><?php echo $processo['NR_DIAS'] ?></td>-->
+							<td><?php echo $processo['NR_DIAS'] ?></td>
 							<td id="statusRecebido<?php echo $processo['ID'] ?>">
 								<?php 
 									if($processo['BL_RECEBIDO']){
@@ -115,10 +115,8 @@ class ConProcessosView extends ProcessosView{
 		$listaApensados = $_REQUEST['PROCESSOS_APENSADOS'];
 		
 		$historico = $_REQUEST['HISTORICO_PROCESSO'];
-		
-		
+	
 		$ativo = $_REQUEST['ATIVO'];
-		
 		
 		$apensado = $_REQUEST['APENSADO'];
 		
