@@ -254,6 +254,10 @@ class ProcessosView extends View{
 	
 	public function exportar(){
 		
+		ini_set('memory_limit', '256M');
+		
+		ini_set('max_execution_time', 300000); 
+		
 		include($_SERVER['DOCUMENT_ROOT'].'/view/_libs/mpdf60/mpdf.php');
 		
 		$listaProcessos = $_REQUEST['LISTA_PROCESSOS'];
