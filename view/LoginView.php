@@ -14,9 +14,9 @@ class LoginView extends View{
 					
 					<div class='logo' >
 						<center>
-							<!--<div class='row'>
+							<div class='row'>
 								<img src='/view/_libs/img/logo-governo.png' id='logo-governo'>
-							</div>-->
+							</div>
 							<div class='row'>
 								<p id='nome-sistema'>Painel de Gestão</p>	
 							</div>
