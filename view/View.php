@@ -118,11 +118,11 @@ class View{
 								
 								<div id='mensagem'>
 									<center>
-										<a href='/servidores/senha/' id='alterar-senha'>
+										<a href='/usuarios/senha/' id='alterar-senha'>
 											<i class='fa fa-edit' aria-hidden='true'></i>  
 											Alterar senha
 										</a>
-										<a href='/servidores/foto/' id='alterar-foto'>
+										<a href='/usuarios/foto/' id='alterar-foto'>
 											<i class='fa fa-edit' aria-hidden='true'></i> 
 											Alterar foto
 										</a>
@@ -221,20 +221,20 @@ class View{
 						if($_SESSION['FUNCAO'] == 'TI'){ ?>
 						
 						
-						<li id='servidores'>
-							<a href='#'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Servidores</a>
+						<li id='usuarios'>
+							<a href='#'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Usuarios</a>
 						</li>	
 							
-							<li class='servidores-subitem'>
-								<a href='/servidores/cadastrar/'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Cadastrar</a>
+							<li class='usuarios-subitem'>
+								<a href='/usuarios/cadastrar/'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Cadastrar</a>
 							</li>
 							
-							<li class='servidores-subitem'>
-								<a href='/servidores/ativos/'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Ativos</a>
+							<li class='usuarios-subitem'>
+								<a href='/usuarios/ativos/'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Ativos</a>
 							</li>
 							
-							<li class='servidores-subitem'>
-								<a href='/servidores/inativos/'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Inativos</a>
+							<li class='usuarios-subitem'>
+								<a href='/usuarios/inativos/'><i class='fa fa-user icone-menu' aria-hidden='true'></i>Inativos</a>
 							</li>
 						<?php } ?> 
 						
@@ -349,7 +349,7 @@ class View{
 	}
 	
 	
-	public function carregarSelectServidores(){
+	public function carregarSelectUsuarios(){
 		
 		
 		$lista = $_REQUEST['LISTA_SERVIDORES']; 

@@ -22,7 +22,7 @@ class ComProcessosView extends ProcessosView{
 	
 		$apensado = $_REQUEST['APENSADO'];
 		
-		$listaServidores = $_REQUEST['LISTA_SERVIDORES'];
+		$listaUsuarios = $_REQUEST['LISTA_SERVIDORES'];
 		
 		$listaPodemSerResponsaveis = $_REQUEST['LISTA_PODEM_SER_RESPONSAVEIS'];
 		
@@ -262,7 +262,7 @@ class ComProcessosView extends ProcessosView{
 								<select class='form-control' id='tramitar' name='tramitar' required />
 									<option value=''>Selecione o servidor para tramitar</option>
 	<?php 
-										foreach($listaServidores as $servidor){
+										foreach($listaUsuarios as $servidor){
 	?>	
 											<option value='<?php echo $servidor['ID'] ?>'><?php echo $servidor['DS_NOME'] ?></option>		
 											

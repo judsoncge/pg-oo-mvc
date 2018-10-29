@@ -8,7 +8,7 @@ class TacProcessosView extends ProcessosView{
 	public function carregarFiltro(){
 		
 		
-		$listaServidores = $_REQUEST['LISTA_SERVIDORES']; 
+		$listaUsuarios = $_REQUEST['LISTA_SERVIDORES']; 
 		
 		$listaSetores = $_REQUEST['LISTA_SETORES']; 
 
@@ -23,7 +23,7 @@ class TacProcessosView extends ProcessosView{
 							<label class='control-label' for='exampleInputEmail1'>Filtro de servidor</label><br>
 							<select id='filtroservidor' name='filtroservidor' >
 								<option value='%'>Todos</option>
-								<?php foreach($listaServidores as $servidor){ ?>
+								<?php foreach($listaUsuarios as $servidor){ ?>
 										<option value='<?php echo $servidor['ID'] ?>'>
 											<?php echo $servidor['DS_NOME']; ?>
 										</option>
@@ -128,7 +128,7 @@ class TacProcessosView extends ProcessosView{
 			
 			$apensado = $_REQUEST['APENSADO'];
 			
-			$listaServidores = $_REQUEST['LISTA_SERVIDORES'];
+			$listaUsuarios = $_REQUEST['LISTA_SERVIDORES'];
 			
 			$listaProcessosApensar = $_REQUEST['LISTA_APENSAR']; 
 			
@@ -353,7 +353,7 @@ class TacProcessosView extends ProcessosView{
 								<select class='form-control' id='tramitar' name='tramitar' required />
 									<option value=''>Selecione o servidor para tramitar</option>
 	<?php 
-										foreach($listaServidores as $servidor){
+										foreach($listaUsuarios as $servidor){
 	?>	
 											<option value='<?php echo $servidor['ID'] ?>'><?php echo $servidor['DS_NOME'] ?></option>		
 											

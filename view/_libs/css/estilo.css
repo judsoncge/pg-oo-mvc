@@ -471,7 +471,7 @@ footer{
 }
 
 /*estilo do submenu lateral*/
-.servidores-subitem, .processos-subitem , .arquivos-subitem, .chamados-subitem, .comunicacao-subitem{
+.usuarios-subitem, .processos-subitem , .arquivos-subitem, .chamados-subitem, .comunicacao-subitem{
 	margin-left: 20px;
 	display: none;
 	color: rgba(0,0,0,0.7);
@@ -669,7 +669,7 @@ footer{
 	color: rgba(41, 128, 185,1.0);
 }
 
-/*definindo a imagem dos servidores */
+/*definindo a imagem dos usuarios */
 
 .box-servidor{
 	position: relative;

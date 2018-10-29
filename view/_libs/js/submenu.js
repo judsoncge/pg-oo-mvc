@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$(".servidores-subitem").hide(500);
+	$(".usuarios-subitem").hide(500);
 	
 	$(".processos-subitem").hide(500);
 	
@@ -11,8 +11,8 @@ $(document).ready(function(){
 		
 		
 		
-	$("#servidores").click(function(){
-		$(".servidores-subitem").slideToggle();
+	$("#usuarios").click(function(){
+		$(".usuarios-subitem").slideToggle();
 	});
 	
 	$("#processos").click(function(){

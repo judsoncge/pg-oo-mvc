@@ -2,7 +2,7 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/view/View.php';
 
-class ServidoresView extends View{
+class UsuariosView extends View{
 	
 	
 	private $tipoEdicao;
@@ -42,7 +42,7 @@ class ServidoresView extends View{
 								<td><?php echo $servidor['DS_FUNCAO']; ?></td>										
 									
 								<td>
-									<a href="/servidores/editar/<?php echo $servidor['ID'] ?>">
+									<a href="/usuarios/editar/<?php echo $servidor['ID'] ?>">
 										<button type='button' class='btn btn-secondary btn-sm' title='Editar'>
 											<i class='fa fa-pencil' aria-hidden='true'></i>
 										</button>
