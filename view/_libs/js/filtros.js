@@ -9,7 +9,7 @@ $(document).ready(function(){
 			//quando pegar os dados, chama um php
 			$.ajax({
 				
-				//chamo o php que faz a query baseado no que o usuario escolheu no select
+				//chamo o php que faz a query baseado no que o servidor escolheu no select
 				url: '/processos/ativos/1',
 				type: 'POST',
 				dataType: 'html',
@@ -35,7 +35,7 @@ $(document).ready(function(){
 			
 		});
 	
-	//quando o usuario escolher alguém no select, chama a função
+	//quando o servidor escolher alguém no select, chama a função
 	$('#filtroservidor, #filtrosetor, #filtrosituacao, #filtrosobrestado, #filtrorecebido, #filtroprocesso, #filtrodias').bind("keyup change", function(){
 		
 		//o gif de carregando vai aparecer até a busca concluir

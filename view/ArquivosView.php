@@ -101,7 +101,7 @@ class ArquivosView extends View{
 				<div class='col-md-4'>
 					<label class='control-label' for='exampleInputEmail1'>Escolha o servidor para enviar</label><br>
 						
-						<?php $this->carregarSelectUsuarios(); ?>
+						<?php $this->carregarSelectServidores(); ?>
 
 				</div>
 				

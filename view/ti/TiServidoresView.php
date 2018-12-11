@@ -1,8 +1,8 @@
 <?php 
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/view/UsuariosView.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/view/ServidoresView.php';
 
-class TiUsuariosView extends UsuariosView{
+class TiServidoresView extends ServidoresView{
 	
 }
 

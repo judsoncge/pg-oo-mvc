@@ -120,7 +120,7 @@ class TiProcessosView extends ProcessosView{
 		
 		$apensado = $_REQUEST['APENSADO'];
 		
-		$listaUsuarios = $_REQUEST['LISTA_SERVIDORES'];
+		$listaServidores = $_REQUEST['LISTA_SERVIDORES'];
 		
 		$listaPodemSerResponsaveis = $_REQUEST['LISTA_PODEM_SER_RESPONSAVEIS'];
 		
@@ -515,7 +515,7 @@ class TiProcessosView extends ProcessosView{
 							<select class='form-control' id='tramitar' name='tramitar' required />
 								<option value=''>Selecione o servidor para tramitar</option>
 <?php 
-									foreach($listaUsuarios as $servidor){
+									foreach($listaServidores as $servidor){
 ?>	
 										<option value='<?php echo $servidor['ID'] ?>'><?php echo $servidor['DS_NOME'] ?></option>		
 										

@@ -38,7 +38,7 @@ class ProcessosView extends View{
 	public function carregarFiltro(){
 		
 		
-		$listaUsuarios = $_REQUEST['LISTA_SERVIDORES']; 
+		$listaServidores = $_REQUEST['LISTA_SERVIDORES']; 
 		
 		$listaSetores = $_REQUEST['LISTA_SETORES']; 
 
@@ -53,7 +53,7 @@ class ProcessosView extends View{
 							<label class='control-label' for='exampleInputEmail1'>Filtro de servidor</label><br>
 							<select id='filtroservidor' name='filtroservidor' >
 								<option value='%'>Todos</option>
-								<?php foreach($listaUsuarios as $servidor){ ?>
+								<?php foreach($listaServidores as $servidor){ ?>
 										<option value='<?php echo $servidor['ID'] ?>'>
 											<?php echo $servidor['DS_NOME']; ?>
 										</option>
@@ -175,7 +175,6 @@ class ProcessosView extends View{
 						<th>Status</th>
 						<th>Situação</th>
 						<th>Dias</th>
-						<th>Recebido</th>
 						<th>Ação</th>
 					</tr>	
 				</thead>
@@ -210,7 +209,7 @@ class ProcessosView extends View{
 								?>
 							</td>
 							<td><?php echo $processo['NR_DIAS'] ?></td>
-							<td id="recebido<?php echo $processo['ID'] ?>">
+							<td id="statusRecebido<?php echo $processo['ID'] ?>">
 								
 								<?php if(!$processo['BL_RECEBIDO']){ ?>
 									
@@ -230,18 +229,8 @@ class ProcessosView extends View{
 											</button>
 										</a>
 
-							  <?php } ?>
+								<?php	} ?>
 							</td>				
-							
-							<td id="recebido<?php echo $processo['ID'] ?>">
-								
-								<a href="/processos/visualizar/<?php echo $processo['ID'] ?>">
-									<button type='button' class='btn btn-secondary btn-sm' title='Visualizar'>
-										<i class='fa fa-eye' aria-hidden='true'></i>
-									</button>
-								</a>
-								
-							</td>
 						</tr>
 				  <?php } ?>		
 				</tbody>
@@ -515,7 +504,7 @@ class ProcessosView extends View{
 		
 		$apensado = $_REQUEST['APENSADO'];
 		
-		$listaUsuarios = $_REQUEST['LISTA_SERVIDORES'];
+		$listaServidores = $_REQUEST['LISTA_SERVIDORES'];
 		
 		$listaPodemSerResponsaveis = $_REQUEST['LISTA_PODEM_SER_RESPONSAVEIS'];
 		
@@ -929,7 +918,7 @@ class ProcessosView extends View{
 							<select class='form-control' id='tramitar' name='tramitar' required />
 								<option value=''>Selecione o servidor para tramitar</option>
 <?php 
-									foreach($listaUsuarios as $servidor){
+									foreach($listaServidores as $servidor){
 ?>	
 										<option value='<?php echo $servidor['ID'] ?>'><?php echo $servidor['DS_NOME'] ?></option>		
 										

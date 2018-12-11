@@ -22,7 +22,7 @@ class SupProcessosView extends ProcessosView{
 		
 		$apensado = $_REQUEST['APENSADO'];
 		
-		$listaUsuarios = $_REQUEST['LISTA_SERVIDORES'];
+		$listaServidores = $_REQUEST['LISTA_SERVIDORES'];
 		
 		$listaProcessosApensar = $_REQUEST['LISTA_APENSAR'];
 		
@@ -403,7 +403,7 @@ class SupProcessosView extends ProcessosView{
 							<select class='form-control' id='tramitar' name='tramitar' required />
 								<option value=''>Selecione o servidor para tramitar</option>
 <?php 
-									foreach($listaUsuarios as $servidor){
+									foreach($listaServidores as $servidor){
 ?>	
 										<option value='<?php echo $servidor['ID'] ?>'><?php echo $servidor['DS_NOME'] ?></option>		
 										
